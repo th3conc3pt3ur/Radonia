@@ -1,0 +1,5 @@
+h1. Radonia
+
+h2. By Deloptia, Quentin Bazin (aka. Quent42340) and Maxence Delaistre (aka. Raiikiiri)
+
+* Radonia is a tactical RPG.
