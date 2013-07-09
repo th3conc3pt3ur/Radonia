@@ -63,11 +63,16 @@ export INCLUDE	:=	$(foreach dir,$(INCLUDES),-I$(CURDIR)/$(dir))
 export LIBPATHS	:=	$(foreach dir,$(LIBDIRS),-L$(dir)/lib)
 
 #---------------------------------------------------------------------------------
-.PHONY: $(BUILD) clean install uninstall
+.PHONY: $(BUILD) clean run install uninstall
 #------------------------------------------------------------------------------
 $(BUILD):
 	@[ -d $@ ] || mkdir -p $@
 	@make --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
+
+#---------------------------------------------------------------------------------
+run:
+	@echo running ...
+	@./$(TARGET)
 
 #---------------------------------------------------------------------------------
 clean:
