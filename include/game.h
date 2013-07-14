@@ -17,26 +17,26 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	
 ---------------------------------------------------------------------------------*/
-#include <iostream>
+#ifndef GAME_H
+#define GAME_H
 
-#include <SFML/System.hpp>
-#include <SFML/Audio.hpp>
-#include <SFML/Graphics.hpp>
+class Game {
+	public:
+		// Constructor and destructor
+		Game();
+		~Game();
+		
+		// Game main loop
+		void mainLoop();
+		
+	private:
+		// Main window
+		sf::RenderWindow *m_win;
+		
+		// Main loop states
+		bool m_continue;
+		bool m_paused;
+		
+};
 
-#include "game.h"
-
-using namespace std;
-
-int main(int argc, char* argv[]) {
-	// Initialize game
-	Game *game = new Game;
-	
-	// Start the game loop
-	game->mainLoop();
-	
-	// Delete all game objects
-	delete game;
-	
-	return 0;
-}
-
+#endif // GAME_H

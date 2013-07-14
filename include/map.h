@@ -17,26 +17,38 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	
 ---------------------------------------------------------------------------------*/
-#include <iostream>
+#ifndef MAP_H
+#define MAP_H
 
-#include <SFML/System.hpp>
-#include <SFML/Audio.hpp>
-#include <SFML/Graphics.hpp>
+typedef sf::Image Tileset;
 
-#include "game.h"
+class Map {
+	public:
+		// Constructor and destructor
+		Map(Tileset *tileset, char *filename, u16 width, u16 height, u16 tileWidth, u16 tileHeight, s16 mapX, s16 mapY);
+		~Map();
+		
+		// Map render function
+		void render();
+		
+	private:
+		// Map tileset
+		Tileset *m_tileset;
+		
+		// Map data
+		u16 *m_data;
+		
+		// Map size
+		u16 m_width;
+		u16 m_height;
+		
+		// Map tile size
+		u16 m_tileWidth;
+		u16 m_tileHeight;
+		
+		// Map position in the overworld
+		u16 m_mapX;
+		u16 m_mapY;
+};
 
-using namespace std;
-
-int main(int argc, char* argv[]) {
-	// Initialize game
-	Game *game = new Game;
-	
-	// Start the game loop
-	game->mainLoop();
-	
-	// Delete all game objects
-	delete game;
-	
-	return 0;
-}
-
+#endif // MAP_H

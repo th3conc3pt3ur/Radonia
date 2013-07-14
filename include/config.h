@@ -17,26 +17,9 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	
 ---------------------------------------------------------------------------------*/
-#include <iostream>
+#ifndef CONFIG_H
+#define CONFIG_H
 
-#include <SFML/System.hpp>
-#include <SFML/Audio.hpp>
-#include <SFML/Graphics.hpp>
+#define WM_SIZE 3
 
-#include "game.h"
-
-using namespace std;
-
-int main(int argc, char* argv[]) {
-	// Initialize game
-	Game *game = new Game;
-	
-	// Start the game loop
-	game->mainLoop();
-	
-	// Delete all game objects
-	delete game;
-	
-	return 0;
-}
-
+#endif // CONFIG_H

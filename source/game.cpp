@@ -27,16 +27,38 @@
 
 using namespace std;
 
-int main(int argc, char* argv[]) {
-	// Initialize game
-	Game *game = new Game;
+Game::Game() {
+	// Create the main window
+	m_win = new sf::RenderWindow(sf::VideoMode(256, 192), "Radonia");
 	
-	// Start the game loop
-	game->mainLoop();
-	
-	// Delete all game objects
-	delete game;
-	
-	return 0;
+	// Set default values
+	m_continue = true;
+	m_paused = false;
+}
+
+Game::~Game() {
+	// Delete main window
+	delete m_win;
+}
+
+void Game::mainLoop() {
+	while(m_win->IsOpened() && m_continue) {
+		// Process events
+		sf::Event event;
+		
+		while(m_win->GetEvent(event)) {
+			// Close window: exit game
+			if(event.Type == sf::Event::Closed)
+				m_win->Close();
+		}
+		
+		// Clear screen
+		m_win->Clear();
+		
+		// Display funcs here
+		
+		// Update the window
+		m_win->Display();
+	}
 }
 

@@ -17,26 +17,14 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	
 ---------------------------------------------------------------------------------*/
-#include <iostream>
+#ifndef TYPES_H
+#define TYPES_H
 
-#include <SFML/System.hpp>
-#include <SFML/Audio.hpp>
-#include <SFML/Graphics.hpp>
+typedef unsigned char u8;
+typedef signed char s8;
+typedef unsigned short u16;
+typedef signed short s16;
+typedef unsigned long u32;
+typedef signed long s32;
 
-#include "game.h"
-
-using namespace std;
-
-int main(int argc, char* argv[]) {
-	// Initialize game
-	Game *game = new Game;
-	
-	// Start the game loop
-	game->mainLoop();
-	
-	// Delete all game objects
-	delete game;
-	
-	return 0;
-}
-
+#endif // TYPES_H
