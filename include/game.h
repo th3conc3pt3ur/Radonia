@@ -29,14 +29,16 @@ class Game {
 		// Game main loop
 		void mainLoop();
 		
-	private:
 		// Main window
-		sf::RenderWindow *m_win;
+		static sf::RenderWindow *MainWindow;
 		
+	private:
 		// Main loop states
 		bool m_continue;
 		bool m_paused;
 		
+		// Temp map
+		Map *m_map;
 };
 
 #endif // GAME_H

@@ -20,25 +20,28 @@
 #ifndef MAP_H
 #define MAP_H
 
-typedef sf::Image Tileset;
-
 class Map {
 	public:
 		// Constructor and destructor
-		Map(Tileset *tileset, char *filename, u16 width, u16 height, u16 tileWidth, u16 tileHeight, s16 mapX, s16 mapY);
+		Map(sf::Image *tileset, char *filename, u16 width, u16 height, u16 tileWidth, u16 tileHeight, s16 mapX, s16 mapY);
 		~Map();
 		
 		// Map render function
 		void render();
 		
+		static int nbMaps;
+		
 	private:
+		// Map id
+		u16 m_id;
+		
 		// Map tileset
-		Tileset *m_tileset;
+		sf::Image *m_tileset;
 		
 		// Map data
 		u16 *m_data;
 		
-		// Map size
+		// Map size (tiles)
 		u16 m_width;
 		u16 m_height;
 		
@@ -49,6 +52,9 @@ class Map {
 		// Map position in the overworld
 		u16 m_mapX;
 		u16 m_mapY;
+		
+		// Get tile id
+		u16 getTile(u16 tileX, u16 tileY);
 };
 
 #endif // MAP_H

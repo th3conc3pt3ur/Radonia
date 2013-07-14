@@ -23,42 +23,56 @@
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 
+#include "types.h"
+#include "config.h"
+#include "map.h"
 #include "game.h"
 
 using namespace std;
 
+sf::RenderWindow *Game::MainWindow = NULL;
+
 Game::Game() {
 	// Create the main window
-	m_win = new sf::RenderWindow(sf::VideoMode(256, 192), "Radonia");
+	MainWindow = new sf::RenderWindow(sf::VideoMode(256, 192), "Radonia");
 	
 	// Set default values
 	m_continue = true;
 	m_paused = false;
+	
+	// Temp map
+	sf::Image *tileset = new sf::Image;
+	tileset->LoadFromFile("graphics/tilesets/plain.png");
+	tileset->SetSmooth(false);
+	m_map = new Map(tileset, (char*)"maps/a1.map", 16, 12, 16, 16, 0, 0);
 }
 
 Game::~Game() {
 	// Delete main window
-	delete m_win;
+	delete MainWindow;
+	
+	delete m_map;
 }
 
 void Game::mainLoop() {
-	while(m_win->IsOpened() && m_continue) {
+	while(MainWindow->IsOpened() && m_continue) {
 		// Process events
 		sf::Event event;
 		
-		while(m_win->GetEvent(event)) {
+		while(MainWindow->GetEvent(event)) {
 			// Close window: exit game
 			if(event.Type == sf::Event::Closed)
-				m_win->Close();
+				MainWindow->Close();
 		}
 		
 		// Clear screen
-		m_win->Clear();
+		MainWindow->Clear();
 		
 		// Display funcs here
+		m_map->render();
 		
 		// Update the window
-		m_win->Display();
+		MainWindow->Display();
 	}
 }
 

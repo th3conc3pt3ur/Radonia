@@ -23,6 +23,9 @@
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 
+#include "types.h"
+#include "config.h"
+#include "map.h"
 #include "game.h"
 
 using namespace std;
