@@ -34,7 +34,12 @@ sf::RenderWindow *Game::MainWindow = NULL;
 
 Game::Game() {
 	// Create the main window
-	MainWindow = new sf::RenderWindow(sf::VideoMode(256, 192), "Radonia");
+	MainWindow = new sf::RenderWindow(sf::VideoMode(640, 480), "Radonia", sf::Style::Close);
+	//MainWindow = new sf::RenderWindow(sf::VideoMode(256*2, 192*2), "Radonia", sf::Style::Close);
+	//MainWindow->GetDefaultView().Zoom(2);
+	//MainWindow->GetDefaultView().Move(-256/2, -192/2);
+	//MainWindow->SetSize(MainWindow->GetWidth() * 2,
+	//					  MainWindow->GetHeight() * 2);
 	
 	// Set default values
 	m_continue = true;
@@ -44,7 +49,7 @@ Game::Game() {
 	sf::Image *tileset = new sf::Image;
 	tileset->LoadFromFile("graphics/tilesets/plain.png");
 	tileset->SetSmooth(false);
-	m_map = new Map(tileset, (char*)"maps/a1.map", 16, 12, 16, 16, 0, 0);
+	m_map = new Map(tileset, (char*)"maps/a1.map", 40, 30, 16, 16, 0, 0);
 }
 
 Game::~Game() {
