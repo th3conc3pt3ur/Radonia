@@ -27,36 +27,33 @@
 #include "config.h"
 #include "map.h"
 #include "game.h"
+#include "mapManager.h"
 
 using namespace std;
 
 sf::RenderWindow *Game::MainWindow = NULL;
+Map *Game::currentMap = NULL;
 
 Game::Game() {
 	// Create the main window
 	MainWindow = new sf::RenderWindow(sf::VideoMode(640, 480), "Radonia", sf::Style::Close);
-	//MainWindow = new sf::RenderWindow(sf::VideoMode(256*2, 192*2), "Radonia", sf::Style::Close);
-	//MainWindow->GetDefaultView().Zoom(2);
-	//MainWindow->GetDefaultView().Move(-256/2, -192/2);
-	//MainWindow->SetSize(MainWindow->GetWidth() * 2,
-	//					  MainWindow->GetHeight() * 2);
 	
 	// Set default values
 	m_continue = true;
 	m_paused = false;
 	
-	// Temp map
-	sf::Image *tileset = new sf::Image;
-	tileset->LoadFromFile("graphics/tilesets/plain.png");
-	tileset->SetSmooth(false);
-	m_map = new Map(tileset, (char*)"maps/a1.map", 40, 30, 16, 16, 0, 0);
+	// Initialize overworld maps
+	m_maps = initOverworldMaps();
+	
+	currentMap = m_maps[0];
 }
 
 Game::~Game() {
 	// Delete main window
 	delete MainWindow;
 	
-	delete m_map;
+	// Delete overworld maps
+	delete m_maps;
 }
 
 void Game::mainLoop() {
@@ -68,16 +65,50 @@ void Game::mainLoop() {
 			// Close window: exit game
 			if(event.Type == sf::Event::Closed)
 				MainWindow->Close();
+			
+			// Test for scrolling
+			if(event.Type == sf::Event::KeyPressed) {
+				scroll(event.Key.Code);
+			}
 		}
 		
 		// Clear screen
 		MainWindow->Clear();
 		
 		// Display funcs here
-		m_map->render();
+		
+		// Render overworld maps
+		renderMaps(m_maps);
 		
 		// Update the window
 		MainWindow->Display();
 	}
+}
+
+void Game::scroll(sf::Key::Code key) {
+	s16 moveX = 0;
+	s16 moveY = 0;
+	u16 iMax = 0;
+	
+	switch(key) {
+		case sf::Key::Left:		moveX = -32;	iMax = 20; break;
+		case sf::Key::Right:	moveX = 32;		iMax = 20; break;
+		case sf::Key::Up:		moveY = -32;	iMax = 15; break;
+		case sf::Key::Down:		moveY = 32;		iMax = 15; break;
+		default:				return;
+	}
+	
+	for(u16 i = 0 ; i < iMax ; i++) {
+		// Move view to scroll
+		MainWindow->GetDefaultView().Move(moveX, moveY);
+		
+		// Refresh window
+		MainWindow->Clear();
+		refreshMaps(m_maps, moveX, moveY);
+		MainWindow->Display();
+	}
+	
+	// Update currentMap variable
+	currentMap = m_maps[MAP_POS(currentMap->x() + moveX / 32, currentMap->y() + moveY / 32)];
 }
 

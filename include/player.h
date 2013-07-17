@@ -17,12 +17,17 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	
 ---------------------------------------------------------------------------------*/
-#ifndef CONFIG_H
-#define CONFIG_H
+#ifndef PLAYER_H
+#define PLAYER_H
 
-#define WM_SIZE 2
+class Player {
+	public:
+		// Constructor and destructor
+		Player();
+		~Player();
+		
+	private:
+		
+};
 
-#define MAP_WIDTH 40
-#define MAP_HEIGHT 30
-
-#endif // CONFIG_H
+#endif // PLAYER_H

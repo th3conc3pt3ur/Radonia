@@ -29,16 +29,22 @@ class Game {
 		// Game main loop
 		void mainLoop();
 		
+		// Test scroll func
+		void scroll(sf::Key::Code key);
+		
 		// Main window
 		static sf::RenderWindow *MainWindow;
+		
+		// Current map
+		static Map *currentMap;
 		
 	private:
 		// Main loop states
 		bool m_continue;
 		bool m_paused;
 		
-		// Temp map
-		Map *m_map;
+		// Overworld maps array
+		Map **m_maps;
 };
 
 #endif // GAME_H

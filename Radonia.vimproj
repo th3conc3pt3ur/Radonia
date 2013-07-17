@@ -11,11 +11,15 @@ Radonia=/home/quentin/Bureau/Projets/Radonia CD=. filter=".gitignore *.c *.h *.d
   config.h
   game.h
   map.h
+  mapManager.h
+  player.h
   types.h
  }
  source=source {
   game.cpp
   main.cpp
   map.cpp
+  mapManager.cpp
+  player.cpp
  }
 }

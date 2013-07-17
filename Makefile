@@ -63,7 +63,7 @@ export INCLUDE	:=	$(foreach dir,$(INCLUDES),-I$(CURDIR)/$(dir))
 export LIBPATHS	:=	$(foreach dir,$(LIBDIRS),-L$(dir)/lib)
 
 #---------------------------------------------------------------------------------
-.PHONY: $(BUILD) clean run install uninstall
+.PHONY: $(BUILD) clean run maps install uninstall
 #------------------------------------------------------------------------------
 $(BUILD):
 	@[ -d $@ ] || mkdir -p $@
@@ -73,6 +73,12 @@ $(BUILD):
 run:
 	@echo running ...
 	@./$(TARGET)
+
+#---------------------------------------------------------------------------------
+maps:
+	@echo compiling maps ...
+	@make --no-print-directory -C tools/reader
+	@./tools/maps
 
 #---------------------------------------------------------------------------------
 clean:

@@ -17,12 +17,13 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	
 ---------------------------------------------------------------------------------*/
-#ifndef CONFIG_H
-#define CONFIG_H
+#ifndef MAPMANAGER_H
+#define MAPMANAGER_H
 
-#define WM_SIZE 2
+#define MAP_POS(x, y) ((x) + (y) * WM_SIZE)
 
-#define MAP_WIDTH 40
-#define MAP_HEIGHT 30
+Map** initOverworldMaps();
+void renderMaps(Map **maps);
+void refreshMaps(Map **maps, s16 moveX, s16 moveY);
 
-#endif // CONFIG_H
+#endif // MAPMANAGER_H

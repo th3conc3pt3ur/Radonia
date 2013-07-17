@@ -36,7 +36,7 @@ using namespace std;
 
 int Map::nbMaps = 0;
 
-Map::Map(sf::Image *tileset, char *filename, u16 width, u16 height, u16 tileWidth, u16 tileHeight, s16 mapX, s16 mapY) {
+Map::Map(sf::Image *tileset, char *filename, u16 width, u16 height, u16 tileWidth, u16 tileHeight, u16 x, u16 y) {
 	// Set map id
 	m_id = nbMaps;
 	
@@ -52,28 +52,33 @@ Map::Map(sf::Image *tileset, char *filename, u16 width, u16 height, u16 tileWidt
 	m_tileWidth = tileWidth;
 	m_tileHeight = tileHeight;
 	
+	m_x = x;
+	m_y = y;
+	
 	// Make temporary table to get map file data
 	u16* table = (u16*)malloc(m_width * m_height * sizeof(u16));
 	
 	// Load map from file
 	struct stat file_status;
-	if(stat(filename, &file_status) != 0){
-		printf("Unable to load %s", filename);
+	if(stat(filename, &file_status) != 0) {
+		printf("Unable to load %s, file not found\n", filename);
+		exit(1);
 	}
+	
+	// Get filesize for fread
 	int filesize = file_status.st_size;
 	
+	// Read data
 	FILE* f = fopen(filename, "r");
 	fread(table, 2, filesize, f);
 	fclose(f);
 	
+	// Save data in current map
 	m_data = table;
-	
-	// NOTE: mapX/Y == -1 when it's an outdoor map
-	m_mapY = ((mapY == -1) ? (m_id / WM_SIZE) : (mapY));
-	m_mapX = ((mapX == -1) ? (m_id - m_mapY * WM_SIZE) : (mapX));
 }
 
 Map::~Map() {
+	free(m_data);
 }
 
 void Map::render() {
@@ -91,7 +96,7 @@ void Map::render() {
 			u16 tileX = (tile - (tileY / m_tileHeight) * (m_tileset->GetHeight() / m_tileHeight)) * m_tileWidth;
 			
 			// Set position and cut tile to display
-			renderedTile.SetPosition(x * m_tileWidth, y * m_tileHeight);
+			renderedTile.SetPosition((x + m_x * MAP_WIDTH) * m_tileWidth, (y + m_y * MAP_HEIGHT) * m_tileHeight);
 			renderedTile.SetSubRect(sf::IntRect(tileX, tileY, tileX + m_tileWidth, tileY + m_tileHeight));
 			
 			// Display the tile

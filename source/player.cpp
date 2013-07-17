@@ -17,12 +17,23 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	
 ---------------------------------------------------------------------------------*/
-#ifndef CONFIG_H
-#define CONFIG_H
+#include <iostream>
+#include <cstdio>
 
-#define WM_SIZE 2
+#include <SFML/System.hpp>
+#include <SFML/Audio.hpp>
+#include <SFML/Graphics.hpp>
 
-#define MAP_WIDTH 40
-#define MAP_HEIGHT 30
+#include "types.h"
+#include "config.h"
+#include "map.h"
+#include "player.h"
+#include "game.h"
 
-#endif // CONFIG_H
+Player::Player() {
+	
+}
+
+Player::~Player() {
+}
+
