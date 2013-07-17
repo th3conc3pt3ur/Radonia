@@ -53,7 +53,7 @@ Game::~Game() {
 	delete MainWindow;
 	
 	// Delete overworld maps
-	delete m_maps;
+	delete[] m_maps;
 }
 
 void Game::mainLoop() {
@@ -109,6 +109,10 @@ void Game::scroll(sf::Key::Code key) {
 	}
 	
 	// Update currentMap variable
-	currentMap = m_maps[MAP_POS(currentMap->x() + moveX / 32, currentMap->y() + moveY / 32)];
+	if(currentMap != NULL
+	   && currentMap->x() + moveX / 32 >= 0
+	   && currentMap->x() + moveX / 32 < WM_SIZE
+	   && currentMap->y() + moveY / 32 >= 0
+	   && currentMap->y() + moveY / 32 < WM_SIZE) currentMap = m_maps[MAP_POS(currentMap->x() + moveX / 32, currentMap->y() + moveY / 32)];
 }
 

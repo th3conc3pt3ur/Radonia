@@ -56,12 +56,16 @@ Map** initOverworldMaps() {
 
 
 void renderMaps(Map **maps) {
-	// Render maps
-	for(u16 y = 0 ; y < WM_SIZE ; y++) {
-		for(u16 x = 0 ; x < WM_SIZE ; x++) {
-			maps[MAP_POS(x, y)]->render();
-		}
-	}
+	// Get current map position
+	s16 x = Game::currentMap->x();
+	s16 y = Game::currentMap->y();
+	
+	// Render surrounding maps
+	Game::currentMap->render();
+	if(maps[MAP_POS(x - 1, y)] != NULL && x - 1 >= 0)		maps[MAP_POS(x - 1, y)]->render();
+	if(maps[MAP_POS(x + 1, y)] != NULL && x + 1 < WM_SIZE)	maps[MAP_POS(x + 1, y)]->render();
+	if(maps[MAP_POS(x, y - 1)] != NULL && y - 1 >= 0)		maps[MAP_POS(x, y - 1)]->render();
+	if(maps[MAP_POS(x, y + 1)] != NULL && y + 1 < WM_SIZE)	maps[MAP_POS(x, y + 1)]->render();
 }
 
 void refreshMaps(Map **maps, s16 moveX, s16 moveY) {
@@ -69,7 +73,11 @@ void refreshMaps(Map **maps, s16 moveX, s16 moveY) {
 	Map *nextMap = maps[MAP_POS(Game::currentMap->x() + moveX / 32, Game::currentMap->y() + moveY / 32)];
 	
 	// Next map must be in the map
-	if(nextMap == NULL) // NOTE: Maybe add here some conditions to test if next map is in the overworld
+	if(nextMap == NULL
+	   || Game::currentMap->x() + moveX / 32 < 0
+	   || Game::currentMap->x() + moveX / 32 >= WM_SIZE
+	   || Game::currentMap->y() + moveY / 32 < 0
+	   || Game::currentMap->y() + moveY / 32 >= WM_SIZE)
 		return;
 	
 	// Render maps
