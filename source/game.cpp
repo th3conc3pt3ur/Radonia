@@ -26,13 +26,17 @@
 #include "types.h"
 #include "config.h"
 #include "map.h"
-#include "game.h"
 #include "mapManager.h"
+#include "timer.h"
+#include "sprite.h"
+#include "player.h"
+#include "game.h"
 
 using namespace std;
 
 sf::RenderWindow *Game::MainWindow = NULL;
 Map *Game::currentMap = NULL;
+Player *Game::player = NULL;
 
 Game::Game() {
 	// Create the main window
@@ -46,6 +50,9 @@ Game::Game() {
 	m_maps = initOverworldMaps();
 	
 	currentMap = m_maps[0];
+	
+	// Initialize player
+	player = new Player();
 }
 
 Game::~Game() {
@@ -79,6 +86,7 @@ void Game::mainLoop() {
 		
 		// Render overworld maps
 		renderMaps(m_maps);
+		player->render();
 		
 		// Update the window
 		MainWindow->Display();
@@ -91,11 +99,11 @@ void Game::scroll(sf::Key::Code key) {
 	u16 iMax = 0;
 	
 	switch(key) {
-		case sf::Key::Left:		moveX = -32;	iMax = 20; break;
-		case sf::Key::Right:	moveX = 32;		iMax = 20; break;
-		case sf::Key::Up:		moveY = -32;	iMax = 15; break;
-		case sf::Key::Down:		moveY = 32;		iMax = 15; break;
-		default:				return;
+		case sf::Key::Q:	moveX = -32;	iMax = 20; break;
+		case sf::Key::D:	moveX = 32;		iMax = 20; break;
+		case sf::Key::Z:	moveY = -32;	iMax = 15; break;
+		case sf::Key::S:	moveY = 32;		iMax = 15; break;
+		default:			return;
 	}
 	
 	for(u16 i = 0 ; i < iMax ; i++) {
@@ -105,6 +113,7 @@ void Game::scroll(sf::Key::Code key) {
 		// Refresh window
 		MainWindow->Clear();
 		refreshMaps(m_maps, moveX, moveY);
+		player->render();
 		MainWindow->Display();
 	}
 	

@@ -18,7 +18,6 @@
 	
 ---------------------------------------------------------------------------------*/
 #include <iostream>
-#include <cstdio>
 
 #include <SFML/System.hpp>
 #include <SFML/Audio.hpp>
@@ -27,13 +26,52 @@
 #include "types.h"
 #include "config.h"
 #include "map.h"
+#include "timer.h"
+#include "sprite.h"
 #include "player.h"
 #include "game.h"
 
-Player::Player() {
+// Set animations table
+int animations[12][4] = {
+	{4,0},
+	{5,1},
+	{6,2},
+	{7,3},
+	{8,12,16,16},
+	{9,13,17,17},
+	{10,14,18,18},
+	{11,15,19,19},
+	{20,24},
+	{21,25},
+	{22,26},
+	{23,27}
+};
+
+Player::Player() : Sprite((char*)"graphics/characters/link.png") {
+	// Set class members
+	m_x = 240;
+	m_y = 128;
 	
+	m_vx = 0;
+	m_vy = 0;
+	
+	m_direction = Direction::Right;
+	
+	// Add animations to sprite
+	addAnimation(2, animations[0], 100); // Down
+	addAnimation(2, animations[1], 100); // Right
+	addAnimation(2, animations[2], 100); // Left
+	addAnimation(2, animations[3], 100); // Up
+	addAnimation(4, animations[4], 50);
+	addAnimation(4, animations[5], 50);
+	addAnimation(4, animations[6], 50);
+	addAnimation(4, animations[7], 50);
 }
 
 Player::~Player() {
+}
+
+void Player::render() {
+	playAnimation(m_x, m_y, m_direction);
 }
 

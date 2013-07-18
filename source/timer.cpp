@@ -17,44 +17,44 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	
 ---------------------------------------------------------------------------------*/
-#ifndef PLAYER_H
-#define PLAYER_H
+#include <SFML/System.hpp>
 
-class Player : public Sprite {
-	public:
-		// Constructor and destructor
-		Player();
-		~Player();
-		
-		// Move function
-		void move();
-		
-		// Render function
-		void render();
-		
-		// Player directions
-		class Direction {
-			public:
-				static const u8 Up = 3;
-				static const u8 Down = 0;
-				static const u8 Left = 2;
-				static const u8 Right = 1;
-		};
-		
-	private:
-		// Player position (relative to current map)
-		s16 m_x;
-		s16 m_y;
-		
-		// Player movement vectors
-		s8 m_vx;
-		s8 m_vy;
-		
-		// Player direction
-		u8 m_direction;
-		
-		// Player lifes
-		u8 m_lifes;
-};
+#include "timer.h"
 
-#endif // PLAYER_H
+sf::Clock Timer::clock;
+
+Timer::Timer() {
+	m_t = clock.GetElapsedTime() * 1000;
+	m_isStarted = false;
+	m_tick = 0;
+}
+
+Timer::~Timer() {
+	reset();
+	stop();
+}
+
+void Timer::stop() {
+	if(m_isStarted) {
+		m_isStarted = false;
+		m_tick = clock.GetElapsedTime() * 1000 - m_t;
+	}
+}
+
+void Timer::start() {
+	if(!m_isStarted) {
+		m_isStarted = true;
+		m_t = clock.GetElapsedTime() * 1000 - m_tick;
+	}
+}
+
+void Timer::reset() {
+	m_t = clock.GetElapsedTime() * 1000;
+	m_isStarted = false;
+	m_tick = 0;
+}
+
+void Timer::initTimers() {
+	clock.Reset();
+}
+

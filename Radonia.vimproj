@@ -13,6 +13,8 @@ Radonia=/home/quentin/Bureau/Projets/Radonia CD=. filter=".gitignore *.c *.h *.d
   map.h
   mapManager.h
   player.h
+  sprite.h
+  timer.h
   types.h
  }
  source=source {
@@ -21,5 +23,7 @@ Radonia=/home/quentin/Bureau/Projets/Radonia CD=. filter=".gitignore *.c *.h *.d
   map.cpp
   mapManager.cpp
   player.cpp
+  sprite.cpp
+  timer.cpp
  }
 }

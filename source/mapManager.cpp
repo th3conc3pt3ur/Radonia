@@ -27,8 +27,11 @@
 #include "types.h"
 #include "config.h"
 #include "map.h"
-#include "game.h"
 #include "mapManager.h"
+#include "timer.h"
+#include "sprite.h"
+#include "player.h"
+#include "game.h"
 
 Map** initOverworldMaps() {
 	// Initialize overworld maps array

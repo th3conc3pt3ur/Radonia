@@ -38,6 +38,9 @@ class Game {
 		// Current map
 		static Map *currentMap;
 		
+		// Player
+		static Player *player;
+		
 	private:
 		// Main loop states
 		bool m_continue;

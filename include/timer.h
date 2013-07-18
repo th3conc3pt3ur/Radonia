@@ -17,44 +17,33 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	
 ---------------------------------------------------------------------------------*/
-#ifndef PLAYER_H
-#define PLAYER_H
+#ifndef TIMER_H
+#define TIMER_H
 
-class Player : public Sprite {
+class Timer {
 	public:
 		// Constructor and destructor
-		Player();
-		~Player();
+		Timer();
+		~Timer();
 		
-		// Move function
-		void move();
+		// Timer control functions
+		void stop();
+		void start();
+		void reset();
 		
-		// Render function
-		void render();
+		// Get time function
+		int time() { return (m_isStarted) ? clock.GetElapsedTime() * 1000 - m_t : m_tick; }
 		
-		// Player directions
-		class Direction {
-			public:
-				static const u8 Up = 3;
-				static const u8 Down = 0;
-				static const u8 Left = 2;
-				static const u8 Right = 1;
-		};
+		// Initialization function
+		static void initTimers();
+		
+		// Time since initialization (in seconds)
+		static sf::Clock clock;
 		
 	private:
-		// Player position (relative to current map)
-		s16 m_x;
-		s16 m_y;
-		
-		// Player movement vectors
-		s8 m_vx;
-		s8 m_vy;
-		
-		// Player direction
-		u8 m_direction;
-		
-		// Player lifes
-		u8 m_lifes;
+		int m_t;
+		bool m_isStarted;
+		int m_tick;
 };
 
-#endif // PLAYER_H
+#endif // TIMER_H

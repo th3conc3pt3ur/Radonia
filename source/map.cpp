@@ -30,6 +30,10 @@
 #include "types.h"
 #include "config.h"
 #include "map.h"
+#include "mapManager.h"
+#include "timer.h"
+#include "sprite.h"
+#include "player.h"
 #include "game.h"
 
 using namespace std;
@@ -92,8 +96,8 @@ void Map::render() {
 			u16 tile = getTile(x, y);
 			
 			// Get tile position
-			u16 tileY = (tile / (m_tileset->GetHeight() / m_tileHeight)) * m_tileHeight;
-			u16 tileX = (tile - (tileY / m_tileHeight) * (m_tileset->GetHeight() / m_tileHeight)) * m_tileWidth;
+			u16 tileY = (tile / (m_tileset->GetWidth() / m_tileHeight)) * m_tileHeight;
+			u16 tileX = (tile - (tileY / m_tileHeight) * (m_tileset->GetWidth() / m_tileHeight)) * m_tileWidth;
 			
 			// Set position and cut tile to display
 			renderedTile.SetPosition((x + m_x * MAP_WIDTH) * m_tileWidth, (y + m_y * MAP_HEIGHT) * m_tileHeight);
