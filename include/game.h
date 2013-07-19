@@ -30,10 +30,11 @@ class Game {
 		void mainLoop();
 		
 		// Test scroll func
-		void scroll(sf::Key::Code key);
+		void scroll();
 		
 		// Main window
 		static sf::RenderWindow *MainWindow;
+		static const sf::Input *Input;
 		
 		// Current map
 		static Map *currentMap;

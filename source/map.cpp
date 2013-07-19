@@ -40,7 +40,7 @@ using namespace std;
 
 int Map::nbMaps = 0;
 
-Map::Map(sf::Image *tileset, char *filename, u16 width, u16 height, u16 tileWidth, u16 tileHeight, u16 x, u16 y) {
+Map::Map(sf::Image *tileset, u16 *tilesetInfo, char *filename, u16 width, u16 height, u16 tileWidth, u16 tileHeight, u16 x, u16 y) {
 	// Set map id
 	m_id = nbMaps;
 	
@@ -49,6 +49,7 @@ Map::Map(sf::Image *tileset, char *filename, u16 width, u16 height, u16 tileWidt
 	
 	// Set class members
 	m_tileset = tileset;
+	m_tilesetInfo = tilesetInfo;
 	
 	m_width = width;
 	m_height = height;

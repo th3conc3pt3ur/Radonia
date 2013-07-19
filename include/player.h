@@ -32,6 +32,9 @@ class Player : public Sprite {
 		// Render function
 		void render();
 		
+		// Test collisions function
+		void testCollisions();
+		
 		// Player directions
 		class Direction {
 			public:

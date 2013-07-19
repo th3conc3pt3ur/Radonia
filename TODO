@@ -1,0 +1,7 @@
+- Improve, rewrite and comment sprite.cpp/h and timer.cpp/h
+- Player movements
+- Player collisions
+- Indoor maps
+- Door system
+- Title screen
+- Pause menu

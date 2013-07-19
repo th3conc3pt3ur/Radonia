@@ -35,12 +35,16 @@
 using namespace std;
 
 sf::RenderWindow *Game::MainWindow = NULL;
+const sf::Input *Game::Input = NULL;
 Map *Game::currentMap = NULL;
 Player *Game::player = NULL;
 
 Game::Game() {
 	// Create the main window
 	MainWindow = new sf::RenderWindow(sf::VideoMode(640, 480), "Radonia", sf::Style::Close);
+	
+	// Set inputs
+	Input = &MainWindow->GetInput();
 	
 	// Set default values
 	m_continue = true;
@@ -70,19 +74,19 @@ void Game::mainLoop() {
 		
 		while(MainWindow->GetEvent(event)) {
 			// Close window: exit game
-			if(event.Type == sf::Event::Closed)
+			if(event.Type == sf::Event::Closed) {
 				MainWindow->Close();
-			
-			// Test for scrolling
-			if(event.Type == sf::Event::KeyPressed) {
-				scroll(event.Key.Code);
 			}
 		}
 		
+		// Temporary scrolling function
+		scroll();
+		
+		// Move player
+		player->move();
+		
 		// Clear screen
 		MainWindow->Clear();
-		
-		// Display funcs here
 		
 		// Render overworld maps
 		renderMaps(m_maps);
@@ -93,18 +97,15 @@ void Game::mainLoop() {
 	}
 }
 
-void Game::scroll(sf::Key::Code key) {
+void Game::scroll() {
 	s16 moveX = 0;
 	s16 moveY = 0;
 	u16 iMax = 0;
 	
-	switch(key) {
-		case sf::Key::Q:	moveX = -32;	iMax = 20; break;
-		case sf::Key::D:	moveX = 32;		iMax = 20; break;
-		case sf::Key::Z:	moveY = -32;	iMax = 15; break;
-		case sf::Key::S:	moveY = 32;		iMax = 15; break;
-		default:			return;
-	}
+	if(Input->IsKeyDown(sf::Key::Q)) { moveX = -32;	iMax = 20; }
+	if(Input->IsKeyDown(sf::Key::D)) { moveX = 32;	iMax = 20; }
+	if(Input->IsKeyDown(sf::Key::Z)) { moveY = -32;	iMax = 15; }
+	if(Input->IsKeyDown(sf::Key::S)) { moveY = 32;	iMax = 15; }
 	
 	for(u16 i = 0 ; i < iMax ; i++) {
 		// Move view to scroll

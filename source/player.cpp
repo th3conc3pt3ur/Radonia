@@ -26,6 +26,7 @@
 #include "types.h"
 #include "config.h"
 #include "map.h"
+#include "mapManager.h"
 #include "timer.h"
 #include "sprite.h"
 #include "player.h"
@@ -62,16 +63,147 @@ Player::Player() : Sprite((char*)"graphics/characters/link.png") {
 	addAnimation(2, animations[1], 100); // Right
 	addAnimation(2, animations[2], 100); // Left
 	addAnimation(2, animations[3], 100); // Up
-	addAnimation(4, animations[4], 50);
-	addAnimation(4, animations[5], 50);
-	addAnimation(4, animations[6], 50);
-	addAnimation(4, animations[7], 50);
+	addAnimation(4, animations[4], 50);  // Walk down
+	addAnimation(4, animations[5], 50);  // Walk right
+	addAnimation(4, animations[6], 50);  // Walk left
+	addAnimation(4, animations[7], 50);  // Walk up
 }
 
 Player::~Player() {
 }
 
+// NOTE: In that func there is a lot of ">> 4", it's the same thing than "/ 16"
+void Player::testCollisions() {
+	// Right
+	if((m_vx > 0) && ((!passable((m_x + 12) >> 4, (m_y + 8) >> 4)) || (!passable((m_x + 12) >> 4, (m_y + 13) >> 4)))) {
+		// Reset movement vector to stop player
+		m_vx = 0;
+		
+		// Obstacle up
+		if((!passable((m_x + 12) >> 4, (m_y + 8) >> 4)) && passable((m_x + 12) >> 4, (m_y + 13) >> 4)) {
+			if(m_vy == 0) m_vy = 1;
+		}
+		
+		// Obstacle down
+		if((!passable((m_x + 12) >> 4, (m_y + 13) >> 4)) && passable((m_x + 12) >> 4, (m_y + 8) >> 4)) {
+			if(m_vy == 0) m_vy = -1;
+		}
+	}
+	
+	// Left
+	if((m_vx < 0) && ((!passable((m_x + 3) >> 4, (m_y + 8) >> 4)) || (!passable((m_x + 3) >> 4, (m_y + 13) >> 4)))) {
+		// Reset movement vector to stop player
+		m_vx = 0;
+		
+		// Obstacle up
+		if((!passable((m_x + 3) >> 4, (m_y + 8) >> 4)) && passable((m_x + 3) >> 4, (m_y + 13) >> 4)) {
+			if(m_vy == 0) m_vy = 1;
+		}
+		
+		// Obstacle down
+		if((!passable((m_x + 3) >> 4, (m_y + 13) >> 4)) && passable((m_x + 3) >> 4, (m_y + 8) >> 4)) {
+			if(m_vy == 0) m_vy = -1;
+		}
+	}
+	
+	// Up
+	if((m_vy < 0) && ((!passable((m_x + 5) >> 4, (m_y + 5) >> 4)) || (!passable((m_x + 10) >> 4, (m_y + 5) >> 4)))) {
+		// Reset movement vector to stop player
+		m_vy = 0;
+		
+		// Obstacle left
+		if((!passable((m_x + 5) >> 4, (m_y + 5) >> 4)) && passable((m_x + 10) >> 4, (m_y + 5) >> 4)) {
+			if(m_vx == 0) m_vx = 1;
+		}
+		
+		// Obstacle right
+		if((!passable((m_x + 10) >> 4, (m_y + 5) >> 4)) && passable((m_x + 5) >> 4, (m_y + 5) >> 4)) {
+			if(m_vx == 0) m_vx = -1;
+		}
+	}
+	
+	// Down
+	if((m_vy > 0) && ((!passable((m_x + 5) >> 4, (m_y + 15) >> 4)) || (!passable((m_x + 10) >> 4, (m_y + 15) >> 4)))) {
+		// Reset movement vector to stop player
+		m_vy = 0;
+		
+		// Obstacle left
+		if((!passable((m_x + 5) >> 4, (m_y + 15) >> 4)) && passable((m_x + 10) >> 4, (m_y + 15) >> 4)) {
+			if(m_vx == 0) m_vx = 1;
+		}
+		
+		// Obstacle right
+		if((!passable((m_x + 10) >> 4, (m_y + 15) >> 4)) && passable((m_x + 5) >> 4, (m_y + 15) >> 4)) {
+			if(m_vx == 0) m_vx = -1;
+		}
+	}
+}
+
+void Player::move() {
+	if(Game::Input->IsKeyDown(sf::Key::Up)) {
+		// Set vertical movement vector negative
+		m_vy = -1;
+		
+		// If all other directional keys are released
+		if(!Game::Input->IsKeyDown(sf::Key::Left) && !Game::Input->IsKeyDown(sf::Key::Right) && !Game::Input->IsKeyDown(sf::Key::Down)) {
+			// Set direction to up
+			m_direction = Direction::Up;
+		}
+	}
+	
+	if(Game::Input->IsKeyDown(sf::Key::Down)) {
+		// Set vertical movement vector positive
+		m_vy = 1;
+		
+		// If all other directional keys are released
+		if(!Game::Input->IsKeyDown(sf::Key::Left) && !Game::Input->IsKeyDown(sf::Key::Right) && !Game::Input->IsKeyDown(sf::Key::Up)) {
+			// Set direction to down
+			m_direction = Direction::Down;
+		}
+	}
+	
+	if(Game::Input->IsKeyDown(sf::Key::Left)) {
+		// Set horizontal movement vector negative
+		m_vx = -1;
+		
+		// If all other directional keys are released
+		if(!Game::Input->IsKeyDown(sf::Key::Up) && !Game::Input->IsKeyDown(sf::Key::Right) && !Game::Input->IsKeyDown(sf::Key::Down)) {
+			// Set direction to left
+			m_direction = Direction::Left;
+		}
+	}
+	
+	if(Game::Input->IsKeyDown(sf::Key::Right)) {
+		// Set horizontal movement vector positive
+		m_vx = 1;
+		
+		// If all other directional keys are released
+		if(!Game::Input->IsKeyDown(sf::Key::Left) && !Game::Input->IsKeyDown(sf::Key::Up) && !Game::Input->IsKeyDown(sf::Key::Down)) {
+			// Set direction to right
+			m_direction = Direction::Right;
+		}
+	}
+	
+	// Test collisions
+	testCollisions();
+	
+	// Move the player
+	m_x += m_vx;
+	m_y += m_vy;
+	
+	// Reset movement vectors
+	m_vx = 0;
+	m_vy = 0;
+}
+
 void Player::render() {
-	playAnimation(m_x, m_y, m_direction);
+	// If all directional keys are released
+	if(!Game::Input->IsKeyDown(sf::Key::Left) && !Game::Input->IsKeyDown(sf::Key::Up) && !Game::Input->IsKeyDown(sf::Key::Right) && !Game::Input->IsKeyDown(sf::Key::Down)) {
+		// Render a single frame
+		drawFrame(m_x, m_y, m_direction);
+	} else {
+		// Play walk animation
+		playAnimation(m_x, m_y, m_direction);
+	}
 }
 

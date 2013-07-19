@@ -22,8 +22,20 @@
 
 #define MAP_POS(x, y) ((x) + (y) * WM_SIZE)
 
+// Tiles tables
+extern u16 nonPassableTiles[12];
+extern u16 changeMapTiles[2];
+
+// Map init functions
 Map** initOverworldMaps();
+
+// Map update functions
 void renderMaps(Map **maps);
 void refreshMaps(Map **maps, s16 moveX, s16 moveY);
+
+// Functions for tiles
+bool inTable(u16 tiles[], u16 id);
+bool passable(s16 tileX, s16 tileY);
+bool inTiles(s16 tileX, s16 tileY, u16 tiles[]);
 
 #endif // MAPMANAGER_H
