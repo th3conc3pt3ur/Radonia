@@ -42,7 +42,12 @@ Sprite_Animation::~Sprite_Animation() {
 	delete m_tmr;
 }
 
+sf::View *Sprite::View = NULL;
+
 Sprite::Sprite(char *filename, u8 frameSize) {
+	// Initialize sprite view
+	if(View == NULL) View = new sf::View(sf::FloatRect(0, 0, 640, 480));
+	
 	m_img.LoadFromFile(filename);
 	m_img.SetSmooth(false);
 	
@@ -58,10 +63,14 @@ void Sprite::drawFrame(s16 x, s16 y, int frame) {
 	u16 frameY = (frame / (m_img.GetWidth() / m_frameSize)) * m_frameSize;
 	u16 frameX = (frame - (frameY / m_frameSize) * (m_img.GetWidth() / m_frameSize)) * m_frameSize;
 	
-	m_spr.SetPosition(x + Game::currentMap->x() * MAP_WIDTH * 16, y + Game::currentMap->y() * MAP_HEIGHT * 16);
+	m_spr.SetPosition(x, y);
 	m_spr.SetSubRect(sf::IntRect(frameX, frameY, frameX + m_frameSize, frameY + m_frameSize));
 	
+	Game::MainWindow->SetView(*View);
+	
 	Game::MainWindow->Draw(m_spr);
+	
+	Game::MainWindow->SetView(Game::MainWindow->GetDefaultView());
 }
 
 void Sprite::addAnimation(int size, int *tabAnim, int delay) {

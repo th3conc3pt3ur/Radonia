@@ -50,8 +50,8 @@ int animations[12][4] = {
 
 Player::Player() : Sprite((char*)"graphics/characters/link.png") {
 	// Set class members
-	m_x = 240;
-	m_y = 128;
+	m_x = 620;
+	m_y = 460;
 	
 	m_vx = 0;
 	m_vy = 0;

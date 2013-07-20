@@ -63,8 +63,14 @@ Game::~Game() {
 	// Delete main window
 	delete MainWindow;
 	
+	// Delete sprite view
+	delete Sprite::View;
+	
 	// Delete overworld maps
 	delete[] m_maps;
+	
+	// Delete player
+	delete player;
 }
 
 void Game::mainLoop() {
@@ -74,12 +80,12 @@ void Game::mainLoop() {
 		
 		while(MainWindow->GetEvent(event)) {
 			// Close window: exit game
-			if(event.Type == sf::Event::Closed) {
+			if((event.Type == sf::Event::Closed) || (event.Type == sf::Event::KeyPressed && event.Key.Code == sf::Key::Escape)) {
 				MainWindow->Close();
 			}
 		}
 		
-		// Temporary scrolling function
+		// Test for map scrolling
 		scroll();
 		
 		// Move player
@@ -90,6 +96,8 @@ void Game::mainLoop() {
 		
 		// Render overworld maps
 		renderMaps(m_maps);
+		
+		// Render player
 		player->render();
 		
 		// Update the window
@@ -101,17 +109,28 @@ void Game::scroll() {
 	s16 moveX = 0;
 	s16 moveY = 0;
 	u16 iMax = 0;
+	s16 playerX = 0;
+	s16 playerY = 0;
 	
-	if(Input->IsKeyDown(sf::Key::Q)) { moveX = -32;	iMax = 20; }
-	if(Input->IsKeyDown(sf::Key::D)) { moveX = 32;	iMax = 20; }
-	if(Input->IsKeyDown(sf::Key::Z)) { moveY = -32;	iMax = 15; }
-	if(Input->IsKeyDown(sf::Key::S)) { moveY = 32;	iMax = 15; }
+	if(player->x() > (MAP_WIDTH - 1) * 16 + 2)		 { moveX = 32; iMax = 20; playerX = -32; }
+	else if(player->x() < -2)						 { moveX = -32; iMax = 20; playerX = 32; }
+	else if(player->y() > (MAP_HEIGHT - 1) * 16 + 1) { moveY = 32; iMax = 15; playerY = -32; }
+	else if(player->y() < -2)						 { moveY = -32; iMax = 15; playerY = 32; }
+	else											 { return; }
+	
+	// Reset player movement vectors
+	player->vx(0);
+	player->vy(0);
 	
 	for(u16 i = 0 ; i < iMax ; i++) {
+		// Move player
+		if((i & 1) || !(i & 11)) player->x(player->x() + playerX); else player->x(player->x() + playerX - playerX / 16);
+		if((i & 1) || !(i & 15))  player->y(player->y() + playerY); else player->y(player->y() + playerY - playerY / 16);
+		
 		// Move view to scroll
 		MainWindow->GetDefaultView().Move(moveX, moveY);
 		
-		// Refresh window
+		// Refresh display
 		MainWindow->Clear();
 		refreshMaps(m_maps, moveX, moveY);
 		player->render();

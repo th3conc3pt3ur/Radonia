@@ -35,6 +35,18 @@ class Player : public Sprite {
 		// Test collisions function
 		void testCollisions();
 		
+		// Get player position
+		s16 x() const { return m_x; }
+		s16 y() const { return m_y; }
+		
+		// Set player position
+		void x(s16 x) { m_x = x; }
+		void y(s16 y) { m_y = y; }
+		
+		// Set player movement vectors
+		void vx(s8 vx) { m_vx = vx; }
+		void vy(s8 vy) { m_vy = vy; }
+		
 		// Player directions
 		class Direction {
 			public:

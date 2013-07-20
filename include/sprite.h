@@ -57,6 +57,9 @@ class Sprite {
 		bool animationAtEnd(int anim);
 		void playAnimation(s16 x, s16 y, int anim);
 		
+		// Sprite view
+		static sf::View *View;
+		
 	protected:
 		// Sprite image
 		sf::Image m_img;

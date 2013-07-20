@@ -29,7 +29,7 @@ class Game {
 		// Game main loop
 		void mainLoop();
 		
-		// Test scroll func
+		// Test for map scrolling
 		void scroll();
 		
 		// Main window

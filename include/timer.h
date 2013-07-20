@@ -37,12 +37,17 @@ class Timer {
 		// Initialization function
 		static void initTimers();
 		
-		// Time since initialization (in seconds)
+		// Time since global initialization (in seconds)
 		static sf::Clock clock;
 		
 	private:
+		// Time at initialization
 		int m_t;
+		
+		// Is the timer started?
 		bool m_isStarted;
+		
+		// Time elapsed since initialization
 		int m_tick;
 };
 

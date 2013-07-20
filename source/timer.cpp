@@ -24,6 +24,7 @@
 sf::Clock Timer::clock;
 
 Timer::Timer() {
+	// Initialize class members
 	m_t = clock.GetElapsedTime() * 1000;
 	m_isStarted = false;
 	m_tick = 0;

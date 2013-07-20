@@ -1,6 +1,4 @@
-- Improve, rewrite and comment sprite.cpp/h and timer.cpp/h
-- Player movements
-- Player collisions
+# Improve, rewrite and comment sprite.cpp/h
 - Indoor maps
 - Door system
 - Title screen
