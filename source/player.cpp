@@ -188,8 +188,8 @@ void Player::move() {
 	testCollisions();
 	
 	// Move the player
-	m_x += m_vx;
-	m_y += m_vy;
+	m_x += m_vx * PLAYER_SPEED;
+	m_y += m_vy * PLAYER_SPEED;
 	
 	// Reset movement vectors
 	m_vx = 0;
