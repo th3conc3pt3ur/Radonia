@@ -17,34 +17,19 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	
 ---------------------------------------------------------------------------------*/
-#include <iostream>
+#ifndef DOOR_H
+#define DOOR_H
 
-#include <SFML/System.hpp>
-#include <SFML/Audio.hpp>
-#include <SFML/Graphics.hpp>
+#define DOORS 2
 
-#include "types.h"
-#include "config.h"
-#include "map.h"
-#include "mapManager.h"
-#include "timer.h"
-#include "sprite.h"
-#include "player.h"
-#include "door.h"
-#include "game.h"
+typedef struct {
+	u16 mapID;
+	s16 x, y;
+	const u8 direction;
+	s16 nextDoorID;
+} Door;
 
-using namespace std;
+Door **initDoors();
+s16 findDoorID(s16 x, s16 y, u16 mapID);
 
-int main(int argc, char* argv[]) {
-	// Initialize game
-	Game *game = new Game;
-	
-	// Start the game loop
-	game->mainLoop();
-	
-	// Delete all game objects
-	delete game;
-	
-	return 0;
-}
-
+#endif // DOOR_H

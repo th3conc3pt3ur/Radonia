@@ -32,7 +32,8 @@ class Player : public Sprite {
 		// Render function
 		void render();
 		
-		// Test collisions function
+		// Test collisions functions
+		void doorCollisions();
 		void testCollisions();
 		
 		// Get player position

@@ -36,8 +36,14 @@ class Game {
 		static sf::RenderWindow *MainWindow;
 		static const sf::Input *Input;
 		
+		// Overworld maps array
+		static Map **maps;
+		
 		// Current map
 		static Map *currentMap;
+		
+		// Doors
+		static Door **doors;
 		
 		// Player
 		static Player *player;
@@ -46,9 +52,6 @@ class Game {
 		// Main loop states
 		bool m_continue;
 		bool m_paused;
-		
-		// Overworld maps array
-		Map **m_maps;
 };
 
 #endif // GAME_H

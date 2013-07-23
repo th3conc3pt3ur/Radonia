@@ -28,6 +28,7 @@
 #include "timer.h"
 #include "sprite.h"
 #include "player.h"
+#include "door.h"
 #include "game.h"
 
 Sprite_Animation::Sprite_Animation(int size, int *tabAnim, int delay) {

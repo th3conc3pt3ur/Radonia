@@ -18,6 +18,7 @@
 	
 ---------------------------------------------------------------------------------*/
 #include <iostream>
+#include <cstdio>
 
 #include <SFML/System.hpp>
 #include <SFML/Audio.hpp>
@@ -33,18 +34,23 @@
 #include "door.h"
 #include "game.h"
 
-using namespace std;
+Door** initDoors() {
+	Door** doors = new Door*[DOORS];
+	
+	doors[0] = new Door{0, 6 << 4, 3 << 4, Player::Direction::Down, 1};
+	doors[1] = new Door{1, 2 << 4, 7 << 4, Player::Direction::Up, 0};
+	
+	return doors;
+}
 
-int main(int argc, char* argv[]) {
-	// Initialize game
-	Game *game = new Game;
-	
-	// Start the game loop
-	game->mainLoop();
-	
-	// Delete all game objects
-	delete game;
-	
-	return 0;
+s16 findDoorID(s16 x, s16 y, u16 mapID) {
+	Door** doors = Game::doors;
+	for(u16 i = 0; i < DOORS ; i++) {
+		//printf("%d, %d, %d, %d | %d, %d\n", doors[i]->x >> 4, doors[i]->y >> 4, x >> 4, y >> 4, doors[i]->mapID, mapID);
+		if(((doors[i]->x >> 4 == x >> 4) || (doors[i]->x >> 4 == (x >> 4) + 1) || (doors[i]->x >> 4 == (x >> 4) - 1)) && ((doors[i]->y >> 4 == y >> 4) || (doors[i]->y >> 4 == (y >> 4) + 1)) && (doors[i]->mapID == mapID)) {
+			return i;
+		}
+	}
+	return -1;
 }
 

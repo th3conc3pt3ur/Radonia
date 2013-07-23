@@ -30,13 +30,16 @@
 #include "timer.h"
 #include "sprite.h"
 #include "player.h"
+#include "door.h"
 #include "game.h"
 
 using namespace std;
 
 sf::RenderWindow *Game::MainWindow = NULL;
 const sf::Input *Game::Input = NULL;
+Map **Game::maps = NULL;
 Map *Game::currentMap = NULL;
+Door **Game::doors = NULL;
 Player *Game::player = NULL;
 
 Game::Game() {
@@ -51,9 +54,12 @@ Game::Game() {
 	m_paused = false;
 	
 	// Initialize overworld maps
-	m_maps = initOverworldMaps();
+	maps = initOverworldMaps();
 	
-	currentMap = m_maps[0];
+	// Initialize doors
+	doors = initDoors();
+	
+	currentMap = maps[0];
 	
 	// Initialize player
 	player = new Player();
@@ -67,10 +73,13 @@ Game::~Game() {
 	delete Sprite::View;
 	
 	// Delete overworld maps
-	delete[] m_maps;
+	delete[] maps;
 	
 	// Delete player
 	delete player;
+	
+	// Delete doors
+	delete[] doors;
 }
 
 void Game::mainLoop() {
@@ -95,7 +104,7 @@ void Game::mainLoop() {
 		MainWindow->Clear();
 		
 		// Render overworld maps
-		renderMaps(m_maps);
+		renderMaps(maps);
 		
 		// Render player
 		player->render();
@@ -132,7 +141,7 @@ void Game::scroll() {
 		
 		// Refresh display
 		MainWindow->Clear();
-		refreshMaps(m_maps, moveX, moveY);
+		refreshMaps(maps, moveX, moveY);
 		player->render();
 		MainWindow->Display();
 	}
@@ -142,6 +151,6 @@ void Game::scroll() {
 	   && currentMap->x() + moveX / 32 >= 0
 	   && currentMap->x() + moveX / 32 < WM_SIZE
 	   && currentMap->y() + moveY / 32 >= 0
-	   && currentMap->y() + moveY / 32 < WM_SIZE) currentMap = m_maps[MAP_POS(currentMap->x() + moveX / 32, currentMap->y() + moveY / 32)];
+	   && currentMap->y() + moveY / 32 < WM_SIZE) currentMap = maps[MAP_POS(currentMap->x() + moveX / 32, currentMap->y() + moveY / 32)];
 }
 

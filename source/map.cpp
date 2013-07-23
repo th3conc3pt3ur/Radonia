@@ -34,6 +34,7 @@
 #include "timer.h"
 #include "sprite.h"
 #include "player.h"
+#include "door.h"
 #include "game.h"
 
 using namespace std;

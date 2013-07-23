@@ -9,6 +9,7 @@ Radonia=/home/quentin/Bureau/Projets/Radonia CD=. filter=".gitignore *.c *.h *.d
  README.textile
  include=include {
   config.h
+  door.h
   game.h
   map.h
   mapManager.h
@@ -18,6 +19,7 @@ Radonia=/home/quentin/Bureau/Projets/Radonia CD=. filter=".gitignore *.c *.h *.d
   types.h
  }
  source=source {
+  door.cpp
   game.cpp
   main.cpp
   map.cpp

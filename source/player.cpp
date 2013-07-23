@@ -18,6 +18,8 @@
 	
 ---------------------------------------------------------------------------------*/
 #include <iostream>
+#include <cstdio>
+#include <cstdlib>
 
 #include <SFML/System.hpp>
 #include <SFML/Audio.hpp>
@@ -30,6 +32,7 @@
 #include "timer.h"
 #include "sprite.h"
 #include "player.h"
+#include "door.h"
 #include "game.h"
 
 // Set animations table
@@ -50,8 +53,8 @@ int animations[12][4] = {
 
 Player::Player() : Sprite((char*)"graphics/characters/link.png") {
 	// Set class members
-	m_x = 620;
-	m_y = 460;
+	m_x = 120;
+	m_y = 160;
 	
 	m_vx = 0;
 	m_vy = 0;
@@ -70,6 +73,70 @@ Player::Player() : Sprite((char*)"graphics/characters/link.png") {
 }
 
 Player::~Player() {
+}
+
+bool inDoor = false;
+
+void Player::doorCollisions() {
+	printf("INDOOR: %d\n", inDoor);
+	if(((m_vy < 0) && ((inTiles((m_x + 5) >> 4, (m_y + 12) >> 4, doorUp)) || (inTiles((m_x + 10) >> 4, (m_y + 12) >> 4, doorUp))))
+	|| ((m_vy > 0) && ((inTiles((m_x + 5) >> 4, m_y >> 4, doorDown)) || (inTiles((m_x + 10) >> 4, m_y >> 4, doorDown))))
+	|| ((inTiles((m_x + 8) >> 4, (m_y + 8) >> 4, changeMapTiles)) && (!inDoor))) {
+		// Reset movement vectors
+		m_vx = 0;
+		m_vy = 0;
+		
+		// Search for the door
+		s16 doorID = findDoorID(m_x, m_y, Game::currentMap->id());
+		
+		// If door isn't found
+		if(doorID == -1) {
+			printf("Fatal error. Code: 02\n");
+			printf("%d ; %d", m_x >> 4, m_y >> 4);
+			exit(EXIT_FAILURE);
+		}
+		//printf("door id: %d\n", doorID);
+		
+		// Update all values
+		Game::currentMap = Game::maps[Game::doors[Game::doors[doorID]->nextDoorID]->mapID];
+		m_x = Game::doors[Game::doors[doorID]->nextDoorID]->x;
+		m_y = Game::doors[Game::doors[doorID]->nextDoorID]->y;
+		m_direction = Game::doors[Game::doors[doorID]->nextDoorID]->direction;
+		
+		// Move view to display map correctly
+		/*Game::MainWindow->GetDefaultView().SetCenter(Game::currentMap->x() * MAP_WIDTH * 16 + MAP_WIDTH * 16 / 2, Game::currentMap->y() * MAP_HEIGHT * 16 + MAP_HEIGHT * 16 / 2);
+		
+		// Initialize transition
+		sf::Image transition(MAP_WIDTH * 16, MAP_HEIGHT * 16, sf::Color(255, 255, 255, 255));
+		transition.SetSmooth(false);
+		
+		sf::Sprite renderTrans(transition);
+		
+		// Transition
+		for(u16 x = 0 ; x < MAP_WIDTH / 2 ; x++) {
+			Game::MainWindow->Clear();
+			render();
+			Game::currentMap->render();
+			renderTrans.SetImage(transition);
+			Game::MainWindow->Draw(renderTrans);
+			Game::MainWindow->Display();
+			for(u16 y = 0 ; y < MAP_HEIGHT * 16 ; y++) {
+				for(u16 xx = 0 ; xx < 16 ; xx++) {
+					transition.SetPixel(MAP_WIDTH / 2 + x + xx, y, sf::Color(0, 0, 0, 0));
+					transition.SetPixel(MAP_WIDTH / 2 - 1 - x + xx, y, sf::Color(0, 0, 0, 0));
+				}
+			}
+		}*/
+		
+		// The player is in the door
+		inDoor = true;
+	}
+	
+	if((!inTiles((m_x + 2) >> 4, (m_y + 2) >> 4, changeMapTiles))
+	&& (!inTiles((m_x + 14) >> 4, (m_y + 14) >> 4, changeMapTiles))) {
+		// The player isn't in the door anymore
+		inDoor = false;
+	}
 }
 
 // NOTE: In that func there is a lot of ">> 4", it's the same thing than "/ 16"
@@ -185,6 +252,7 @@ void Player::move() {
 	}
 	
 	// Test collisions
+	doorCollisions();
 	testCollisions();
 	
 	// Move the player

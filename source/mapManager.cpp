@@ -31,6 +31,7 @@
 #include "timer.h"
 #include "sprite.h"
 #include "player.h"
+#include "door.h"
 #include "game.h"
 
 /*	Tiles informations:
@@ -61,6 +62,15 @@
 u16 nonPassableTiles[12] = {
 	1,3,4,5,6,8,9,10,12,16,17,18
 };
+
+u16 changeMapTiles[2] = {
+	11,15
+};
+
+u16 doorUp[1] = {111};
+u16 doorDown[1] = {112};
+u16 doorLeft[1] = {113};
+u16 doorRight[1] = {114};
 
 u16 plainInfo[256] = {
 	0,0,0,0,0,0,0,3,2,0,0,0,0,0,0,0,

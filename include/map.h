@@ -32,6 +32,9 @@ class Map {
 		// Get tile id
 		u16 getTile(u16 tileX, u16 tileY);
 		
+		// Get map id
+		u16 id() const { return m_id; }
+		
 		// Get map position in the overworld
 		u16 x() const { return m_x; }
 		u16 y() const { return m_y; }
