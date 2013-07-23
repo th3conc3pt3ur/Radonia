@@ -159,6 +159,6 @@ void Game::scroll() {
 	   && currentMap->x() + moveX / 32 >= 0
 	   && currentMap->x() + moveX / 32 < WM_SIZE
 	   && currentMap->y() + moveY / 32 >= 0
-	   && currentMap->y() + moveY / 32 < WM_SIZE) currentMap = mapAreas[currentMap->area()][MAP_POS(currentMap->x() + moveX / 32, currentMap->y() + moveY / 32)];
+	   && currentMap->y() + moveY / 32 < WM_SIZE) currentMap = mapAreas[currentMap->area()][MAP_POS(currentMap->x() + moveX / 32, currentMap->y() + moveY / 32, currentMap->area())];
 }
 

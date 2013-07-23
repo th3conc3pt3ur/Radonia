@@ -40,7 +40,7 @@ Door** initDoors() {
 	doors[0] = new Door{0, 0, 6 << 4, 3 << 4, Player::Direction::Down, 1};
 	doors[1] = new Door{1, 0, (19 << 4) + 8, 20 << 4, Player::Direction::Up, 0};
 	
-	doors[2] = new Door{0, MAP_POS(0, 1), 19 << 4, 14 << 4, Player::Direction::Down, 3};
+	doors[2] = new Door{0, MAP_POS(0, 1, 0), 19 << 4, 14 << 4, Player::Direction::Down, 3};
 	doors[3] = new Door{2, 0, (15 << 4) + 8, 24 << 4, Player::Direction::Up, 2};
 	
 	return doors;

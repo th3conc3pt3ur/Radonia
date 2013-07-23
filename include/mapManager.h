@@ -20,12 +20,14 @@
 #ifndef MAPMANAGER_H
 #define MAPMANAGER_H
 
-#define MAP_POS(x, y) ((x) + (y) * WM_SIZE)
+// Map position in the area
+#define MAP_POS(x, y, area) (u16)((x) + (y) * sqrt(areaSizes[(area)]))
 
 // Tiles tables
 extern u16 nonPassableTiles[13];
 extern u16 changeMapTiles[3];
 
+// Doors
 extern u16 doorUp[2];
 extern u16 doorDown[2];
 extern u16 doorLeft[2];
@@ -43,8 +45,7 @@ u16 _mid(u16 area, u16 id);
 // Map init function
 Map*** initMaps();
 
-// Map update functions
-void renderMaps(Map **maps);
+// Map update function
 void refreshMaps(Map **maps, s16 moveX, s16 moveY);
 
 // Functions for tiles

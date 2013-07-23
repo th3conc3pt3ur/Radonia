@@ -178,10 +178,10 @@ Map*** initMaps() {
 	/* Initialize area maps */
 	
 	// Overworld
-	mapAreas[0][MAP_POS(0, 0)] = new Map(Game::tilesets[0], plainInfo, (char*)"maps/a1.map", MAP_WIDTH, MAP_HEIGHT, 16, 16, 0, 0);
-	mapAreas[0][MAP_POS(1, 0)] = new Map(Game::tilesets[0], plainInfo, (char*)"maps/a2.map", MAP_WIDTH, MAP_HEIGHT, 16, 16, 1, 0);
-	mapAreas[0][MAP_POS(0, 1)] = new Map(Game::tilesets[0], plainInfo, (char*)"maps/b1.map", MAP_WIDTH, MAP_HEIGHT, 16, 16, 0, 1);
-	mapAreas[0][MAP_POS(1, 1)] = new Map(Game::tilesets[0], plainInfo, (char*)"maps/b2.map", MAP_WIDTH, MAP_HEIGHT, 16, 16, 1, 1);
+	mapAreas[0][MAP_POS(0, 0, 0)] = new Map(Game::tilesets[0], plainInfo, (char*)"maps/a1.map", MAP_WIDTH, MAP_HEIGHT, 16, 16, 0, 0);
+	mapAreas[0][MAP_POS(1, 0, 0)] = new Map(Game::tilesets[0], plainInfo, (char*)"maps/a2.map", MAP_WIDTH, MAP_HEIGHT, 16, 16, 1, 0);
+	mapAreas[0][MAP_POS(0, 1, 0)] = new Map(Game::tilesets[0], plainInfo, (char*)"maps/b1.map", MAP_WIDTH, MAP_HEIGHT, 16, 16, 0, 1);
+	mapAreas[0][MAP_POS(1, 1, 0)] = new Map(Game::tilesets[0], plainInfo, (char*)"maps/b2.map", MAP_WIDTH, MAP_HEIGHT, 16, 16, 1, 1);
 	
 	// Indoor maps
 	mapAreas[1][0] = new Map(Game::tilesets[1], indoorInfo, (char*)"maps/in1.map", MAP_WIDTH, MAP_HEIGHT, 16, 16, 0, 0, 1);
@@ -189,24 +189,24 @@ Map*** initMaps() {
 	
 	/* Caves */
 	
-	mapAreas[2][MAP_POS(0, 0)] = new Map(Game::tilesets[2], undergroundInfo, (char*)"maps/ca1a1.map", MAP_WIDTH, MAP_HEIGHT, 16, 16, 0, 0, 2);
-	mapAreas[2][MAP_POS(1, 0)] = new Map(Game::tilesets[2], undergroundInfo, (char*)"maps/ca1a2.map", MAP_WIDTH, MAP_HEIGHT, 16, 16, 1, 0, 2);
-	mapAreas[2][MAP_POS(0, 1)] = NULL;
-	mapAreas[2][MAP_POS(1, 1)] = new Map(Game::tilesets[2], undergroundInfo, (char*)"maps/ca1b2.map", MAP_WIDTH, MAP_HEIGHT, 16, 16, 1, 1, 2);
+	mapAreas[2][MAP_POS(0, 0, 2)] = new Map(Game::tilesets[2], undergroundInfo, (char*)"maps/ca1a1.map", MAP_WIDTH, MAP_HEIGHT, 16, 16, 0, 0, 2);
+	mapAreas[2][MAP_POS(1, 0, 2)] = new Map(Game::tilesets[2], undergroundInfo, (char*)"maps/ca1a2.map", MAP_WIDTH, MAP_HEIGHT, 16, 16, 1, 0, 2);
+	mapAreas[2][MAP_POS(0, 1, 2)] = NULL;
+	mapAreas[2][MAP_POS(1, 1, 2)] = new Map(Game::tilesets[2], undergroundInfo, (char*)"maps/ca1b2.map", MAP_WIDTH, MAP_HEIGHT, 16, 16, 1, 1, 2);
 	
 	return mapAreas;
 }
 
 void refreshMaps(Map **maps, s16 moveX, s16 moveY) {
 	// Get next map
-	Map *nextMap = maps[MAP_POS(Game::currentMap->x() + moveX / 32, Game::currentMap->y() + moveY / 32)];
+	Map *nextMap = maps[MAP_POS(Game::currentMap->x() + moveX / 32, Game::currentMap->y() + moveY / 32, Game::currentMap->area())];
 	
 	// Next map must be in the map
 	if(nextMap == NULL
-	   || MAP_POS(Game::currentMap->x() + moveX / 32, Game::currentMap->y()) < 0
-	   || MAP_POS(Game::currentMap->x() + moveX / 32, Game::currentMap->y()) >= areaSizes[Game::currentMap->area()]
-	   || MAP_POS(Game::currentMap->x(), Game::currentMap->y() + moveY / 32) < 0
-	   || MAP_POS(Game::currentMap->x(), Game::currentMap->y() + moveY / 32) >= areaSizes[Game::currentMap->area()])
+	   || MAP_POS(Game::currentMap->x() + moveX / 32, Game::currentMap->y(), Game::currentMap->area()) < 0
+	   || MAP_POS(Game::currentMap->x() + moveX / 32, Game::currentMap->y(), Game::currentMap->area()) >= areaSizes[Game::currentMap->area()]
+	   || MAP_POS(Game::currentMap->x(), Game::currentMap->y() + moveY / 32, Game::currentMap->area()) < 0
+	   || MAP_POS(Game::currentMap->x(), Game::currentMap->y() + moveY / 32, Game::currentMap->area()) >= areaSizes[Game::currentMap->area()])
 		return;
 	
 	// Render maps

@@ -28,6 +28,6 @@
 #define MAP_WIDTH 40
 #define MAP_HEIGHT 30
 
-#define PLAYER_SPEED 1
+#define PLAYER_SPEED 3
 
 #endif // CONFIG_H
