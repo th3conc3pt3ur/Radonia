@@ -32,6 +32,7 @@
 #include "game.h"
 
 Sprite_Animation::Sprite_Animation(int size, int *tabAnim, int delay) {
+	// Set class members
 	m_size = size;
 	m_tabAnim = tabAnim;
 	m_delay = delay;
@@ -40,6 +41,7 @@ Sprite_Animation::Sprite_Animation(int size, int *tabAnim, int delay) {
 }
 
 Sprite_Animation::~Sprite_Animation() {
+	// Delete timer
 	delete m_tmr;
 }
 
@@ -49,11 +51,13 @@ Sprite::Sprite(char *filename, u8 frameSize) {
 	// Initialize sprite view
 	if(View == NULL) View = new sf::View(sf::FloatRect(0, 0, 640, 480));
 	
+	// Load sprite
 	m_img.LoadFromFile(filename);
 	m_img.SetSmooth(false);
 	
 	m_spr.SetImage(m_img);
 	
+	// Set frame size
 	m_frameSize = frameSize;
 }
 
@@ -61,16 +65,21 @@ Sprite::~Sprite() {
 }
 
 void Sprite::drawFrame(s16 x, s16 y, int frame) {
+	// Get frame position
 	u16 frameY = (frame / (m_img.GetWidth() / m_frameSize)) * m_frameSize;
 	u16 frameX = (frame - (frameY / m_frameSize) * (m_img.GetWidth() / m_frameSize)) * m_frameSize;
 	
+	// Setup sprite
 	m_spr.SetPosition(x, y);
 	m_spr.SetSubRect(sf::IntRect(frameX, frameY, frameX + m_frameSize, frameY + m_frameSize));
 	
+	// Set view for drawing sprites
 	Game::MainWindow->SetView(*View);
 	
+	// Draw the sprite
 	Game::MainWindow->Draw(m_spr);
 	
+	// Reset the view
 	Game::MainWindow->SetView(Game::MainWindow->GetDefaultView());
 }
 
