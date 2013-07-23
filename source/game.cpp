@@ -37,6 +37,8 @@ using namespace std;
 
 sf::RenderWindow *Game::MainWindow = NULL;
 const sf::Input *Game::Input = NULL;
+sf::Image **Game::tilesets = NULL;
+Map ***Game::mapAreas = NULL;
 Map **Game::maps = NULL;
 Map *Game::currentMap = NULL;
 Door **Game::doors = NULL;
@@ -53,8 +55,12 @@ Game::Game() {
 	m_continue = true;
 	m_paused = false;
 	
-	// Initialize overworld maps
-	maps = initOverworldMaps();
+	// Initialize tilesets
+	tilesets = initTilesets();
+	
+	// Initialize maps
+	mapAreas = initMaps();
+	maps = mapAreas[0];
 	
 	// Initialize doors
 	doors = initDoors();
@@ -72,8 +78,8 @@ Game::~Game() {
 	// Delete sprite view
 	delete Sprite::View;
 	
-	// Delete overworld maps
-	delete[] maps;
+	// Delete maps
+	delete[] mapAreas;
 	
 	// Delete player
 	delete player;

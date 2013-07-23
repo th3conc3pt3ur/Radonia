@@ -41,7 +41,7 @@ using namespace std;
 
 int Map::nbMaps = 0;
 
-Map::Map(sf::Image *tileset, u16 *tilesetInfo, char *filename, u16 width, u16 height, u16 tileWidth, u16 tileHeight, u16 x, u16 y) {
+Map::Map(sf::Image *tileset, u16 *tilesetInfo, char *filename, u16 width, u16 height, u16 tileWidth, u16 tileHeight, u16 x, u16 y, u16 area) {
 	// Set map id
 	m_id = nbMaps;
 	
@@ -60,6 +60,8 @@ Map::Map(sf::Image *tileset, u16 *tilesetInfo, char *filename, u16 width, u16 he
 	
 	m_x = x;
 	m_y = y;
+	
+	m_area = area;
 	
 	// Make temporary table to get map file data
 	u16* table = (u16*)malloc(m_width * m_height * sizeof(u16));

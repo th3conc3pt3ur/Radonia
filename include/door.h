@@ -23,6 +23,7 @@
 #define DOORS 2
 
 typedef struct {
+	u16 mapArea;
 	u16 mapID;
 	s16 x, y;
 	const u8 direction;
@@ -30,6 +31,6 @@ typedef struct {
 } Door;
 
 Door **initDoors();
-s16 findDoorID(s16 x, s16 y, u16 mapID);
+s16 findDoorID(s16 x, s16 y, u16 mapID, u16 mapArea);
 
 #endif // DOOR_H

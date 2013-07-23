@@ -20,7 +20,10 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
+#define MAP_AREAS 3
+
 #define WM_SIZE 2
+#define INDOOR_MAPS 2
 
 #define MAP_WIDTH 40
 #define MAP_HEIGHT 30

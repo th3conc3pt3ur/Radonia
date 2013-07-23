@@ -86,7 +86,7 @@ void Player::doorCollisions() {
 		m_vy = 0;
 		
 		// Search for the door
-		s16 doorID = findDoorID(m_x, m_y, Game::currentMap->id());
+		s16 doorID = findDoorID(m_x, m_y, Game::currentMap->id(), Game::currentMap->area());
 		
 		// If door isn't found
 		if(doorID == -1) {
@@ -105,7 +105,7 @@ void Player::doorCollisions() {
 		Game::MainWindow->Display();
 		
 		// Update all values
-		Game::currentMap = Game::maps[Game::doors[Game::doors[doorID]->nextDoorID]->mapID];
+		Game::currentMap = Game::mapAreas[Game::doors[Game::doors[doorID]->nextDoorID]->mapArea][Game::doors[Game::doors[doorID]->nextDoorID]->mapID];
 		m_x = Game::doors[Game::doors[doorID]->nextDoorID]->x;
 		m_y = Game::doors[Game::doors[doorID]->nextDoorID]->y;
 		m_direction = Game::doors[Game::doors[doorID]->nextDoorID]->direction;

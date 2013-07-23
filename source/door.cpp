@@ -37,17 +37,16 @@
 Door** initDoors() {
 	Door** doors = new Door*[DOORS];
 	
-	doors[0] = new Door{0, 6 << 4, 3 << 4, Player::Direction::Down, 1};
-	doors[1] = new Door{1, 2 << 4, 7 << 4, Player::Direction::Up, 0};
+	doors[0] = new Door{0, 0, 6 << 4, 3 << 4, Player::Direction::Down, 1};
+	doors[1] = new Door{1, 0, (19 << 4) + 8, 20 << 4, Player::Direction::Up, 0};
 	
 	return doors;
 }
 
-s16 findDoorID(s16 x, s16 y, u16 mapID) {
+s16 findDoorID(s16 x, s16 y, u16 mapID, u16 mapArea) {
 	Door** doors = Game::doors;
 	for(u16 i = 0; i < DOORS ; i++) {
-		//printf("%d, %d, %d, %d | %d, %d\n", doors[i]->x >> 4, doors[i]->y >> 4, x >> 4, y >> 4, doors[i]->mapID, mapID);
-		if(((doors[i]->x >> 4 == x >> 4) || (doors[i]->x >> 4 == (x >> 4) + 1) || (doors[i]->x >> 4 == (x >> 4) - 1)) && ((doors[i]->y >> 4 == y >> 4) || (doors[i]->y >> 4 == (y >> 4) + 1)) && (doors[i]->mapID == mapID)) {
+		if(((doors[i]->x >> 4 == x >> 4) || (doors[i]->x >> 4 == (x >> 4) + 1) || (doors[i]->x >> 4 == (x >> 4) - 1)) && ((doors[i]->y >> 4 == y >> 4) || (doors[i]->y >> 4 == (y >> 4) + 1)) && (doors[i]->mapArea == mapArea) && (_mid(doors[i]->mapArea, doors[i]->mapID) == mapID)) {
 			return i;
 		}
 	}

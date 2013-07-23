@@ -36,6 +36,12 @@ class Game {
 		static sf::RenderWindow *MainWindow;
 		static const sf::Input *Input;
 		
+		// Tilesets array
+		static sf::Image **tilesets;
+		
+		// Map areas array
+		static Map ***mapAreas;
+		
 		// Overworld maps array
 		static Map **maps;
 		

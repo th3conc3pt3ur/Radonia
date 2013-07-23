@@ -133,30 +133,68 @@ u16 undergroundInfo[256] = {
 	8,9,10,0,0,0,0,0,0,0,0,0,0,0,0,0
 };
 
-Map** initOverworldMaps() {
-	// Initialize overworld maps array
-	Map **maps = new Map*[WM_SIZE * WM_SIZE];
+sf::Image **initTilesets() {
+	// Initialize tileset array
+	sf::Image **tilesets = new sf::Image*[3];
 	
-	// Initialize default tileset
-	sf::Image *tileset = new sf::Image;
-	tileset->LoadFromFile("graphics/tilesets/plain.png");
-	tileset->SetSmooth(false);
+	/* Initialize tilesets */
 	
-	// Load maps
-	for(u16 y = 0 ; y < WM_SIZE ; y++) {
-		for(u16 x = 0 ; x < WM_SIZE ; x++) {
-			// Format filename string to match maps filenames
-			char *filename = new char[13];
-			sprintf(filename, "maps/%c%d.map", y+'a', x+1);
-			
-			// Load map into maps array
-			maps[MAP_POS(x, y)] = new Map(tileset, plainInfo, filename, 40, 30, 16, 16, x, y);
-		}
-	}
+	// Plain
+	tilesets[0] = new sf::Image;
+	tilesets[0]->LoadFromFile("graphics/tilesets/plain.png");
+	tilesets[0]->SetSmooth(false);
 	
-	return maps;
+	// Indoor
+	tilesets[1] = new sf::Image;
+	tilesets[1]->LoadFromFile("graphics/tilesets/indoor.png");
+	tilesets[1]->SetSmooth(false);
+	
+	// Underground
+	tilesets[2] = new sf::Image;
+	tilesets[2]->LoadFromFile("graphics/tilesets/underground.png");
+	tilesets[2]->SetSmooth(false);
+	
+	return tilesets;
 }
 
+u16 areaSizes[MAP_AREAS] = {WM_SIZE * WM_SIZE, INDOOR_MAPS, 3};
+
+u16 _mid(u16 area, u16 id) {
+	u16 tempID = id;
+	for(u16 i = 0 ; i < area ; i--)
+		tempID += areaSizes[i];
+	return tempID;
+}
+
+Map*** initMaps() {
+	// Initialize global array
+	Map ***mapAreas = new Map**[MAP_AREAS];
+	
+	// Initialize each area array
+	mapAreas[0] = new Map*[WM_SIZE * WM_SIZE];
+	mapAreas[1] = new Map*[INDOOR_MAPS];
+	mapAreas[2] = new Map*[areaSizes[2]];
+	
+	/* Initialize area maps */
+	
+	// Overworld
+	mapAreas[0][0] = new Map(Game::tilesets[0], plainInfo, (char*)"maps/a1.map", MAP_WIDTH, MAP_HEIGHT, 16, 16, 0, 0);
+	mapAreas[0][1] = new Map(Game::tilesets[0], plainInfo, (char*)"maps/a2.map", MAP_WIDTH, MAP_HEIGHT, 16, 16, 1, 0);
+	mapAreas[0][2] = new Map(Game::tilesets[0], plainInfo, (char*)"maps/b1.map", MAP_WIDTH, MAP_HEIGHT, 16, 16, 0, 1);
+	mapAreas[0][3] = new Map(Game::tilesets[0], plainInfo, (char*)"maps/b2.map", MAP_WIDTH, MAP_HEIGHT, 16, 16, 1, 1);
+	
+	// Indoor maps
+	mapAreas[1][0] = new Map(Game::tilesets[1], indoorInfo, (char*)"maps/in1.map", MAP_WIDTH, MAP_HEIGHT, 16, 16, 0, 0, 1);
+	mapAreas[1][1] = new Map(Game::tilesets[1], indoorInfo, (char*)"maps/in2.map", MAP_WIDTH, MAP_HEIGHT, 16, 16, 0, 0, 1);
+	
+	/* Caves */
+	
+	//mapAreas[2][0] = new Map(Game::tilesets[2], undergroundInfo, (char*)"maps/ca1a1.map", MAP_WIDTH, MAP_HEIGHT, 16, 16, 0, 0, 2);
+	//mapAreas[2][1] = new Map(Game::tilesets[2], undergroundInfo, (char*)"maps/ca1a2.map", MAP_WIDTH, MAP_HEIGHT, 16, 16, 1, 0, 2);
+	//mapAreas[2][2] = new Map(Game::tilesets[2], undergroundInfo, (char*)"maps/ca1b2.map", MAP_WIDTH, MAP_HEIGHT, 16, 16, 1, 1, 2);
+	
+	return mapAreas;
+}
 
 void renderMaps(Map **maps) {
 	// Get current map position

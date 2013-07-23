@@ -23,7 +23,7 @@
 class Map {
 	public:
 		// Constructor and destructor
-		Map(sf::Image *tileset, u16 *tilesetInfo, char *filename, u16 width, u16 height, u16 tileWidth, u16 tileHeight, u16 mapX, u16 mapY);
+		Map(sf::Image *tileset, u16 *tilesetInfo, char *filename, u16 width, u16 height, u16 tileWidth, u16 tileHeight, u16 mapX, u16 mapY, u16 area = 0); // area 0 is overworld
 		~Map();
 		
 		// Map render function
@@ -38,6 +38,9 @@ class Map {
 		// Get map position in the overworld
 		u16 x() const { return m_x; }
 		u16 y() const { return m_y; }
+		
+		// Get map area
+		u16 area() const { return m_area; }
 		
 		// Get tileset information
 		u16 *tilesetInfo() const { return m_tilesetInfo; }
@@ -64,9 +67,12 @@ class Map {
 		u16 m_tileWidth;
 		u16 m_tileHeight;
 		
-		// Map position in the overworld
+		// Map position in area
 		u16 m_x;
 		u16 m_y;
+		
+		// Map area
+		u16 m_area;
 };
 
 #endif // MAP_H

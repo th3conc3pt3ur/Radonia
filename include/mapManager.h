@@ -31,8 +31,17 @@ extern u16 doorDown[2];
 extern u16 doorLeft[2];
 extern u16 doorRight[2];
 
-// Map init functions
-Map** initOverworldMaps();
+// Tileset init function
+sf::Image **initTilesets();
+
+// Sizes of map areas
+extern u16 areaSizes[MAP_AREAS];
+
+// Get map id from area
+u16 _mid(u16 area, u16 id);
+
+// Map init function
+Map*** initMaps();
 
 // Map update functions
 void renderMaps(Map **maps);
