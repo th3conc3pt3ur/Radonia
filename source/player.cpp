@@ -78,7 +78,6 @@ Player::~Player() {
 bool inDoor = false;
 
 void Player::doorCollisions() {
-	printf("INDOOR: %d\n", inDoor);
 	if(((m_vy < 0) && ((inTiles((m_x + 5) >> 4, (m_y + 12) >> 4, doorUp)) || (inTiles((m_x + 10) >> 4, (m_y + 12) >> 4, doorUp))))
 	|| ((m_vy > 0) && ((inTiles((m_x + 5) >> 4, m_y >> 4, doorDown)) || (inTiles((m_x + 10) >> 4, m_y >> 4, doorDown))))
 	|| ((inTiles((m_x + 8) >> 4, (m_y + 8) >> 4, changeMapTiles)) && (!inDoor))) {
@@ -91,11 +90,19 @@ void Player::doorCollisions() {
 		
 		// If door isn't found
 		if(doorID == -1) {
-			printf("Fatal error. Code: 02\n");
-			printf("%d ; %d", m_x >> 4, m_y >> 4);
-			exit(EXIT_FAILURE);
+			return;
 		}
-		//printf("door id: %d\n", doorID);
+		
+		// Initialize transition
+		sf::Shape rect1 = sf::Shape::Rectangle(0, 0, MAP_WIDTH * 16 / 2, MAP_HEIGHT * 16, sf::Color(255, 255, 255));
+		sf::Shape rect2 = sf::Shape::Rectangle(MAP_WIDTH * 16 / 2, 0, MAP_WIDTH * 16, MAP_HEIGHT * 16, sf::Color(255, 255, 255));
+		
+		Game::MainWindow->Clear();
+		Game::MainWindow->SetView(*Sprite::View);
+		Game::MainWindow->Draw(rect1);
+		Game::MainWindow->Draw(rect2);
+		Game::MainWindow->SetView(Game::MainWindow->GetDefaultView());
+		Game::MainWindow->Display();
 		
 		// Update all values
 		Game::currentMap = Game::maps[Game::doors[Game::doors[doorID]->nextDoorID]->mapID];
@@ -104,29 +111,22 @@ void Player::doorCollisions() {
 		m_direction = Game::doors[Game::doors[doorID]->nextDoorID]->direction;
 		
 		// Move view to display map correctly
-		/*Game::MainWindow->GetDefaultView().SetCenter(Game::currentMap->x() * MAP_WIDTH * 16 + MAP_WIDTH * 16 / 2, Game::currentMap->y() * MAP_HEIGHT * 16 + MAP_HEIGHT * 16 / 2);
-		
-		// Initialize transition
-		sf::Image transition(MAP_WIDTH * 16, MAP_HEIGHT * 16, sf::Color(255, 255, 255, 255));
-		transition.SetSmooth(false);
-		
-		sf::Sprite renderTrans(transition);
+		Game::MainWindow->GetDefaultView().SetCenter(Game::currentMap->x() * MAP_WIDTH * 16 + MAP_WIDTH * 16 / 2, Game::currentMap->y() * MAP_HEIGHT * 16 + MAP_HEIGHT * 16 / 2);
 		
 		// Transition
-		for(u16 x = 0 ; x < MAP_WIDTH / 2 ; x++) {
+		for(u16 x = 0 ; x <= MAP_HEIGHT / 2 ; x++) {
+			rect1.Move(-32, 0);
+			rect2.Move(32, 0);
+			
 			Game::MainWindow->Clear();
-			render();
 			Game::currentMap->render();
-			renderTrans.SetImage(transition);
-			Game::MainWindow->Draw(renderTrans);
+			render();
+			Game::MainWindow->SetView(*Sprite::View);
+			Game::MainWindow->Draw(rect1);
+			Game::MainWindow->Draw(rect2);
+			Game::MainWindow->SetView(Game::MainWindow->GetDefaultView());
 			Game::MainWindow->Display();
-			for(u16 y = 0 ; y < MAP_HEIGHT * 16 ; y++) {
-				for(u16 xx = 0 ; xx < 16 ; xx++) {
-					transition.SetPixel(MAP_WIDTH / 2 + x + xx, y, sf::Color(0, 0, 0, 0));
-					transition.SetPixel(MAP_WIDTH / 2 - 1 - x + xx, y, sf::Color(0, 0, 0, 0));
-				}
-			}
-		}*/
+		}
 		
 		// The player is in the door
 		inDoor = true;

@@ -23,13 +23,13 @@
 #define MAP_POS(x, y) ((x) + (y) * WM_SIZE)
 
 // Tiles tables
-extern u16 nonPassableTiles[12];
-extern u16 changeMapTiles[2];
+extern u16 nonPassableTiles[13];
+extern u16 changeMapTiles[3];
 
-extern u16 doorUp[1];
-extern u16 doorDown[1];
-extern u16 doorLeft[1];
-extern u16 doorRight[1];
+extern u16 doorUp[2];
+extern u16 doorDown[2];
+extern u16 doorLeft[2];
+extern u16 doorRight[2];
 
 // Map init functions
 Map** initOverworldMaps();
@@ -39,8 +39,8 @@ void renderMaps(Map **maps);
 void refreshMaps(Map **maps, s16 moveX, s16 moveY);
 
 // Functions for tiles
-bool inTable(u16 tiles[], u16 id);
+bool inTable(u16 *tiles, u16 id);
 bool passable(s16 tileX, s16 tileY);
-bool inTiles(s16 tileX, s16 tileY, u16 tiles[]);
+bool inTiles(s16 tileX, s16 tileY, u16 *tiles);
 
 #endif // MAPMANAGER_H
