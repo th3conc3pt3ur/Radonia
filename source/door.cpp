@@ -40,12 +40,16 @@ Door** initDoors() {
 	doors[0] = new Door{0, 0, 6 << 4, 3 << 4, Player::Direction::Down, 1};
 	doors[1] = new Door{1, 0, (19 << 4) + 8, 20 << 4, Player::Direction::Up, 0};
 	
+	doors[2] = new Door{0, MAP_POS(0, 1), 19 << 4, 14 << 4, Player::Direction::Down, 3};
+	doors[3] = new Door{2, 0, (15 << 4) + 8, 24 << 4, Player::Direction::Up, 2};
+	
 	return doors;
 }
 
 s16 findDoorID(s16 x, s16 y, u16 mapID, u16 mapArea) {
 	Door** doors = Game::doors;
 	for(u16 i = 0; i < DOORS ; i++) {
+		//std::cout << "(" << (doors[i]->x >> 4) << ";" << (doors[i]->y >> 4) << ") & " << doors[i]->mapArea << " & " << _mid(doors[i]->mapArea, doors[i]->mapID) << " | (" << (x >> 4) << ";" << (y >> 4) << ") & " << mapArea << " & " << mapID << std::endl;
 		if(((doors[i]->x >> 4 == x >> 4) || (doors[i]->x >> 4 == (x >> 4) + 1) || (doors[i]->x >> 4 == (x >> 4) - 1)) && ((doors[i]->y >> 4 == y >> 4) || (doors[i]->y >> 4 == (y >> 4) + 1)) && (doors[i]->mapArea == mapArea) && (_mid(doors[i]->mapArea, doors[i]->mapID) == mapID)) {
 			return i;
 		}

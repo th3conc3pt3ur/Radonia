@@ -109,8 +109,8 @@ void Game::mainLoop() {
 		// Clear screen
 		MainWindow->Clear();
 		
-		// Render overworld maps
-		renderMaps(maps);
+		// Render current map
+		Game::currentMap->render();
 		
 		// Render player
 		player->render();
@@ -127,10 +127,10 @@ void Game::scroll() {
 	s16 playerX = 0;
 	s16 playerY = 0;
 	
-	if(player->x() > (MAP_WIDTH - 1) * 16 + 2)		 { moveX = 32; iMax = 20; playerX = -32; }
-	else if(player->x() < -2)						 { moveX = -32; iMax = 20; playerX = 32; }
-	else if(player->y() > (MAP_HEIGHT - 1) * 16 + 1) { moveY = 32; iMax = 15; playerY = -32; }
-	else if(player->y() < -2)						 { moveY = -32; iMax = 15; playerY = 32; }
+	if(player->x() > (MAP_WIDTH - 1) * 16 + 2)		 { moveX =  32; iMax = 20; playerX = -32; }
+	else if(player->x() < -2)						 { moveX = -32; iMax = 20; playerX =  32; }
+	else if(player->y() > (MAP_HEIGHT - 1) * 16 + 1) { moveY =  32; iMax = 15; playerY = -32; }
+	else if(player->y() < -2)						 { moveY = -32; iMax = 15; playerY =  32; }
 	else											 { return; }
 	
 	// Reset player movement vectors
@@ -140,16 +140,18 @@ void Game::scroll() {
 	for(u16 i = 0 ; i < iMax ; i++) {
 		// Move player
 		if((i & 1) || !(i & 11)) player->x(player->x() + playerX); else player->x(player->x() + playerX - playerX / 16);
-		if((i & 1) || !(i & 15))  player->y(player->y() + playerY); else player->y(player->y() + playerY - playerY / 16);
+		if((i & 1) || !(i & 15)) player->y(player->y() + playerY); else player->y(player->y() + playerY - playerY / 16);
 		
 		// Move view to scroll
 		MainWindow->GetDefaultView().Move(moveX, moveY);
 		
-		// Refresh display
-		MainWindow->Clear();
-		refreshMaps(maps, moveX, moveY);
-		player->render();
-		MainWindow->Display();
+		// Refresh display on time in two
+		if(i & 1) {
+			MainWindow->Clear();
+			refreshMaps(mapAreas[currentMap->area()], moveX, moveY);
+			player->render();
+			MainWindow->Display();
+		}
 	}
 	
 	// Update currentMap variable
@@ -157,6 +159,6 @@ void Game::scroll() {
 	   && currentMap->x() + moveX / 32 >= 0
 	   && currentMap->x() + moveX / 32 < WM_SIZE
 	   && currentMap->y() + moveY / 32 >= 0
-	   && currentMap->y() + moveY / 32 < WM_SIZE) currentMap = maps[MAP_POS(currentMap->x() + moveX / 32, currentMap->y() + moveY / 32)];
+	   && currentMap->y() + moveY / 32 < WM_SIZE) currentMap = mapAreas[currentMap->area()][MAP_POS(currentMap->x() + moveX / 32, currentMap->y() + moveY / 32)];
 }
 
