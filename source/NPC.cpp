@@ -72,6 +72,13 @@ NPC::~NPC() {
 }
 
 void NPC::move() {
+	// Move NPC
+	m_x += m_vx;
+	m_y += m_vy;
+	
+	// Reset movement vectors
+	m_vx = 0;
+	m_vy = 0;
 }
 
 void NPC::render() {
