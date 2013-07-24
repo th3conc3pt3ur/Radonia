@@ -27,8 +27,8 @@
 #include "config.h"
 #include "timer.h"
 #include "sprite.h"
-#include "player.h"
 #include "NPC.h"
+#include "player.h"
 #include "map.h"
 #include "mapManager.h"
 #include "door.h"
@@ -60,6 +60,9 @@ Game::Game() {
 	// Initialize tilesets
 	tilesets = initTilesets();
 	
+	// Initialize NPCs
+	NPCs = NPC::initAll();
+	
 	// Initialize maps
 	mapAreas = initMaps();
 	maps = mapAreas[0];
@@ -68,9 +71,6 @@ Game::Game() {
 	doors = initDoors();
 	
 	currentMap = maps[0];
-	
-	// Initialize NPCs
-	NPCs = NPC::initAll();
 	
 	// Initialize player
 	player = new Player();
@@ -111,21 +111,17 @@ void Game::mainLoop() {
 		// Test for map scrolling
 		scroll();
 		
-		// Move player
-		player->move();
+		// Player's actions
+		player->actions();
 		
 		// Clear screen
 		MainWindow->Clear();
 		
 		// Render current map
-		Game::currentMap->render();
+		currentMap->render();
 		
-		for(u16 i = 0 ; i < NB_NPCs ; i++) {
-			if(NPCs[i]->id() == currentMap->id()) {
-				NPCs[i]->move();
-				NPCs[i]->render();
-			}
-		}
+		// Render NPCs
+		currentMap->renderNPCs();
 		
 		// Render player
 		player->render();

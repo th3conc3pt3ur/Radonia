@@ -29,8 +29,8 @@
 #include "config.h"
 #include "timer.h"
 #include "sprite.h"
-#include "player.h"
 #include "NPC.h"
+#include "player.h"
 #include "map.h"
 #include "mapManager.h"
 #include "door.h"
@@ -43,6 +43,8 @@ int Player_animations[12][4] = {
 	{6,2},
 	{7,3}
 };
+
+NPC *Player::collidedNPC = NULL;
 
 Player::Player() : Sprite((char*)"graphics/characters/link.png") {
 	// Set class members
@@ -195,7 +197,7 @@ void Player::testCollisions() {
 	}
 }
 
-void Player::move() {
+void Player::actions() {
 	if(Game::Input->IsKeyDown(sf::Key::Up)) {
 		// Set vertical movement vector negative
 		m_vy = -1;
@@ -251,6 +253,10 @@ void Player::move() {
 	// Reset movement vectors
 	m_vx = 0;
 	m_vy = 0;
+	
+	if(Game::Input->IsKeyDown(sf::Key::A) && collidedNPC) {
+		collidedNPC->speak();
+	}
 }
 
 void Player::render() {

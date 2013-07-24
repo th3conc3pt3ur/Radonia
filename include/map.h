@@ -35,6 +35,9 @@ class Map {
 		// Get map id
 		u16 id() const { return m_id; }
 		
+		// Get tileset information
+		u16 *tilesetInfo() const { return m_tilesetInfo; }
+		
 		// Get map position in the area
 		u16 x() const { return m_x; }
 		u16 y() const { return m_y; }
@@ -42,8 +45,11 @@ class Map {
 		// Get map area
 		u16 area() const { return m_area; }
 		
-		// Get tileset information
-		u16 *tilesetInfo() const { return m_tilesetInfo; }
+		// Get NPCs
+		std::vector<NPC*> NPCs() const { return m_NPCs; }
+		
+		// Render NPCs
+		void renderNPCs();
 		
 		// Maps counter
 		static int nbMaps;
@@ -73,6 +79,9 @@ class Map {
 		
 		// Map area
 		u16 m_area;
+		
+		// NPCs
+		std::vector<NPC*> m_NPCs;
 };
 
 #endif // MAP_H

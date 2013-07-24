@@ -26,8 +26,8 @@ class Player : public Sprite {
 		Player();
 		~Player();
 		
-		// Movement function
-		void move();
+		// Actions function
+		void actions();
 		
 		// Render function
 		void render();
@@ -47,6 +47,9 @@ class Player : public Sprite {
 		// Set player movement vectors
 		void vx(s8 vx) { m_vx = vx; }
 		void vy(s8 vy) { m_vy = vy; }
+		
+		// Which NPC the player is colliding
+		static NPC *collidedNPC;
 		
 	private:
 		// Player position (relative to current map)

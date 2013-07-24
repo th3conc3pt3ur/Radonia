@@ -31,8 +31,8 @@
 #include "config.h"
 #include "timer.h"
 #include "sprite.h"
-#include "player.h"
 #include "NPC.h"
+#include "player.h"
 #include "map.h"
 #include "mapManager.h"
 #include "door.h"
@@ -84,6 +84,11 @@ Map::Map(sf::Image *tileset, u16 *tilesetInfo, char *filename, u16 width, u16 he
 	
 	// Save data in current map
 	m_data = table;
+	
+	// Get NPCs
+	for(u16 i = 0 ; i < NB_NPCs ; i++) {
+		if(Game::NPCs[i]->mapID() == m_id) m_NPCs.push_back(Game::NPCs[i]);
+	}
 }
 
 Map::~Map() {
@@ -119,6 +124,13 @@ u16 Map::getTile(u16 tileX, u16 tileY) {
 		return m_data[tileX + tileY * m_width];
 	} else {
 		return 0; // Tile isn't in the map
+	}
+}
+
+void Map::renderNPCs() {
+	for(std::vector<NPC*>::iterator it = m_NPCs.begin() ; it != m_NPCs.end() ; it++) {
+		(*it)->move();
+		(*it)->render();
 	}
 }
 

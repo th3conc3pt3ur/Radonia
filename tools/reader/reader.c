@@ -65,6 +65,10 @@ static void processNode(xmlTextReaderPtr reader) {
 			}
 			
 			FILE* file = fopen(outfilepath, "wb");
+			if(file == NULL) {
+				printf("File not found: %s\n", outfilepath);
+				exit(EXIT_FAILURE);
+			}
 			fwrite(table, sizeof(unsigned short), counter - 1, file);
 			fclose(file);
 			

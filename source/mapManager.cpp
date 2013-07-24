@@ -28,8 +28,8 @@
 #include "config.h"
 #include "timer.h"
 #include "sprite.h"
-#include "player.h"
 #include "NPC.h"
+#include "player.h"
 #include "map.h"
 #include "mapManager.h"
 #include "door.h"
@@ -235,9 +235,17 @@ bool inTiles(s16 tileX, s16 tileY, u16 tiles[]) {
 }
 
 bool passable(s16 tileX, s16 tileY) {
+	for(u16 i = 0 ; i < Game::currentMap->NPCs().size() ; i++) {
+		if((Game::currentMap->NPCs()[i]->x() >> 4) == tileX && (Game::currentMap->NPCs()[i]->y() >> 4) == tileY) {
+			Player::collidedNPC = Game::currentMap->NPCs()[i];
+			return false;
+		}
+	}
 	if(inTable(nonPassableTiles, Game::currentMap->tilesetInfo()[Game::currentMap->getTile(tileX, tileY)])) {
+		Player::collidedNPC = NULL;
 		return false;
 	} else {
+		Player::collidedNPC = NULL;
 		return true;
 	}
 }

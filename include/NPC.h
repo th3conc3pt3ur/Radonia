@@ -42,6 +42,9 @@ class NPC : public Sprite {
 		u16 x() const { return m_x; }
 		u16 y() const { return m_y; }
 		
+		// Get NPC mapID
+		u16 mapID() const { return m_mapID; }
+		
 		// Make a blue boy
 		static NPC *BlueBoy(u16 x, u16 y, u8 direction, u16 mapID);
 		

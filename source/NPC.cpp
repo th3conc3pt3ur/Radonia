@@ -29,8 +29,8 @@
 #include "config.h"
 #include "timer.h"
 #include "sprite.h"
-#include "player.h"
 #include "NPC.h"
+#include "player.h"
 #include "map.h"
 #include "mapManager.h"
 #include "door.h"
@@ -87,7 +87,24 @@ void NPC::render() {
 }
 
 void NPC::speak() {
-	std::cout << NPC::texts[m_id] << std::endl;
+	//std::cout << NPC::texts[m_id] << std::endl;
+	
+	// Initialize string
+	sf::String Text;
+	Text.SetText(NPC::texts[m_id]);
+	Text.SetFont(sf::Font::GetDefaultFont());
+	
+	// Render string
+	Game::MainWindow->SetView(*Sprite::View);
+	Game::MainWindow->Draw(Text);
+	Game::MainWindow->Display();
+	
+	// Wait for Z pressed (FIXME: DOESN'T WORK)
+	while(!Game::Input->IsKeyDown(sf::Key::Z));
+	
+	// Reset main window
+	Game::MainWindow->Clear();
+	Game::MainWindow->SetView(Game::MainWindow->GetDefaultView());
 }
 
 NPC *NPC::BlueBoy(u16 x, u16 y, u8 direction, u16 mapID) {

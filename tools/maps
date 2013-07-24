@@ -1,6 +1,6 @@
 #!/bin/bash
 
 for i in tmx/*.tmx;
-do ./tools/reader/reader $i maps/$(basename ${i%.tmx}).map;
+do echo ./tools/reader/reader $i maps/$(basename ${i%.tmx}).map; ./tools/reader/reader $i maps/$(basename ${i%.tmx}).map;
 done
 
