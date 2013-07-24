@@ -48,8 +48,11 @@ class Game {
 		// Current map
 		static Map *currentMap;
 		
-		// Doors
+		// Doors array
 		static Door **doors;
+		
+		// NPCs array
+		static NPC **NPCs;
 		
 		// Player
 		static Player *player;

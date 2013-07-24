@@ -43,6 +43,7 @@ Map ***Game::mapAreas = NULL;
 Map **Game::maps = NULL;
 Map *Game::currentMap = NULL;
 Door **Game::doors = NULL;
+NPC **Game::NPCs = NULL;
 Player *Game::player = NULL;
 
 Game::Game() {
@@ -68,6 +69,9 @@ Game::Game() {
 	
 	currentMap = maps[0];
 	
+	// Initialize NPCs
+	NPCs = NPC::initAll();
+	
 	// Initialize player
 	player = new Player();
 }
@@ -82,11 +86,14 @@ Game::~Game() {
 	// Delete maps
 	delete[] mapAreas;
 	
-	// Delete player
-	delete player;
-	
 	// Delete doors
 	delete[] doors;
+	
+	// Delete NPCs
+	delete[] NPCs;
+	
+	// Delete player
+	delete player;
 }
 
 void Game::mainLoop() {
@@ -112,6 +119,13 @@ void Game::mainLoop() {
 		
 		// Render current map
 		Game::currentMap->render();
+		
+		for(u16 i = 0 ; i < NB_NPCs ; i++) {
+			if(NPCs[i]->id() == currentMap->id()) {
+				NPCs[i]->move();
+				NPCs[i]->render();
+			}
+		}
 		
 		// Render player
 		player->render();

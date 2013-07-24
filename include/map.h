@@ -35,7 +35,7 @@ class Map {
 		// Get map id
 		u16 id() const { return m_id; }
 		
-		// Get map position in the overworld
+		// Get map position in the area
 		u16 x() const { return m_x; }
 		u16 y() const { return m_y; }
 		
@@ -45,7 +45,7 @@ class Map {
 		// Get tileset information
 		u16 *tilesetInfo() const { return m_tilesetInfo; }
 		
-		// Overworld maps counter
+		// Maps counter
 		static int nbMaps;
 		
 	private:

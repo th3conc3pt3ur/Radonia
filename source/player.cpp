@@ -37,19 +37,11 @@
 #include "game.h"
 
 // Set animations table
-int animations[12][4] = {
+int Player_animations[12][4] = {
 	{4,0},
 	{5,1},
 	{6,2},
-	{7,3},
-	{8,12,16,16},
-	{9,13,17,17},
-	{10,14,18,18},
-	{11,15,19,19},
-	{20,24},
-	{21,25},
-	{22,26},
-	{23,27}
+	{7,3}
 };
 
 Player::Player() : Sprite((char*)"graphics/characters/link.png") {
@@ -63,14 +55,10 @@ Player::Player() : Sprite((char*)"graphics/characters/link.png") {
 	m_direction = Direction::Right;
 	
 	// Add animations to sprite
-	addAnimation(2, animations[0], 100); // Down
-	addAnimation(2, animations[1], 100); // Right
-	addAnimation(2, animations[2], 100); // Left
-	addAnimation(2, animations[3], 100); // Up
-	addAnimation(4, animations[4], 50);  // Walk down
-	addAnimation(4, animations[5], 50);  // Walk right
-	addAnimation(4, animations[6], 50);  // Walk left
-	addAnimation(4, animations[7], 50);  // Walk up
+	addAnimation(2, Player_animations[0], 100); // Down
+	addAnimation(2, Player_animations[1], 100); // Right
+	addAnimation(2, Player_animations[2], 100); // Left
+	addAnimation(2, Player_animations[3], 100); // Up
 }
 
 Player::~Player() {

@@ -25,6 +25,8 @@
 #define WM_SIZE 2
 #define INDOOR_MAPS 2
 
+#define NB_NPCs 1
+
 #define MAP_WIDTH 40
 #define MAP_HEIGHT 30
 

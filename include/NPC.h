@@ -23,7 +23,7 @@
 class NPC : public Sprite {
 	public:
 		// Constructor and destructor
-		NPC();
+		NPC(u16 x, u16 y, u8 direction, u16 mapID, char *filename);
 		~NPC();
 		
 		// Movement function
@@ -32,7 +32,32 @@ class NPC : public Sprite {
 		// Render function
 		void render();
 		
+		// Speaking function
+		void speak();
+		
+		// Get NPC id
+		u16 id() const { return m_id; }
+		
+		// Get NPC position in the map
+		u16 x() const { return m_x; }
+		u16 y() const { return m_y; }
+		
+		// Make a blue boy
+		static NPC *BlueBoy(u16 x, u16 y, u8 direction, u16 mapID);
+		
+		// Initialize all NPCs
+		static NPC **initAll();
+		
+		// NPCs texts
+		static char *texts[NB_NPCs];
+		
+		// NPCs counter
+		static int nbNPCs;
+		
 	private:
+		// NPC id
+		u16 m_id;
+		
 		// NPC position (relative to its map)
 		u16 m_x;
 		u16 m_y;
@@ -43,6 +68,9 @@ class NPC : public Sprite {
 		
 		// NPC direction
 		u8 m_direction;
+		
+		// NPC map id
+		u16 m_mapID;
 };
 
 #endif // NPC_H

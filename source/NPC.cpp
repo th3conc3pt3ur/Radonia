@@ -36,7 +36,36 @@
 #include "door.h"
 #include "game.h"
 
-NPC::NPC() : Sprite((char*)"graphics/characters/blue_boy.png") {
+// Set animations table
+int NPC_animations[12][4] = {
+	{4,0},
+	{5,1},
+	{6,2},
+	{7,3}
+};
+
+int NPC::nbNPCs = 0;
+
+char *NPC::texts[NB_NPCs] = {(char*)"Hello boy!"};
+
+NPC::NPC(u16 x, u16 y, u8 direction, u16 mapID, char *filename) : Sprite(filename) {
+	// Set NPC id
+	m_id = nbNPCs;
+	
+	// Update NPCs counter
+	nbNPCs++;
+	
+	// Set class members
+	m_x = x;
+	m_y = y;
+	
+	m_direction = direction;
+	
+	// Add animations to sprite
+	addAnimation(2, NPC_animations[0], 250); // Down
+	addAnimation(2, NPC_animations[1], 250); // Right
+	addAnimation(2, NPC_animations[2], 250); // Left
+	addAnimation(2, NPC_animations[3], 250); // Up
 }
 
 NPC::~NPC() {
@@ -46,5 +75,25 @@ void NPC::move() {
 }
 
 void NPC::render() {
+	// Play animation
+	playAnimation(m_x, m_y, m_direction);
+}
+
+void NPC::speak() {
+	std::cout << NPC::texts[m_id] << std::endl;
+}
+
+NPC *NPC::BlueBoy(u16 x, u16 y, u8 direction, u16 mapID) {
+	return new NPC(x, y, direction, mapID, (char*)"graphics/characters/blue_boy.png");
+}
+
+NPC **NPC::initAll() {
+	// Initialize NPCs array
+	NPC **NPCs = new NPC*[NB_NPCs];
+	
+	// Init NPCs
+	NPCs[0] = NPC::BlueBoy(10 << 4, 2 << 4, Direction::Down, 0);
+	
+	return NPCs;
 }
 
