@@ -24,10 +24,12 @@
 
 #include "types.h"
 #include "config.h"
-#include "map.h"
 #include "timer.h"
 #include "sprite.h"
 #include "player.h"
+#include "NPC.h"
+#include "map.h"
+#include "mapManager.h"
 #include "door.h"
 #include "game.h"
 
@@ -54,6 +56,7 @@ Sprite::Sprite(char *filename, u8 frameSize) {
 	// Load sprite
 	m_img.LoadFromFile(filename);
 	m_img.SetSmooth(false);
+	m_img.CreateMaskFromColor(sf::Color(255, 0, 255));
 	
 	m_spr.SetImage(m_img);
 	

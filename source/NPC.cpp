@@ -17,51 +17,34 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	
 ---------------------------------------------------------------------------------*/
-#ifndef PLAYER_H
-#define PLAYER_H
+#include <iostream>
+#include <cstdio>
+#include <cstdlib>
 
-class Player : public Sprite {
-	public:
-		// Constructor and destructor
-		Player();
-		~Player();
-		
-		// Movement function
-		void move();
-		
-		// Render function
-		void render();
-		
-		// Test collisions functions
-		void doorCollisions();
-		void testCollisions();
-		
-		// Get player position
-		s16 x() const { return m_x; }
-		s16 y() const { return m_y; }
-		
-		// Set player position
-		void x(s16 x) { m_x = x; }
-		void y(s16 y) { m_y = y; }
-		
-		// Set player movement vectors
-		void vx(s8 vx) { m_vx = vx; }
-		void vy(s8 vy) { m_vy = vy; }
-		
-	private:
-		// Player position (relative to current map)
-		s16 m_x;
-		s16 m_y;
-		
-		// Player movement vectors
-		s8 m_vx;
-		s8 m_vy;
-		
-		// Player direction
-		u8 m_direction;
-		
-		// Player lifes
-		u8 m_lifes;
-};
+#include <SFML/System.hpp>
+#include <SFML/Audio.hpp>
+#include <SFML/Graphics.hpp>
 
-#endif // PLAYER_H
+#include "types.h"
+#include "config.h"
+#include "timer.h"
+#include "sprite.h"
+#include "player.h"
+#include "NPC.h"
+#include "map.h"
+#include "mapManager.h"
+#include "door.h"
+#include "game.h"
+
+NPC::NPC() : Sprite((char*)"graphics/characters/blue_boy.png") {
+}
+
+NPC::~NPC() {
+}
+
+void NPC::move() {
+}
+
+void NPC::render() {
+}
+

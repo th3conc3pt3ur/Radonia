@@ -26,11 +26,12 @@
 
 #include "types.h"
 #include "config.h"
-#include "map.h"
-#include "mapManager.h"
 #include "timer.h"
 #include "sprite.h"
 #include "player.h"
+#include "NPC.h"
+#include "map.h"
+#include "mapManager.h"
 #include "door.h"
 #include "game.h"
 

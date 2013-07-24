@@ -17,14 +17,14 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	
 ---------------------------------------------------------------------------------*/
-#ifndef PLAYER_H
-#define PLAYER_H
+#ifndef NPC_H
+#define NPC_H
 
-class Player : public Sprite {
+class NPC : public Sprite {
 	public:
 		// Constructor and destructor
-		Player();
-		~Player();
+		NPC();
+		~NPC();
 		
 		// Movement function
 		void move();
@@ -32,36 +32,17 @@ class Player : public Sprite {
 		// Render function
 		void render();
 		
-		// Test collisions functions
-		void doorCollisions();
-		void testCollisions();
-		
-		// Get player position
-		s16 x() const { return m_x; }
-		s16 y() const { return m_y; }
-		
-		// Set player position
-		void x(s16 x) { m_x = x; }
-		void y(s16 y) { m_y = y; }
-		
-		// Set player movement vectors
-		void vx(s8 vx) { m_vx = vx; }
-		void vy(s8 vy) { m_vy = vy; }
-		
 	private:
-		// Player position (relative to current map)
-		s16 m_x;
-		s16 m_y;
+		// NPC position (relative to its map)
+		u16 m_x;
+		u16 m_y;
 		
-		// Player movement vectors
+		// NPC movement vectors
 		s8 m_vx;
 		s8 m_vy;
 		
-		// Player direction
+		// NPC direction
 		u8 m_direction;
-		
-		// Player lifes
-		u8 m_lifes;
 };
 
-#endif // PLAYER_H
+#endif // NPC_H
