@@ -90,40 +90,38 @@ void NPC::speak() {
 	//std::cout << NPC::texts[m_id] << std::endl;
 	
 	// Initialize string
-	sf::String Text;
-	Text.SetText(NPC::texts[m_id]);
-	Text.SetFont(sf::Font::GetDefaultFont());
-	Text.Move((MAP_WIDTH * 16) / 8 + 8, 3 * (MAP_HEIGHT * 16) / 4 + 8);
+	sf::Text text(NPC::texts[m_id], *Game::defaultFont);
+	text.setPosition((MAP_WIDTH * 16) / 8 + 8, 3 * (MAP_HEIGHT * 16) / 4 + 8);
 	
 	// Initialize box
-	sf::Shape box = sf::Shape::Rectangle((MAP_WIDTH * 16) / 8, 3 * (MAP_HEIGHT * 16) / 4, 7 * (MAP_WIDTH * 16) / 8, (MAP_HEIGHT * 16), sf::Color(0, 0, 0));
-	sf::String pressKeyText;
-	pressKeyText.SetText((char*)"Press Z key to continue.");
-	pressKeyText.SetFont(sf::Font::GetDefaultFont());
-	pressKeyText.SetSize(10);
-	pressKeyText.Move(11 * MAP_WIDTH, (MAP_HEIGHT * 16) - 13);
+	sf::RectangleShape box;
+	box.setPosition((MAP_WIDTH * 16) / 8, 3 * (MAP_HEIGHT * 16) / 4);
+	box.setSize(sf::Vector2f(6 * (MAP_WIDTH * 16) / 8, (MAP_HEIGHT * 16) / 4));
+	box.setOutlineColor(sf::Color::Black);
+	sf::Text pressKeyText((char*)"Press Z key to continue.", *Game::defaultFont, 10);
+	pressKeyText.setPosition(11 * MAP_WIDTH, (MAP_HEIGHT * 16) - 13);
 	
 	// Render string
-	Game::MainWindow->SetView(*Sprite::View);
-	Game::MainWindow->Draw(box);
-	Game::MainWindow->Draw(pressKeyText);
-	Game::MainWindow->Draw(Text);
-	Game::MainWindow->Display();
+	Game::MainWindow->setView(*Sprite::View);
+	Game::MainWindow->draw(box);
+	Game::MainWindow->draw(pressKeyText);
+	Game::MainWindow->draw(text);
+	Game::MainWindow->display();
 	
 	// Wait for Z pressed
 	sf::Event event;
-	while(Game::MainWindow->IsOpened() && !(Game::MainWindow->GetEvent(event) && event.Type == sf::Event::KeyPressed && event.Key.Code == sf::Key::Z)) {
+	while(Game::MainWindow->isOpen() && !(Game::MainWindow->pollEvent(event) && event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Z)) {
 		// Close window: exit game
-		if((event.Type == sf::Event::Closed) || (event.Type == sf::Event::KeyPressed && event.Key.Code == sf::Key::Escape)) {
-			Game::MainWindow->Close();
+		if((event.type == sf::Event::Closed) || (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)) {
+			Game::MainWindow->close();
 		}
 		
-		Game::MainWindow->Display();
+		Game::MainWindow->display();
 	}
 	
 	// Reset main window
-	Game::MainWindow->Clear();
-	Game::MainWindow->SetView(Game::MainWindow->GetDefaultView());
+	Game::MainWindow->clear();
+	Game::MainWindow->setView(Game::MainWindow->getDefaultView());
 }
 
 NPC *NPC::BlueBoy(u16 x, u16 y, u8 direction, u16 mapID) {

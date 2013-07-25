@@ -34,10 +34,10 @@ class Game {
 		
 		// Main window
 		static sf::RenderWindow *MainWindow;
-		static const sf::Input *Input;
+		static sf::Font *defaultFont;
 		
 		// Tilesets array
-		static sf::Image **tilesets;
+		static sf::Texture **tilesets;
 		
 		// Map areas array
 		static Map ***mapAreas;

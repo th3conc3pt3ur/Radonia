@@ -25,7 +25,7 @@ sf::Clock Timer::clock;
 
 Timer::Timer() {
 	// Initialize class members
-	m_t = clock.GetElapsedTime() * 1000;
+	m_t = clock.getElapsedTime().asMilliseconds();
 	m_isStarted = false;
 	m_tick = 0;
 }
@@ -38,24 +38,24 @@ Timer::~Timer() {
 void Timer::stop() {
 	if(m_isStarted) {
 		m_isStarted = false;
-		m_tick = clock.GetElapsedTime() * 1000 - m_t;
+		m_tick = clock.getElapsedTime().asMilliseconds() - m_t;
 	}
 }
 
 void Timer::start() {
 	if(!m_isStarted) {
 		m_isStarted = true;
-		m_t = clock.GetElapsedTime() * 1000 - m_tick;
+		m_t = clock.getElapsedTime().asMilliseconds() - m_tick;
 	}
 }
 
 void Timer::reset() {
-	m_t = clock.GetElapsedTime() * 1000;
+	m_t = clock.getElapsedTime().asMilliseconds();
 	m_isStarted = false;
 	m_tick = 0;
 }
 
 void Timer::initTimers() {
-	clock.Reset();
+	clock.restart();
 }
 

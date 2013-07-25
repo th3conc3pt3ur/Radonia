@@ -42,9 +42,14 @@ using namespace std;
 
 int Map::nbMaps = 0;
 
-Map::Map(sf::Image *tileset, u16 *tilesetInfo, char *filename, u16 width, u16 height, u16 tileWidth, u16 tileHeight, u16 x, u16 y, u16 area) {
+sf::View *Map::View = NULL;
+
+Map::Map(sf::Texture *tileset, u16 *tilesetInfo, char *filename, u16 width, u16 height, u16 tileWidth, u16 tileHeight, u16 x, u16 y, u16 area) {
 	// Set map id
 	m_id = nbMaps;
+	
+	// Initialize sprite view
+	if(View == NULL) View = new sf::View(sf::FloatRect(0, 0, 640, 480));
 	
 	// Update maps counter
 	nbMaps++;
@@ -97,8 +102,10 @@ Map::~Map() {
 
 void Map::render() {
 	// Load temporary sprite to render tiles
-	sf::Sprite renderedTile;
-	renderedTile.SetImage(*m_tileset);
+	sf::Sprite renderedTile(*m_tileset);
+	
+	// Set view for drawing maps
+	Game::MainWindow->setView(*View);
 	
 	for(u16 y = 0 ; y < m_height ; y++) {
 		for(u16 x = 0 ; x < m_width ; x++) {
@@ -106,17 +113,20 @@ void Map::render() {
 			u16 tile = getTile(x, y);
 			
 			// Get tile position
-			u16 tileY = (tile / (m_tileset->GetWidth() / m_tileHeight)) * m_tileHeight;
-			u16 tileX = (tile - (tileY / m_tileHeight) * (m_tileset->GetWidth() / m_tileHeight)) * m_tileWidth;
+			u16 tileY = (tile / (m_tileset->getSize().x / m_tileHeight)) * m_tileHeight;
+			u16 tileX = (tile - (tileY / m_tileHeight) * (m_tileset->getSize().x / m_tileHeight)) * m_tileWidth;
 			
 			// Set position and cut tile to display
-			renderedTile.SetPosition((x + m_x * MAP_WIDTH) * m_tileWidth, (y + m_y * MAP_HEIGHT) * m_tileHeight);
-			renderedTile.SetSubRect(sf::IntRect(tileX, tileY, tileX + m_tileWidth, tileY + m_tileHeight));
+			renderedTile.setPosition((x + m_x * MAP_WIDTH) * m_tileWidth, (y + m_y * MAP_HEIGHT) * m_tileHeight);
+			renderedTile.setTextureRect(sf::IntRect(tileX, tileY, tileX + m_tileWidth, tileY + m_tileHeight));
 			
 			// Display the tile
-			Game::MainWindow->Draw(renderedTile);
+			Game::MainWindow->draw(renderedTile);
 		}
 	}
+	
+	// Reset the view
+	Game::MainWindow->setView(Game::MainWindow->getDefaultView());
 }
 
 u16 Map::getTile(u16 tileX, u16 tileY) {

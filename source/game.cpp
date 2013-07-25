@@ -37,8 +37,8 @@
 using namespace std;
 
 sf::RenderWindow *Game::MainWindow = NULL;
-const sf::Input *Game::Input = NULL;
-sf::Image **Game::tilesets = NULL;
+sf::Font *Game::defaultFont = NULL;
+sf::Texture **Game::tilesets = NULL;
 Map ***Game::mapAreas = NULL;
 Map **Game::maps = NULL;
 Map *Game::currentMap = NULL;
@@ -49,9 +49,15 @@ Player *Game::player = NULL;
 Game::Game() {
 	// Create the main window
 	MainWindow = new sf::RenderWindow(sf::VideoMode(640, 480), "Radonia", sf::Style::Close);
+	MainWindow->setVerticalSyncEnabled(true);
+	MainWindow->setFramerateLimit(60);
 	
-	// Set inputs
-	Input = &MainWindow->GetInput();
+	// Setup default font
+	defaultFont = new sf::Font();
+	if(!defaultFont->loadFromFile((char*)"fonts/Vani.ttf")) {
+		std::cout << "FATAL ERROR: Unable to load default font." << std::endl;
+		exit(EXIT_FAILURE);
+	}
 	
 	// Set default values
 	m_continue = true;
@@ -83,6 +89,12 @@ Game::~Game() {
 	// Delete sprite view
 	delete Sprite::View;
 	
+	// Delete map view
+	delete Map::View;
+	
+	// Delete default font
+	delete defaultFont;
+	
 	// Delete maps
 	delete[] mapAreas;
 	
@@ -97,14 +109,14 @@ Game::~Game() {
 }
 
 void Game::mainLoop() {
-	while(MainWindow->IsOpened() && m_continue) {
+	while(MainWindow->isOpen() && m_continue) {
 		// Process events
 		sf::Event event;
 		
-		while(MainWindow->GetEvent(event)) {
+		while(MainWindow->pollEvent(event)) {
 			// Close window: exit game
-			if((event.Type == sf::Event::Closed) || (event.Type == sf::Event::KeyPressed && event.Key.Code == sf::Key::Escape)) {
-				MainWindow->Close();
+			if((event.type == sf::Event::Closed) || (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)) {
+				MainWindow->close();
 			}
 		}
 		
@@ -115,7 +127,7 @@ void Game::mainLoop() {
 		player->actions();
 		
 		// Clear screen
-		MainWindow->Clear();
+		MainWindow->clear();
 		
 		// Render current map
 		currentMap->render();
@@ -127,7 +139,7 @@ void Game::mainLoop() {
 		player->render();
 		
 		// Update the window
-		MainWindow->Display();
+		MainWindow->display();
 	}
 }
 
@@ -154,14 +166,14 @@ void Game::scroll() {
 		if((i & 1) || !(i & 15)) player->y(player->y() + playerY); else player->y(player->y() + playerY - playerY / 16);
 		
 		// Move view to scroll
-		MainWindow->GetDefaultView().Move(moveX, moveY);
+		Map::View->move(moveX, moveY);
 		
 		// Refresh display on time in two
 		if(i & 1) {
-			MainWindow->Clear();
+			MainWindow->clear();
 			refreshMaps(mapAreas[currentMap->area()], moveX, moveY);
 			player->render();
-			MainWindow->Display();
+			MainWindow->display();
 		}
 	}
 	

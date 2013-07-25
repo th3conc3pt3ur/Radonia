@@ -82,8 +82,8 @@ class Sprite {
 		static sf::View *View;
 		
 	protected:
-		// Sprite image
-		sf::Image m_img;
+		// Sprite texture
+		sf::Texture m_tex;
 		
 		// Sprite frame to display
 		sf::Sprite m_spr;

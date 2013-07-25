@@ -32,7 +32,7 @@ class Timer {
 		void reset();
 		
 		// Get time function
-		int time() { return (m_isStarted) ? clock.GetElapsedTime() * 1000 - m_t : m_tick; }
+		int time() { return (m_isStarted) ? clock.getElapsedTime().asMilliseconds() - m_t : m_tick; }
 		
 		// Initialization function
 		static void initTimers();

@@ -54,11 +54,13 @@ Sprite::Sprite(char *filename, u8 frameSize) {
 	if(View == NULL) View = new sf::View(sf::FloatRect(0, 0, 640, 480));
 	
 	// Load sprite
-	m_img.LoadFromFile(filename);
-	m_img.SetSmooth(false);
-	m_img.CreateMaskFromColor(sf::Color(255, 0, 255));
+	sf::Image img;
+	img.loadFromFile(filename);
+	img.createMaskFromColor(sf::Color(255, 0, 255));
 	
-	m_spr.SetImage(m_img);
+	m_tex.loadFromImage(img);
+	
+	m_spr.setTexture(m_tex);
 	
 	// Set frame size
 	m_frameSize = frameSize;
@@ -69,21 +71,21 @@ Sprite::~Sprite() {
 
 void Sprite::drawFrame(s16 x, s16 y, int frame) {
 	// Get frame position
-	u16 frameY = (frame / (m_img.GetWidth() / m_frameSize)) * m_frameSize;
-	u16 frameX = (frame - (frameY / m_frameSize) * (m_img.GetWidth() / m_frameSize)) * m_frameSize;
+	u16 frameY = (frame / (m_tex.getSize().x / m_frameSize)) * m_frameSize;
+	u16 frameX = (frame - (frameY / m_frameSize) * (m_tex.getSize().x / m_frameSize)) * m_frameSize;
 	
 	// Setup sprite
-	m_spr.SetPosition(x, y);
-	m_spr.SetSubRect(sf::IntRect(frameX, frameY, frameX + m_frameSize, frameY + m_frameSize));
+	m_spr.setPosition(x, y);
+	m_spr.setTextureRect(sf::IntRect(frameX, frameY, frameX + m_frameSize, frameY + m_frameSize));
 	
 	// Set view for drawing sprites
-	Game::MainWindow->SetView(*View);
+	Game::MainWindow->setView(*View);
 	
 	// Draw the sprite
-	Game::MainWindow->Draw(m_spr);
+	Game::MainWindow->draw(m_spr);
 	
 	// Reset the view
-	Game::MainWindow->SetView(Game::MainWindow->GetDefaultView());
+	Game::MainWindow->setView(Game::MainWindow->getDefaultView());
 }
 
 void Sprite::addAnimation(int size, int *tabAnim, int delay) {

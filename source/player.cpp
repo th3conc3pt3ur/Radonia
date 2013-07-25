@@ -85,15 +85,21 @@ void Player::doorCollisions() {
 		}
 		
 		// Initialize transition
-		sf::Shape rect1 = sf::Shape::Rectangle(0, 0, MAP_WIDTH * 16 / 2, MAP_HEIGHT * 16, sf::Color(255, 255, 255));
-		sf::Shape rect2 = sf::Shape::Rectangle(MAP_WIDTH * 16 / 2, 0, MAP_WIDTH * 16, MAP_HEIGHT * 16, sf::Color(255, 255, 255));
+		sf::RectangleShape rect1(sf::Vector2f(MAP_WIDTH * 16 / 2, MAP_HEIGHT * 16));
+		sf::RectangleShape rect2(sf::Vector2f(MAP_WIDTH * 16 / 2, MAP_HEIGHT * 16));
 		
-		Game::MainWindow->Clear();
-		Game::MainWindow->SetView(*Sprite::View);
-		Game::MainWindow->Draw(rect1);
-		Game::MainWindow->Draw(rect2);
-		Game::MainWindow->SetView(Game::MainWindow->GetDefaultView());
-		Game::MainWindow->Display();
+		rect1.setPosition(0, 0);
+		rect1.setOutlineColor(sf::Color::White);
+		
+		rect2.setPosition(MAP_WIDTH * 16 / 2, 0);
+		rect2.setOutlineColor(sf::Color::White);
+		
+		Game::MainWindow->clear();
+		Game::MainWindow->setView(*Sprite::View);
+		Game::MainWindow->draw(rect1);
+		Game::MainWindow->draw(rect2);
+		Game::MainWindow->setView(Game::MainWindow->getDefaultView());
+		Game::MainWindow->display();
 		
 		// Update all values
 		Game::currentMap = Game::mapAreas[Game::doors[Game::doors[doorID]->nextDoorID]->mapArea][Game::doors[Game::doors[doorID]->nextDoorID]->mapID];
@@ -102,21 +108,21 @@ void Player::doorCollisions() {
 		m_direction = Game::doors[Game::doors[doorID]->nextDoorID]->direction;
 		
 		// Move view to display map correctly
-		Game::MainWindow->GetDefaultView().SetCenter(Game::currentMap->x() * MAP_WIDTH * 16 + MAP_WIDTH * 16 / 2, Game::currentMap->y() * MAP_HEIGHT * 16 + MAP_HEIGHT * 16 / 2);
+		Map::View->setCenter(Game::currentMap->x() * MAP_WIDTH * 16 + MAP_WIDTH * 16 / 2, Game::currentMap->y() * MAP_HEIGHT * 16 + MAP_HEIGHT * 16 / 2);
 		
 		// Transition
 		for(u16 x = 0 ; x <= MAP_HEIGHT / 2 ; x++) {
-			rect1.Move(-32, 0);
-			rect2.Move(32, 0);
+			rect1.move(-32, 0);
+			rect2.move(32, 0);
 			
-			Game::MainWindow->Clear();
+			Game::MainWindow->clear();
 			Game::currentMap->render();
 			render();
-			Game::MainWindow->SetView(*Sprite::View);
-			Game::MainWindow->Draw(rect1);
-			Game::MainWindow->Draw(rect2);
-			Game::MainWindow->SetView(Game::MainWindow->GetDefaultView());
-			Game::MainWindow->Display();
+			Game::MainWindow->setView(*Sprite::View);
+			Game::MainWindow->draw(rect1);
+			Game::MainWindow->draw(rect2);
+			Game::MainWindow->setView(Game::MainWindow->getDefaultView());
+			Game::MainWindow->display();
 		}
 		
 		// The player is in the door
@@ -198,45 +204,45 @@ void Player::testCollisions() {
 }
 
 void Player::actions() {
-	if(Game::Input->IsKeyDown(sf::Key::Up)) {
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 		// Set vertical movement vector negative
 		m_vy = -1;
 		
 		// If all other directional keys are released
-		if(!Game::Input->IsKeyDown(sf::Key::Left) && !Game::Input->IsKeyDown(sf::Key::Right) && !Game::Input->IsKeyDown(sf::Key::Down)) {
+		if(!sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 			// Set direction to up
 			m_direction = Direction::Up;
 		}
 	}
 	
-	if(Game::Input->IsKeyDown(sf::Key::Down)) {
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 		// Set vertical movement vector positive
 		m_vy = 1;
 		
 		// If all other directional keys are released
-		if(!Game::Input->IsKeyDown(sf::Key::Left) && !Game::Input->IsKeyDown(sf::Key::Right) && !Game::Input->IsKeyDown(sf::Key::Up)) {
+		if(!sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 			// Set direction to down
 			m_direction = Direction::Down;
 		}
 	}
 	
-	if(Game::Input->IsKeyDown(sf::Key::Left)) {
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
 		// Set horizontal movement vector negative
 		m_vx = -1;
 		
 		// If all other directional keys are released
-		if(!Game::Input->IsKeyDown(sf::Key::Up) && !Game::Input->IsKeyDown(sf::Key::Right) && !Game::Input->IsKeyDown(sf::Key::Down)) {
+		if(!sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 			// Set direction to left
 			m_direction = Direction::Left;
 		}
 	}
 	
-	if(Game::Input->IsKeyDown(sf::Key::Right)) {
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
 		// Set horizontal movement vector positive
 		m_vx = 1;
 		
 		// If all other directional keys are released
-		if(!Game::Input->IsKeyDown(sf::Key::Left) && !Game::Input->IsKeyDown(sf::Key::Up) && !Game::Input->IsKeyDown(sf::Key::Down)) {
+		if(!sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 			// Set direction to right
 			m_direction = Direction::Right;
 		}
@@ -255,14 +261,14 @@ void Player::actions() {
 	m_vy = 0;
 	
 	// If A is pressed, and the player collided a NPC, talk to him
-	if(Game::Input->IsKeyDown(sf::Key::A) && collidedNPC) {
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::A) && collidedNPC) {
 		collidedNPC->speak();
 	}
 }
 
 void Player::render() {
 	// If all directional keys are released
-	if(!Game::Input->IsKeyDown(sf::Key::Left) && !Game::Input->IsKeyDown(sf::Key::Up) && !Game::Input->IsKeyDown(sf::Key::Right) && !Game::Input->IsKeyDown(sf::Key::Down)) {
+	if(!sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 		// Render a single frame
 		drawFrame(m_x, m_y, m_direction);
 	} else {

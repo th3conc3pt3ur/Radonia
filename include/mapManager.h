@@ -34,7 +34,7 @@ extern u16 doorLeft[2];
 extern u16 doorRight[2];
 
 // Tileset init function
-sf::Image **initTilesets();
+sf::Texture **initTilesets();
 
 // Sizes of map areas
 extern u16 areaSizes[MAP_AREAS];

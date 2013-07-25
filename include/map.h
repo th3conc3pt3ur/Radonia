@@ -23,7 +23,7 @@
 class Map {
 	public:
 		// Constructor and destructor
-		Map(sf::Image *tileset, u16 *tilesetInfo, char *filename, u16 width, u16 height, u16 tileWidth, u16 tileHeight, u16 mapX, u16 mapY, u16 area = 0); // area 0 is overworld
+		Map(sf::Texture *tileset, u16 *tilesetInfo, char *filename, u16 width, u16 height, u16 tileWidth, u16 tileHeight, u16 mapX, u16 mapY, u16 area = 0); // area 0 is overworld
 		~Map();
 		
 		// Map render function
@@ -51,6 +51,9 @@ class Map {
 		// Render NPCs
 		void renderNPCs();
 		
+		// Map view
+		static sf::View *View;
+		
 		// Maps counter
 		static int nbMaps;
 		
@@ -59,7 +62,7 @@ class Map {
 		u16 m_id;
 		
 		// Map tileset
-		sf::Image *m_tileset;
+		sf::Texture *m_tileset;
 		u16 *m_tilesetInfo;
 		
 		// Map data

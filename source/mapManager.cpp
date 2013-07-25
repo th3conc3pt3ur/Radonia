@@ -134,26 +134,23 @@ u16 undergroundInfo[256] = {
 	8,9,10,0,0,0,0,0,0,0,0,0,0,0,0,0
 };
 
-sf::Image **initTilesets() {
+sf::Texture **initTilesets() {
 	// Initialize tileset array
-	sf::Image **tilesets = new sf::Image*[3];
+	sf::Texture **tilesets = new sf::Texture*[3];
 	
 	/* Initialize tilesets */
 	
 	// Plain
-	tilesets[0] = new sf::Image;
-	tilesets[0]->LoadFromFile("graphics/tilesets/plain.png");
-	tilesets[0]->SetSmooth(false);
+	tilesets[0] = new sf::Texture;
+	tilesets[0]->loadFromFile("graphics/tilesets/plain.png");
 	
 	// Indoor
-	tilesets[1] = new sf::Image;
-	tilesets[1]->LoadFromFile("graphics/tilesets/indoor.png");
-	tilesets[1]->SetSmooth(false);
+	tilesets[1] = new sf::Texture;
+	tilesets[1]->loadFromFile("graphics/tilesets/indoor.png");
 	
 	// Underground
-	tilesets[2] = new sf::Image;
-	tilesets[2]->LoadFromFile("graphics/tilesets/underground.png");
-	tilesets[2]->SetSmooth(false);
+	tilesets[2] = new sf::Texture;
+	tilesets[2]->loadFromFile("graphics/tilesets/underground.png");
 	
 	return tilesets;
 }
