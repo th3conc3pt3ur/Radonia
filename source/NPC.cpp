@@ -98,8 +98,8 @@ void NPC::speak() {
 	box.setPosition((MAP_WIDTH * 16) / 8, 3 * (MAP_HEIGHT * 16) / 4);
 	box.setSize(sf::Vector2f(6 * (MAP_WIDTH * 16) / 8, (MAP_HEIGHT * 16) / 4));
 	box.setFillColor(sf::Color::Black);
-	sf::Text pressKeyText((char*)"Press Z key to continue.", *Game::defaultFont, 10);
-	pressKeyText.setPosition(11 * MAP_WIDTH + 12, (MAP_HEIGHT * 16) - 13);
+	sf::Text pressKeyText((char*)"Press Z key to continue.", *Game::defaultFont, 12);
+	pressKeyText.setPosition(10 * MAP_WIDTH + 28, (MAP_HEIGHT - 1) * 16);
 	
 	// Render string
 	Game::MainWindow->setView(*Sprite::View);
