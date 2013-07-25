@@ -76,7 +76,7 @@ void Sprite::drawFrame(s16 x, s16 y, int frame) {
 	
 	// Setup sprite
 	m_spr.setPosition(x, y);
-	m_spr.setTextureRect(sf::IntRect(frameX, frameY, frameX + m_frameSize, frameY + m_frameSize));
+	m_spr.setTextureRect(sf::IntRect(frameX, frameY, m_frameSize, m_frameSize));
 	
 	// Set view for drawing sprites
 	Game::MainWindow->setView(*View);
