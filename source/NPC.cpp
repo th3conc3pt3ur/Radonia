@@ -93,9 +93,20 @@ void NPC::speak() {
 	sf::String Text;
 	Text.SetText(NPC::texts[m_id]);
 	Text.SetFont(sf::Font::GetDefaultFont());
+	Text.Move((MAP_WIDTH * 16) / 8 + 8, 3 * (MAP_HEIGHT * 16) / 4 + 8);
+	
+	// Initialize box
+	sf::Shape box = sf::Shape::Rectangle((MAP_WIDTH * 16) / 8, 3 * (MAP_HEIGHT * 16) / 4, 7 * (MAP_WIDTH * 16) / 8, (MAP_HEIGHT * 16), sf::Color(0, 0, 0));
+	sf::String pressKeyText;
+	pressKeyText.SetText((char*)"Press Z key to continue.");
+	pressKeyText.SetFont(sf::Font::GetDefaultFont());
+	pressKeyText.SetSize(10);
+	pressKeyText.Move(11 * MAP_WIDTH, (MAP_HEIGHT * 16) - 13);
 	
 	// Render string
 	Game::MainWindow->SetView(*Sprite::View);
+	Game::MainWindow->Draw(box);
+	Game::MainWindow->Draw(pressKeyText);
 	Game::MainWindow->Draw(Text);
 	Game::MainWindow->Display();
 	
@@ -106,6 +117,8 @@ void NPC::speak() {
 		if((event.Type == sf::Event::Closed) || (event.Type == sf::Event::KeyPressed && event.Key.Code == sf::Key::Escape)) {
 			Game::MainWindow->Close();
 		}
+		
+		Game::MainWindow->Display();
 	}
 	
 	// Reset main window
