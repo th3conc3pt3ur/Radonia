@@ -20,7 +20,7 @@
 #ifndef DOOR_H
 #define DOOR_H
 
-#define DOORS 6
+#define DOORS 8
 
 typedef struct {
 	u16 mapArea;
