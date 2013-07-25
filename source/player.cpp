@@ -254,6 +254,7 @@ void Player::actions() {
 	m_vx = 0;
 	m_vy = 0;
 	
+	// If A is pressed, and the player collided a NPC, talk to him
 	if(Game::Input->IsKeyDown(sf::Key::A) && collidedNPC) {
 		collidedNPC->speak();
 	}

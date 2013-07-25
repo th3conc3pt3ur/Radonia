@@ -99,8 +99,14 @@ void NPC::speak() {
 	Game::MainWindow->Draw(Text);
 	Game::MainWindow->Display();
 	
-	// Wait for Z pressed (FIXME: DOESN'T WORK)
-	while(!Game::Input->IsKeyDown(sf::Key::Z));
+	// Wait for Z pressed
+	sf::Event event;
+	while(Game::MainWindow->IsOpened() && !(Game::MainWindow->GetEvent(event) && event.Type == sf::Event::KeyPressed && event.Key.Code == sf::Key::Z)) {
+		// Close window: exit game
+		if((event.Type == sf::Event::Closed) || (event.Type == sf::Event::KeyPressed && event.Key.Code == sf::Key::Escape)) {
+			Game::MainWindow->Close();
+		}
+	}
 	
 	// Reset main window
 	Game::MainWindow->Clear();
