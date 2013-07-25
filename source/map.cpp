@@ -118,7 +118,7 @@ void Map::render() {
 			
 			// Set position and cut tile to display
 			renderedTile.setPosition((x + m_x * MAP_WIDTH) * m_tileWidth, (y + m_y * MAP_HEIGHT) * m_tileHeight);
-			renderedTile.setTextureRect(sf::IntRect(tileX, tileY, tileX + m_tileWidth, tileY + m_tileHeight));
+			renderedTile.setTextureRect(sf::IntRect(tileX, tileY, m_tileWidth, m_tileHeight));
 			
 			// Display the tile
 			Game::MainWindow->draw(renderedTile);
