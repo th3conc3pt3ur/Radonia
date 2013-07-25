@@ -97,9 +97,9 @@ void NPC::speak() {
 	sf::RectangleShape box;
 	box.setPosition((MAP_WIDTH * 16) / 8, 3 * (MAP_HEIGHT * 16) / 4);
 	box.setSize(sf::Vector2f(6 * (MAP_WIDTH * 16) / 8, (MAP_HEIGHT * 16) / 4));
-	box.setOutlineColor(sf::Color::Black);
+	box.setFillColor(sf::Color::Black);
 	sf::Text pressKeyText((char*)"Press Z key to continue.", *Game::defaultFont, 10);
-	pressKeyText.setPosition(11 * MAP_WIDTH, (MAP_HEIGHT * 16) - 13);
+	pressKeyText.setPosition(11 * MAP_WIDTH + 12, (MAP_HEIGHT * 16) - 13);
 	
 	// Render string
 	Game::MainWindow->setView(*Sprite::View);

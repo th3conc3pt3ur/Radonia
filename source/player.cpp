@@ -89,10 +89,7 @@ void Player::doorCollisions() {
 		sf::RectangleShape rect2(sf::Vector2f(MAP_WIDTH * 16 / 2, MAP_HEIGHT * 16));
 		
 		rect1.setPosition(0, 0);
-		rect1.setOutlineColor(sf::Color::White);
-		
 		rect2.setPosition(MAP_WIDTH * 16 / 2, 0);
-		rect2.setOutlineColor(sf::Color::White);
 		
 		Game::MainWindow->clear();
 		Game::MainWindow->setView(*Sprite::View);
