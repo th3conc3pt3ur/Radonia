@@ -42,7 +42,7 @@ int main(int argc, char* argv[]) {
 	Game *game = new Game;
 	
 	// Display title screen
-	Interface::titleScreen();
+	//Interface::titleScreen();
 	
 	// Start the game loop
 	game->mainLoop();

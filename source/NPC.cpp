@@ -48,6 +48,7 @@ int NPC_animations[12][4] = {
 int NPC::nbNPCs = 0;
 
 char *NPC::texts[NB_NPCs] = {(char*)"Hello boy!"};
+int NPC::moves[NB_NPCs][21] = {{6, 0, 1, 1, 0, 0, 1, -1, 0, 0, -1, 0, -1}};
 
 NPC::NPC(u16 x, u16 y, u8 direction, u16 mapID, char *filename) : Sprite(filename) {
 	// Set NPC id
@@ -62,6 +63,13 @@ NPC::NPC(u16 x, u16 y, u8 direction, u16 mapID, char *filename) : Sprite(filenam
 	
 	m_direction = direction;
 	
+	m_countMoves = 0;
+	m_vxCount = 0;
+	m_vyCount = 0;
+	
+	// Restart clock
+	m_timer.start();
+	
 	// Add animations to sprite
 	addAnimation(2, NPC_animations[0], 250); // Down
 	addAnimation(2, NPC_animations[1], 250); // Right
@@ -73,6 +81,46 @@ NPC::~NPC() {
 }
 
 void NPC::move() {
+	// If player collided NPC, don't move
+	if(Player::collidedNPC) { m_timer.stop(); return; }
+	else m_timer.start();
+	
+	// Move or not?
+	if(m_timer.time() > 4000) {
+		// Update movement vectors
+		m_vx = moves[m_id][m_countMoves * 2 + 1];
+		m_vy = moves[m_id][m_countMoves * 2 + 2];
+		
+		// Update counters
+		m_vxCount += m_vx;
+		m_vyCount += m_vy;
+	}
+	
+	if(m_vxCount >= 16 || m_vyCount >= 16) {
+		// Update counter
+		m_countMoves++;
+		
+		// Reset counters
+		m_vxCount = 0;
+		m_vyCount = 0;
+		
+		// Reset timer
+		m_timer.reset();
+		m_timer.start();
+	}
+	
+	if(m_countMoves >= moves[m_id][0]) {
+		// Reset timer and counter
+		m_countMoves = 0;
+		m_timer.reset();
+		m_timer.start();
+	}
+	
+	if(m_vx > 0) m_direction = Direction::Right;
+	if(m_vx < 0) m_direction = Direction::Left;
+	if(m_vy > 0) m_direction = Direction::Down;
+	if(m_vy < 0) m_direction = Direction::Up;
+	
 	// Move NPC
 	m_x += m_vx;
 	m_y += m_vy;
@@ -88,7 +136,7 @@ void NPC::render() {
 }
 
 void NPC::speak() {
-	Interface::newDialogBox(NPC::texts[m_id]);
+	Interface::newDialogBox(texts[m_id]);
 }
 
 NPC *NPC::BlueBoy(u16 x, u16 y, u8 direction, u16 mapID) {

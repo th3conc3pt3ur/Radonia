@@ -54,6 +54,9 @@ class NPC : public Sprite {
 		// NPCs texts
 		static char *texts[NB_NPCs];
 		
+		// NPCs moves
+		static int moves[NB_NPCs][21];
+		
 		// NPCs counter
 		static int nbNPCs;
 		
@@ -74,6 +77,14 @@ class NPC : public Sprite {
 		
 		// NPC map id
 		u16 m_mapID;
+		
+		// Movement counters
+		u8 m_countMoves;
+		u8 m_vxCount;
+		u8 m_vyCount;
+		
+		// Timer for movement
+		Timer m_timer;
 };
 
 #endif // NPC_H

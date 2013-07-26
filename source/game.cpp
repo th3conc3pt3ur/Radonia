@@ -63,6 +63,9 @@ Game::Game() {
 	m_continue = true;
 	m_paused = false;
 	
+	// Initialize timers
+	Timer::initTimers();
+	
 	// Initialize tilesets
 	tilesets = initTilesets();
 	
