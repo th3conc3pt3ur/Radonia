@@ -78,6 +78,9 @@ class NPC : public Sprite {
 		// NPC map id
 		u16 m_mapID;
 		
+		// Moving state
+		bool m_moving;
+		
 		// Movement counters
 		u8 m_countMoves;
 		u8 m_vxCount;

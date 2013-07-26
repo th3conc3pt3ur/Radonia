@@ -48,7 +48,7 @@ int NPC_animations[12][4] = {
 int NPC::nbNPCs = 0;
 
 char *NPC::texts[NB_NPCs] = {(char*)"Hello boy!"};
-int NPC::moves[NB_NPCs][21] = {{6, 0, 1, 1, 0, 0, 1, -1, 0, 0, -1, 0, -1}};
+int NPC::moves[NB_NPCs][21] = {{6, 1, 0, 0, 1, 0, 1, -1, 0, 0, -1, 0, -1}};
 
 NPC::NPC(u16 x, u16 y, u8 direction, u16 mapID, char *filename) : Sprite(filename) {
 	// Set NPC id
@@ -62,6 +62,8 @@ NPC::NPC(u16 x, u16 y, u8 direction, u16 mapID, char *filename) : Sprite(filenam
 	m_y = y;
 	
 	m_direction = direction;
+	
+	m_moving = false;
 	
 	m_countMoves = 0;
 	m_vxCount = 0;
@@ -92,8 +94,11 @@ void NPC::move() {
 		m_vy = moves[m_id][m_countMoves * 2 + 2];
 		
 		// Update counters
-		m_vxCount += m_vx;
-		m_vyCount += m_vy;
+		m_vxCount += m_vx * m_vx;
+		m_vyCount += m_vy * m_vy;
+		
+		// Update moving state
+		m_moving = true;
 	}
 	
 	if(m_vxCount >= 16 || m_vyCount >= 16) {
@@ -107,6 +112,9 @@ void NPC::move() {
 		// Reset timer
 		m_timer.reset();
 		m_timer.start();
+		
+		// Update moving state
+		m_moving = false;
 	}
 	
 	if(m_countMoves >= moves[m_id][0]) {
@@ -131,8 +139,9 @@ void NPC::move() {
 }
 
 void NPC::render() {
-	// Play animation
-	playAnimation(m_x, m_y, m_direction);
+	// Render NPC
+	if(m_moving) playAnimation(m_x, m_y, m_direction);
+	else drawFrame(m_x, m_y, m_direction);
 }
 
 void NPC::speak() {
