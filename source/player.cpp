@@ -69,9 +69,9 @@ Player::~Player() {
 bool inDoor = false;
 
 void Player::doorCollisions() {
-	if(((m_vy < 0) && ((inTiles((m_x + 5) >> 4, (m_y + 12) >> 4, doorUp)) || (inTiles((m_x + 10) >> 4, (m_y + 12) >> 4, doorUp))))
+	/*if(((m_vy < 0) && ((inTiles((m_x + 5) >> 4, (m_y + 12) >> 4, doorUp)) || (inTiles((m_x + 10) >> 4, (m_y + 12) >> 4, doorUp))))
 	|| ((m_vy > 0) && ((inTiles((m_x + 5) >> 4, m_y >> 4, doorDown)) || (inTiles((m_x + 10) >> 4, m_y >> 4, doorDown))))
-	|| ((inTiles((m_x + 8) >> 4, (m_y + 8) >> 4, changeMapTiles)) && (!inDoor))) {
+	||*/ if(((inTiles((m_x + 8) >> 4, (m_y + 8) >> 4, changeMapTiles)) && (!inDoor))) {
 		// Reset movement vectors
 		m_vx = 0;
 		m_vy = 0;

@@ -27,12 +27,6 @@
 extern u16 nonPassableTiles[13];
 extern u16 changeMapTiles[3];
 
-// Doors
-extern u16 doorUp[2];
-extern u16 doorDown[2];
-extern u16 doorLeft[2];
-extern u16 doorRight[2];
-
 // Tileset init function
 sf::Texture **initTilesets();
 
