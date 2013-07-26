@@ -31,6 +31,7 @@
 #include "sprite.h"
 #include "NPC.h"
 #include "player.h"
+#include "interface.h"
 #include "map.h"
 #include "mapManager.h"
 #include "door.h"
@@ -110,7 +111,7 @@ void Player::doorCollisions() {
 		Map::View->setCenter(Game::currentMap->x() * MAP_WIDTH * 16 + MAP_WIDTH * 16 / 2, Game::currentMap->y() * MAP_HEIGHT * 16 + MAP_HEIGHT * 16 / 2);
 		
 		// Transition
-		for(u16 x = 0 ; x <= MAP_HEIGHT ; x++) {
+		for(u16 x = 0 ; x <= MAP_HEIGHT / 1.5 ; x++) {
 			rect1.move(-32, 0);
 			rect2.move(32, 0);
 			

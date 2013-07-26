@@ -17,39 +17,15 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	
 ---------------------------------------------------------------------------------*/
-#include <iostream>
+#ifndef INTERFACE_H
+#define INTERFACE_H
 
-#include <SFML/System.hpp>
-#include <SFML/Audio.hpp>
-#include <SFML/Graphics.hpp>
-
-#include "types.h"
-#include "config.h"
-#include "timer.h"
-#include "sprite.h"
-#include "NPC.h"
-#include "player.h"
-#include "interface.h"
-#include "map.h"
-#include "mapManager.h"
-#include "door.h"
-#include "game.h"
-
-using namespace std;
-
-int main(int argc, char* argv[]) {
-	// Initialize game
-	Game *game = new Game;
-	
+namespace Interface {
 	// Display title screen
-	Interface::titleScreen();
+	void titleScreen();
 	
-	// Start the game loop
-	game->mainLoop();
-	
-	// Delete all game objects
-	delete game;
-	
-	return 0;
+	// Display a dialog box
+	void newDialogBox(char *text);
 }
 
+#endif // INTERFACE_H

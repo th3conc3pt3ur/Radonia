@@ -31,6 +31,7 @@
 #include "sprite.h"
 #include "NPC.h"
 #include "player.h"
+#include "interface.h"
 #include "map.h"
 #include "mapManager.h"
 #include "door.h"
@@ -87,41 +88,7 @@ void NPC::render() {
 }
 
 void NPC::speak() {
-	//std::cout << NPC::texts[m_id] << std::endl;
-	
-	// Initialize string
-	sf::Text text(NPC::texts[m_id], *Game::defaultFont);
-	text.setPosition((MAP_WIDTH * 16) / 8 + 8, 3 * (MAP_HEIGHT * 16) / 4 + 8);
-	
-	// Initialize box
-	sf::RectangleShape box;
-	box.setPosition((MAP_WIDTH * 16) / 8, 3 * (MAP_HEIGHT * 16) / 4);
-	box.setSize(sf::Vector2f(6 * (MAP_WIDTH * 16) / 8, (MAP_HEIGHT * 16) / 4));
-	box.setFillColor(sf::Color::Black);
-	sf::Text pressKeyText((char*)"Press Z key to continue.", *Game::defaultFont, 12);
-	pressKeyText.setPosition(10 * MAP_WIDTH + 28, (MAP_HEIGHT - 1) * 16);
-	
-	// Render string
-	Game::MainWindow->setView(*Sprite::View);
-	Game::MainWindow->draw(box);
-	Game::MainWindow->draw(pressKeyText);
-	Game::MainWindow->draw(text);
-	Game::MainWindow->display();
-	
-	// Wait for Z pressed
-	sf::Event event;
-	while(Game::MainWindow->isOpen() && !(Game::MainWindow->pollEvent(event) && event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Z)) {
-		// Close window: exit game
-		if((event.type == sf::Event::Closed) || (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)) {
-			Game::MainWindow->close();
-		}
-		
-		Game::MainWindow->display();
-	}
-	
-	// Reset main window
-	Game::MainWindow->clear();
-	Game::MainWindow->setView(Game::MainWindow->getDefaultView());
+	Interface::newDialogBox(NPC::texts[m_id]);
 }
 
 NPC *NPC::BlueBoy(u16 x, u16 y, u8 direction, u16 mapID) {
