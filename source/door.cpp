@@ -50,6 +50,9 @@ Door** initDoors() {
 	doors[6] = new Door{0, 0, 4 << 4, 2 << 4, Direction::Down, 7};
 	doors[7] = new Door{1, 0, 28 << 4, 7 << 4, Direction::Down, 6};
 	
+	doors[8] = new Door{0, MAP_POS(1, 1, 0), 10 << 4, 24 << 4, Direction::Up, 9};
+	doors[9] = new Door{2, MAP_POS(1, 0, 2), 37 << 4, 19 << 4, Direction::Left, 8};
+	
 	return doors;
 }
 

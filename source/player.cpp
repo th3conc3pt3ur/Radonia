@@ -100,6 +100,8 @@ void Player::doorCollisions() {
 		
 		// Update all values
 		Game::currentMap = Game::mapAreas[Game::doors[Game::doors[doorID]->nextDoorID]->mapArea][Game::doors[Game::doors[doorID]->nextDoorID]->mapID];
+		if(!Game::currentMap) exit(EXIT_FAILURE);
+		
 		m_x = Game::doors[Game::doors[doorID]->nextDoorID]->x;
 		m_y = Game::doors[Game::doors[doorID]->nextDoorID]->y;
 		m_direction = Game::doors[Game::doors[doorID]->nextDoorID]->direction;
@@ -108,12 +110,13 @@ void Player::doorCollisions() {
 		Map::View->setCenter(Game::currentMap->x() * MAP_WIDTH * 16 + MAP_WIDTH * 16 / 2, Game::currentMap->y() * MAP_HEIGHT * 16 + MAP_HEIGHT * 16 / 2);
 		
 		// Transition
-		for(u16 x = 0 ; x <= MAP_HEIGHT / 2 ; x++) {
+		for(u16 x = 0 ; x <= MAP_HEIGHT ; x++) {
 			rect1.move(-32, 0);
 			rect2.move(32, 0);
 			
 			Game::MainWindow->clear();
 			Game::currentMap->render();
+			Game::currentMap->renderNPCs();
 			render();
 			Game::MainWindow->setView(*Sprite::View);
 			Game::MainWindow->draw(rect1);
