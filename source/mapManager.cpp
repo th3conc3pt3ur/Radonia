@@ -228,8 +228,7 @@ bool inTiles(s16 tileX, s16 tileY, u16 tiles[]) {
 
 bool passable(s16 tileX, s16 tileY) {
 	for(u16 i = 0 ; i < Game::currentMap->NPCs().size() ; i++) {
-		if(((Game::currentMap->NPCs()[i]->x() >> 4) == tileX && (Game::currentMap->NPCs()[i]->y() >> 4) == tileY)
-		|| ((Game::currentMap->NPCs()[i]->x() + 14) >> 4 == tileX && (Game::currentMap->NPCs()[i]->y() + 14) >> 4 == tileY)) {
+		if((Game::currentMap->NPCs()[i]->x() >> 4) == tileX && (Game::currentMap->NPCs()[i]->y() >> 4) == tileY) {
 			Player::collidedNPC = Game::currentMap->NPCs()[i];
 			return false;
 		}

@@ -124,13 +124,6 @@ void NPC::move() {
 		m_timer.start();
 	}
 	
-	/*if(((Game::player->x() >> 4 == (m_x + m_vx) >> 4) || ((Game::player->x() + 14) >> 4 == (m_x + m_vx) >> 4) || (Game::player->x() >> 4 == (m_x + m_vx + 14) >> 4) || ((Game::player->x() + 14) >> 4 == (m_x + m_vx + 14) >> 4))
-	&& ((Game::player->y() >> 4 == (m_y + m_vy) >> 4) || ((Game::player->y() + 14) >> 4 == (m_y + m_vy) >> 4) || (Game::player->y() >> 4 == (m_y + m_vy + 14) >> 4) || ((Game::player->y() + 14) >> 4 == (m_y + m_vy + 14) >> 4))) {
-		m_vx = 0;
-		m_vy = 0;
-		Player::collidedNPC = this;
-	}*/
-	
 	if(m_vx > 0) m_direction = Direction::Right;
 	if(m_vx < 0) m_direction = Direction::Left;
 	if(m_vy > 0) m_direction = Direction::Down;
