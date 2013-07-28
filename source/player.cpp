@@ -57,6 +57,7 @@ Player::Player() : Sprite((char*)"graphics/characters/link.png") {
 	
 	m_direction = Direction::Right;
 	
+	m_maxLifes = 5;
 	m_lifes = 3 * 4 + 3;
 	
 	// Add animations to sprite

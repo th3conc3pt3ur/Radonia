@@ -78,8 +78,9 @@ void Interface::renderHUD() {
 	// Render hearts
 	double entireHearts = 0;
 	double piecesOfHearts = modf((double)Game::player->lifes() / 4, &entireHearts);
-	for(u8 i = 0 ; i < Game::player->lifes() / 4 + ceil(piecesOfHearts) ; i++) {
-		hearts->drawFrame(16 * i, 0, ((i < Game::player->lifes() / 4 + ceil(piecesOfHearts) - 1) ? 4 : piecesOfHearts * 4));
+	for(u8 i = 0 ; i < Game::player->maxLifes() ; i++) {
+		if(i < Game::player->lifes() / 4 + ceil(piecesOfHearts)) hearts->drawFrame(16 * i, 0, ((i < Game::player->lifes() / 4 + ceil(piecesOfHearts) - 1) ? 4 : piecesOfHearts * 4));
+		else if(i > Game::player->lifes() / 4) hearts->drawFrame(16 * i, 0, 0);
 	}
 }
 

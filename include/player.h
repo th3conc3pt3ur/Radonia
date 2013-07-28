@@ -41,6 +41,7 @@ class Player : public Sprite {
 		s16 y() const { return m_y; }
 		
 		// Get player lifes
+		u16 maxLifes() const { return m_maxLifes; }
 		u16 lifes() const { return m_lifes; }
 		
 		// Set player position
@@ -67,6 +68,7 @@ class Player : public Sprite {
 		u8 m_direction;
 		
 		// Player lifes
+		u16 m_maxLifes;
 		u16 m_lifes;
 };
 
