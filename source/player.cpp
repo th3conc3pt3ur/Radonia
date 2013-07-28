@@ -140,65 +140,65 @@ void Player::doorCollisions() {
 // NOTE: In that func there is a lot of ">> 4", it's the same thing than "/ 16"
 void Player::testCollisions() {
 	// Right
-	if((m_vx > 0) && ((!passable((m_x + 12) >> 4, (m_y + 8) >> 4)) || (!passable((m_x + 12) >> 4, (m_y + 13) >> 4)))) {
+	if((m_vx > 0) && ((!passable(m_x + 12, m_y + 8)) || (!passable(m_x + 12, m_y + 13)))) {
 		// Reset movement vector to stop player
 		m_vx = 0;
 		
 		// Obstacle up
-		if((!passable((m_x + 12) >> 4, (m_y + 8) >> 4)) && passable((m_x + 12) >> 4, (m_y + 13) >> 4)) {
+		if((!passable(m_x + 12, m_y + 8)) && passable(m_x + 12, m_y + 13)) {
 			if(m_vy == 0) m_vy = 1;
 		}
 		
 		// Obstacle down
-		if((!passable((m_x + 12) >> 4, (m_y + 13) >> 4)) && passable((m_x + 12) >> 4, (m_y + 8) >> 4)) {
+		if((!passable(m_x + 12, m_y + 13)) && passable(m_x + 12, m_y + 8)) {
 			if(m_vy == 0) m_vy = -1;
 		}
 	}
 	
 	// Left
-	if((m_vx < 0) && ((!passable((m_x + 3) >> 4, (m_y + 8) >> 4)) || (!passable((m_x + 3) >> 4, (m_y + 13) >> 4)))) {
+	if((m_vx < 0) && ((!passable(m_x + 3, m_y + 8)) || (!passable(m_x + 3, m_y + 13)))) {
 		// Reset movement vector to stop player
 		m_vx = 0;
 		
 		// Obstacle up
-		if((!passable((m_x + 3) >> 4, (m_y + 8) >> 4)) && passable((m_x + 3) >> 4, (m_y + 13) >> 4)) {
+		if((!passable(m_x + 3, m_y + 8)) && passable(m_x + 3, m_y + 13)) {
 			if(m_vy == 0) m_vy = 1;
 		}
 		
 		// Obstacle down
-		if((!passable((m_x + 3) >> 4, (m_y + 13) >> 4)) && passable((m_x + 3) >> 4, (m_y + 8) >> 4)) {
+		if((!passable(m_x + 3, m_y + 13)) && passable(m_x + 3, m_y + 8)) {
 			if(m_vy == 0) m_vy = -1;
 		}
 	}
 	
 	// Up
-	if((m_vy < 0) && ((!passable((m_x + 5) >> 4, (m_y + 5) >> 4)) || (!passable((m_x + 10) >> 4, (m_y + 5) >> 4)))) {
+	if((m_vy < 0) && ((!passable(m_x + 5, m_y + 5)) || (!passable(m_x + 10, m_y + 5)))) {
 		// Reset movement vector to stop player
 		m_vy = 0;
 		
 		// Obstacle left
-		if((!passable((m_x + 5) >> 4, (m_y + 5) >> 4)) && passable((m_x + 10) >> 4, (m_y + 5) >> 4)) {
+		if((!passable(m_x + 5, m_y + 5)) && passable(m_x + 10, m_y + 5)) {
 			if(m_vx == 0) m_vx = 1;
 		}
 		
 		// Obstacle right
-		if((!passable((m_x + 10) >> 4, (m_y + 5) >> 4)) && passable((m_x + 5) >> 4, (m_y + 5) >> 4)) {
+		if((!passable(m_x + 10, m_y + 5)) && passable(m_x + 5, m_y + 5)) {
 			if(m_vx == 0) m_vx = -1;
 		}
 	}
 	
 	// Down
-	if((m_vy > 0) && ((!passable((m_x + 5) >> 4, (m_y + 15) >> 4)) || (!passable((m_x + 10) >> 4, (m_y + 15) >> 4)))) {
+	if((m_vy > 0) && ((!passable(m_x + 5, m_y + 15)) || (!passable(m_x + 10, m_y + 15)))) {
 		// Reset movement vector to stop player
 		m_vy = 0;
 		
 		// Obstacle left
-		if((!passable((m_x + 5) >> 4, (m_y + 15) >> 4)) && passable((m_x + 10) >> 4, (m_y + 15) >> 4)) {
+		if((!passable(m_x + 5, m_y + 15)) && passable(m_x + 10, m_y + 15)) {
 			if(m_vx == 0) m_vx = 1;
 		}
 		
 		// Obstacle right
-		if((!passable((m_x + 10) >> 4, (m_y + 15) >> 4)) && passable((m_x + 5) >> 4, (m_y + 15) >> 4)) {
+		if((!passable(m_x + 10, m_y + 15)) && passable(m_x + 5, m_y + 15)) {
 			if(m_vx == 0) m_vx = -1;
 		}
 	}

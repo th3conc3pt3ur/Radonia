@@ -226,13 +226,21 @@ bool inTiles(s16 tileX, s16 tileY, u16 tiles[]) {
 	}
 }
 
-bool passable(s16 tileX, s16 tileY) {
+bool passable(s16 x, s16 y) {
+	// Setup tileX and tileY
+	s16 tileX = x >> 4;
+	s16 tileY = y >> 4;
+	
+	// Collisions with NPCs
 	for(u16 i = 0 ; i < Game::currentMap->NPCs().size() ; i++) {
-		if((Game::currentMap->NPCs()[i]->x() >> 4) == tileX && (Game::currentMap->NPCs()[i]->y() >> 4) == tileY) {
+		if((Game::currentMap->NPCs()[i]->x() < x && Game::currentMap->NPCs()[i]->x() + 16 > x)
+		&& (Game::currentMap->NPCs()[i]->y() < y && Game::currentMap->NPCs()[i]->y() + 16 > y)) {
 			Player::collidedNPC = Game::currentMap->NPCs()[i];
 			return false;
 		}
 	}
+	
+	// Collisions with map
 	if(inTable(nonPassableTiles, Game::currentMap->tilesetInfo()[Game::currentMap->getTile(tileX, tileY)])) {
 		Player::collidedNPC = NULL;
 		return false;

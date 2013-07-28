@@ -44,7 +44,9 @@ void refreshMaps(Map **maps, s16 moveX, s16 moveY);
 
 // Functions for tiles
 bool inTable(u16 *tiles, u16 id);
-bool passable(s16 tileX, s16 tileY);
 bool inTiles(s16 tileX, s16 tileY, u16 *tiles);
+
+// Test collisions
+bool passable(s16 x, s16 y);
 
 #endif // MAPMANAGER_H
