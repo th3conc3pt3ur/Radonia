@@ -85,14 +85,14 @@ NPC::~NPC() {
 void NPC::move() {
 	// If player collided NPC, don't move
 	if(Player::collidedNPC
-	|| ((m_x > Game::player->x() && m_x < Game::player->x() + 16)
-	&&  (m_y > Game::player->y() && m_y < Game::player->y() + 16))
-	|| ((m_x + 16 > Game::player->x() && m_x + 16 < Game::player->x() + 16)
-	&&  (m_y > Game::player->y() && m_y < Game::player->y() + 16))
-	|| ((m_x > Game::player->x() && m_x < Game::player->x() + 16)
-	&&  (m_y + 16 > Game::player->y() && m_y + 16 < Game::player->y() + 16))
-	|| ((m_x + 16 > Game::player->x() && m_x + 16 < Game::player->x() + 16)
-	&&  (m_y + 16 > Game::player->y() && m_y + 16 < Game::player->y() + 16))) {
+	|| ((m_x + 2 > Game::player->x() && m_x + 2 < Game::player->x() + 16)
+	&&  (m_y + 2 > Game::player->y() && m_y + 2 < Game::player->y() + 16))
+	|| ((m_x + 14 > Game::player->x() && m_x + 14 < Game::player->x() + 16)
+	&&  (m_y + 2 > Game::player->y() && m_y + 2 < Game::player->y() + 16))
+	|| ((m_x + 2 > Game::player->x() && m_x + 2 < Game::player->x() + 16)
+	&&  (m_y + 14 > Game::player->y() && m_y + 14 < Game::player->y() + 16))
+	|| ((m_x + 14 > Game::player->x() && m_x + 14 < Game::player->x() + 16)
+	&&  (m_y + 14 > Game::player->y() && m_y + 14 < Game::player->y() + 16))) {
 		m_timer.stop();
 		return;
 	}
