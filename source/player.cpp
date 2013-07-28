@@ -57,6 +57,8 @@ Player::Player() : Sprite((char*)"graphics/characters/link.png") {
 	
 	m_direction = Direction::Right;
 	
+	m_lifes = 3 * 4;
+	
 	// Add animations to sprite
 	addAnimation(2, Player_animations[0], 100); // Down
 	addAnimation(2, Player_animations[1], 100); // Right
@@ -119,6 +121,7 @@ void Player::doorCollisions() {
 			Game::currentMap->render();
 			Game::currentMap->renderNPCs();
 			render();
+			Interface::renderHUD();
 			Game::MainWindow->setView(*Sprite::View);
 			Game::MainWindow->draw(rect1);
 			Game::MainWindow->draw(rect2);

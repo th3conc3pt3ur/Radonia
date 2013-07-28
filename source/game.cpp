@@ -29,6 +29,7 @@
 #include "sprite.h"
 #include "NPC.h"
 #include "player.h"
+#include "interface.h"
 #include "map.h"
 #include "mapManager.h"
 #include "door.h"
@@ -83,6 +84,9 @@ Game::Game() {
 	
 	// Initialize player
 	player = new Player();
+	
+	// Initialize interface
+	Interface::initialize();
 }
 
 Game::~Game() {
@@ -141,6 +145,9 @@ void Game::mainLoop() {
 		// Render player
 		player->render();
 		
+		// Render HUD
+		Interface::renderHUD();
+		
 		// Update the window
 		MainWindow->display();
 	}
@@ -175,7 +182,9 @@ void Game::scroll() {
 		if(i & 1) {
 			MainWindow->clear();
 			refreshMaps(mapAreas[currentMap->area()], moveX, moveY);
+			currentMap->renderNPCs();
 			player->render();
+			Interface::renderHUD();
 			MainWindow->display();
 		}
 	}

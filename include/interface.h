@@ -24,8 +24,17 @@ namespace Interface {
 	// Display title screen
 	void titleScreen();
 	
+	// Initialize interface
+	void initialize();
+	
+	// Display HUD
+	void renderHUD();
+	
 	// Display a dialog box
 	void newDialogBox(char *text);
+	
+	// Hearts sprite
+	extern Sprite *hearts;
 }
 
 #endif // INTERFACE_H

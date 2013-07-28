@@ -37,6 +37,8 @@
 #include "door.h"
 #include "game.h"
 
+Sprite *Interface::hearts = NULL;
+
 void Interface::titleScreen() {
 	// Load title screen background
 	sf::Texture titleScreenBgImg;
@@ -67,6 +69,18 @@ void Interface::titleScreen() {
 	}
 }
 
+void Interface::initialize() {
+	// Load sprite
+	hearts = new Sprite((char*)"graphics/interface/hearts.png");
+}
+
+void Interface::renderHUD() {
+	// Render hearts
+	for(u8 i = 0 ; i < Game::player->lifes() / 4 ; i++) {
+		hearts->drawFrame(16 * i, 0, 4);
+	}
+}
+
 void Interface::newDialogBox(char *text) {
 	// Initialize box
 	sf::RectangleShape box;
@@ -85,6 +99,7 @@ void Interface::newDialogBox(char *text) {
 	Game::MainWindow->draw(box);
 	Game::MainWindow->draw(pressKeyText);
 	Game::MainWindow->draw(string);
+	Game::MainWindow->setView(Game::MainWindow->getDefaultView());
 	Game::MainWindow->display();
 	
 	// Wait for Z pressed

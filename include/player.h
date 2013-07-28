@@ -40,6 +40,9 @@ class Player : public Sprite {
 		s16 x() const { return m_x; }
 		s16 y() const { return m_y; }
 		
+		// Get player lifes
+		u16 lifes() const { return m_lifes; }
+		
 		// Set player position
 		void x(s16 x) { m_x = x; }
 		void y(s16 y) { m_y = y; }
@@ -64,7 +67,7 @@ class Player : public Sprite {
 		u8 m_direction;
 		
 		// Player lifes
-		u8 m_lifes;
+		u16 m_lifes;
 };
 
 #endif // PLAYER_H
