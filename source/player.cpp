@@ -29,6 +29,7 @@
 #include "config.h"
 #include "timer.h"
 #include "sprite.h"
+#include "monster.h"
 #include "NPC.h"
 #include "player.h"
 #include "interface.h"
@@ -46,6 +47,7 @@ int Player_animations[12][4] = {
 };
 
 NPC *Player::collidedNPC = NULL;
+Monster *Player::collidedMonster = NULL;
 
 Player::Player() : Sprite((char*)"graphics/characters/link.png") {
 	// Set class members
@@ -256,6 +258,12 @@ void Player::actions() {
 	// Test collisions
 	doorCollisions();
 	testCollisions();
+	
+	// If player collided a monster, hurt him
+	if(collidedMonster) {
+		m_lifes--;
+		// TODO: Timer for hurting + Throw player far away from the monster
+	}
 	
 	// Move the player
 	m_x += m_vx * PLAYER_SPEED;

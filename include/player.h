@@ -55,6 +55,9 @@ class Player : public Sprite {
 		// Which NPC the player is colliding
 		static NPC *collidedNPC;
 		
+		// Which monster the player is colliding
+		static Monster *collidedMonster;
+		
 	private:
 		// Player position (relative to current map)
 		s16 m_x;

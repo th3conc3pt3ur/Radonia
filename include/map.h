@@ -48,8 +48,14 @@ class Map {
 		// Get NPCs
 		std::vector<NPC*> NPCs() const { return m_NPCs; }
 		
+		// Get monsters
+		std::vector<Monster*> monsters() const { return m_monsters; }
+		
 		// Render NPCs
 		void renderNPCs();
+		
+		// Render monsters
+		void renderMonsters();
 		
 		// Map view
 		static sf::View *View;
@@ -85,6 +91,9 @@ class Map {
 		
 		// NPCs
 		std::vector<NPC*> m_NPCs;
+		
+		// Monsters
+		std::vector<Monster*> m_monsters;
 };
 
 #endif // MAP_H

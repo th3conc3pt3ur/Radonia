@@ -26,6 +26,7 @@
 #include "config.h"
 #include "timer.h"
 #include "sprite.h"
+#include "monster.h"
 #include "NPC.h"
 #include "player.h"
 #include "map.h"

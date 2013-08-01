@@ -54,6 +54,9 @@ class Game {
 		// NPCs array
 		static NPC **NPCs;
 		
+		// Monsters array
+		static Monster **monsters;
+		
 		// Player
 		static Player *player;
 		

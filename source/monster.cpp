@@ -38,25 +38,26 @@
 #include "door.h"
 #include "game.h"
 
+// Monsters are called Qaewans
+
 // Set animations table
-int NPC_animations[12][4] = {
+int Monster_animations[12][4] = {
 	{4,0},
 	{5,1},
 	{6,2},
 	{7,3}
 };
 
-int NPC::nbNPCs = 0;
+int Monster::nbMonsters = 0;
 
-char *NPC::texts[NB_NPCs] = {(char*)"Hello boy!"};
-int NPC::moves[NB_NPCs][21] = {{6, 1, 0, 0, 1, 0, 1, -1, 0, 0, -1, 0, -1}};
+int Monster::moves[NB_MONSTERS][21] = {{6, 1, 0, 0, 1, 0, 1, -1, 0, 0, -1, 0, -1}};
 
-NPC::NPC(u16 x, u16 y, u8 direction, u16 mapID, char *filename) : Sprite(filename) {
-	// Set NPC id
-	m_id = nbNPCs;
+Monster::Monster(u16 x, u16 y, u8 direction, u16 mapID, char *filename) : Sprite(filename) {
+	// Set monster id
+	m_id = nbMonsters;
 	
-	// Update NPCs counter
-	nbNPCs++;
+	// Update monsters counter
+	nbMonsters++;
 	
 	// Set class members
 	m_x = x;
@@ -74,18 +75,18 @@ NPC::NPC(u16 x, u16 y, u8 direction, u16 mapID, char *filename) : Sprite(filenam
 	m_timer.start();
 	
 	// Add animations to sprite
-	addAnimation(2, NPC_animations[0], 250); // Down
-	addAnimation(2, NPC_animations[1], 250); // Right
-	addAnimation(2, NPC_animations[2], 250); // Left
-	addAnimation(2, NPC_animations[3], 250); // Up
+	addAnimation(2, Monster_animations[0], 250); // Down
+	addAnimation(2, Monster_animations[1], 250); // Right
+	addAnimation(2, Monster_animations[2], 250); // Left
+	addAnimation(2, Monster_animations[3], 250); // Up
 }
 
-NPC::~NPC() {
+Monster::~Monster() {
 }
 
-void NPC::move() {
-	// If player collided NPC, don't move
-	if(Player::collidedNPC
+void Monster::move() {
+	// If player collided monster, don't move
+	if(Player::collidedMonster
 	|| ((m_x + 2 > Game::player->x() && m_x + 2 < Game::player->x() + 16)
 	&&  (m_y + 2 > Game::player->y() && m_y + 2 < Game::player->y() + 16))
 	|| ((m_x + 14 > Game::player->x() && m_x + 14 < Game::player->x() + 16)
@@ -141,7 +142,7 @@ void NPC::move() {
 	if(m_vy > 0) m_direction = Direction::Down;
 	if(m_vy < 0) m_direction = Direction::Up;
 	
-	// Move NPC
+	// Move monster
 	m_x += m_vx;
 	m_y += m_vy;
 	
@@ -150,27 +151,23 @@ void NPC::move() {
 	m_vy = 0;
 }
 
-void NPC::render() {
-	// Render NPC
+void Monster::render() {
+	// Render monster
 	if(m_moving) playAnimation(m_x, m_y, m_direction);
 	else drawFrame(m_x, m_y, m_direction);
 }
 
-void NPC::speak() {
-	Interface::newDialogBox(texts[m_id]);
+Monster *Monster::RedMonster(u16 x, u16 y, u8 direction, u16 mapID) {
+	return new Monster(x, y, direction, mapID, (char*)"graphics/monsters/red_monster.png");
 }
 
-NPC *NPC::BlueBoy(u16 x, u16 y, u8 direction, u16 mapID) {
-	return new NPC(x, y, direction, mapID, (char*)"graphics/characters/blue_boy.png");
-}
-
-NPC **NPC::initAll() {
-	// Initialize NPCs array
-	NPC **NPCs = new NPC*[NB_NPCs];
+Monster **Monster::initAll() {
+	// Initialize monsters array
+	Monster **monsters = new Monster*[NB_MONSTERS];
 	
-	// Init NPCs
-	NPCs[0] = NPC::BlueBoy(10 << 4, 2 << 4, Direction::Down, 0);
+	// Init monsters
+	monsters[0] = Monster::RedMonster(22 << 4, 14 << 4, Direction::Right, 0);
 	
-	return NPCs;
+	return monsters;
 }
 

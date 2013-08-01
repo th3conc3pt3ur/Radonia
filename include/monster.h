@@ -17,14 +17,14 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	
 ---------------------------------------------------------------------------------*/
-#ifndef NPC_H
-#define NPC_H
+#ifndef MONSTER_H
+#define MONSTER_H
 
-class NPC : public Sprite {
+class Monster : public Sprite {
 	public:
 		// Constructor and destructor
-		NPC(u16 x, u16 y, u8 direction, u16 mapID, char *filename);
-		~NPC();
+		Monster(u16 x, u16 y, u8 direction, u16 mapID, char *filename);
+		~Monster();
 		
 		// Movement function
 		void move();
@@ -32,50 +32,44 @@ class NPC : public Sprite {
 		// Render function
 		void render();
 		
-		// Speaking function
-		void speak();
-		
-		// Get NPC id
+		// Get monster id
 		u16 id() const { return m_id; }
 		
-		// Get NPC position in current map
+		// Get monster position in current map
 		u16 x() const { return m_x; }
 		u16 y() const { return m_y; }
 		
-		// Get NPC mapID
+		// Get monster mapID
 		u16 mapID() const { return m_mapID; }
 		
-		// Make a blue boy
-		static NPC *BlueBoy(u16 x, u16 y, u8 direction, u16 mapID);
+		// Make a red monster
+		static Monster *RedMonster(u16 x, u16 y, u8 direction, u16 mapID);
 		
-		// Initialize all NPCs
-		static NPC **initAll();
+		// Initialize all monsters
+		static Monster **initAll();
 		
-		// NPCs texts
-		static char *texts[NB_NPCs];
+		// Monsters moves
+		static int moves[NB_MONSTERS][21];
 		
-		// NPCs moves
-		static int moves[NB_NPCs][21];
-		
-		// NPCs counter
-		static int nbNPCs;
+		// Monsters counter
+		static int nbMonsters;
 		
 	private:
-		// NPC id
+		// Monster id
 		u16 m_id;
 		
-		// NPC position in current map
+		// Monster position in current map
 		u16 m_x;
 		u16 m_y;
 		
-		// NPC movement vectors
+		// Monster movement vectors
 		s8 m_vx;
 		s8 m_vy;
 		
-		// NPC direction
+		// Monster direction
 		u8 m_direction;
 		
-		// NPC map id
+		// Monster map id
 		u16 m_mapID;
 		
 		// Moving state
@@ -90,4 +84,4 @@ class NPC : public Sprite {
 		Timer m_timer;
 };
 
-#endif // NPC_H
+#endif // MONSTER_H

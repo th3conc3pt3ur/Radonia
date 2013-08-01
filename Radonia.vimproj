@@ -14,6 +14,7 @@ Radonia=/home/quentin/Bureau/Projets/Radonia CD=. filter=".gitignore *.c *.h *.d
   interface.h
   map.h
   mapManager.h
+  monster.h
   NPC.h
   player.h
   sprite.h
@@ -27,6 +28,7 @@ Radonia=/home/quentin/Bureau/Projets/Radonia CD=. filter=".gitignore *.c *.h *.d
   main.cpp
   map.cpp
   mapManager.cpp
+  monster.cpp
   NPC.cpp
   player.cpp
   sprite.cpp

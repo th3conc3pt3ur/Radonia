@@ -26,6 +26,7 @@
 #define INDOOR_MAPS 2
 
 #define NB_NPCs 1
+#define NB_MONSTERS 1
 
 #define MAP_WIDTH 40
 #define MAP_HEIGHT 30

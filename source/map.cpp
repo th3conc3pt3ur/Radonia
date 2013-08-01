@@ -31,6 +31,7 @@
 #include "config.h"
 #include "timer.h"
 #include "sprite.h"
+#include "monster.h"
 #include "NPC.h"
 #include "player.h"
 #include "map.h"
@@ -94,6 +95,11 @@ Map::Map(sf::Texture *tileset, u16 *tilesetInfo, char *filename, u16 width, u16 
 	for(u16 i = 0 ; i < NB_NPCs ; i++) {
 		if(Game::NPCs[i]->mapID() == m_id) m_NPCs.push_back(Game::NPCs[i]);
 	}
+	
+	// Get monsters
+	for(u16 i = 0 ; i < NB_MONSTERS ; i++) {
+		if(Game::monsters[i]->mapID() == m_id) m_monsters.push_back(Game::monsters[i]);
+	}
 }
 
 Map::~Map() {
@@ -139,6 +145,13 @@ u16 Map::getTile(u16 tileX, u16 tileY) {
 
 void Map::renderNPCs() {
 	for(std::vector<NPC*>::iterator it = m_NPCs.begin() ; it != m_NPCs.end() ; it++) {
+		(*it)->move();
+		(*it)->render();
+	}
+}
+
+void Map::renderMonsters() {
+	for(std::vector<Monster*>::iterator it = m_monsters.begin() ; it != m_monsters.end() ; it++) {
 		(*it)->move();
 		(*it)->render();
 	}

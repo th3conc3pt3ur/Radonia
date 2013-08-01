@@ -27,6 +27,7 @@
 #include "config.h"
 #include "timer.h"
 #include "sprite.h"
+#include "monster.h"
 #include "NPC.h"
 #include "player.h"
 #include "interface.h"
@@ -45,6 +46,7 @@ Map **Game::maps = NULL;
 Map *Game::currentMap = NULL;
 Door **Game::doors = NULL;
 NPC **Game::NPCs = NULL;
+Monster **Game::monsters = NULL;
 Player *Game::player = NULL;
 
 Game::Game() {
@@ -72,6 +74,9 @@ Game::Game() {
 	
 	// Initialize NPCs
 	NPCs = NPC::initAll();
+	
+	// Initialize monsters
+	monsters = Monster::initAll();
 	
 	// Initialize maps
 	mapAreas = initMaps();
@@ -111,6 +116,9 @@ Game::~Game() {
 	// Delete NPCs
 	delete[] NPCs;
 	
+	// Delete monsters
+	delete[] monsters;
+	
 	// Delete player
 	delete player;
 }
@@ -141,6 +149,9 @@ void Game::mainLoop() {
 		
 		// Render NPCs
 		currentMap->renderNPCs();
+		
+		// Render monsters
+		currentMap->renderMonsters();
 		
 		// Render player
 		player->render();
