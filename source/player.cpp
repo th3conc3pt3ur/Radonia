@@ -62,6 +62,9 @@ Player::Player() : Sprite((char*)"graphics/characters/link.png") {
 	m_maxLifes = 5;
 	m_lifes = 3 * 4 + 3;
 	
+	m_hurtTimer.reset();
+	m_hurtTimer.start();
+	
 	// Add animations to sprite
 	addAnimation(2, Player_animations[0], 100); // Down
 	addAnimation(2, Player_animations[1], 100); // Right
@@ -255,14 +258,24 @@ void Player::actions() {
 		}
 	}
 	
+	// Temp vectors
+	s8 t_vx = m_vx;
+	s8 t_vy = m_vy;
+	
 	// Test collisions
 	doorCollisions();
 	testCollisions();
 	
 	// If player collided a monster, hurt him
 	if(collidedMonster) {
-		m_lifes--;
-		// TODO: Timer for hurting + Throw player far away from the monster
+		if(m_hurtTimer.time() > 2000) {
+			m_lifes--;
+			m_hurtTimer.reset();
+			m_hurtTimer.start();
+			// FIXME: Improve that
+			m_vx = (-t_vx) * 20;
+			m_vy = (-t_vy) * 20;
+		}
 	}
 	
 	// Move the player

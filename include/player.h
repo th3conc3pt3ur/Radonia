@@ -73,6 +73,9 @@ class Player : public Sprite {
 		// Player lifes
 		u16 m_maxLifes;
 		u16 m_lifes;
+		
+		// Player hurt timer
+		Timer m_hurtTimer;
 };
 
 #endif // PLAYER_H
