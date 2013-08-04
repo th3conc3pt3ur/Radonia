@@ -80,6 +80,9 @@ class Player : public Sprite {
 		// Player hurt timer
 		Timer m_hurtTimer;
 		u16 m_timerLastValue;
+		
+		// Default texture color
+		sf::Color m_defaultColor;
 };
 
 #endif // PLAYER_H

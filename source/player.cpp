@@ -68,6 +68,8 @@ Player::Player() : Sprite((char*)"graphics/characters/link.png") {
 	
 	m_timerLastValue = 0;
 	
+	m_defaultColor = m_spr.getColor();
+	
 	// Add animations to sprite
 	addAnimation(2, Player_animations[0], 100); // Down
 	addAnimation(2, Player_animations[1], 100); // Right
@@ -274,6 +276,10 @@ void Player::actions() {
 			// Block commands
 			blockedCommands = true;
 			
+			// Change player texture
+			sf::Color c = m_spr.getColor();
+			m_spr.setColor(sf::Color(255-c.r, 255-c.g, 255-c.b));
+			
 			// Get enemy direction vectors
 			s8 e_x = m_x - collidedMonster->x();
 			s8 e_y = m_y - collidedMonster->y();
@@ -302,6 +308,7 @@ void Player::actions() {
 			if(abs(e_x) > 24 || abs(e_y) > 24 || collidedTile) {
 				collidedMonster = NULL;
 				blockedCommands = false;
+				m_spr.setColor(m_defaultColor);
 			}
 		}
 		
