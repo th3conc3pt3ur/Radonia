@@ -30,6 +30,9 @@ namespace Interface {
 	// Display HUD
 	void renderHUD();
 	
+	// Render monster life
+	void renderMonsterLife(Monster *monster);
+	
 	// Display a dialog box
 	void newDialogBox(char *text);
 	

@@ -65,6 +65,9 @@ Monster::Monster(u16 x, u16 y, u8 direction, u16 mapID, char *filename) : Sprite
 	
 	m_direction = direction;
 	
+	m_lifes = 10;
+	m_maxLifes = 10;
+	
 	m_moving = false;
 	
 	m_countMoves = 0;
@@ -86,8 +89,7 @@ Monster::~Monster() {
 
 void Monster::move() {
 	// If player collided monster, don't move
-	if(Player::collidedMonster
-	|| ((m_x + 2 > Game::player->x() && m_x + 2 < Game::player->x() + 16)
+	if(((m_x + 2 > Game::player->x() && m_x + 2 < Game::player->x() + 16)
 	&&  (m_y + 2 > Game::player->y() && m_y + 2 < Game::player->y() + 16))
 	|| ((m_x + 14 > Game::player->x() && m_x + 14 < Game::player->x() + 16)
 	&&  (m_y + 2 > Game::player->y() && m_y + 2 < Game::player->y() + 16))
@@ -96,6 +98,7 @@ void Monster::move() {
 	|| ((m_x + 14 > Game::player->x() && m_x + 14 < Game::player->x() + 16)
 	&&  (m_y + 14 > Game::player->y() && m_y + 14 < Game::player->y() + 16))) {
 		m_timer.stop();
+		Player::collidedMonster = this;
 		return;
 	}
 	else m_timer.start();
@@ -155,6 +158,9 @@ void Monster::render() {
 	// Render monster
 	if(m_moving) playAnimation(m_x, m_y, m_direction);
 	else drawFrame(m_x, m_y, m_direction);
+	
+	// Render monster life
+	Interface::renderMonsterLife(this);
 }
 
 Monster *Monster::RedMonster(u16 x, u16 y, u8 direction, u16 mapID) {

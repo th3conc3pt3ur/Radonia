@@ -150,11 +150,11 @@ void Game::mainLoop() {
 		// Render NPCs
 		currentMap->renderNPCs();
 		
-		// Render monsters
-		currentMap->renderMonsters();
-		
 		// Render player
 		player->render();
+		
+		// Render monsters
+		currentMap->renderMonsters();
 		
 		// Render HUD
 		Interface::renderHUD();

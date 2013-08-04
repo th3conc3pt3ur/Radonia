@@ -86,6 +86,23 @@ void Interface::renderHUD() {
 	}
 }
 
+void Interface::renderMonsterLife(Monster *monster) {
+	// Initialize rectangles
+	sf::RectangleShape background(sf::Vector2f(16, 3));
+	background.setPosition(monster->x(), monster->y() - 5);
+	background.setFillColor(sf::Color(0, 0, 0));
+	
+	sf::RectangleShape life(sf::Vector2f(monster->lifes() * 16 / monster->maxLifes(), 3));
+	life.setPosition(monster->x(), monster->y() - 5);
+	life.setFillColor(sf::Color(255, 255, 255));
+	
+	// Render life
+	Game::MainWindow->setView(*Sprite::View);
+	Game::MainWindow->draw(background);
+	Game::MainWindow->draw(life);
+	Game::MainWindow->setView(Game::MainWindow->getDefaultView());
+}
+
 void Interface::newDialogBox(char *text) {
 	// Initialize box
 	sf::RectangleShape box;

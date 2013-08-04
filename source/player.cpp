@@ -48,6 +48,7 @@ int Player_animations[12][4] = {
 
 NPC *Player::collidedNPC = NULL;
 Monster *Player::collidedMonster = NULL;
+int Player::collidedTile = 0;
 
 Player::Player() : Sprite((char*)"graphics/characters/link.png") {
 	// Set class members
@@ -64,6 +65,8 @@ Player::Player() : Sprite((char*)"graphics/characters/link.png") {
 	
 	m_hurtTimer.reset();
 	m_hurtTimer.start();
+	
+	m_timerLastValue = 0;
 	
 	// Add animations to sprite
 	addAnimation(2, Player_animations[0], 100); // Down
@@ -155,12 +158,12 @@ void Player::testCollisions() {
 		
 		// Obstacle up
 		if((!passable(m_x + 12, m_y + 8)) && passable(m_x + 12, m_y + 13)) {
-			if(m_vy == 0) m_vy = 1;
+			if(m_vy == 0 && !collidedMonster && !collidedNPC) m_vy = 1;
 		}
 		
 		// Obstacle down
 		if((!passable(m_x + 12, m_y + 13)) && passable(m_x + 12, m_y + 8)) {
-			if(m_vy == 0) m_vy = -1;
+			if(m_vy == 0 && !collidedMonster && !collidedNPC) m_vy = -1;
 		}
 	}
 	
@@ -171,12 +174,12 @@ void Player::testCollisions() {
 		
 		// Obstacle up
 		if((!passable(m_x + 3, m_y + 8)) && passable(m_x + 3, m_y + 13)) {
-			if(m_vy == 0) m_vy = 1;
+			if(m_vy == 0 && !collidedMonster && !collidedNPC) m_vy = 1;
 		}
 		
 		// Obstacle down
 		if((!passable(m_x + 3, m_y + 13)) && passable(m_x + 3, m_y + 8)) {
-			if(m_vy == 0) m_vy = -1;
+			if(m_vy == 0 && !collidedMonster && !collidedNPC) m_vy = -1;
 		}
 	}
 	
@@ -187,12 +190,12 @@ void Player::testCollisions() {
 		
 		// Obstacle left
 		if((!passable(m_x + 5, m_y + 5)) && passable(m_x + 10, m_y + 5)) {
-			if(m_vx == 0) m_vx = 1;
+			if(m_vx == 0 && !collidedMonster && !collidedNPC) m_vx = 1;
 		}
 		
 		// Obstacle right
 		if((!passable(m_x + 10, m_y + 5)) && passable(m_x + 5, m_y + 5)) {
-			if(m_vx == 0) m_vx = -1;
+			if(m_vx == 0 && !collidedMonster && !collidedNPC) m_vx = -1;
 		}
 	}
 	
@@ -203,64 +206,63 @@ void Player::testCollisions() {
 		
 		// Obstacle left
 		if((!passable(m_x + 5, m_y + 15)) && passable(m_x + 10, m_y + 15)) {
-			if(m_vx == 0) m_vx = 1;
+			if(m_vx == 0 && !collidedMonster && !collidedNPC) m_vx = 1;
 		}
 		
 		// Obstacle right
 		if((!passable(m_x + 10, m_y + 15)) && passable(m_x + 5, m_y + 15)) {
-			if(m_vx == 0) m_vx = -1;
+			if(m_vx == 0 && !collidedMonster && !collidedNPC) m_vx = -1;
 		}
 	}
 }
 
+bool blockedCommands = false;
 void Player::actions() {
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-		// Set vertical movement vector negative
-		m_vy = -1;
+	if(!blockedCommands) {
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+			// Set vertical movement vector negative
+			m_vy = -1;
+			
+			// If all other directional keys are released
+			if(!sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+				// Set direction to up
+				m_direction = Direction::Up;
+			}
+		}
 		
-		// If all other directional keys are released
-		if(!sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-			// Set direction to up
-			m_direction = Direction::Up;
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+			// Set vertical movement vector positive
+			m_vy = 1;
+			
+			// If all other directional keys are released
+			if(!sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+				// Set direction to down
+				m_direction = Direction::Down;
+			}
+		}
+		
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+			// Set horizontal movement vector negative
+			m_vx = -1;
+			
+			// If all other directional keys are released
+			if(!sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+				// Set direction to left
+				m_direction = Direction::Left;
+			}
+		}
+		
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+			// Set horizontal movement vector positive
+			m_vx = 1;
+			
+			// If all other directional keys are released
+			if(!sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+				// Set direction to right
+				m_direction = Direction::Right;
+			}
 		}
 	}
-	
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-		// Set vertical movement vector positive
-		m_vy = 1;
-		
-		// If all other directional keys are released
-		if(!sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-			// Set direction to down
-			m_direction = Direction::Down;
-		}
-	}
-	
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-		// Set horizontal movement vector negative
-		m_vx = -1;
-		
-		// If all other directional keys are released
-		if(!sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-			// Set direction to left
-			m_direction = Direction::Left;
-		}
-	}
-	
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-		// Set horizontal movement vector positive
-		m_vx = 1;
-		
-		// If all other directional keys are released
-		if(!sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-			// Set direction to right
-			m_direction = Direction::Right;
-		}
-	}
-	
-	// Temp vectors
-	s8 t_vx = m_vx;
-	s8 t_vy = m_vy;
 	
 	// Test collisions
 	doorCollisions();
@@ -268,13 +270,51 @@ void Player::actions() {
 	
 	// If player collided a monster, hurt him
 	if(collidedMonster) {
-		if(m_hurtTimer.time() > 2000) {
+		if(m_hurtTimer.time() - m_timerLastValue > 5) {
+			// Block commands
+			blockedCommands = true;
+			
+			// Get enemy direction vectors
+			s8 e_x = m_x - collidedMonster->x();
+			s8 e_y = m_y - collidedMonster->y();
+			
+			// Set movement vectors
+			if(!collidedTile && abs(e_x) > 8) m_vx = (e_x==0)?0:((e_x<0)?-2:2);
+			if(!collidedTile && abs(e_y) > 8) m_vy = (e_y==0)?0:((e_y<0)?-2:2);
+			
+			// Temporary collided monster
+			Monster *tmpCollidedMonster = collidedMonster;
+			
+			// Reset collided monster
+			collidedMonster = NULL;
+			
+			// Test collisions
+			doorCollisions();
+			testCollisions();
+			
+			// Reset collided monster with temp value
+			collidedMonster = tmpCollidedMonster;
+			
+			// Reset timer last value
+			m_timerLastValue = m_hurtTimer.time();
+			
+			// Reset collided monster and blocked commands states
+			if(abs(e_x) > 24 || abs(e_y) > 24 || collidedTile) {
+				collidedMonster = NULL;
+				blockedCommands = false;
+			}
+		}
+		
+		if(m_hurtTimer.time() > 1000) {
+			// Hurt player
 			m_lifes--;
+			
+			// Reset timer
 			m_hurtTimer.reset();
 			m_hurtTimer.start();
-			// FIXME: Improve that
-			m_vx = (-t_vx) * 20;
-			m_vy = (-t_vy) * 20;
+			
+			// Reset timer last value
+			m_timerLastValue = m_hurtTimer.time();
 		}
 	}
 	

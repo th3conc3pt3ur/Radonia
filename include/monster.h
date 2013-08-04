@@ -42,6 +42,13 @@ class Monster : public Sprite {
 		// Get monster mapID
 		u16 mapID() const { return m_mapID; }
 		
+		// Get monster lifes
+		u16 lifes() const { return m_lifes; }
+		u16 maxLifes() const { return m_maxLifes; }
+		
+		// Hurt monster
+		void hurt() { m_lifes--; }
+		
 		// Make a red monster
 		static Monster *RedMonster(u16 x, u16 y, u8 direction, u16 mapID);
 		
@@ -68,6 +75,10 @@ class Monster : public Sprite {
 		
 		// Monster direction
 		u8 m_direction;
+		
+		// Monster lifes
+		u16 m_lifes;
+		u16 m_maxLifes;
 		
 		// Monster map id
 		u16 m_mapID;

@@ -34,6 +34,7 @@
 #include "monster.h"
 #include "NPC.h"
 #include "player.h"
+#include "interface.h"
 #include "map.h"
 #include "mapManager.h"
 #include "door.h"

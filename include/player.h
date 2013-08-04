@@ -58,6 +58,9 @@ class Player : public Sprite {
 		// Which monster the player is colliding
 		static Monster *collidedMonster;
 		
+		// Which tile the player is colliding
+		static int collidedTile;
+		
 	private:
 		// Player position (relative to current map)
 		s16 m_x;
@@ -76,6 +79,7 @@ class Player : public Sprite {
 		
 		// Player hurt timer
 		Timer m_hurtTimer;
+		u16 m_timerLastValue;
 };
 
 #endif // PLAYER_H
