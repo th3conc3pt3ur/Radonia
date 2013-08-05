@@ -76,6 +76,7 @@ class Sprite {
 		void startAnimation(int anim);
 		void stopAnimation(int anim);
 		bool animationAtEnd(int anim);
+		bool animationAtFrame(int anim, int frame);
 		void playAnimation(s16 x, s16 y, int anim);
 		
 		// Sprite view

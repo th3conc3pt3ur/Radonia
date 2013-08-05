@@ -257,14 +257,38 @@ void Player::sword() {
 		// Play attack animation
 		playAnimation(m_x, m_y, m_direction + 4);
 		
+		// Get sword position
+		s16 mx = 0; s16 my = 0;
+		
 		// Play sword animation
 		switch(m_direction) {
-			case Direction::Down:	m_swordSpr->playAnimation(m_x - 16, m_y, m_direction); break;
-			case Direction::Right:	m_swordSpr->playAnimation(m_x, m_y - 16, m_direction); break;
-			case Direction::Left:	m_swordSpr->playAnimation(m_x, m_y - 16, m_direction); break;
-			case Direction::Up:		m_swordSpr->playAnimation(m_x + 16, m_y, m_direction); break;
+			case Direction::Down:
+				if(m_swordSpr->animationAtFrame(m_direction, 0))	  { mx = -12;	my = 0;  }
+				else if(m_swordSpr->animationAtFrame(m_direction, 1)) { mx = -12;	my = 12; }
+				else if(m_swordSpr->animationAtFrame(m_direction, 2)) { mx = 0;		my = 16; }
+				else if(m_swordSpr->animationAtFrame(m_direction, 3)) { mx = 0;		my = 16; }
+				break;
+			case Direction::Right:
+				if(m_swordSpr->animationAtFrame(m_direction, 0))	  { mx = 0;		my = -12; }
+				else if(m_swordSpr->animationAtFrame(m_direction, 1)) { mx = 14;	my = -12; }
+				else if(m_swordSpr->animationAtFrame(m_direction, 2)) { mx = 14;	my = 0;   }
+				else if(m_swordSpr->animationAtFrame(m_direction, 3)) { mx = 14;	my = 0;   }
+				break;
+			case Direction::Left:
+				if(m_swordSpr->animationAtFrame(m_direction, 0))	  { mx = 0;		my = -12; }
+				else if(m_swordSpr->animationAtFrame(m_direction, 1)) { mx = -14;	my = -12; }
+				else if(m_swordSpr->animationAtFrame(m_direction, 2)) { mx = -14;	my = 0;   }
+				else if(m_swordSpr->animationAtFrame(m_direction, 3)) { mx = -14;	my = 0;   }
+				break;
+			case Direction::Up:	
+				if(m_swordSpr->animationAtFrame(m_direction, 0))	  { mx = 12;	my = 0;  }
+				else if(m_swordSpr->animationAtFrame(m_direction, 1)) { mx = 12;	my = -12; }
+				else if(m_swordSpr->animationAtFrame(m_direction, 2)) { mx = 0;		my = -12; }
+				else if(m_swordSpr->animationAtFrame(m_direction, 3)) { mx = 0;		my = -12; }
+				break;
 			default: break;
 		}
+		m_swordSpr->playAnimation(m_x + mx, m_y + my, m_direction);
 	}
 }
 

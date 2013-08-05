@@ -110,6 +110,10 @@ bool Sprite::animationAtEnd(int anim) {
 	return m_animations[anim]->tmr()->time() / m_animations[anim]->delay() >= m_animations[anim]->size();
 }
 
+bool Sprite::animationAtFrame(int anim, int frame) {
+	return (int)(m_animations[anim]->tmr()->time() / m_animations[anim]->delay()) == frame;
+}
+
 void Sprite::playAnimation(s16 x, s16 y, int anim) {
 	// If the animation is not playing
 	if(!m_animations[anim]->isPlaying()) {
