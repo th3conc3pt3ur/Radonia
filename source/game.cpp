@@ -194,6 +194,7 @@ void Game::scroll() {
 			MainWindow->clear();
 			refreshMaps(mapAreas[currentMap->area()], moveX, moveY);
 			currentMap->renderNPCs();
+			currentMap->renderMonsters();
 			player->render();
 			Interface::renderHUD();
 			MainWindow->display();

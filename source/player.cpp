@@ -43,7 +43,11 @@ int Player_animations[12][4] = {
 	{4,0},
 	{5,1},
 	{6,2},
-	{7,3}
+	{7,3},
+	{8,12,12,12},
+	{9,13,13,13},
+	{10,14,14,14},
+	{11,15,15,15}
 };
 
 NPC *Player::collidedNPC = NULL;
@@ -75,17 +79,18 @@ Player::Player() : Sprite((char*)"graphics/characters/link.png") {
 	addAnimation(2, Player_animations[1], 100); // Right
 	addAnimation(2, Player_animations[2], 100); // Left
 	addAnimation(2, Player_animations[3], 100); // Up
+	addAnimation(2, Player_animations[4], 50); // Attack down
+	addAnimation(2, Player_animations[5], 50); // Attack right
+	addAnimation(2, Player_animations[6], 50); // Attack left
+	addAnimation(2, Player_animations[7], 50); // Attack up
 }
 
 Player::~Player() {
 }
 
 bool inDoor = false;
-
 void Player::doorCollisions() {
-	/*if(((m_vy < 0) && ((inTiles((m_x + 5) >> 4, (m_y + 12) >> 4, doorUp)) || (inTiles((m_x + 10) >> 4, (m_y + 12) >> 4, doorUp))))
-	|| ((m_vy > 0) && ((inTiles((m_x + 5) >> 4, m_y >> 4, doorDown)) || (inTiles((m_x + 10) >> 4, m_y >> 4, doorDown))))
-	||*/ if(((inTiles((m_x + 8) >> 4, (m_y + 8) >> 4, changeMapTiles)) && (!inDoor))) {
+	if(((inTiles((m_x + 8) >> 4, (m_y + 8) >> 4, changeMapTiles)) && (!inDoor))) {
 		// Reset movement vectors
 		m_vx = 0;
 		m_vy = 0;
@@ -131,6 +136,7 @@ void Player::doorCollisions() {
 			Game::MainWindow->clear();
 			Game::currentMap->render();
 			Game::currentMap->renderNPCs();
+			Game::currentMap->renderMonsters();
 			render();
 			Interface::renderHUD();
 			Game::MainWindow->setView(*Sprite::View);
@@ -151,7 +157,6 @@ void Player::doorCollisions() {
 	}
 }
 
-// NOTE: In that func there is a lot of ">> 4", it's the same thing than "/ 16"
 void Player::testCollisions() {
 	// Right
 	if((m_vx > 0) && ((!passable(m_x + 12, m_y + 8)) || (!passable(m_x + 12, m_y + 13)))) {
@@ -159,12 +164,12 @@ void Player::testCollisions() {
 		m_vx = 0;
 		
 		// Obstacle up
-		if((!passable(m_x + 12, m_y + 8)) && passable(m_x + 12, m_y + 13)) {
+		if(passable(m_x + 12, m_y + 13) && (!passable(m_x + 12, m_y + 8))) {
 			if(m_vy == 0 && !collidedMonster && !collidedNPC) m_vy = 1;
 		}
 		
 		// Obstacle down
-		if((!passable(m_x + 12, m_y + 13)) && passable(m_x + 12, m_y + 8)) {
+		if(passable(m_x + 12, m_y + 8) && (!passable(m_x + 12, m_y + 13))) {
 			if(m_vy == 0 && !collidedMonster && !collidedNPC) m_vy = -1;
 		}
 	}
@@ -175,12 +180,12 @@ void Player::testCollisions() {
 		m_vx = 0;
 		
 		// Obstacle up
-		if((!passable(m_x + 3, m_y + 8)) && passable(m_x + 3, m_y + 13)) {
+		if(passable(m_x + 3, m_y + 13) && (!passable(m_x + 3, m_y + 8))) {
 			if(m_vy == 0 && !collidedMonster && !collidedNPC) m_vy = 1;
 		}
 		
 		// Obstacle down
-		if((!passable(m_x + 3, m_y + 13)) && passable(m_x + 3, m_y + 8)) {
+		if(passable(m_x + 3, m_y + 8) && (!passable(m_x + 3, m_y + 13))) {
 			if(m_vy == 0 && !collidedMonster && !collidedNPC) m_vy = -1;
 		}
 	}
@@ -191,12 +196,12 @@ void Player::testCollisions() {
 		m_vy = 0;
 		
 		// Obstacle left
-		if((!passable(m_x + 5, m_y + 5)) && passable(m_x + 10, m_y + 5)) {
+		if(passable(m_x + 10, m_y + 5) && (!passable(m_x + 5, m_y + 5))) {
 			if(m_vx == 0 && !collidedMonster && !collidedNPC) m_vx = 1;
 		}
 		
 		// Obstacle right
-		if((!passable(m_x + 10, m_y + 5)) && passable(m_x + 5, m_y + 5)) {
+		if(passable(m_x + 5, m_y + 5) && (!passable(m_x + 10, m_y + 5))) {
 			if(m_vx == 0 && !collidedMonster && !collidedNPC) m_vx = -1;
 		}
 	}
@@ -207,14 +212,23 @@ void Player::testCollisions() {
 		m_vy = 0;
 		
 		// Obstacle left
-		if((!passable(m_x + 5, m_y + 15)) && passable(m_x + 10, m_y + 15)) {
+		if(passable(m_x + 10, m_y + 15) && (!passable(m_x + 5, m_y + 15))) {
 			if(m_vx == 0 && !collidedMonster && !collidedNPC) m_vx = 1;
 		}
 		
 		// Obstacle right
-		if((!passable(m_x + 10, m_y + 15)) && passable(m_x + 5, m_y + 15)) {
+		if(passable(m_x + 5, m_y + 15) && (!passable(m_x + 10, m_y + 15))) {
 			if(m_vx == 0 && !collidedMonster && !collidedNPC) m_vx = -1;
 		}
+	}
+}
+
+void Player::sword() {
+	// If S is pressed
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+		// Play sword animation
+		resetAnimation(m_direction + 4);
+		startAnimation(m_direction + 4);
 	}
 }
 
@@ -264,6 +278,9 @@ void Player::actions() {
 				m_direction = Direction::Right;
 			}
 		}
+		
+		// Sword attack
+		sword();
 	}
 	
 	// Test collisions
@@ -312,7 +329,7 @@ void Player::actions() {
 			}
 		}
 		
-		if(m_hurtTimer.time() > 1000) {
+		if(m_hurtTimer.time() > 500) {
 			// Hurt player
 			m_lifes--;
 			

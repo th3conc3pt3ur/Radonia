@@ -29,12 +29,11 @@ typedef unsigned long u32;
 typedef signed long s32;
 
 // Characters directions
-class Direction {
-	public:
-		static const u8 Up = 3;
-		static const u8 Down = 0;
-		static const u8 Left = 2;
-		static const u8 Right = 1;
-};
+namespace Direction {
+	static const u8 Up = 3;
+	static const u8 Down = 0;
+	static const u8 Left = 2;
+	static const u8 Right = 1;
+}
 
 #endif // TYPES_H

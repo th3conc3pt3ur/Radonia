@@ -36,6 +36,9 @@ class Player : public Sprite {
 		void doorCollisions();
 		void testCollisions();
 		
+		// Sword attack
+		void sword();
+		
 		// Get player position
 		s16 x() const { return m_x; }
 		s16 y() const { return m_y; }
