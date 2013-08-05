@@ -79,6 +79,16 @@ class Sprite {
 		bool animationAtFrame(int anim, int frame);
 		void playAnimation(s16 x, s16 y, int anim);
 		
+		// Get position
+		s16 sx() const { return m_sx; }
+		s16 sy() const { return m_sy; }
+		
+		// Get sprite
+		sf::Sprite spr() { return m_spr; }
+		
+		// Get default color
+		sf::Color defaultColor() const { return m_defaultColor; }
+		
 		// Sprite view
 		static sf::View *View;
 		
@@ -89,11 +99,22 @@ class Sprite {
 		// Sprite frame to display
 		sf::Sprite m_spr;
 		
+		// Default texture color
+		sf::Color m_defaultColor;
+		
 		// Sprite frame size
 		u8 m_frameSize;
 		
 		// Animations table
 		std::vector<Sprite_Animation*> m_animations;
+		
+		// Sprite position
+		s16 m_sx;
+		s16 m_sy;
+		
+		// Sprite hurt timer
+		Timer m_hurtTimer;
+		u16 m_timerLastValue;
 };
 
 #endif // SPRITE_H

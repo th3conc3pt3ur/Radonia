@@ -47,6 +47,9 @@ class Player : public Sprite {
 		u16 maxLifes() const { return m_maxLifes; }
 		u16 lifes() const { return m_lifes; }
 		
+		// Get sword sprite
+		Sprite *swordSpr() const { return m_swordSpr; }
+		
 		// Set player position
 		void x(s16 x) { m_x = x; }
 		void y(s16 y) { m_y = y; }
@@ -79,13 +82,6 @@ class Player : public Sprite {
 		// Player lifes
 		u16 m_maxLifes;
 		u16 m_lifes;
-		
-		// Player hurt timer
-		Timer m_hurtTimer;
-		u16 m_timerLastValue;
-		
-		// Default texture color
-		sf::Color m_defaultColor;
 		
 		// Is the player attacking
 		bool m_isAttacking;

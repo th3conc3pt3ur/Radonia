@@ -163,6 +163,42 @@ void Monster::render() {
 	Interface::renderMonsterLife(this);
 }
 
+void Monster::hurt() {
+	if(m_hurtTimer.time() - m_timerLastValue > 5) {
+		// Change monster texture
+		sf::Color c = m_spr.getColor();
+		m_spr.setColor(sf::Color(255-c.r, 255-c.g, 255-c.b));
+		
+		// Get sword direction vectors
+		s8 e_x = m_x - Game::player->swordSpr()->sx();
+		s8 e_y = m_y - Game::player->swordSpr()->sy();
+		
+		// Set movement vectors
+		if(e_x > 8) m_vx = (e_x==0)?0:((e_x<0)?-2:2);
+		if(e_y > 8) m_vy = (e_y==0)?0:((e_y<0)?-2:2);
+		
+		// Reset timer last value
+		m_timerLastValue = m_hurtTimer.time();
+		
+		// Reset collided monster and blocked commands states
+		if(abs(e_x) > 24 || abs(e_y) > 24/* || collidedTile*/) {
+			m_spr.setColor(m_defaultColor);
+		}
+	}
+	
+	if(m_hurtTimer.time() > 500) {
+		// Hurt monster
+		m_lifes--;
+		
+		// Reset timer
+		m_hurtTimer.reset();
+		m_hurtTimer.start();
+		
+		// Reset timer last value
+		m_timerLastValue = m_hurtTimer.time();
+	}
+}
+
 Monster *Monster::RedMonster(u16 x, u16 y, u8 direction, u16 mapID) {
 	return new Monster(x, y, direction, mapID, (char*)"graphics/monsters/red_monster.png");
 }

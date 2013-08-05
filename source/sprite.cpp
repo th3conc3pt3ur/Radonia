@@ -65,12 +65,29 @@ Sprite::Sprite(char *filename, u8 frameSize) {
 	
 	// Set frame size
 	m_frameSize = frameSize;
+	
+	// Set position
+	m_sx = 0;
+	m_sy = 0;
+	
+	// Set default color
+	m_defaultColor = m_spr.getColor();
+	
+	// Setup hurt timer
+	m_hurtTimer.reset();
+	m_hurtTimer.start();
+	
+	m_timerLastValue = 0;
 }
 
 Sprite::~Sprite() {
 }
 
 void Sprite::drawFrame(s16 x, s16 y, int frame) {
+	// Update position
+	m_sx = x;
+	m_sy = y;
+	
 	// Get frame position
 	u16 frameY = (frame / (m_tex.getSize().x / m_frameSize)) * m_frameSize;
 	u16 frameX = (frame - (frameY / m_frameSize) * (m_tex.getSize().x / m_frameSize)) * m_frameSize;

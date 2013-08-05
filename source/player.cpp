@@ -74,31 +74,24 @@ Player::Player() : Sprite((char*)"graphics/characters/link.png") {
 	m_maxLifes = 5;
 	m_lifes = 3 * 4 + 3;
 	
-	m_hurtTimer.reset();
-	m_hurtTimer.start();
-	
-	m_timerLastValue = 0;
-	
-	m_defaultColor = m_spr.getColor();
-	
 	m_isAttacking = false;
 	
 	m_swordSpr = new Sprite((char*)"graphics/animations/sword.png");
 	
-	m_swordSpr->addAnimation(4, Sword_animations[0], 50); // Down
-	m_swordSpr->addAnimation(4, Sword_animations[1], 50); // Right
-	m_swordSpr->addAnimation(4, Sword_animations[2], 50); // Left
-	m_swordSpr->addAnimation(4, Sword_animations[3], 50); // Up
+	m_swordSpr->addAnimation(4, Sword_animations[0], 100); // Down
+	m_swordSpr->addAnimation(4, Sword_animations[1], 100); // Right
+	m_swordSpr->addAnimation(4, Sword_animations[2], 100); // Left
+	m_swordSpr->addAnimation(4, Sword_animations[3], 100); // Up
 	
 	// Add animations to sprite
 	addAnimation(2, Player_animations[0], 100); // Down
 	addAnimation(2, Player_animations[1], 100); // Right
 	addAnimation(2, Player_animations[2], 100); // Left
 	addAnimation(2, Player_animations[3], 100); // Up
-	addAnimation(4, Player_animations[4], 50); // Attack down
-	addAnimation(4, Player_animations[5], 50); // Attack right
-	addAnimation(4, Player_animations[6], 50); // Attack left
-	addAnimation(4, Player_animations[7], 50); // Attack up
+	addAnimation(4, Player_animations[4], 100); // Attack down
+	addAnimation(4, Player_animations[5], 100); // Attack right
+	addAnimation(4, Player_animations[6], 100); // Attack left
+	addAnimation(4, Player_animations[7], 100); // Attack up
 }
 
 Player::~Player() {
@@ -240,59 +233,142 @@ void Player::testCollisions() {
 	}
 }
 
+bool blockedCommands = false;
+bool blockedDirections = false;
+
+// Sword loading timer
+Timer swordLoading;
+
 void Player::sword() {
-	// If S is pressed
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+	// Sword position
+	s16 mx = 0; s16 my = 0;
+	
+	// If S is pressed and the player isn't attacking
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::S) && !m_isAttacking) {
 		// Update attack state
 		m_isAttacking = true;
+		
+		// Block commands
+		blockedCommands = true;
+	}
+	
+	// If S isn't pressed
+	if(!sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+		// Reset sword loading timer
+		swordLoading.stop();
+		swordLoading.reset();
+		
+		// Deblock directions
+		blockedDirections = false;
 	}
 	
 	// If the player attacks
 	if(m_isAttacking) {
 		// If the animation is at end
 		if(animationAtEnd(m_direction + 4)) {
-			m_isAttacking = false;
+			// Stop attacking is S is released
+			if(!sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+				m_isAttacking = false;
+				
+				// Deblock commands
+				blockedCommands = false;
+				
+				// Reset sword loading timer
+				swordLoading.stop();
+				swordLoading.reset();
+				
+				// Deblock directions
+				blockedDirections = false;
+			}
+			else if(swordLoading.time() == 0) {
+				// Start sword loading timer
+				swordLoading.start();
+				
+				// Deblock commands
+				blockedCommands = false;
+				
+				// Block directions
+				blockedDirections = true;
+			}
 		}
 		
-		// Play attack animation
-		playAnimation(m_x, m_y, m_direction + 4);
-		
-		// Get sword position
-		s16 mx = 0; s16 my = 0;
-		
-		// Play sword animation
-		switch(m_direction) {
-			case Direction::Down:
-				if(m_swordSpr->animationAtFrame(m_direction, 0))	  { mx = -12;	my = 0;  }
-				else if(m_swordSpr->animationAtFrame(m_direction, 1)) { mx = -12;	my = 12; }
-				else if(m_swordSpr->animationAtFrame(m_direction, 2)) { mx = 0;		my = 16; }
-				else if(m_swordSpr->animationAtFrame(m_direction, 3)) { mx = 0;		my = 16; }
-				break;
-			case Direction::Right:
-				if(m_swordSpr->animationAtFrame(m_direction, 0))	  { mx = 0;		my = -12; }
-				else if(m_swordSpr->animationAtFrame(m_direction, 1)) { mx = 14;	my = -12; }
-				else if(m_swordSpr->animationAtFrame(m_direction, 2)) { mx = 14;	my = 0;   }
-				else if(m_swordSpr->animationAtFrame(m_direction, 3)) { mx = 14;	my = 0;   }
-				break;
-			case Direction::Left:
-				if(m_swordSpr->animationAtFrame(m_direction, 0))	  { mx = 0;		my = -12; }
-				else if(m_swordSpr->animationAtFrame(m_direction, 1)) { mx = -14;	my = -12; }
-				else if(m_swordSpr->animationAtFrame(m_direction, 2)) { mx = -14;	my = 0;   }
-				else if(m_swordSpr->animationAtFrame(m_direction, 3)) { mx = -14;	my = 0;   }
-				break;
-			case Direction::Up:	
-				if(m_swordSpr->animationAtFrame(m_direction, 0))	  { mx = 12;	my = 0;  }
-				else if(m_swordSpr->animationAtFrame(m_direction, 1)) { mx = 12;	my = -12; }
-				else if(m_swordSpr->animationAtFrame(m_direction, 2)) { mx = 0;		my = -12; }
-				else if(m_swordSpr->animationAtFrame(m_direction, 3)) { mx = 0;		my = -12; }
-				break;
-			default: break;
+		if(swordLoading.time() == 0) {
+			// Play attack animation
+			playAnimation(m_x, m_y, m_direction + 4);
+			
+			// Get sword position
+			switch(m_direction) {
+				case Direction::Down:
+					if(m_swordSpr->animationAtFrame(m_direction, 0))	  { mx = -12;	my = 0;  }
+					else if(m_swordSpr->animationAtFrame(m_direction, 1)) { mx = -12;	my = 12; }
+					else if(m_swordSpr->animationAtFrame(m_direction, 2)) { mx = 0;		my = 16; }
+					else if(m_swordSpr->animationAtFrame(m_direction, 3)) { mx = 0;		my = 16; }
+					break;
+				case Direction::Right:
+					if(m_swordSpr->animationAtFrame(m_direction, 0))	  { mx = 0;		my = -12; }
+					else if(m_swordSpr->animationAtFrame(m_direction, 1)) { mx = 12;	my = -12; }
+					else if(m_swordSpr->animationAtFrame(m_direction, 2)) { mx = 12;	my = 0;   }
+					else if(m_swordSpr->animationAtFrame(m_direction, 3)) { mx = 12;	my = 0;   }
+					break;
+				case Direction::Left:
+					if(m_swordSpr->animationAtFrame(m_direction, 0))	  { mx = 0;		my = -12; }
+					else if(m_swordSpr->animationAtFrame(m_direction, 1)) { mx = -12;	my = -12; }
+					else if(m_swordSpr->animationAtFrame(m_direction, 2)) { mx = -12;	my = 0;   }
+					else if(m_swordSpr->animationAtFrame(m_direction, 3)) { mx = -12;	my = 0;   }
+					break;
+				case Direction::Up:	
+					if(m_swordSpr->animationAtFrame(m_direction, 0))	  { mx = 12;	my = 0;  }
+					else if(m_swordSpr->animationAtFrame(m_direction, 1)) { mx = 12;	my = -12; }
+					else if(m_swordSpr->animationAtFrame(m_direction, 2)) { mx = 0;		my = -12; }
+					else if(m_swordSpr->animationAtFrame(m_direction, 3)) { mx = 0;		my = -12; }
+					break;
+				default: break;
+			}
+			
+			// Play sword animation
+			m_swordSpr->playAnimation(m_x + mx, m_y + my, m_direction);
+		} else {
+			// Get sword position
+			switch(m_direction) {
+				case Direction::Down:	mx = 0;		my = 16;	break;
+				case Direction::Right:	mx = 12;	my = 0;		break;
+				case Direction::Left:	mx = -12;	my = 0;		break;
+				case Direction::Up:		mx = 0;		my = -12;	break;
+				default: break;
+			}
+			
+			// Draw sword
+			m_swordSpr->drawFrame(m_x + mx, m_y + my, m_direction + 8);
 		}
-		m_swordSpr->playAnimation(m_x + mx, m_y + my, m_direction);
+		
+		// Save collision states
+		NPC *tempCollidedNPC = collidedNPC;
+		Monster *tempCollidedMonster = collidedMonster;
+		int tempCollidedTile = collidedTile;
+		
+		if(((!passable(m_swordSpr->sx() + 2,	m_swordSpr->sy() +  2))
+		||  (!passable(m_swordSpr->sx() + 2,	m_swordSpr->sy() + 14))
+		||  (!passable(m_swordSpr->sx() + 14,	m_swordSpr->sy() +  2))
+		||  (!passable(m_swordSpr->sx() + 14,	m_swordSpr->sy() + 14)))
+		&& collidedMonster) {
+			// Hurt monster
+			collidedMonster->hurt();
+			
+			// Change its texture
+			sf::Color c = collidedMonster->spr().getColor();
+			collidedMonster->spr().setColor(sf::Color(255-c.r, 255-c.g, 255-c.b));
+			
+			// Reset its texture
+			collidedMonster->spr().setColor(collidedMonster->defaultColor());
+		}
+		
+		// Reset collision states
+		collidedNPC = tempCollidedNPC;
+		collidedMonster = tempCollidedMonster;
+		collidedTile = tempCollidedTile;
 	}
 }
 
-bool blockedCommands = false;
 void Player::actions() {
 	if(!blockedCommands) {
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
@@ -302,7 +378,7 @@ void Player::actions() {
 			// If all other directional keys are released
 			if(!sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 				// Set direction to up
-				m_direction = Direction::Up;
+				if(!blockedDirections) m_direction = Direction::Up;
 			}
 		}
 		
@@ -313,7 +389,7 @@ void Player::actions() {
 			// If all other directional keys are released
 			if(!sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 				// Set direction to down
-				m_direction = Direction::Down;
+				if(!blockedDirections) m_direction = Direction::Down;
 			}
 		}
 		
@@ -324,7 +400,7 @@ void Player::actions() {
 			// If all other directional keys are released
 			if(!sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 				// Set direction to left
-				m_direction = Direction::Left;
+				if(!blockedDirections) m_direction = Direction::Left;
 			}
 		}
 		
@@ -335,13 +411,13 @@ void Player::actions() {
 			// If all other directional keys are released
 			if(!sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 				// Set direction to right
-				m_direction = Direction::Right;
+				if(!blockedDirections) m_direction = Direction::Right;
 			}
 		}
-		
-		// Sword attack
-		sword();
 	}
+	
+	// Sword attack
+	sword();
 	
 	// Test collisions
 	doorCollisions();
@@ -420,10 +496,10 @@ void Player::render() {
 	// If all directional keys are released
 	if(!sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 		// Render a single frame
-		if(!m_isAttacking) drawFrame(m_x, m_y, m_direction);
+		if(!m_isAttacking || swordLoading.time() != 0) drawFrame(m_x, m_y, m_direction);
 	} else {
 		// Play walk animation
-		if(!m_isAttacking) playAnimation(m_x, m_y, m_direction);
+		if(!m_isAttacking || swordLoading.time() != 0) playAnimation(m_x, m_y, m_direction);
 	}
 }
 
