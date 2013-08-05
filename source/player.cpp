@@ -39,7 +39,7 @@
 #include "game.h"
 
 // Set animations table
-int Player_animations[12][4] = {
+int Player_animations[8][4] = {
 	{4,0},
 	{5,1},
 	{6,2},
@@ -48,6 +48,13 @@ int Player_animations[12][4] = {
 	{9,13,13,13},
 	{10,14,14,14},
 	{11,15,15,15}
+};
+
+int Sword_animations[4][4] = {
+	{0,4,8,8},
+	{1,5,9,9},
+	{2,6,10,10},
+	{3,7,11,11}
 };
 
 NPC *Player::collidedNPC = NULL;
@@ -74,18 +81,28 @@ Player::Player() : Sprite((char*)"graphics/characters/link.png") {
 	
 	m_defaultColor = m_spr.getColor();
 	
+	m_isAttacking = false;
+	
+	m_swordSpr = new Sprite((char*)"graphics/animations/sword.png");
+	
+	m_swordSpr->addAnimation(4, Sword_animations[0], 50); // Down
+	m_swordSpr->addAnimation(4, Sword_animations[1], 50); // Right
+	m_swordSpr->addAnimation(4, Sword_animations[2], 50); // Left
+	m_swordSpr->addAnimation(4, Sword_animations[3], 50); // Up
+	
 	// Add animations to sprite
 	addAnimation(2, Player_animations[0], 100); // Down
 	addAnimation(2, Player_animations[1], 100); // Right
 	addAnimation(2, Player_animations[2], 100); // Left
 	addAnimation(2, Player_animations[3], 100); // Up
-	addAnimation(2, Player_animations[4], 50); // Attack down
-	addAnimation(2, Player_animations[5], 50); // Attack right
-	addAnimation(2, Player_animations[6], 50); // Attack left
-	addAnimation(2, Player_animations[7], 50); // Attack up
+	addAnimation(4, Player_animations[4], 50); // Attack down
+	addAnimation(4, Player_animations[5], 50); // Attack right
+	addAnimation(4, Player_animations[6], 50); // Attack left
+	addAnimation(4, Player_animations[7], 50); // Attack up
 }
 
 Player::~Player() {
+	delete m_swordSpr;
 }
 
 bool inDoor = false;
@@ -226,9 +243,28 @@ void Player::testCollisions() {
 void Player::sword() {
 	// If S is pressed
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+		// Update attack state
+		m_isAttacking = true;
+	}
+	
+	// If the player attacks
+	if(m_isAttacking) {
+		// If the animation is at end
+		if(animationAtEnd(m_direction + 4)) {
+			m_isAttacking = false;
+		}
+		
+		// Play attack animation
+		playAnimation(m_x, m_y, m_direction + 4);
+		
 		// Play sword animation
-		resetAnimation(m_direction + 4);
-		startAnimation(m_direction + 4);
+		switch(m_direction) {
+			case Direction::Down:	m_swordSpr->playAnimation(m_x - 16, m_y, m_direction); break;
+			case Direction::Right:	m_swordSpr->playAnimation(m_x, m_y - 16, m_direction); break;
+			case Direction::Left:	m_swordSpr->playAnimation(m_x, m_y - 16, m_direction); break;
+			case Direction::Up:		m_swordSpr->playAnimation(m_x + 16, m_y, m_direction); break;
+			default: break;
+		}
 	}
 }
 
@@ -360,10 +396,10 @@ void Player::render() {
 	// If all directional keys are released
 	if(!sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 		// Render a single frame
-		drawFrame(m_x, m_y, m_direction);
+		if(!m_isAttacking) drawFrame(m_x, m_y, m_direction);
 	} else {
 		// Play walk animation
-		playAnimation(m_x, m_y, m_direction);
+		if(!m_isAttacking) playAnimation(m_x, m_y, m_direction);
 	}
 }
 

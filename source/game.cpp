@@ -138,9 +138,6 @@ void Game::mainLoop() {
 		// Test for map scrolling
 		scroll();
 		
-		// Player's actions
-		player->actions();
-		
 		// Clear screen
 		MainWindow->clear();
 		
@@ -149,6 +146,9 @@ void Game::mainLoop() {
 		
 		// Render NPCs
 		currentMap->renderNPCs();
+		
+		// Player's actions
+		player->actions();
 		
 		// Render player
 		player->render();

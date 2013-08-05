@@ -86,6 +86,12 @@ class Player : public Sprite {
 		
 		// Default texture color
 		sf::Color m_defaultColor;
+		
+		// Is the player attacking
+		bool m_isAttacking;
+		
+		// Sword sprite
+		Sprite *m_swordSpr;
 };
 
 #endif // PLAYER_H

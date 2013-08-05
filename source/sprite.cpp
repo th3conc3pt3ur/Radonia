@@ -119,7 +119,7 @@ void Sprite::playAnimation(s16 x, s16 y, int anim) {
 	}
 	
 	// If the animation is at end
-	if(m_animations[anim]->tmr()->time() / m_animations[anim]->delay() >= m_animations[anim]->size()) {
+	if(animationAtEnd(anim)) {
 		resetAnimation(anim); // Reset animation timer
 		startAnimation(anim); // Start animation timer
 	}
