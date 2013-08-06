@@ -37,6 +37,7 @@
 #include "mapManager.h"
 #include "door.h"
 #include "game.h"
+#include "tools.h"
 
 // Monsters are called Qaewans
 
@@ -167,7 +168,7 @@ void Monster::hurt() {
 	if(m_hurtTimer.time() - m_timerLastValue > 5) {
 		// Change monster texture
 		sf::Color c = m_spr.getColor();
-		m_spr.setColor(sf::Color(255-c.r, 255-c.g, 255-c.b));
+		m_spr.setColor(invertColor(c));
 		
 		// Get sword direction vectors
 		s8 e_x = m_x - Game::player->swordSpr()->sx();

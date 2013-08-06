@@ -37,6 +37,7 @@
 #include "mapManager.h"
 #include "door.h"
 #include "game.h"
+#include "tools.h"
 
 // Set animations table
 int Player_animations[8][4] = {
@@ -356,7 +357,7 @@ void Player::sword() {
 			
 			// Change its texture
 			sf::Color c = collidedMonster->spr().getColor();
-			collidedMonster->spr().setColor(sf::Color(255-c.r, 255-c.g, 255-c.b));
+			collidedMonster->spr().setColor(invertColor(c));
 			
 			// Reset its texture
 			collidedMonster->spr().setColor(collidedMonster->defaultColor());

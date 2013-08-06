@@ -46,7 +46,7 @@ class Monster : public Sprite {
 		u16 mapID() const { return m_mapID; }
 		
 		// Get monster lifes
-		u16 lifes() const { return m_lifes; }
+		s16 lifes() const { return m_lifes; }
 		u16 maxLifes() const { return m_maxLifes; }
 		
 		// Make a red monster
@@ -77,7 +77,7 @@ class Monster : public Sprite {
 		u8 m_direction;
 		
 		// Monster lifes
-		u16 m_lifes;
+		s16 m_lifes;
 		u16 m_maxLifes;
 		
 		// Monster map id

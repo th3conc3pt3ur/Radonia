@@ -153,8 +153,10 @@ void Map::renderNPCs() {
 
 void Map::renderMonsters() {
 	for(std::vector<Monster*>::iterator it = m_monsters.begin() ; it != m_monsters.end() ; it++) {
-		(*it)->move();
-		(*it)->render();
+		if((*it)->lifes() > 0) {
+			(*it)->move();
+			(*it)->render();
+		}
 	}
 }
 

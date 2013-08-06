@@ -249,7 +249,8 @@ bool passable(s16 x, s16 y) {
 	// Collisions with monsters
 	for(u16 i = 0 ; i < Game::currentMap->monsters().size() ; i++) {
 		if((Game::currentMap->monsters()[i]->x() < x && Game::currentMap->monsters()[i]->x() + 16 > x)
-		&& (Game::currentMap->monsters()[i]->y() < y && Game::currentMap->monsters()[i]->y() + 16 > y)) {
+		&& (Game::currentMap->monsters()[i]->y() < y && Game::currentMap->monsters()[i]->y() + 16 > y)
+		&& Game::currentMap->monsters()[i]->lifes() > 0) {
 			Player::collidedMonster = Game::currentMap->monsters()[i];
 			return false;
 		}
