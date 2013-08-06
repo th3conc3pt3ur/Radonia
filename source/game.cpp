@@ -147,9 +147,6 @@ void Game::mainLoop() {
 		// Render NPCs
 		currentMap->renderNPCs();
 		
-		// Player's actions
-		player->actions();
-		
 		// Render player
 		player->render();
 		
@@ -158,6 +155,9 @@ void Game::mainLoop() {
 		
 		// Render HUD
 		Interface::renderHUD();
+		
+		// Player's actions
+		player->actions();
 		
 		// Update the window
 		MainWindow->display();
@@ -207,5 +207,10 @@ void Game::scroll() {
 	   && currentMap->x() + moveX / 32 < WM_SIZE
 	   && currentMap->y() + moveY / 32 >= 0
 	   && currentMap->y() + moveY / 32 < WM_SIZE) currentMap = mapAreas[currentMap->area()][MAP_POS(currentMap->x() + moveX / 32, currentMap->y() + moveY / 32, currentMap->area())];
+	
+	// Regen monsters
+	for(unsigned int i = 0 ; i < currentMap->monsters().size() ; i++) {
+		currentMap->monsters()[i]->regen();
+	}
 }
 

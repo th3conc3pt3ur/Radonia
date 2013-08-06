@@ -49,6 +49,9 @@ class Monster : public Sprite {
 		s16 lifes() const { return m_lifes; }
 		u16 maxLifes() const { return m_maxLifes; }
 		
+		// Regen monster
+		void regen() { m_lifes = m_maxLifes; }
+		
 		// Make a red monster
 		static Monster *RedMonster(u16 x, u16 y, u8 direction, u16 mapID);
 		

@@ -131,13 +131,12 @@ void Interface::newDialogBox(char *text) {
 		if((event.type == sf::Event::Closed) || (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)) {
 			Game::MainWindow->close();
 		}
-		
-		Game::MainWindow->display();
 	}
 	
-	// Reset main window
-	Game::MainWindow->clear();
-	
+	// Reset view
 	Game::MainWindow->setView(Game::MainWindow->getDefaultView());	
+	
+	// Clear window
+	//Game::MainWindow->clear();
 }
 
