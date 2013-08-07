@@ -1,1 +1,6 @@
-
+Issues:
+	- NPCs and Monsters don't scroll with the map
+	- Monsters can move out of the map
+	- NPCs and Monsters can move over non passable tiles
+	- Monsters don't go back when they're hurt
+	- Monsters' textures bug when they're hurt

@@ -211,7 +211,7 @@ void Sprite::hurt() {
 			m_timerLastValue = m_hurtTimer.time();
 			
 			// Reset collided sprite and blocked commands states
-			if(abs(e_x) > 24 || abs(e_y) > 24 || collidedTile) {
+			if(abs(e_x) > 32 || abs(e_y) > 32 || collidedTile) {
 				collidedSprite = NULL;
 				if(isPlayer()) m_blockedCommands = false;
 				else		   m_movementTimer.start();

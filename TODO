@@ -1,10 +1,37 @@
 - Interface
+	* HUD
+		* Hearts
+		* Monsters lifes
 - NPCs
+	* Dialog box for more than one text
+	* Adapt text to dialog box
 - Enemies
+	* Enemies attack player when they're attacked or when they see him
 - Sword and shield
+	* Attacks
+	* Defense
 - Battle interface
+	* Transform player to monster
 - Capturing system
+	* Get monster into capsules
 - Special skills
+	* Monster skills
 - Monsters menu
+	* Choose monster menu
+- Weather
+	* Rain
+	* Storm
+	* Snow
+- Dimensions
+	* Underground
+	* Space
 - Pause menu
+	* Continue
+	* Save
+	* Settings
+	* Quit to title screen
 - Title screen
+	* New Game
+	* Load Game
+	* Settings
+	* Quit

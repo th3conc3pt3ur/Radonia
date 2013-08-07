@@ -99,8 +99,8 @@ class Sprite {
 		
 		// Move sprite
 		void updatePosition() {
-			m_x += m_vx;
-			m_y += m_vy;
+			if(m_x + m_vx - 16 < MAP_WIDTH  * 16 && m_x + m_vx >= 0) m_x += m_vx;
+			if(m_y + m_vy - 16 < MAP_HEIGHT * 16 && m_y + m_vy >= 0) m_y += m_vy;
 		}
 		
 		// Get sprite

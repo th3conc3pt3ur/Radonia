@@ -62,8 +62,8 @@ Monster::Monster(u16 x, u16 y, u8 direction, u16 mapID, char *filename) : Sprite
 	
 	m_direction = direction;
 	
-	m_lifes = 10;
-	m_maxLifes = 10;
+	m_lifes = 100;
+	m_maxLifes = 100;
 	
 	m_moving = false;
 	
