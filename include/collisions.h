@@ -17,39 +17,16 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	
 ---------------------------------------------------------------------------------*/
-#ifndef PLAYER_H
-#define PLAYER_H
+#ifndef COLLISIONS_H
+#define COLLISIONS_H
 
-class Player : public Sprite {
-	public:
-		// Constructor and destructor
-		Player();
-		~Player();
-		
-		// Actions function
-		void actions();
-		
-		// Render function
-		void render();
-		
-		// Test collisions functions
-		void doorCollisions();
-		
-		// Sword attack
-		void sword();
-		
-		// Get sword sprite
-		Sprite *swordSpr() const { return m_swordSpr; }
-		
-	private:
-		// Player direction
-		u8 m_direction;
-		
-		// Is the player attacking
-		bool m_isAttacking;
-		
-		// Sword sprite
-		Sprite *m_swordSpr;
-};
+// Collision matrix
+extern u16 collisionMatrix[4][4];
 
-#endif // PLAYER_H
+// Test if the tile is passable
+bool passable(Sprite *spr, s16 x, s16 y);
+
+// Test sprite collisions
+void testCollisions(Sprite *spr);
+
+#endif // COLLISIONS_H

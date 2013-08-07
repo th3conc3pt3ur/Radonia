@@ -53,16 +53,12 @@ int Monster::nbMonsters = 0;
 
 int Monster::moves[NB_MONSTERS][21] = {{6, 1, 0, 0, 1, 0, 1, -1, 0, 0, -1, 0, -1}};
 
-Monster::Monster(u16 x, u16 y, u8 direction, u16 mapID, char *filename) : Sprite(filename) {
+Monster::Monster(u16 x, u16 y, u8 direction, u16 mapID, char *filename) : Sprite(filename, SPRITE_MONSTER, x, y) {
 	// Set monster id
 	m_id = nbMonsters;
 	
 	// Update monsters counter
 	nbMonsters++;
-	
-	// Set class members
-	m_x = x;
-	m_y = y;
 	
 	m_direction = direction;
 	
@@ -99,7 +95,7 @@ void Monster::move() {
 	|| ((m_x + 14 > Game::player->x() && m_x + 14 < Game::player->x() + 16)
 	&&  (m_y + 14 > Game::player->y() && m_y + 14 < Game::player->y() + 16))) {
 		m_timer.stop();
-		Player::collidedMonster = this;
+		Game::player->collidedSprite = this;
 		return;
 	}
 	else m_timer.start();
@@ -162,42 +158,6 @@ void Monster::render() {
 	
 	// Render monster life
 	Interface::renderMonsterLife(this);
-}
-
-void Monster::hurt() {
-	if(m_hurtTimer.time() - m_timerLastValue > 5) {
-		// Change monster texture
-		sf::Color c = m_spr.getColor();
-		m_spr.setColor(invertColor(c));
-		
-		// Get sword direction vectors
-		s8 e_x = m_x - Game::player->swordSpr()->sx();
-		s8 e_y = m_y - Game::player->swordSpr()->sy();
-		
-		// Set movement vectors
-		if(e_x > 8) m_vx = (e_x==0)?0:((e_x<0)?-2:2);
-		if(e_y > 8) m_vy = (e_y==0)?0:((e_y<0)?-2:2);
-		
-		// Reset timer last value
-		m_timerLastValue = m_hurtTimer.time();
-		
-		// Reset collided monster and blocked commands states
-		if(abs(e_x) > 24 || abs(e_y) > 24/* || collidedTile*/) {
-			m_spr.setColor(m_defaultColor);
-		}
-	}
-	
-	if(m_hurtTimer.time() > 500) {
-		// Hurt monster
-		m_lifes--;
-		
-		// Reset timer
-		m_hurtTimer.reset();
-		m_hurtTimer.start();
-		
-		// Reset timer last value
-		m_timerLastValue = m_hurtTimer.time();
-	}
 }
 
 Monster *Monster::RedMonster(u16 x, u16 y, u8 direction, u16 mapID) {

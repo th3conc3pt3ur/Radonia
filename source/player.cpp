@@ -38,6 +38,7 @@
 #include "door.h"
 #include "game.h"
 #include "tools.h"
+#include "collisions.h"
 
 // Set animations table
 int Player_animations[8][4] = {
@@ -58,18 +59,8 @@ int Sword_animations[4][4] = {
 	{3,7,11,11}
 };
 
-NPC *Player::collidedNPC = NULL;
-Monster *Player::collidedMonster = NULL;
-int Player::collidedTile = 0;
-
-Player::Player() : Sprite((char*)"graphics/characters/link.png") {
+Player::Player() : Sprite((char*)"graphics/characters/link.png", SPRITE_PLAYER, 120, 160) {
 	// Set class members
-	m_x = 120;
-	m_y = 160;
-	
-	m_vx = 0;
-	m_vy = 0;
-	
 	m_direction = Direction::Right;
 	
 	m_maxLifes = 5;
@@ -77,7 +68,7 @@ Player::Player() : Sprite((char*)"graphics/characters/link.png") {
 	
 	m_isAttacking = false;
 	
-	m_swordSpr = new Sprite((char*)"graphics/animations/sword.png");
+	m_swordSpr = new Sprite((char*)"graphics/animations/sword.png", SPRITE_PWEAPON);
 	
 	m_swordSpr->addAnimation(4, Sword_animations[0], 100); // Down
 	m_swordSpr->addAnimation(4, Sword_animations[1], 100); // Right
@@ -165,72 +156,6 @@ void Player::doorCollisions() {
 	&& (!inTiles((m_x + 14) >> 4, (m_y + 14) >> 4, changeMapTiles))) {
 		// The player isn't in the door anymore
 		inDoor = false;
-	}
-}
-
-void Player::testCollisions() {
-	// Right
-	if((m_vx > 0) && ((!passable(m_x + 12, m_y + 8)) || (!passable(m_x + 12, m_y + 13)))) {
-		// Reset movement vector to stop player
-		m_vx = 0;
-		
-		// Obstacle up
-		if(passable(m_x + 12, m_y + 13) && (!passable(m_x + 12, m_y + 8))) {
-			if(m_vy == 0 && !collidedMonster && !collidedNPC) m_vy = 1;
-		}
-		
-		// Obstacle down
-		if(passable(m_x + 12, m_y + 8) && (!passable(m_x + 12, m_y + 13))) {
-			if(m_vy == 0 && !collidedMonster && !collidedNPC) m_vy = -1;
-		}
-	}
-	
-	// Left
-	if((m_vx < 0) && ((!passable(m_x + 3, m_y + 8)) || (!passable(m_x + 3, m_y + 13)))) {
-		// Reset movement vector to stop player
-		m_vx = 0;
-		
-		// Obstacle up
-		if(passable(m_x + 3, m_y + 13) && (!passable(m_x + 3, m_y + 8))) {
-			if(m_vy == 0 && !collidedMonster && !collidedNPC) m_vy = 1;
-		}
-		
-		// Obstacle down
-		if(passable(m_x + 3, m_y + 8) && (!passable(m_x + 3, m_y + 13))) {
-			if(m_vy == 0 && !collidedMonster && !collidedNPC) m_vy = -1;
-		}
-	}
-	
-	// Up
-	if((m_vy < 0) && ((!passable(m_x + 5, m_y + 5)) || (!passable(m_x + 10, m_y + 5)))) {
-		// Reset movement vector to stop player
-		m_vy = 0;
-		
-		// Obstacle left
-		if(passable(m_x + 10, m_y + 5) && (!passable(m_x + 5, m_y + 5))) {
-			if(m_vx == 0 && !collidedMonster && !collidedNPC) m_vx = 1;
-		}
-		
-		// Obstacle right
-		if(passable(m_x + 5, m_y + 5) && (!passable(m_x + 10, m_y + 5))) {
-			if(m_vx == 0 && !collidedMonster && !collidedNPC) m_vx = -1;
-		}
-	}
-	
-	// Down
-	if((m_vy > 0) && ((!passable(m_x + 5, m_y + 15)) || (!passable(m_x + 10, m_y + 15)))) {
-		// Reset movement vector to stop player
-		m_vy = 0;
-		
-		// Obstacle left
-		if(passable(m_x + 10, m_y + 15) && (!passable(m_x + 5, m_y + 15))) {
-			if(m_vx == 0 && !collidedMonster && !collidedNPC) m_vx = 1;
-		}
-		
-		// Obstacle right
-		if(passable(m_x + 5, m_y + 15) && (!passable(m_x + 10, m_y + 15))) {
-			if(m_vx == 0 && !collidedMonster && !collidedNPC) m_vx = -1;
-		}
 	}
 }
 
@@ -343,29 +268,27 @@ void Player::sword() {
 		}
 		
 		// Save collision states
-		NPC *tempCollidedNPC = collidedNPC;
-		Monster *tempCollidedMonster = collidedMonster;
+		Sprite *tempCollidedSprite = collidedSprite;
 		int tempCollidedTile = collidedTile;
 		
-		if(((!passable(m_swordSpr->sx() + 2,	m_swordSpr->sy() +  2))
-		||  (!passable(m_swordSpr->sx() + 2,	m_swordSpr->sy() + 14))
-		||  (!passable(m_swordSpr->sx() + 14,	m_swordSpr->sy() +  2))
-		||  (!passable(m_swordSpr->sx() + 14,	m_swordSpr->sy() + 14)))
-		&& collidedMonster) {
+		if(((!passable(m_swordSpr, m_swordSpr->x() + 2,	 m_swordSpr->y() +  2))
+		||  (!passable(m_swordSpr, m_swordSpr->x() + 2,	 m_swordSpr->y() + 14))
+		||  (!passable(m_swordSpr, m_swordSpr->x() + 14, m_swordSpr->y() +  2))
+		||  (!passable(m_swordSpr, m_swordSpr->x() + 14, m_swordSpr->y() + 14)))
+		&& (collidedSprite && collidedSprite->isMonster())) {
 			// Hurt monster
-			collidedMonster->hurt();
+			collidedSprite->hurt();
 			
 			// Change its texture
-			sf::Color c = collidedMonster->spr().getColor();
-			collidedMonster->spr().setColor(invertColor(c));
+			sf::Color c = collidedSprite->spr().getColor();
+			collidedSprite->spr().setColor(invertColor(c));
 			
 			// Reset its texture
-			collidedMonster->spr().setColor(collidedMonster->defaultColor());
+			collidedSprite->spr().setColor(collidedSprite->defaultColor());
 		}
 		
 		// Reset collision states
-		collidedNPC = tempCollidedNPC;
-		collidedMonster = tempCollidedMonster;
+		collidedSprite = tempCollidedSprite;
 		collidedTile = tempCollidedTile;
 	}
 }
@@ -422,10 +345,10 @@ void Player::actions() {
 	
 	// Test collisions
 	doorCollisions();
-	testCollisions();
+	testCollisions(this);
 	
 	// If player collided a monster, hurt him
-	if(collidedMonster) {
+	if(collidedSprite && collidedSprite->isMonster()) {
 		if(m_hurtTimer.time() - m_timerLastValue > 5) {
 			// Block commands
 			blockedCommands = true;
@@ -435,32 +358,32 @@ void Player::actions() {
 			m_spr.setColor(sf::Color(255-c.r, 255-c.g, 255-c.b));
 			
 			// Get enemy direction vectors
-			s8 e_x = m_x - collidedMonster->x();
-			s8 e_y = m_y - collidedMonster->y();
+			s8 e_x = m_x - collidedSprite->x();
+			s8 e_y = m_y - collidedSprite->y();
 			
 			// Set movement vectors
 			if(!collidedTile && abs(e_x) > 8) m_vx = (e_x==0)?0:((e_x<0)?-2:2);
 			if(!collidedTile && abs(e_y) > 8) m_vy = (e_y==0)?0:((e_y<0)?-2:2);
 			
 			// Temporary collided monster
-			Monster *tmpCollidedMonster = collidedMonster;
+			Sprite *tmpCollidedMonster = collidedSprite;
 			
 			// Reset collided monster
-			collidedMonster = NULL;
+			collidedSprite = NULL;
 			
 			// Test collisions
 			doorCollisions();
-			testCollisions();
+			testCollisions(this);
 			
 			// Reset collided monster with temp value
-			collidedMonster = tmpCollidedMonster;
+			collidedSprite = tmpCollidedMonster;
 			
 			// Reset timer last value
 			m_timerLastValue = m_hurtTimer.time();
 			
 			// Reset collided monster and blocked commands states
 			if(abs(e_x) > 24 || abs(e_y) > 24 || collidedTile) {
-				collidedMonster = NULL;
+				collidedSprite = NULL;
 				blockedCommands = false;
 				m_spr.setColor(m_defaultColor);
 			}
@@ -488,8 +411,8 @@ void Player::actions() {
 	m_vy = 0;
 	
 	// If A is pressed, and the player collided a NPC, talk to him
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::A) && collidedNPC) {
-		collidedNPC->speak();
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::A) && collidedSprite && collidedSprite->isNPC()) {
+		collidedSprite->speak();
 	}
 }
 

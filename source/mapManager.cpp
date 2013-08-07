@@ -227,39 +227,3 @@ bool inTiles(s16 tileX, s16 tileY, u16 tiles[]) {
 	}
 }
 
-bool passable(s16 x, s16 y) {
-	// Setup tileX and tileY
-	s16 tileX = x >> 4;
-	s16 tileY = y >> 4;
-	
-	// Reset collision states
-	Player::collidedNPC = NULL;
-	Player::collidedMonster = NULL;
-	Player::collidedTile = 0;
-	
-	// Collisions with NPCs
-	for(u16 i = 0 ; i < Game::currentMap->NPCs().size() ; i++) {
-		if((Game::currentMap->NPCs()[i]->x() < x && Game::currentMap->NPCs()[i]->x() + 16 > x)
-		&& (Game::currentMap->NPCs()[i]->y() < y && Game::currentMap->NPCs()[i]->y() + 16 > y)) {
-			Player::collidedNPC = Game::currentMap->NPCs()[i];
-			return false;
-		}
-	}
-	
-	// Collisions with monsters
-	for(u16 i = 0 ; i < Game::currentMap->monsters().size() ; i++) {
-		if((Game::currentMap->monsters()[i]->x() < x && Game::currentMap->monsters()[i]->x() + 16 > x)
-		&& (Game::currentMap->monsters()[i]->y() < y && Game::currentMap->monsters()[i]->y() + 16 > y)
-		&& Game::currentMap->monsters()[i]->lifes() > 0) {
-			Player::collidedMonster = Game::currentMap->monsters()[i];
-			return false;
-		}
-	}
-	
-	// Collisions with map
-	if(inTable(nonPassableTiles, Game::currentMap->tilesetInfo()[Game::currentMap->getTile(tileX, tileY)])) {
-		Player::collidedTile = Game::currentMap->tilesetInfo()[Game::currentMap->getTile(tileX, tileY)];
-		return false;
-	} else return true;
-}
-

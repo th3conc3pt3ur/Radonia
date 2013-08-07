@@ -33,6 +33,7 @@
 #include "mapManager.h"
 #include "door.h"
 #include "game.h"
+#include "tools.h"
 
 Sprite_Animation::Sprite_Animation(int size, int *tabAnim, int delay) {
 	// Set class members
@@ -50,7 +51,7 @@ Sprite_Animation::~Sprite_Animation() {
 
 sf::View *Sprite::View = NULL;
 
-Sprite::Sprite(char *filename, u8 frameSize) {
+Sprite::Sprite(char *filename, SpriteType type, s16 x, s16 y, u8 frameSize) {
 	// Initialize sprite view
 	if(View == NULL) View = new sf::View(sf::FloatRect(0, 0, 640, 480));
 	
@@ -66,10 +67,6 @@ Sprite::Sprite(char *filename, u8 frameSize) {
 	// Set frame size
 	m_frameSize = frameSize;
 	
-	// Set position
-	m_sx = 0;
-	m_sy = 0;
-	
 	// Set default color
 	m_defaultColor = m_spr.getColor();
 	
@@ -78,6 +75,21 @@ Sprite::Sprite(char *filename, u8 frameSize) {
 	m_hurtTimer.start();
 	
 	m_timerLastValue = 0;
+	
+	// Set type
+	m_type = type;
+	
+	// Set position
+	m_x = x;
+	m_y = y;
+	
+	// Set movement vectors
+	m_vx = 0;
+	m_vy = 0;
+	
+	// Reset collision states
+	collidedSprite = NULL;
+	collidedTile = 0;
 }
 
 Sprite::~Sprite() {
@@ -85,8 +97,8 @@ Sprite::~Sprite() {
 
 void Sprite::drawFrame(s16 x, s16 y, int frame) {
 	// Update position
-	m_sx = x;
-	m_sy = y;
+	m_x = x;
+	m_y = y;
 	
 	// Get frame position
 	u16 frameY = (frame / (m_tex.getSize().x / m_frameSize)) * m_frameSize;
@@ -148,5 +160,44 @@ void Sprite::playAnimation(s16 x, s16 y, int anim) {
 	// This variable contains the number of the animation's frame to draw
 	int animToDraw = m_animations[anim]->tabAnim()[(int)(m_animations[anim]->tmr()->time() / m_animations[anim]->delay())];
 	drawFrame(x, y, animToDraw); // Draw the frame
+}
+
+void Sprite::hurt() {
+	if((collidedSprite && (collidedSprite->isPWeapon() && isMonster()))
+	|| (collidedSprite && ((collidedSprite->isMWeapon() || collidedSprite->isMonster()) && isPlayer()))) {
+		if(m_hurtTimer.time() - m_timerLastValue > 5) {
+			// Change sprite texture
+			sf::Color c = m_spr.getColor();
+			m_spr.setColor(invertColor(c));
+			
+			// Get sword direction vectors
+			s8 e_x = m_x - collidedSprite->x();
+			s8 e_y = m_y - collidedSprite->y();
+			
+			// Set movement vectors
+			if(e_x > 8) m_vx = (e_x==0)?0:((e_x<0)?-2:2);
+			if(e_y > 8) m_vy = (e_y==0)?0:((e_y<0)?-2:2);
+			
+			// Reset timer last value
+			m_timerLastValue = m_hurtTimer.time();
+			
+			// Reset collided sprite
+			if(abs(e_x) > 24 || abs(e_y) > 24 || collidedTile) {
+				m_spr.setColor(m_defaultColor);
+			}
+		}
+		
+		if(m_hurtTimer.time() > 500) {
+			// Hurt sprite
+			m_lifes--;
+			
+			// Reset timer
+			m_hurtTimer.reset();
+			m_hurtTimer.start();
+			
+			// Reset timer last value
+			m_timerLastValue = m_hurtTimer.time();
+		}
+	}
 }
 

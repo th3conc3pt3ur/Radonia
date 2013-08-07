@@ -32,22 +32,11 @@ class Monster : public Sprite {
 		// Render function
 		void render();
 		
-		// Hurt monster
-		void hurt();
-		
 		// Get monster id
 		u16 id() const { return m_id; }
 		
-		// Get monster position in current map
-		u16 x() const { return m_x; }
-		u16 y() const { return m_y; }
-		
 		// Get monster mapID
 		u16 mapID() const { return m_mapID; }
-		
-		// Get monster lifes
-		s16 lifes() const { return m_lifes; }
-		u16 maxLifes() const { return m_maxLifes; }
 		
 		// Regen monster
 		void regen() { m_lifes = m_maxLifes; }
@@ -68,20 +57,8 @@ class Monster : public Sprite {
 		// Monster id
 		u16 m_id;
 		
-		// Monster position in current map
-		u16 m_x;
-		u16 m_y;
-		
-		// Monster movement vectors
-		s8 m_vx;
-		s8 m_vy;
-		
 		// Monster direction
 		u8 m_direction;
-		
-		// Monster lifes
-		s16 m_lifes;
-		u16 m_maxLifes;
 		
 		// Monster map id
 		u16 m_mapID;

@@ -51,16 +51,12 @@ int NPC::nbNPCs = 0;
 char *NPC::texts[NB_NPCs] = {(char*)"Hello boy!"};
 int NPC::moves[NB_NPCs][21] = {{6, 1, 0, 0, 1, 0, 1, -1, 0, 0, -1, 0, -1}};
 
-NPC::NPC(u16 x, u16 y, u8 direction, u16 mapID, char *filename) : Sprite(filename) {
+NPC::NPC(u16 x, u16 y, u8 direction, u16 mapID, char *filename) : Sprite(filename, SPRITE_NPC, x, y) {
 	// Set NPC id
 	m_id = nbNPCs;
 	
 	// Update NPCs counter
 	nbNPCs++;
-	
-	// Set class members
-	m_x = x;
-	m_y = y;
 	
 	m_direction = direction;
 	
@@ -85,7 +81,7 @@ NPC::~NPC() {
 
 void NPC::move() {
 	// If player collided NPC, don't move
-	if(Player::collidedNPC
+	if((Game::player->collidedSprite && Game::player->collidedSprite->isPlayer())
 	|| ((m_x + 2 > Game::player->x() && m_x + 2 < Game::player->x() + 16)
 	&&  (m_y + 2 > Game::player->y() && m_y + 2 < Game::player->y() + 16))
 	|| ((m_x + 14 > Game::player->x() && m_x + 14 < Game::player->x() + 16)

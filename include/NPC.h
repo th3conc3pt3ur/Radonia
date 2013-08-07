@@ -38,10 +38,6 @@ class NPC : public Sprite {
 		// Get NPC id
 		u16 id() const { return m_id; }
 		
-		// Get NPC position in current map
-		u16 x() const { return m_x; }
-		u16 y() const { return m_y; }
-		
 		// Get NPC mapID
 		u16 mapID() const { return m_mapID; }
 		
@@ -63,14 +59,6 @@ class NPC : public Sprite {
 	private:
 		// NPC id
 		u16 m_id;
-		
-		// NPC position in current map
-		u16 m_x;
-		u16 m_y;
-		
-		// NPC movement vectors
-		s8 m_vx;
-		s8 m_vy;
 		
 		// NPC direction
 		u8 m_direction;

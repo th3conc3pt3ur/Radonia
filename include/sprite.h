@@ -61,10 +61,19 @@ class Sprite_Animation {
 		bool m_isPlaying;
 };
 
+typedef enum {
+	SPRITE_NONE,
+	SPRITE_PLAYER,
+	SPRITE_NPC,
+	SPRITE_MONSTER,
+	SPRITE_PWEAPON,
+	SPRITE_MWEAPON
+} SpriteType;
+
 class Sprite {
 	public:
 		// Constructor and destructor
-		Sprite(char *filename, u8 frameSize = 16);
+		Sprite(char *filename, SpriteType type = SPRITE_NONE, s16 x = -1, s16 y = -1, u8 frameSize = 16);
 		~Sprite();
 		
 		// Draw sprite
@@ -79,9 +88,11 @@ class Sprite {
 		bool animationAtFrame(int anim, int frame);
 		void playAnimation(s16 x, s16 y, int anim);
 		
-		// Get position
-		s16 sx() const { return m_sx; }
-		s16 sy() const { return m_sy; }
+		// Hurt sprite
+		void hurt();
+		
+		// Speak
+		void speak() {};
 		
 		// Get sprite
 		sf::Sprite spr() { return m_spr; }
@@ -89,8 +100,42 @@ class Sprite {
 		// Get default color
 		sf::Color defaultColor() const { return m_defaultColor; }
 		
+		// Get sprite position
+		s16 x() const { return m_x; }
+		s16 y() const { return m_y; }
+		
+		// Get sprite movement vectors
+		s8 vx() const { return m_vx; }
+		s8 vy() const { return m_vy; }
+		
+		// Get sprite lifes
+		s16 lifes() const { return m_lifes; }
+		u16 maxLifes() const { return m_maxLifes; }
+		
+		// Types
+		bool isNone()	 { return m_type == SPRITE_NONE;	}
+		bool isPlayer()  { return m_type == SPRITE_PLAYER;	}
+		bool isNPC()	 { return m_type == SPRITE_NPC;		}
+		bool isMonster() { return m_type == SPRITE_MONSTER;	}
+		bool isPWeapon() { return m_type == SPRITE_PWEAPON;	}
+		bool isMWeapon() { return m_type == SPRITE_MWEAPON;	}
+		
+		// Set sprite position
+		void x(s16 x) { m_x = x; }
+		void y(s16 y) { m_y = y; }
+		
+		// Set sprite movement vectors
+		void vx(s8 vx) { m_vx = vx; }
+		void vy(s8 vy) { m_vy = vy; }
+		
 		// Sprite view
 		static sf::View *View;
+		
+		// Which sprite the sprite is colliding
+		Sprite *collidedSprite;
+		
+		// Which tile the sprite is colliding
+		int collidedTile;
 		
 	protected:
 		// Sprite texture
@@ -109,12 +154,23 @@ class Sprite {
 		std::vector<Sprite_Animation*> m_animations;
 		
 		// Sprite position
-		s16 m_sx;
-		s16 m_sy;
+		s16 m_x;
+		s16 m_y;
+		
+		// Movement vectors
+		s8 m_vx;
+		s8 m_vy;
 		
 		// Sprite hurt timer
 		Timer m_hurtTimer;
 		u16 m_timerLastValue;
+		
+		// Sprite lifes
+		s16 m_lifes;
+		u16 m_maxLifes;
+		
+		// Sprite type
+		SpriteType m_type;
 };
 
 #endif // SPRITE_H
