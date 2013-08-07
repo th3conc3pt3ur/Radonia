@@ -68,6 +68,9 @@ Player::Player() : Sprite((char*)"graphics/characters/link.png", SPRITE_PLAYER, 
 	
 	m_isAttacking = false;
 	
+	m_blockedCommands = false;
+	m_blockedDirections = false;
+	
 	m_swordSpr = new Sprite((char*)"graphics/animations/sword.png", SPRITE_PWEAPON);
 	
 	m_swordSpr->addAnimation(4, Sword_animations[0], 100); // Down
@@ -159,9 +162,6 @@ void Player::doorCollisions() {
 	}
 }
 
-bool blockedCommands = false;
-bool blockedDirections = false;
-
 // Sword loading timer
 Timer swordLoading;
 
@@ -175,7 +175,7 @@ void Player::sword() {
 		m_isAttacking = true;
 		
 		// Block commands
-		blockedCommands = true;
+		m_blockedCommands = true;
 	}
 	
 	// If S isn't pressed
@@ -185,7 +185,7 @@ void Player::sword() {
 		swordLoading.reset();
 		
 		// Deblock directions
-		blockedDirections = false;
+		m_blockedDirections = false;
 	}
 	
 	// If the player attacks
@@ -197,24 +197,24 @@ void Player::sword() {
 				m_isAttacking = false;
 				
 				// Deblock commands
-				blockedCommands = false;
+				m_blockedCommands = false;
 				
 				// Reset sword loading timer
 				swordLoading.stop();
 				swordLoading.reset();
 				
 				// Deblock directions
-				blockedDirections = false;
+				m_blockedDirections = false;
 			}
 			else if(swordLoading.time() == 0) {
 				// Start sword loading timer
 				swordLoading.start();
 				
 				// Deblock commands
-				blockedCommands = false;
+				m_blockedCommands = false;
 				
 				// Block directions
-				blockedDirections = true;
+				m_blockedDirections = true;
 			}
 		}
 		
@@ -267,34 +267,18 @@ void Player::sword() {
 			m_swordSpr->drawFrame(m_x + mx, m_y + my, m_direction + 8);
 		}
 		
-		// Save collision states
-		Sprite *tempCollidedSprite = collidedSprite;
-		int tempCollidedTile = collidedTile;
-		
-		if(((!passable(m_swordSpr, m_swordSpr->x() + 2,	 m_swordSpr->y() +  2))
-		||  (!passable(m_swordSpr, m_swordSpr->x() + 2,	 m_swordSpr->y() + 14))
-		||  (!passable(m_swordSpr, m_swordSpr->x() + 14, m_swordSpr->y() +  2))
-		||  (!passable(m_swordSpr, m_swordSpr->x() + 14, m_swordSpr->y() + 14)))
-		&& (collidedSprite && collidedSprite->isMonster())) {
+		// Test if sword is collided a monster
+		m_swordSpr->testCollisions();
+		if(m_swordSpr->collidedSprite && m_swordSpr->collidedSprite->isMonster()) {
 			// Hurt monster
-			collidedSprite->hurt();
-			
-			// Change its texture
-			sf::Color c = collidedSprite->spr().getColor();
-			collidedSprite->spr().setColor(invertColor(c));
-			
-			// Reset its texture
-			collidedSprite->spr().setColor(collidedSprite->defaultColor());
+			std::cout << "sp" << std::endl;
+			m_swordSpr->collidedSprite->hurt();
 		}
-		
-		// Reset collision states
-		collidedSprite = tempCollidedSprite;
-		collidedTile = tempCollidedTile;
 	}
 }
 
 void Player::actions() {
-	if(!blockedCommands) {
+	if(!m_blockedCommands) {
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 			// Set vertical movement vector negative
 			m_vy = -1;
@@ -302,7 +286,7 @@ void Player::actions() {
 			// If all other directional keys are released
 			if(!sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 				// Set direction to up
-				if(!blockedDirections) m_direction = Direction::Up;
+				if(!m_blockedDirections) m_direction = Direction::Up;
 			}
 		}
 		
@@ -313,7 +297,7 @@ void Player::actions() {
 			// If all other directional keys are released
 			if(!sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 				// Set direction to down
-				if(!blockedDirections) m_direction = Direction::Down;
+				if(!m_blockedDirections) m_direction = Direction::Down;
 			}
 		}
 		
@@ -324,7 +308,7 @@ void Player::actions() {
 			// If all other directional keys are released
 			if(!sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 				// Set direction to left
-				if(!blockedDirections) m_direction = Direction::Left;
+				if(!m_blockedDirections) m_direction = Direction::Left;
 			}
 		}
 		
@@ -335,7 +319,7 @@ void Player::actions() {
 			// If all other directional keys are released
 			if(!sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 				// Set direction to right
-				if(!blockedDirections) m_direction = Direction::Right;
+				if(!m_blockedDirections) m_direction = Direction::Right;
 			}
 		}
 	}
@@ -348,10 +332,10 @@ void Player::actions() {
 	testCollisions();
 	
 	// If player collided a monster, hurt him
-	if(collidedSprite && collidedSprite->isMonster()) {
+	/*if(collidedSprite && collidedSprite->isMonster()) {
 		if(m_hurtTimer.time() - m_timerLastValue > 5) {
 			// Block commands
-			blockedCommands = true;
+			m_blockedCommands = true;
 			
 			// Change player texture
 			sf::Color c = m_spr.getColor();
@@ -384,7 +368,7 @@ void Player::actions() {
 			// Reset collided monster and blocked commands states
 			if(abs(e_x) > 24 || abs(e_y) > 24 || collidedTile) {
 				collidedSprite = NULL;
-				blockedCommands = false;
+				m_blockedCommands = false;
 				m_spr.setColor(m_defaultColor);
 			}
 		}
@@ -400,7 +384,8 @@ void Player::actions() {
 			// Reset timer last value
 			m_timerLastValue = m_hurtTimer.time();
 		}
-	}
+	}*/
+	hurt();
 	
 	// Move the player
 	m_x += m_vx * PLAYER_SPEED;

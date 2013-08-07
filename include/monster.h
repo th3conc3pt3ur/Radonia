@@ -70,9 +70,6 @@ class Monster : public Sprite {
 		u8 m_countMoves;
 		u8 m_vxCount;
 		u8 m_vyCount;
-		
-		// Timer for movement
-		Timer m_timer;
 };
 
 #endif // MONSTER_H

@@ -84,17 +84,22 @@ void Interface::renderHUD() {
 		else if(i < entireHearts + ceil(piecesOfHearts)) hearts->drawFrame(16 * i, 0, ((i < entireHearts + ceil(piecesOfHearts) - 1) ? 4 : piecesOfHearts * 4));
 		else if(i > entireHearts - 1) hearts->drawFrame(16 * i, 0, 0);
 	}
+	
+	// Render monsters lifes
+	for(unsigned int i = 0 ; i < Game::currentMap->monsters().size() ; i++) {
+		renderMonsterLife(Game::currentMap->monsters()[i]);
+	}
 }
 
 void Interface::renderMonsterLife(Monster *monster) {
 	// Initialize rectangles
 	sf::RectangleShape background(sf::Vector2f(16, 3));
 	background.setPosition(monster->x(), monster->y() - 5);
-	background.setFillColor(sf::Color(0, 0, 0));
+	background.setFillColor(sf::Color(0, 220, 0));
 	
 	sf::RectangleShape life(sf::Vector2f(monster->lifes() * 16 / monster->maxLifes(), 3));
 	life.setPosition(monster->x(), monster->y() - 5);
-	life.setFillColor(sf::Color(255, 255, 255));
+	life.setFillColor(sf::Color(0, 125, 0));
 	
 	// Render life
 	Game::MainWindow->setView(*Sprite::View);
@@ -135,8 +140,5 @@ void Interface::newDialogBox(char *text) {
 	
 	// Reset view
 	Game::MainWindow->setView(Game::MainWindow->getDefaultView());	
-	
-	// Clear window
-	//Game::MainWindow->clear();
 }
 

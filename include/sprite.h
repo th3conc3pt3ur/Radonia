@@ -95,7 +95,7 @@ class Sprite {
 		void testCollisions();
 		
 		// Speak
-		void speak() {};
+		virtual void speak() {}
 		
 		// Get sprite
 		sf::Sprite spr() { return m_spr; }
@@ -174,6 +174,13 @@ class Sprite {
 		
 		// Sprite type
 		SpriteType m_type;
+		
+		// Movement timer (NPC|Monsters)
+		Timer m_movementTimer;
+		
+		// Blocked commands and direction states (Player)
+		bool m_blockedCommands;
+		bool m_blockedDirections;
 };
 
 #endif // SPRITE_H

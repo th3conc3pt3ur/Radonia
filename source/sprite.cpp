@@ -167,23 +167,46 @@ void Sprite::hurt() {
 	if((collidedSprite && (collidedSprite->isPWeapon() && isMonster()))
 	|| (collidedSprite && ((collidedSprite->isMWeapon() || collidedSprite->isMonster()) && isPlayer()))) {
 		if(m_hurtTimer.time() - m_timerLastValue > 5) {
+			if(isPlayer()) {
+				// Block comamnds
+				m_blockedCommands = true;
+			} else {
+				// Stop monster movement
+				m_movementTimer.stop();
+			}
+			
 			// Change sprite texture
 			sf::Color c = m_spr.getColor();
 			m_spr.setColor(invertColor(c));
 			
-			// Get sword direction vectors
+			// Get sprite direction vectors
 			s8 e_x = m_x - collidedSprite->x();
 			s8 e_y = m_y - collidedSprite->y();
 			
 			// Set movement vectors
-			if(e_x > 8) m_vx = (e_x==0)?0:((e_x<0)?-2:2);
-			if(e_y > 8) m_vy = (e_y==0)?0:((e_y<0)?-2:2);
+			if(!collidedTile && abs(e_x) > 8) m_vx = (e_x==0)?0:((e_x<0)?-2:2);
+			if(!collidedTile && abs(e_y) > 8) m_vy = (e_y==0)?0:((e_y<0)?-2:2);
+			
+			// Temporary collided sprite
+			Sprite *tmpCollidedSprite = collidedSprite;
+			
+			// Reset collide sprite
+			collidedSprite = NULL;
+			
+			// Test collisions
+			testCollisions();
+			
+			// Reset collided sprite with temp value
+			collidedSprite = tmpCollidedSprite;
 			
 			// Reset timer last value
 			m_timerLastValue = m_hurtTimer.time();
 			
-			// Reset collided sprite
+			// Reset collided sprite and blocked commands states
 			if(abs(e_x) > 24 || abs(e_y) > 24 || collidedTile) {
+				collidedSprite = NULL;
+				if(isPlayer()) m_blockedCommands = false;
+				else		   m_movementTimer.start();
 				m_spr.setColor(m_defaultColor);
 			}
 		}
@@ -205,7 +228,7 @@ void Sprite::hurt() {
 void Sprite::testCollisions() {
 	// 0: Right | 1: Left | 2: Up | 3:Down
 	for(u8 i = 0 ; i < 4 ; i++) {
-		if((i==0)?(m_vx > 0):((i==1)?(m_vx < 0):((i==2)?(m_vy < 0):(m_vy > 0)))
+		if(((i==0)?(m_vx > 0):((i==1)?(m_vx < 0):((i==2)?(m_vy < 0):(m_vy > 0))))
 		&& (!passable(this, m_x + collisionMatrix[i][0], m_y + collisionMatrix[i][1])
 		 || !passable(this, m_x + collisionMatrix[i][2], m_y + collisionMatrix[i][3]))) {
 			// Reset movement vector

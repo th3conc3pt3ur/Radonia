@@ -71,8 +71,8 @@ Monster::Monster(u16 x, u16 y, u8 direction, u16 mapID, char *filename) : Sprite
 	m_vxCount = 0;
 	m_vyCount = 0;
 	
-	// Restart clock
-	m_timer.start();
+	// Start movement timer
+	m_movementTimer.start();
 	
 	// Add animations to sprite
 	addAnimation(2, Monster_animations[0], 250); // Down
@@ -94,14 +94,14 @@ void Monster::move() {
 	&&  (m_y + 14 > Game::player->y() && m_y + 14 < Game::player->y() + 16))
 	|| ((m_x + 14 > Game::player->x() && m_x + 14 < Game::player->x() + 16)
 	&&  (m_y + 14 > Game::player->y() && m_y + 14 < Game::player->y() + 16))) {
-		m_timer.stop();
+		m_movementTimer.stop();
 		Game::player->collidedSprite = this;
 		return;
 	}
-	else m_timer.start();
+	else m_movementTimer.start();
 	
 	// Move or not?
-	if(m_timer.time() > 4000) {
+	if(m_movementTimer.time() > 4000) {
 		// Update movement vectors
 		m_vx = moves[m_id][m_countMoves * 2 + 1];
 		m_vy = moves[m_id][m_countMoves * 2 + 2];
@@ -123,8 +123,8 @@ void Monster::move() {
 		m_vyCount = 0;
 		
 		// Reset timer
-		m_timer.reset();
-		m_timer.start();
+		m_movementTimer.reset();
+		m_movementTimer.start();
 		
 		// Update moving state
 		m_moving = false;
@@ -133,8 +133,8 @@ void Monster::move() {
 	if(m_countMoves >= moves[m_id][0]) {
 		// Reset timer and counter
 		m_countMoves = 0;
-		m_timer.reset();
-		m_timer.start();
+		m_movementTimer.reset();
+		m_movementTimer.start();
 	}
 	
 	if(m_vx > 0) m_direction = Direction::Right;
@@ -155,9 +155,6 @@ void Monster::render() {
 	// Render monster
 	if(m_moving) playAnimation(m_x, m_y, m_direction);
 	else drawFrame(m_x, m_y, m_direction);
-	
-	// Render monster life
-	Interface::renderMonsterLife(this);
 }
 
 Monster *Monster::RedMonster(u16 x, u16 y, u8 direction, u16 mapID) {
