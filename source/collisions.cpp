@@ -62,6 +62,7 @@ bool passable(Sprite *spr, s16 x, s16 y) {
 		if((Game::currentMap->NPCs()[i]->x() < x && Game::currentMap->NPCs()[i]->x() + 16 > x)
 		&& (Game::currentMap->NPCs()[i]->y() < y && Game::currentMap->NPCs()[i]->y() + 16 > y)) {
 			spr->collidedSprite = Game::currentMap->NPCs()[i];
+			Game::currentMap->NPCs()[i]->collidedSprite = spr;
 			return false;
 		}
 	}
@@ -72,14 +73,28 @@ bool passable(Sprite *spr, s16 x, s16 y) {
 		&& (Game::currentMap->monsters()[i]->y() < y && Game::currentMap->monsters()[i]->y() + 16 > y)
 		&& Game::currentMap->monsters()[i]->lifes() > 0) {
 			spr->collidedSprite = Game::currentMap->monsters()[i];
+			Game::currentMap->monsters()[i]->collidedSprite = spr;
+			return false;
+		}
+	}
+	
+	// Collisions with player
+	if(spr->isMonster() || spr->isNPC() || spr->isMWeapon()) {
+		if(Game::player->x() < x && Game::player->x() + 16 > x
+		&& Game::player->y() < y && Game::player->y() + 16 > y) {
+			spr->collidedSprite = Game::player;
 			return false;
 		}
 	}
 	
 	// Collisions with map
-	if(inTable(nonPassableTiles, Game::currentMap->tilesetInfo()[Game::currentMap->getTile(tileX, tileY)])) {
-		spr->collidedTile = Game::currentMap->tilesetInfo()[Game::currentMap->getTile(tileX, tileY)];
-		return false;
-	} else return true;
+	if(spr->isMonster() || spr->isNPC() || spr->isPlayer()) {
+		if(inTable(nonPassableTiles, Game::currentMap->tilesetInfo()[Game::currentMap->getTile(tileX, tileY)])) {
+			spr->collidedTile = Game::currentMap->tilesetInfo()[Game::currentMap->getTile(tileX, tileY)];
+			return false;
+		} else return true;
+	} else {
+		return true;
+	}
 }
 

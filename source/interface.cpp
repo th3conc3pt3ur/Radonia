@@ -87,7 +87,8 @@ void Interface::renderHUD() {
 	
 	// Render monsters lifes
 	for(unsigned int i = 0 ; i < Game::currentMap->monsters().size() ; i++) {
-		renderMonsterLife(Game::currentMap->monsters()[i]);
+		if(Game::currentMap->monsters()[i]->lifes() > 0)
+			renderMonsterLife(Game::currentMap->monsters()[i]);
 	}
 }
 

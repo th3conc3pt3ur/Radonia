@@ -193,8 +193,16 @@ void Sprite::hurt() {
 			// Reset collide sprite
 			collidedSprite = NULL;
 			
+			// Setup temporary movement vectors
+			s8 t_vx = m_vx;
+			s8 t_vy = m_vy;
+			
 			// Test collisions
 			testCollisions();
+			
+			// Reset movement vectors
+			m_vx = t_vx;
+			m_vy = t_vy;
 			
 			// Reset collided sprite with temp value
 			collidedSprite = tmpCollidedSprite;
@@ -238,14 +246,14 @@ void Sprite::testCollisions() {
 			// Obstacles
 			if( passable(this, m_x + collisionMatrix[i][2], m_y + collisionMatrix[i][3])
 			&& !passable(this, m_x + collisionMatrix[i][0], m_y + collisionMatrix[i][1])) {
-				if((i<2)?(m_vy == 0):(m_vx == 0) && !collidedSprite) {
+				if(((i<2)?(m_vy == 0):(m_vx == 0)) && !collidedSprite) {
 					if(i<2)	m_vy = 1;
 					else	m_vx = 1;
 				}
 			}
 			if( passable(this, m_x + collisionMatrix[i][0], m_y + collisionMatrix[i][1])
 			&& !passable(this, m_x + collisionMatrix[i][2], m_y + collisionMatrix[i][3])) {
-				if((i<2)?(m_vy == 0):(m_vx == 0) && !collidedSprite) {
+				if(((i<2)?(m_vy == 0):(m_vx == 0)) && !collidedSprite) {
 					if(i<2) m_vy = -1;
 					else	m_vx = -1;
 				}

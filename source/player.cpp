@@ -267,12 +267,17 @@ void Player::sword() {
 			m_swordSpr->drawFrame(m_x + mx, m_y + my, m_direction + 8);
 		}
 		
-		// Test if sword is collided a monster
-		m_swordSpr->testCollisions();
-		if(m_swordSpr->collidedSprite && m_swordSpr->collidedSprite->isMonster()) {
+		// Test if sword collided a monster
+		if((!passable(m_swordSpr, m_swordSpr->x() +  2, m_swordSpr->y() +  2)
+		||  !passable(m_swordSpr, m_swordSpr->x() + 14, m_swordSpr->y() +  2)
+		||  !passable(m_swordSpr, m_swordSpr->x() +  2, m_swordSpr->y() + 14)
+		||  !passable(m_swordSpr, m_swordSpr->x() + 14, m_swordSpr->y() + 14))
+		&& m_swordSpr->collidedSprite && m_swordSpr->collidedSprite->isMonster()) {
 			// Hurt monster
-			std::cout << "sp" << std::endl;
 			m_swordSpr->collidedSprite->hurt();
+			
+			// Move it
+			m_swordSpr->collidedSprite->updatePosition();
 		}
 	}
 }
@@ -332,59 +337,6 @@ void Player::actions() {
 	testCollisions();
 	
 	// If player collided a monster, hurt him
-	/*if(collidedSprite && collidedSprite->isMonster()) {
-		if(m_hurtTimer.time() - m_timerLastValue > 5) {
-			// Block commands
-			m_blockedCommands = true;
-			
-			// Change player texture
-			sf::Color c = m_spr.getColor();
-			m_spr.setColor(sf::Color(255-c.r, 255-c.g, 255-c.b));
-			
-			// Get enemy direction vectors
-			s8 e_x = m_x - collidedSprite->x();
-			s8 e_y = m_y - collidedSprite->y();
-			
-			// Set movement vectors
-			if(!collidedTile && abs(e_x) > 8) m_vx = (e_x==0)?0:((e_x<0)?-2:2);
-			if(!collidedTile && abs(e_y) > 8) m_vy = (e_y==0)?0:((e_y<0)?-2:2);
-			
-			// Temporary collided monster
-			Sprite *tmpCollidedMonster = collidedSprite;
-			
-			// Reset collided monster
-			collidedSprite = NULL;
-			
-			// Test collisions
-			doorCollisions();
-			testCollisions();
-			
-			// Reset collided monster with temp value
-			collidedSprite = tmpCollidedMonster;
-			
-			// Reset timer last value
-			m_timerLastValue = m_hurtTimer.time();
-			
-			// Reset collided monster and blocked commands states
-			if(abs(e_x) > 24 || abs(e_y) > 24 || collidedTile) {
-				collidedSprite = NULL;
-				m_blockedCommands = false;
-				m_spr.setColor(m_defaultColor);
-			}
-		}
-		
-		if(m_hurtTimer.time() > 500) {
-			// Hurt player
-			m_lifes--;
-			
-			// Reset timer
-			m_hurtTimer.reset();
-			m_hurtTimer.start();
-			
-			// Reset timer last value
-			m_timerLastValue = m_hurtTimer.time();
-		}
-	}*/
 	hurt();
 	
 	// Move the player

@@ -97,6 +97,12 @@ class Sprite {
 		// Speak
 		virtual void speak() {}
 		
+		// Move sprite
+		void updatePosition() {
+			m_x += m_vx;
+			m_y += m_vy;
+		}
+		
 		// Get sprite
 		sf::Sprite spr() { return m_spr; }
 		
