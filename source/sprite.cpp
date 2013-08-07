@@ -34,6 +34,7 @@
 #include "door.h"
 #include "game.h"
 #include "tools.h"
+#include "collisions.h"
 
 Sprite_Animation::Sprite_Animation(int size, int *tabAnim, int delay) {
 	// Set class members
@@ -197,6 +198,35 @@ void Sprite::hurt() {
 			
 			// Reset timer last value
 			m_timerLastValue = m_hurtTimer.time();
+		}
+	}
+}
+
+void Sprite::testCollisions() {
+	// 0: Right | 1: Left | 2: Up | 3:Down
+	for(u8 i = 0 ; i < 4 ; i++) {
+		if((i==0)?(m_vx > 0):((i==1)?(m_vx < 0):((i==2)?(m_vy < 0):(m_vy > 0)))
+		&& (!passable(this, m_x + collisionMatrix[i][0], m_y + collisionMatrix[i][1])
+		 || !passable(this, m_x + collisionMatrix[i][2], m_y + collisionMatrix[i][3]))) {
+			// Reset movement vector
+			if(i<2) m_vx = 0;
+			else	m_vy = 0;
+			
+			// Obstacles
+			if( passable(this, m_x + collisionMatrix[i][2], m_y + collisionMatrix[i][3])
+			&& !passable(this, m_x + collisionMatrix[i][0], m_y + collisionMatrix[i][1])) {
+				if((i<2)?(m_vy == 0):(m_vx == 0) && !collidedSprite) {
+					if(i<2)	m_vy = 1;
+					else	m_vx = 1;
+				}
+			}
+			if( passable(this, m_x + collisionMatrix[i][0], m_y + collisionMatrix[i][1])
+			&& !passable(this, m_x + collisionMatrix[i][2], m_y + collisionMatrix[i][3])) {
+				if((i<2)?(m_vy == 0):(m_vx == 0) && !collidedSprite) {
+					if(i<2) m_vy = -1;
+					else	m_vx = -1;
+				}
+			}
 		}
 	}
 }

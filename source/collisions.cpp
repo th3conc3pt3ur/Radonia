@@ -83,32 +83,3 @@ bool passable(Sprite *spr, s16 x, s16 y) {
 	} else return true;
 }
 
-void testCollisions(Sprite *spr) {
-	// 0: Right | 1: Left | 2: Up | 3:Down
-	for(u8 i = 0 ; i < 4 ; i++) {
-		if((i==0)?(spr->vx() > 0):((i==1)?(spr->vx() < 0):((i==2)?(spr->vy() < 0):(spr->vy() > 0)))
-		&& (!passable(spr, spr->x() + collisionMatrix[i][0], spr->y() + collisionMatrix[i][1])
-		 || !passable(spr, spr->x() + collisionMatrix[i][2], spr->y() + collisionMatrix[i][3]))) {
-			// Reset movement vector
-			if(i<2) spr->vx(0);
-			else	spr->vy(0);
-			
-			// Obstacles
-			if( passable(spr, spr->x() + collisionMatrix[i][3], spr->y() + collisionMatrix[i][4])
-			&& !passable(spr, spr->x() + collisionMatrix[i][0], spr->y() + collisionMatrix[i][1])) {
-				if((i<2)?(spr->vy() == 0):(spr->vx() == 0) && !spr->collidedSprite) {
-					if(i<2)	spr->vy(1);
-					else	spr->vx(1);
-				}
-			}
-			if( passable(spr, spr->x() + collisionMatrix[i][0], spr->y() + collisionMatrix[i][1])
-			&& !passable(spr, spr->x() + collisionMatrix[i][3], spr->y() + collisionMatrix[i][4])) {
-				if((i<2)?(spr->vy() == 0):(spr->vx() == 0) && !spr->collidedSprite) {
-					if(i<2) spr->vy(-1);
-					else	spr->vx(-1);
-				}
-			}
-		}
-	}
-}
-

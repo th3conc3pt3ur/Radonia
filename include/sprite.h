@@ -91,6 +91,9 @@ class Sprite {
 		// Hurt sprite
 		void hurt();
 		
+		// Test sprite collisions
+		void testCollisions();
+		
 		// Speak
 		void speak() {};
 		

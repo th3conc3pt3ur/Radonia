@@ -345,7 +345,7 @@ void Player::actions() {
 	
 	// Test collisions
 	doorCollisions();
-	testCollisions(this);
+	testCollisions();
 	
 	// If player collided a monster, hurt him
 	if(collidedSprite && collidedSprite->isMonster()) {
@@ -373,7 +373,7 @@ void Player::actions() {
 			
 			// Test collisions
 			doorCollisions();
-			testCollisions(this);
+			testCollisions();
 			
 			// Reset collided monster with temp value
 			collidedSprite = tmpCollidedMonster;

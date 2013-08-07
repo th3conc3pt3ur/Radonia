@@ -26,7 +26,4 @@ extern u16 collisionMatrix[4][4];
 // Test if the tile is passable
 bool passable(Sprite *spr, s16 x, s16 y);
 
-// Test sprite collisions
-void testCollisions(Sprite *spr);
-
 #endif // COLLISIONS_H
