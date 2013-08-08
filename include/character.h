@@ -29,7 +29,7 @@ typedef enum {
 class Character : public Sprite {
 	public:
 		// Constructor and destructor
-		Character();
+		Character(char *filename, CharacterType type, s16 x, s16 y, u8 frameSize = 16);
 		~Character();
 		
 		// Render character
@@ -55,6 +55,9 @@ class Character : public Sprite {
 		s16 lifes() const { return m_lifes; }
 		u16 maxLifes() const { return m_maxLifes; }
 		
+		// Get character id
+		u16 id() const { return m_id; }
+		
 		// Types
 		bool isPlayer()  { return m_type == CHARA_PLAYER;	}
 		bool isNPC()	 { return m_type == CHARA_NPC;		}
@@ -70,7 +73,13 @@ class Character : public Sprite {
 		void collidedWeapon(Weapon *weapon) { m_collidedWeapon = weapon; }
 		void collidedTile(int tile) { m_collidedTile = tile; }
 		
+		// Characters counter
+		static u16 nbCharacters;
+		
 	private:
+		// Character id
+		u16 m_id;
+		
 		// Character position
 		s16 m_x;
 		s16 m_y;

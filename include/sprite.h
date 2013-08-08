@@ -23,7 +23,7 @@
 class Sprite {
 	public:
 		// Constructor and destructor
-		Sprite(char *filename, SpriteType type = SPRITE_NONE, s16 x = -1, s16 y = -1, u8 frameSize = 16);
+		Sprite(char *filename, u8 frameSize = 16);
 		~Sprite();
 		
 		// Draw sprite

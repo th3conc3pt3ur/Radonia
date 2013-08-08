@@ -43,17 +43,10 @@
 
 // Monsters are called Qaewans
 
-int Monster::nbMonsters = 0;
-
 int Monster::moves[NB_MONSTERS][21] = {{6, 1, 0, 0, 1, 0, 1, -1, 0, 0, -1, 0, -1}};
 
 Monster::Monster(u16 x, u16 y, u8 direction, u16 mapID, char *filename) : Sprite(filename, SPRITE_MONSTER, x, y) {
-	// Set monster id
-	m_id = nbMonsters;
-	
-	// Update monsters counter
-	nbMonsters++;
-	
+	// Set class members
 	m_direction = direction;
 	
 	m_lifes = 100;

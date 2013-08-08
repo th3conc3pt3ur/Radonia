@@ -32,9 +32,6 @@ class Monster : public Sprite {
 		// Render function
 		void render();
 		
-		// Get monster id
-		u16 id() const { return m_id; }
-		
 		// Get monster mapID
 		u16 mapID() const { return m_mapID; }
 		
@@ -50,13 +47,7 @@ class Monster : public Sprite {
 		// Monsters moves
 		static int moves[NB_MONSTERS][21];
 		
-		// Monsters counter
-		static int nbMonsters;
-		
 	private:
-		// Monster id
-		u16 m_id;
-		
 		// Monster direction
 		u8 m_direction;
 		

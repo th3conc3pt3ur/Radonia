@@ -43,7 +43,36 @@
 #include "interface.h"
 #include "game.h"
 
-Character::Character() : Sprite() {
+u16 Character::nbCharacters = 0;
+
+Character::Character(char *filename, CharacterType type, s16 x, s16 y, u8 frameSize) : Sprite(filename, frameSize) {
+	// Set character id
+	m_id = nbCharacters;
+	
+	// Update characters counter
+	nbCharacters++;
+	
+	// Setup hurt timer
+	m_hurtTimer.reset();
+	m_hurtTimer.start();
+	
+	m_timerLastValue = 0;
+	
+	// Set type
+	m_type = type;
+	
+	// Set position
+	m_x = x;
+	m_y = y;
+	
+	// Set movement vectors
+	m_vx = 0;
+	m_vy = 0;
+	
+	// Initialize collision states
+	m_collidedCharacter = NULL;
+	m_collidedWeapon = NULL;
+	m_collidedTile = 0;
 }
 
 Character::~Character() {

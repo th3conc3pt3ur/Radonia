@@ -11,6 +11,7 @@ Radonia=/home/quentin/Bureau/Projets/Radonia CD=. filter=".gitignore *.c *.h *.d
   animation.h
   animationManager.h
   character.h
+  characterManager.h
   collisionManager.h
   config.h
   door.h
@@ -34,6 +35,7 @@ Radonia=/home/quentin/Bureau/Projets/Radonia CD=. filter=".gitignore *.c *.h *.d
  source=source {
   animationManager.cpp
   character.cpp
+  characterManager.cpp
   collisionManager.cpp
   doorManager.cpp
   eventManager.cpp

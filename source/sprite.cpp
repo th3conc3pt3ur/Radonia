@@ -47,27 +47,6 @@ Sprite::Sprite(char *filename, SpriteType type, s16 x, s16 y, u8 frameSize) {
 	
 	// Set default color
 	m_defaultColor = m_spr.getColor();
-	
-	// Setup hurt timer
-	m_hurtTimer.reset();
-	m_hurtTimer.start();
-	
-	m_timerLastValue = 0;
-	
-	// Set type
-	m_type = type;
-	
-	// Set position
-	m_x = x;
-	m_y = y;
-	
-	// Set movement vectors
-	m_vx = 0;
-	m_vy = 0;
-	
-	// Reset collision states
-	collidedSprite = NULL;
-	collidedTile = 0;
 }
 
 Sprite::~Sprite() {

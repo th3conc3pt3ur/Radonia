@@ -41,18 +41,11 @@
 #include "interface.h"
 #include "game.h"
 
-int NPC::nbNPCs = 0;
-
 char *NPC::texts[NB_NPCs] = {(char*)"Hello boy!"};
 int NPC::moves[NB_NPCs][21] = {{6, 1, 0, 0, 1, 0, 1, -1, 0, 0, -1, 0, -1}};
 
 NPC::NPC(u16 x, u16 y, u8 direction, u16 mapID, char *filename) : Sprite(filename, SPRITE_NPC, x, y) {
-	// Set NPC id
-	m_id = nbNPCs;
-	
-	// Update NPCs counter
-	nbNPCs++;
-	
+	// Set class members
 	m_direction = direction;
 	
 	m_moving = false;

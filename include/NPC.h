@@ -35,9 +35,6 @@ class NPC : public Sprite {
 		// Speaking function
 		void speak();
 		
-		// Get NPC id
-		u16 id() const { return m_id; }
-		
 		// Get NPC mapID
 		u16 mapID() const { return m_mapID; }
 		
@@ -53,13 +50,7 @@ class NPC : public Sprite {
 		// NPCs moves
 		static int moves[NB_NPCs][21];
 		
-		// NPCs counter
-		static int nbNPCs;
-		
 	private:
-		// NPC id
-		u16 m_id;
-		
 		// NPC direction
 		u8 m_direction;
 		
