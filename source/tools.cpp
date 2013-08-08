@@ -28,14 +28,15 @@
 #include "config.h"
 #include "timer.h"
 #include "sprite.h"
+#include "character.h"
 #include "monster.h"
 #include "NPC.h"
 #include "player.h"
 #include "map.h"
-#include "mapManager.h"
 #include "door.h"
-#include "game.h"
+#include "mapManager.h"
 #include "tools.h"
+#include "game.h"
 
 sf::Color invertColor(sf::Color c) {
 	return sf::Color(255-c.r, 255-c.g, 255-c.b);

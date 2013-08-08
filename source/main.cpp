@@ -27,13 +27,13 @@
 #include "config.h"
 #include "timer.h"
 #include "sprite.h"
+#include "character.h"
 #include "monster.h"
 #include "NPC.h"
 #include "player.h"
-#include "interface.h"
 #include "map.h"
-#include "mapManager.h"
 #include "door.h"
+#include "interface.h"
 #include "game.h"
 
 using namespace std;

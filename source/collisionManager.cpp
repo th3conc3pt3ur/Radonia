@@ -29,16 +29,19 @@
 #include "config.h"
 #include "timer.h"
 #include "sprite.h"
+#include "character.h"
 #include "monster.h"
 #include "NPC.h"
 #include "player.h"
-#include "interface.h"
 #include "map.h"
-#include "mapManager.h"
 #include "door.h"
-#include "game.h"
+#include "mapManager.h"
+#include "doorManager.h"
+#include "characterManager.h"
+#include "collisionManager.h"
 #include "tools.h"
-#include "collisions.h"
+#include "interface.h"
+#include "game.h"
 
 // Initialize collision matrix
 u16 collisionMatrix[4][4] = {

@@ -29,15 +29,15 @@
 #include "config.h"
 #include "timer.h"
 #include "sprite.h"
+#include "character.h"
 #include "monster.h"
 #include "NPC.h"
 #include "player.h"
-#include "interface.h"
 #include "map.h"
-#include "mapManager.h"
 #include "door.h"
-#include "game.h"
+#include "mapManager.h"
 #include "tools.h"
+#include "game.h"
 
 // Monsters are called Qaewans
 

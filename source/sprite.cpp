@@ -26,15 +26,6 @@
 #include "config.h"
 #include "timer.h"
 #include "sprite.h"
-#include "monster.h"
-#include "NPC.h"
-#include "player.h"
-#include "map.h"
-#include "mapManager.h"
-#include "door.h"
-#include "game.h"
-#include "tools.h"
-#include "collisions.h"
 
 Sprite_Animation::Sprite_Animation(int size, int *tabAnim, int delay) {
 	// Set class members
