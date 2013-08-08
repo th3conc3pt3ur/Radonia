@@ -80,7 +80,7 @@ Character::~Character() {
 
 void Character::hurt() {
 	// TODO with new collision states
-	if((collidedSprite && (collidedSprite->isPWeapon() && isMonster()))
+	/*if((collidedSprite && (collidedSprite->isPWeapon() && isMonster()))
 	|| (collidedSprite && ((collidedSprite->isMWeapon() || collidedSprite->isMonster()) && isPlayer()))) {
 		if(m_hurtTimer.time() - m_timerLastValue > 5) {
 			if(isPlayer()) {
@@ -150,11 +150,12 @@ void Character::hurt() {
 			// Reset timer last value
 			m_timerLastValue = m_hurtTimer.time();
 		}
-	}
+	}*/
 }
 
 void Character::testCollisions() {
-	// 0: Right | 1: Left | 2: Up | 3:Down
+	// TODO: Collisions manager
+	/*// 0: Right | 1: Left | 2: Up | 3:Down
 	for(u8 i = 0 ; i < 4 ; i++) {
 		if(((i==0)?(m_vx > 0):((i==1)?(m_vx < 0):((i==2)?(m_vy < 0):(m_vy > 0))))
 		&& (!passable(this, m_x + collisionMatrix[i][0], m_y + collisionMatrix[i][1])
@@ -179,6 +180,6 @@ void Character::testCollisions() {
 				}
 			}
 		}
-	}
+	}*/
 }
 

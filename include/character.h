@@ -29,23 +29,24 @@ typedef enum {
 class Character : public Sprite {
 	public:
 		// Constructor and destructor
-		Character(char *filename, CharacterType type, s16 x, s16 y, u8 frameSize = 16);
+		Character(char *filename, CharacterType type, s16 x, s16 y, u8 direction, s16 mapID = -1, u8 frameSize = 16);
 		~Character();
+		
+		// Move function
+		void move();
 		
 		// Render character
 		void render();
+		
+		// Action function
+		virtual void action() = 0;
 		
 		// Hurt comportement
 		void hurt();
 		
 		// Test collisions
 		void testCollisions();
-		
-		// Action function
-		virtual void action() = 0;
-		
-		// Move function
-		void move();
+		void doorCollisions();
 		
 		// Get character position
 		s16 x() const { return m_x; }
@@ -54,6 +55,12 @@ class Character : public Sprite {
 		// Get character lifes
 		s16 lifes() const { return m_lifes; }
 		u16 maxLifes() const { return m_maxLifes; }
+		
+		// Regenerate a character
+		void regen() { m_lifes = m_maxLifes; }
+		
+		// Get map id
+		u16 mapID() const { return m_mapID; }
 		
 		// Get character id
 		u16 id() const { return m_id; }
@@ -88,6 +95,20 @@ class Character : public Sprite {
 		s8 m_vx;
 		s8 m_vy;
 		
+		// Direction
+		u8 m_direction;
+		
+		// Map id
+		s16 m_mapID;
+		
+		// Moving state
+		bool m_moving;
+		
+		// Movement counters
+		u8 m_countMoves;
+		u8 m_vxCount;
+		u8 m_vyCount;
+		
 		// Character hurt timer
 		Timer m_hurtTimer;
 		u16 m_timerLastValue;
@@ -110,6 +131,9 @@ class Character : public Sprite {
 		Character *m_collidedCharacter;
 		Weapon *m_collidedWeapon;
 		int m_collidedTile;
+		
+		// Attacking state
+		bool m_isAttacking;
 };
 
 #endif // CHARACTER_H

@@ -20,23 +20,11 @@
 #ifndef MONSTER_H
 #define MONSTER_H
 
-class Monster : public Sprite {
+class Monster : public Character {
 	public:
 		// Constructor and destructor
 		Monster(u16 x, u16 y, u8 direction, u16 mapID, char *filename);
 		~Monster();
-		
-		// Movement function
-		void move();
-		
-		// Render function
-		void render();
-		
-		// Get monster mapID
-		u16 mapID() const { return m_mapID; }
-		
-		// Regen monster
-		void regen() { m_lifes = m_maxLifes; }
 		
 		// Make a red monster
 		static Monster *RedMonster(u16 x, u16 y, u8 direction, u16 mapID);
@@ -46,21 +34,6 @@ class Monster : public Sprite {
 		
 		// Monsters moves
 		static int moves[NB_MONSTERS][21];
-		
-	private:
-		// Monster direction
-		u8 m_direction;
-		
-		// Monster map id
-		u16 m_mapID;
-		
-		// Moving state
-		bool m_moving;
-		
-		// Movement counters
-		u8 m_countMoves;
-		u8 m_vxCount;
-		u8 m_vyCount;
 };
 
 #endif // MONSTER_H

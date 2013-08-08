@@ -20,23 +20,14 @@
 #ifndef NPC_H
 #define NPC_H
 
-class NPC : public Sprite {
+class NPC : public Character {
 	public:
 		// Constructor and destructor
 		NPC(u16 x, u16 y, u8 direction, u16 mapID, char *filename);
 		~NPC();
 		
-		// Movement function
-		void move();
-		
-		// Render function
-		void render();
-		
-		// Speaking function
-		void speak();
-		
-		// Get NPC mapID
-		u16 mapID() const { return m_mapID; }
+		// Speak function
+		void action();
 		
 		// Make a blue boy
 		static NPC *BlueBoy(u16 x, u16 y, u8 direction, u16 mapID);
@@ -49,24 +40,6 @@ class NPC : public Sprite {
 		
 		// NPCs moves
 		static int moves[NB_NPCs][21];
-		
-	private:
-		// NPC direction
-		u8 m_direction;
-		
-		// NPC map id
-		u16 m_mapID;
-		
-		// Moving state
-		bool m_moving;
-		
-		// Movement counters
-		u8 m_countMoves;
-		u8 m_vxCount;
-		u8 m_vyCount;
-		
-		// Timer for movement
-		Timer m_timer;
 };
 
 #endif // NPC_H

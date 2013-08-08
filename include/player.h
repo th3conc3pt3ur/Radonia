@@ -20,36 +20,26 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-class Player : public Sprite {
+// TODO when back: put all movement/rendering/basic actions functions in Character
+
+class Player : public Character {
 	public:
 		// Constructor and destructor
 		Player();
 		~Player();
 		
-		// Actions function
-		void actions();
-		
-		// Render function
-		void render();
-		
-		// Test collisions functions
-		void doorCollisions();
+		// Action function
+		//void action();
 		
 		// Sword attack
-		void sword();
+		//void sword(); TODO: Weapon class
 		
 		// Get sword sprite
-		Sprite *swordSpr() const { return m_swordSpr; }
+		//Sprite *swordSpr() const { return m_swordSpr; }
 		
 	private:
-		// Player direction
-		u8 m_direction;
-		
-		// Is the player attacking
-		bool m_isAttacking;
-		
 		// Sword sprite
-		Sprite *m_swordSpr;
+		//Sprite *m_swordSpr;
 };
 
 #endif // PLAYER_H
