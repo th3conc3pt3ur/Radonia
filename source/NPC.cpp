@@ -28,6 +28,7 @@
 #include "types.h"
 #include "config.h"
 #include "timer.h"
+#include "animation.h"
 #include "sprite.h"
 #include "character.h"
 #include "monster.h"
@@ -35,17 +36,10 @@
 #include "player.h"
 #include "map.h"
 #include "door.h"
+#include "animationManager.h"
 #include "mapManager.h"
 #include "interface.h"
 #include "game.h"
-
-// Set animations table
-int NPC_animations[12][4] = {
-	{4,0},
-	{5,1},
-	{6,2},
-	{7,3}
-};
 
 int NPC::nbNPCs = 0;
 

@@ -28,6 +28,7 @@
 #include "types.h"
 #include "config.h"
 #include "timer.h"
+#include "animation.h"
 #include "sprite.h"
 #include "character.h"
 #include "monster.h"
@@ -35,6 +36,7 @@
 #include "player.h"
 #include "map.h"
 #include "door.h"
+#include "animationManager.h"
 #include "mapManager.h"
 #include "doorManager.h"
 #include "characterManager.h"
@@ -42,25 +44,6 @@
 #include "tools.h"
 #include "interface.h"
 #include "game.h"
-
-// Set animations table
-int Player_animations[8][4] = {
-	{4,0},
-	{5,1},
-	{6,2},
-	{7,3},
-	{8,12,12,12},
-	{9,13,13,13},
-	{10,14,14,14},
-	{11,15,15,15}
-};
-
-int Sword_animations[4][4] = {
-	{0,4,8,8},
-	{1,5,9,9},
-	{2,6,10,10},
-	{3,7,11,11}
-};
 
 Player::Player() : Sprite((char*)"graphics/characters/link.png", SPRITE_PLAYER, 120, 160) {
 	// Set class members

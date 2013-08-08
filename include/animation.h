@@ -20,45 +20,13 @@
 #ifndef ANIMATION_H
 #define ANIMATION_H
 
-class Animation {
-	public:
-		// Constructor and destructor
-		Animation(int size, int *tabAnim, int delay);
-		~Animation();
-		
-		// Get animation size
-		int size() const { return m_size; }
-		
-		// Get animations table
-		int *tabAnim() const { return m_tabAnim; }
-		
-		// Get delay between animations
-		int delay() const { return m_delay; }
-		
-		// Get timer
-		Timer *tmr() const { return m_tmr; }
-		
-		// Get if the animation is playing or not
-		bool isPlaying() const { return m_isPlaying; }
-		
-		// Set if the animation is playing or not
-		void isPlaying(bool isPlaying) { m_isPlaying = isPlaying; }
-		
-	private:
-		// Animation size
-		int m_size;
-		
-		// Animations table
-		int *m_tabAnim;
-		
-		// Delay between animations
-		int m_delay;
-		
-		// Timer
-		Timer *m_tmr;
-		
-		// Variable for telling the animation to play or not
-		bool m_isPlaying;
-};
+// Animation struct
+typedef struct {
+	int size;		// Animation size
+	int *tabAnim;	// Animation table
+	int delay;		// Delay between animations
+	Timer timer;	// Timer
+	bool isPlaying = false; // Playing animation state
+} Animation;
 
 #endif // ANIMATION_H

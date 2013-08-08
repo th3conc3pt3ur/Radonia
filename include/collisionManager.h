@@ -17,8 +17,8 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	
 ---------------------------------------------------------------------------------*/
-#ifndef COLLISIONS_H
-#define COLLISIONS_H
+#ifndef COLLISION_MANAGER_H
+#define COLLISION_MANAGER_H
 
 // Collision matrix
 extern u16 collisionMatrix[4][4];
@@ -26,4 +26,4 @@ extern u16 collisionMatrix[4][4];
 // Test if the tile is passable
 bool passable(Sprite *spr, s16 x, s16 y);
 
-#endif // COLLISIONS_H
+#endif // COLLISION_MANAGER_H

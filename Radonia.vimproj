@@ -28,9 +28,10 @@ Radonia=/home/quentin/Bureau/Projets/Radonia CD=. filter=".gitignore *.c *.h *.d
   timer.h
   tools.h
   types.h
+  weapon.h
+  weaponManager.h
  }
  source=source {
-  animation.cpp
   animationManager.cpp
   character.cpp
   collisionManager.cpp
@@ -47,5 +48,7 @@ Radonia=/home/quentin/Bureau/Projets/Radonia CD=. filter=".gitignore *.c *.h *.d
   sprite.cpp
   timer.cpp
   tools.cpp
+  weapon.cpp
+  weaponManager.cpp
  }
 }

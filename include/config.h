@@ -28,6 +28,8 @@
 #define NB_NPCs 1
 #define NB_MONSTERS 1
 
+#define DOORS 10
+
 #define MAP_WIDTH 40
 #define MAP_HEIGHT 30
 

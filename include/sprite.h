@@ -20,15 +20,6 @@
 #ifndef SPRITE_H
 #define SPRITE_H
 
-typedef enum {
-	SPRITE_NONE,
-	SPRITE_PLAYER,
-	SPRITE_NPC,
-	SPRITE_MONSTER,
-	SPRITE_PWEAPON,
-	SPRITE_MWEAPON
-} SpriteType;
-
 class Sprite {
 	public:
 		// Constructor and destructor
@@ -47,63 +38,14 @@ class Sprite {
 		bool animationAtFrame(int anim, int frame);
 		void playAnimation(s16 x, s16 y, int anim);
 		
-		// Hurt sprite
-		void hurt();
-		
-		// Test sprite collisions
-		void testCollisions();
-		
-		// Speak
-		virtual void speak() {}
-		
-		// Move sprite
-		void updatePosition() {
-			if(m_x + m_vx + 16 < MAP_WIDTH  * 16 && m_x + m_vx >= 0) m_x += m_vx;
-			if(m_y + m_vy + 16 < MAP_HEIGHT * 16 && m_y + m_vy >= 0) m_y += m_vy;
-		}
-		
 		// Get sprite
 		sf::Sprite spr() { return m_spr; }
 		
 		// Get default color
 		sf::Color defaultColor() const { return m_defaultColor; }
 		
-		// Get sprite position
-		s16 x() const { return m_x; }
-		s16 y() const { return m_y; }
-		
-		// Get sprite movement vectors
-		s8 vx() const { return m_vx; }
-		s8 vy() const { return m_vy; }
-		
-		// Get sprite lifes
-		s16 lifes() const { return m_lifes; }
-		u16 maxLifes() const { return m_maxLifes; }
-		
-		// Types
-		bool isNone()	 { return m_type == SPRITE_NONE;	}
-		bool isPlayer()  { return m_type == SPRITE_PLAYER;	}
-		bool isNPC()	 { return m_type == SPRITE_NPC;		}
-		bool isMonster() { return m_type == SPRITE_MONSTER;	}
-		bool isPWeapon() { return m_type == SPRITE_PWEAPON;	}
-		bool isMWeapon() { return m_type == SPRITE_MWEAPON;	}
-		
-		// Set sprite position
-		void x(s16 x) { m_x = x; }
-		void y(s16 y) { m_y = y; }
-		
-		// Set sprite movement vectors
-		void vx(s8 vx) { m_vx = vx; }
-		void vy(s8 vy) { m_vy = vy; }
-		
 		// Sprite view
 		static sf::View *View;
-		
-		// Which sprite the sprite is colliding
-		Sprite *collidedSprite;
-		
-		// Which tile the sprite is colliding
-		int collidedTile;
 		
 	protected:
 		// Sprite texture
@@ -119,33 +61,7 @@ class Sprite {
 		u8 m_frameSize;
 		
 		// Animations table
-		std::vector<Sprite_Animation*> m_animations;
-		
-		// Sprite position
-		s16 m_x;
-		s16 m_y;
-		
-		// Movement vectors
-		s8 m_vx;
-		s8 m_vy;
-		
-		// Sprite hurt timer
-		Timer m_hurtTimer;
-		u16 m_timerLastValue;
-		
-		// Sprite lifes
-		s16 m_lifes;
-		u16 m_maxLifes;
-		
-		// Sprite type
-		SpriteType m_type;
-		
-		// Movement timer (NPC|Monsters)
-		Timer m_movementTimer;
-		
-		// Blocked commands and direction states (Player)
-		bool m_blockedCommands;
-		bool m_blockedDirections;
+		std::vector<Animation*> m_animations;
 };
 
 #endif // SPRITE_H

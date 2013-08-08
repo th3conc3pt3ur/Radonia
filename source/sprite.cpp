@@ -27,20 +27,6 @@
 #include "timer.h"
 #include "sprite.h"
 
-Sprite_Animation::Sprite_Animation(int size, int *tabAnim, int delay) {
-	// Set class members
-	m_size = size;
-	m_tabAnim = tabAnim;
-	m_delay = delay;
-	m_tmr = new Timer();
-	m_isPlaying = false;
-}
-
-Sprite_Animation::~Sprite_Animation() {
-	// Delete timer
-	delete m_tmr;
-}
-
 sf::View *Sprite::View = NULL;
 
 Sprite::Sprite(char *filename, SpriteType type, s16 x, s16 y, u8 frameSize) {

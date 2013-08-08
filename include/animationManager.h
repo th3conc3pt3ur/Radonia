@@ -20,6 +20,16 @@
 #ifndef ANIMATION_MANAGER_H
 #define ANIMATION_MANAGER_H
 
+// Player animations
+extern int Player_animations[8][4];
 
+// Sword animations
+extern int Sword_animations[4][4];
+
+// NPC animations
+extern int NPC_animations[4][4];
+
+// Monster animations
+extern int Monster_animations[4][4];
 
 #endif // ANIMATION_MANAGER_H
