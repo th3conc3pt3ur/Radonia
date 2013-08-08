@@ -17,17 +17,9 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	
 ---------------------------------------------------------------------------------*/
-#ifndef CHARACTER_H
-#define CHARACTER_H
+#ifndef ANIMATION_MANAGER_H
+#define ANIMATION_MANAGER_H
 
-class Character : public Sprite {
-	public:
-		// Constructor and destructor
-		Character();
-		~Character();
-		
-	private:
-		
-}
 
-#endif // CHARACTER_H
+
+#endif // ANIMATION_MANAGER_H
