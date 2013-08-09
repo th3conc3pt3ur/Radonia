@@ -213,9 +213,7 @@ u16 _mid(u16 area, u16 id) {
 bool inTable(u16 tiles[], u16 id) {
 	int i = 0;
 	while(tiles[i]) {
-		if(tiles[i] == id) {
-			return true;
-		}
+		if(tiles[i] == id) return true;
 		i++;
 	}
 	return false;

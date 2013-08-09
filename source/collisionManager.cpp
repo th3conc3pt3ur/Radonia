@@ -134,6 +134,7 @@ void CollisionManager::testCollisions(Character *c){
 		}
 	}
 }
+
 bool inDoor = false;
 void CollisionManager::doorCollisions(Character *c) {
 	if(((inTiles((c->x() + 8) >> 4, (c->y() + 8) >> 4, MapManager::changeMapTiles)) && (!inDoor))) {
@@ -196,7 +197,7 @@ void CollisionManager::doorCollisions(Character *c) {
 		inDoor = true;
 	}
 	
-	if((!inTiles((c->x() + 2) >> 4, (c->y() + 2) >> 4, MapManager::changeMapTiles))
+	if((!inTiles((c->x() +  2) >> 4, (c->y() +  2) >> 4, MapManager::changeMapTiles))
 	&& (!inTiles((c->x() + 14) >> 4, (c->y() + 14) >> 4, MapManager::changeMapTiles))) {
 		// The player isn't in the door anymore
 		inDoor = false;
