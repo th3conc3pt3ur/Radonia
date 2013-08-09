@@ -45,18 +45,6 @@ char *NPC::texts[NB_NPCs] = {(char*)"Hello boy!"};
 int NPC::moves[NB_NPCs][21] = {{6, 1, 0, 0, 1, 0, 1, -1, 0, 0, -1, 0, -1}};
 
 NPC::NPC(u16 x, u16 y, u8 direction, u16 mapID, char *filename) : Sprite(filename, SPRITE_NPC, x, y) {
-	// Set class members
-	m_direction = direction;
-	
-	m_moving = false;
-	
-	m_countMoves = 0;
-	m_vxCount = 0;
-	m_vyCount = 0;
-	
-	// Restart clock
-	m_timer.start();
-	
 	// Add animations to sprite
 	addAnimation(2, NPC_animations[0], 250); // Down
 	addAnimation(2, NPC_animations[1], 250); // Right
