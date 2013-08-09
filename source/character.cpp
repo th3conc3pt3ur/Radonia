@@ -74,16 +74,18 @@ Character::Character(char *filename, CharacterType type, s16 x, s16 y, u8 direct
 	
 	m_mapID = mapID;
 	
+	m_moving = false;
+	
 	m_movementTimer.start();
 	
 	m_countMoves = 0;
 	m_vxCount = 0;
 	m_vyCount = 0;
 	
-	m_isAttacking = 0;
+	m_isAttacking = false;
 	
 	m_canMove = true;
-	m_canMove = true;
+	m_canTurn = true;
 }
 
 Character::~Character() {
