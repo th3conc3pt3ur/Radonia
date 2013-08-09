@@ -32,9 +32,6 @@ class NPC : public Character {
 		// Make a blue boy
 		static NPC *BlueBoy(u16 x, u16 y, u8 direction, u16 mapID);
 		
-		// Initialize all NPCs
-		static NPC **initAll();
-		
 		// NPCs texts
 		static char *texts[NB_NPCs];
 		

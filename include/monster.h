@@ -29,9 +29,6 @@ class Monster : public Character {
 		// Make a red monster
 		static Monster *RedMonster(u16 x, u16 y, u8 direction, u16 mapID);
 		
-		// Initialize all monsters
-		static Monster **initAll();
-		
 		// Monsters moves
 		static int moves[NB_MONSTERS][21];
 };

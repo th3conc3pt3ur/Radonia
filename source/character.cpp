@@ -103,7 +103,7 @@ void Character::move() {
 		|| ((m_x + 14 > Game::player->x() && m_x + 14 < Game::player->x() + 16)
 		&&  (m_y + 14 > Game::player->y() && m_y + 14 < Game::player->y() + 16))) {
 			m_movementTimer.stop();
-			Game::player->collidedSprite = this;
+			Game::player->collidedCharacter(this);
 			return;
 		}
 		else m_movementTimer.start();
@@ -205,6 +205,10 @@ void Character::move() {
 		}
 	}
 	
+	// Test collisions
+	doorCollisions();
+	testCollisions();
+	
 	// Move character
 	m_x += m_vx * CHARACTER_SPEED;
 	m_y += m_vy * CHARACTER_SPEED;
@@ -214,19 +218,8 @@ void Character::move() {
 	m_vy = 0;
 }
 void Character::render() {
-	/*
 	if(m_moving) playAnimation(m_x, m_y, m_direction);
 	else drawFrame(m_x, m_y, m_direction);
-	// PLAYER
-	// If all directional keys are released
-	if(!sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-		// Render a single frame
-		if(!m_isAttacking || swordLoading.time() != 0) drawFrame(m_x, m_y, m_direction);
-	} else {
-		// Play walk animation
-		if(!m_isAttacking || swordLoading.time() != 0) playAnimation(m_x, m_y, m_direction);
-	}
-	*/
 }
 
 void Character::hurt() {

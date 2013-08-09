@@ -73,6 +73,7 @@ Player::~Player() {
 Timer swordLoading;
 
 void Player::sword() {
+	/* TODO: Move that to Weapon
 	// Sword position
 	s16 mx = 0; s16 my = 0;
 	
@@ -186,5 +187,5 @@ void Player::sword() {
 			// Move it
 			m_swordSpr->collidedSprite->updatePosition();
 		}
-	}
+	}*/
 }
