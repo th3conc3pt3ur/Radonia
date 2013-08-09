@@ -20,23 +20,28 @@
 #ifndef NPC_H
 #define NPC_H
 
+typedef enum {
+	NPC_BLUEBOY
+} NPCType;
+
 class NPC : public Character {
 	public:
 		// Constructor and destructor
-		NPC(u16 x, u16 y, u8 direction, u16 mapID, char *filename);
+		NPC(u16 x, u16 y, u8 direction, u16 mapID, NPCType type, char *filename);
 		~NPC();
 		
 		// Speak function
 		void action();
-		
-		// Make a blue boy
-		static NPC *BlueBoy(u16 x, u16 y, u8 direction, u16 mapID);
 		
 		// NPCs texts
 		static char *texts[NB_NPCs];
 		
 		// NPCs moves
 		static int moves[NB_NPCs][21];
+		
+	private:
+		// NPC type
+		NPCType m_subType;
 };
 
 #endif // NPC_H

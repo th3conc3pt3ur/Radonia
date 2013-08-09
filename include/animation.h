@@ -21,12 +21,18 @@
 #define ANIMATION_H
 
 // Animation struct
-typedef struct {
+struct Animation {
+	// Constructor
+	Animation(int _size, int *_tabAnim, int _delay, bool _isPlaying = false) :
+		size(_size), tabAnim(_tabAnim), delay(_delay), isPlaying(_isPlaying) {}
+	
 	int size;		// Animation size
 	int *tabAnim;	// Animation table
 	int delay;		// Delay between animations
 	Timer timer;	// Timer
-	bool isPlaying = false; // Playing animation state
-} Animation;
+	bool isPlaying; // Playing animation state
+};
+
+typedef Animation Animation;
 
 #endif // ANIMATION_H

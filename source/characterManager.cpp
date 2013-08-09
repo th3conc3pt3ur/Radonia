@@ -28,6 +28,7 @@
 #include "types.h"
 #include "config.h"
 #include "timer.h"
+#include "animation.h"
 #include "sprite.h"
 #include "character.h"
 #include "monster.h"
@@ -44,11 +45,38 @@
 #include "game.h"
 
 Player *CharacterManager::initPlayer() {
+	return new Player;
 }
 
 Monster **CharacterManager::initAllMonsters() {
+	// Initialize monsters array
+	Monster **monsters = new Monster*[NB_MONSTERS];
+	
+	// Init monsters
+	monsters[0] = initRedMonster(22 << 4, 14 << 4, Direction::Right, 0);
+	
+	return monsters;
 }
 
 NPC **CharacterManager::initAllNPCs() {
+	// Initialize NPCs array
+	NPC **NPCs = new NPC*[NB_NPCs];
+	
+	// Init NPCs
+	NPCs[0] = initBlueBoy(10 << 4, 2 << 4, Direction::Down, 0);
+	
+	return NPCs;
+}
+
+/* Monsters */
+
+Monster *CharacterManager::initRedMonster(u16 x, u16 y, u8 direction, u16 mapID) {
+	return new Monster(x, y, direction, mapID, MONSTER_REDMONSTER, (char*)"graphics/monsters/red_monster.png");
+}
+
+/* NPCs */
+
+NPC *CharacterManager::initBlueBoy(u16 x, u16 y, u8 direction, u16 mapID) {
+	return new NPC(x, y, direction, mapID, NPC_BLUEBOY, (char*)"graphics/characters/blue_boy.png");
 }
 

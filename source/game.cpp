@@ -26,6 +26,7 @@
 #include "types.h"
 #include "config.h"
 #include "timer.h"
+#include "animation.h"
 #include "sprite.h"
 #include "character.h"
 #include "monster.h"
@@ -75,25 +76,25 @@ Game::Game() {
 	Timer::initTimers();
 	
 	// Initialize tilesets
-	tilesets = initTilesets();
+	tilesets = MapManager::initTilesets();
 	
 	// Initialize NPCs
-	NPCs = NPC::initAll();
+	NPCs = CharacterManager::initAllNPCs();
 	
 	// Initialize monsters
-	monsters = Monster::initAll();
+	monsters = CharacterManager::initAllMonsters();
 	
 	// Initialize maps
-	mapAreas = initMaps();
+	mapAreas = MapManager::initMaps();
 	maps = mapAreas[0];
 	
 	// Initialize doors
-	doors = initDoors();
+	doors = DoorManager::initDoors();
 	
 	currentMap = maps[0];
 	
 	// Initialize player
-	player = new Player();
+	player = CharacterManager::initPlayer();
 	
 	// Initialize interface
 	Interface::initialize();
@@ -159,7 +160,7 @@ void Game::mainLoop() {
 		player->render();
 		
 		// Player's actions
-		player->actions();
+		//player->actions();
 		
 		// Render HUD
 		Interface::renderHUD();
@@ -197,7 +198,7 @@ void Game::scroll() {
 		// Refresh display on time in two
 		if(i & 1) {
 			MainWindow->clear();
-			refreshMaps(mapAreas[currentMap->area()], moveX, moveY);
+			MapManager::refreshMaps(mapAreas[currentMap->area()], moveX, moveY);
 			currentMap->renderNPCs();
 			currentMap->renderMonsters();
 			player->render();

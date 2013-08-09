@@ -27,6 +27,7 @@
 #include "types.h"
 #include "config.h"
 #include "timer.h"
+#include "animation.h"
 #include "sprite.h"
 #include "character.h"
 #include "monster.h"
@@ -38,7 +39,7 @@
 #include "doorManager.h"
 #include "game.h"
 
-Door** initDoors() {
+Door** DoorManager::initDoors() {
 	Door** doors = new Door*[DOORS];
 	
 	doors[0] = new Door{0, 0, 6 << 4, 3 << 4, Direction::Down, 1};
@@ -59,7 +60,7 @@ Door** initDoors() {
 	return doors;
 }
 
-s16 findDoorID(s16 x, s16 y, u16 mapID, u16 mapArea) {
+s16 DoorManager::findDoorID(s16 x, s16 y, u16 mapID, u16 mapArea) {
 	Door** doors = Game::doors;
 	for(u16 i = 0; i < DOORS ; i++) {
 		//std::cout << "(" << (doors[i]->x >> 4) << ";" << (doors[i]->y >> 4) << ") & " << doors[i]->mapArea << " & " << _mid(doors[i]->mapArea, doors[i]->mapID) << " | (" << (x >> 4) << ";" << (y >> 4) << ") & " << mapArea << " & " << mapID << std::endl;

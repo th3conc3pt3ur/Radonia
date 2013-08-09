@@ -45,7 +45,10 @@
 
 int Monster::moves[NB_MONSTERS][21] = {{6, 1, 0, 0, 1, 0, 1, -1, 0, 0, -1, 0, -1}};
 
-Monster::Monster(u16 x, u16 y, u8 direction, u16 mapID, char *filename) : Sprite(filename, SPRITE_MONSTER, x, y) {
+Monster::Monster(u16 x, u16 y, u8 direction, u16 mapID, MonsterType type, char *filename) : Character(filename, CHARA_MONSTER, x, y, direction, mapID) {
+	// Sub type
+	m_subType = type;
+	
 	// Add animations to sprite
 	addAnimation(2, Monster_animations[0], 250); // Down
 	addAnimation(2, Monster_animations[1], 250); // Right
@@ -54,19 +57,5 @@ Monster::Monster(u16 x, u16 y, u8 direction, u16 mapID, char *filename) : Sprite
 }
 
 Monster::~Monster() {
-}
-
-Monster *Monster::RedMonster(u16 x, u16 y, u8 direction, u16 mapID) {
-	return new Monster(x, y, direction, mapID, (char*)"graphics/monsters/red_monster.png");
-}
-
-Monster **Monster::initAll() {
-	// Initialize monsters array
-	Monster **monsters = new Monster*[NB_MONSTERS];
-	
-	// Init monsters
-	monsters[0] = Monster::RedMonster(22 << 4, 14 << 4, Direction::Right, 0);
-	
-	return monsters;
 }
 

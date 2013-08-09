@@ -60,7 +60,7 @@ class Character : public Sprite {
 		void regen() { m_lifes = m_maxLifes; }
 		
 		// Get map id
-		u16 mapID() const { return m_mapID; }
+		s16 mapID() const { return m_mapID; }
 		
 		// Get character id
 		u16 id() const { return m_id; }
@@ -72,18 +72,26 @@ class Character : public Sprite {
 		
 		// Get collision states
 		Character *collidedCharacter() { return m_collidedCharacter; }
-		Weapon *collidedWeapon() { return m_collidedWeapon; }
+		//Weapon *collidedWeapon() { return m_collidedWeapon; }
 		int collidedTile() { return m_collidedTile; }
+		
+		// Set position
+		void x(s16 x) { m_x = x; }
+		void y(s16 y) { m_y = y; }
+		
+		// Set movement vectors
+		void vx(s8 vx) { m_vx = vx; }
+		void vy(s8 vy) { m_vy = vy; }
 		
 		// Set collision states
 		void collidedCharacter(Character *character) { m_collidedCharacter = character; }
-		void collidedWeapon(Weapon *weapon) { m_collidedWeapon = weapon; }
+		//void collidedWeapon(Weapon *weapon) { m_collidedWeapon = weapon; }
 		void collidedTile(int tile) { m_collidedTile = tile; }
 		
 		// Characters counter
 		static u16 nbCharacters;
 		
-	private:
+	protected:
 		// Character id
 		u16 m_id;
 		
@@ -129,7 +137,7 @@ class Character : public Sprite {
 		
 		// Collision states
 		Character *m_collidedCharacter;
-		Weapon *m_collidedWeapon;
+		//Weapon *m_collidedWeapon;
 		int m_collidedTile;
 		
 		// Attacking state

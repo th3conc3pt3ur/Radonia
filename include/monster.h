@@ -20,17 +20,25 @@
 #ifndef MONSTER_H
 #define MONSTER_H
 
+typedef enum {
+	MONSTER_REDMONSTER
+} MonsterType;
+
 class Monster : public Character {
 	public:
 		// Constructor and destructor
-		Monster(u16 x, u16 y, u8 direction, u16 mapID, char *filename);
+		Monster(u16 x, u16 y, u8 direction, u16 mapID, MonsterType type, char *filename);
 		~Monster();
 		
-		// Make a red monster
-		static Monster *RedMonster(u16 x, u16 y, u8 direction, u16 mapID);
+		// Action function
+		void action() {};
 		
 		// Monsters moves
 		static int moves[NB_MONSTERS][21];
+		
+	private:
+		// Monster type
+		MonsterType m_subType;
 };
 
 #endif // MONSTER_H

@@ -44,7 +44,7 @@
 char *NPC::texts[NB_NPCs] = {(char*)"Hello boy!"};
 int NPC::moves[NB_NPCs][21] = {{6, 1, 0, 0, 1, 0, 1, -1, 0, 0, -1, 0, -1}};
 
-NPC::NPC(u16 x, u16 y, u8 direction, u16 mapID, char *filename) : Sprite(filename, SPRITE_NPC, x, y) {
+NPC::NPC(u16 x, u16 y, u8 direction, u16 mapID, NPCType type, char *filename) : Character(filename, CHARA_NPC, x, y, direction, mapID) {
 	// Add animations to sprite
 	addAnimation(2, NPC_animations[0], 250); // Down
 	addAnimation(2, NPC_animations[1], 250); // Right
@@ -57,19 +57,5 @@ NPC::~NPC() {
 
 void NPC::action() {
 	Interface::newDialogBox(texts[m_id]);
-}
-
-NPC *NPC::BlueBoy(u16 x, u16 y, u8 direction, u16 mapID) {
-	return new NPC(x, y, direction, mapID, (char*)"graphics/characters/blue_boy.png");
-}
-
-NPC **NPC::initAll() {
-	// Initialize NPCs array
-	NPC **NPCs = new NPC*[NB_NPCs];
-	
-	// Init NPCs
-	NPCs[0] = NPC::BlueBoy(10 << 4, 2 << 4, Direction::Down, 0);
-	
-	return NPCs;
 }
 

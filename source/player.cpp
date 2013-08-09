@@ -45,14 +45,15 @@
 #include "interface.h"
 #include "game.h"
 
-Player::Player() : Sprite((char*)"graphics/characters/link.png", SPRITE_PLAYER, 120, 160) {
+Player::Player() : Character((char*)"graphics/characters/link.png", CHARA_PLAYER, 120, 160, Direction::Right) {
 	// Set class members
-	m_swordSpr = new Sprite((char*)"graphics/animations/sword.png", SPRITE_PWEAPON);
+	/*m_swordSpr = new Weapon((char*)"graphics/animations/sword.png", PLAYER_WEAPON);
 	
 	m_swordSpr->addAnimation(4, Sword_animations[0], 100); // Down
 	m_swordSpr->addAnimation(4, Sword_animations[1], 100); // Right
 	m_swordSpr->addAnimation(4, Sword_animations[2], 100); // Left
 	m_swordSpr->addAnimation(4, Sword_animations[3], 100); // Up
+	*/
 	
 	// Add animations to sprite
 	addAnimation(2, Player_animations[0], 100); // Down
@@ -66,14 +67,14 @@ Player::Player() : Sprite((char*)"graphics/characters/link.png", SPRITE_PLAYER, 
 }
 
 Player::~Player() {
-	delete m_swordSpr;
+	//delete m_swordSpr;
 }
 
 // Sword loading timer
 Timer swordLoading;
 
-void Player::sword() {
-	/* TODO: Move that to Weapon
+/*void Player::sword() {
+	TODO: Move that to Weapon
 	// Sword position
 	s16 mx = 0; s16 my = 0;
 	
@@ -187,5 +188,7 @@ void Player::sword() {
 			// Move it
 			m_swordSpr->collidedSprite->updatePosition();
 		}
-	}*/
+	}
 }
+*/
+

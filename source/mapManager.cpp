@@ -27,6 +27,7 @@
 #include "types.h"
 #include "config.h"
 #include "timer.h"
+#include "animation.h"
 #include "sprite.h"
 #include "character.h"
 #include "monster.h"
@@ -66,15 +67,15 @@
 // temporary solution to prevent reading another arrays
 // when reading one
 
-u16 nonPassableTiles[13] = {
+u16 MapManager::nonPassableTiles[13] = {
 	1,3,4,5,6,8,9,10,12,16,17,18,0
 };
 
-u16 changeMapTiles[3] = {
+u16 MapManager::changeMapTiles[3] = {
 	11,15,0
 };
 
-u16 plainInfo[256] = {
+u16 MapManager::plainInfo[256] = {
 	0,0,0,0,0,0,0,3,2,0,0,0,0,0,0,0,
 	0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,
 	0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,
@@ -93,7 +94,7 @@ u16 plainInfo[256] = {
 	8,9,10,7,12,13,13,1,14,15,1,16,17,0,18,1
 };
 
-u16 indoorInfo[256] = {
+u16 MapManager::indoorInfo[256] = {
 	0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,
 	1,1,1,1,1,1,1,1,1,1,0,1,1,0,0,0,
 	1,1,1,1,1,1,1,1,1,1,0,1,1,0,0,0,
@@ -112,7 +113,7 @@ u16 indoorInfo[256] = {
 	8,9,10,7,0,0,1,12,15,15,11,11,0,0,0,0
 };
 
-u16 undergroundInfo[256] = {
+u16 MapManager::undergroundInfo[256] = {
 	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 	1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,
 	1,1,1,1,1,1,1,1,1,0,1,1,0,0,0,0,
@@ -131,7 +132,7 @@ u16 undergroundInfo[256] = {
 	8,9,10,0,0,0,0,0,0,0,0,0,0,0,0,0
 };
 
-sf::Texture **initTilesets() {
+sf::Texture **MapManager::initTilesets() {
 	// Initialize tileset array
 	sf::Texture **tilesets = new sf::Texture*[3];
 	
@@ -152,16 +153,9 @@ sf::Texture **initTilesets() {
 	return tilesets;
 }
 
-u16 areaSizes[MAP_AREAS] = {WM_SIZE * WM_SIZE, INDOOR_MAPS, 4};
+u16 MapManager::areaSizes[MAP_AREAS] = {WM_SIZE * WM_SIZE, INDOOR_MAPS, 4};
 
-u16 _mid(u16 area, u16 id) {
-	u16 tempID = id;
-	for(u16 i = 0 ; i < area ; i++)
-		tempID += areaSizes[i];
-	return tempID;
-}
-
-Map*** initMaps() {
+Map*** MapManager::initMaps() {
 	// Initialize global array
 	Map ***mapAreas = new Map**[MAP_AREAS];
 	
@@ -192,7 +186,7 @@ Map*** initMaps() {
 	return mapAreas;
 }
 
-void refreshMaps(Map **maps, s16 moveX, s16 moveY) {
+void MapManager::refreshMaps(Map **maps, s16 moveX, s16 moveY) {
 	// Get next map
 	Map *nextMap = maps[MAP_POS(Game::currentMap->x() + moveX / 32, Game::currentMap->y() + moveY / 32, Game::currentMap->area())];
 	
@@ -207,6 +201,13 @@ void refreshMaps(Map **maps, s16 moveX, s16 moveY) {
 	// Render maps
 	Game::currentMap->render();
 	nextMap->render();
+}
+
+u16 _mid(u16 area, u16 id) {
+	u16 tempID = id;
+	for(u16 i = 0 ; i < area ; i++)
+		tempID += MapManager::areaSizes[i];
+	return tempID;
 }
 
 bool inTable(u16 tiles[], u16 id) {

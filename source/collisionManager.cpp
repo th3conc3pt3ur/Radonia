@@ -28,6 +28,7 @@
 #include "types.h"
 #include "config.h"
 #include "timer.h"
+#include "animation.h"
 #include "sprite.h"
 #include "character.h"
 #include "monster.h"
@@ -44,15 +45,15 @@
 #include "game.h"
 
 // Initialize collision matrix
-u16 collisionMatrix[4][4] = {
+u16 CollisionManager::collisionMatrix[4][4] = {
 	{12,8,12,13},	// Right
 	{3,8,3,13},		// Left
 	{5,5,10,5},		// Up
 	{5,15,10,15}	// Down
 };
 
-bool passable(Sprite *spr, s16 x, s16 y) {
-	// Setup tileX and tileY
+bool CollisionManager::passable(Character *character, s16 x, s16 y) {
+	/*// Setup tileX and tileY
 	s16 tileX = x >> 4;
 	s16 tileY = y >> 4;
 	
@@ -98,6 +99,8 @@ bool passable(Sprite *spr, s16 x, s16 y) {
 		} else return true;
 	} else {
 		return true;
-	}
+	}*/
+	
+	return true;
 }
 

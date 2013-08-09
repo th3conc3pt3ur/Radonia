@@ -28,6 +28,7 @@
 #include "types.h"
 #include "config.h"
 #include "timer.h"
+#include "animation.h"
 #include "sprite.h"
 #include "character.h"
 #include "monster.h"
@@ -45,7 +46,7 @@
 
 u16 Character::nbCharacters = 0;
 
-Character::Character(char *filename, CharacterType type, s16 x, s16 y, u8 direction, u16 mapID, u8 frameSize) : Sprite(filename, frameSize) {
+Character::Character(char *filename, CharacterType type, s16 x, s16 y, u8 direction, s16 mapID, u8 frameSize) : Sprite(filename, frameSize) {
 	// Set character id
 	m_id = nbCharacters;
 	
@@ -67,7 +68,7 @@ Character::Character(char *filename, CharacterType type, s16 x, s16 y, u8 direct
 	m_vy = 0;
 	
 	m_collidedCharacter = NULL;
-	m_collidedWeapon = NULL;
+	//m_collidedWeapon = NULL;
 	m_collidedTile = 0;
 	
 	m_direction = direction;
@@ -111,8 +112,8 @@ void Character::move() {
 		// Move or not?
 		if(m_movementTimer.time() > 4000) {
 			// Update movement vectors
-			m_vx = moves[m_id][m_countMoves * 2 + 1];
-			m_vy = moves[m_id][m_countMoves * 2 + 2];
+			//m_vx = moves[m_id][m_countMoves * 2 + 1];
+			//m_vy = moves[m_id][m_countMoves * 2 + 2];
 			
 			// Update counters
 			m_vxCount += m_vx * m_vx;
@@ -138,12 +139,12 @@ void Character::move() {
 			m_moving = false;
 		}
 		
-		if(m_countMoves >= moves[m_id][0]) {
+		/*if(m_countMoves >= moves[m_id][0]) {
 			// Reset timer and counter
 			m_countMoves = 0;
 			m_movementTimer.reset();
 			m_movementTimer.start();
-		}
+		}*/
 		
 		// Set character direction
 		if(m_vx > 0) m_direction = Direction::Right;

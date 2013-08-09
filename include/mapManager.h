@@ -21,11 +21,18 @@
 #define MAPMANAGER_H
 
 // Map position in the area
-#define MAP_POS(x, y, area) (u16)((x) + (y) * sqrt(areaSizes[(area)]))
+#define MAP_POS(x, y, area) (u16)((x) + (y) * sqrt(MapManager::areaSizes[(area)]))
+
+namespace MapManager {
 
 // Tiles tables
 extern u16 nonPassableTiles[13];
 extern u16 changeMapTiles[3];
+
+// Tilesets infos
+extern u16 plainInfo[256];
+extern u16 indoorInfo[256];
+extern u16 undergroundInfo[256];
 
 // Tileset init function
 sf::Texture **initTilesets();
@@ -33,14 +40,16 @@ sf::Texture **initTilesets();
 // Sizes of map areas
 extern u16 areaSizes[MAP_AREAS];
 
-// Get map id from area
-u16 _mid(u16 area, u16 id);
-
 // Map init function
 Map*** initMaps();
 
 // Map update function
 void refreshMaps(Map **maps, s16 moveX, s16 moveY);
+
+}
+
+// Get map id from area
+u16 _mid(u16 area, u16 id);
 
 // Functions for tiles
 bool inTable(u16 *tiles, u16 id);

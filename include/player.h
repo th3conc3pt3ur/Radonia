@@ -29,7 +29,7 @@ class Player : public Character {
 		~Player();
 		
 		// Action function
-		//void action();
+		void action() {};
 		
 		// Sword attack
 		//void sword(); TODO: Weapon class

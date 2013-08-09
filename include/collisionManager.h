@@ -20,10 +20,14 @@
 #ifndef COLLISION_MANAGER_H
 #define COLLISION_MANAGER_H
 
+namespace CollisionManager {
+
 // Collision matrix
 extern u16 collisionMatrix[4][4];
 
 // Test if the tile is passable
-bool passable(Sprite *spr, s16 x, s16 y);
+bool passable(Character *character, s16 x, s16 y);
+
+}
 
 #endif // COLLISION_MANAGER_H
