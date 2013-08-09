@@ -44,9 +44,6 @@ class Character : public Sprite {
 		// Hurt comportement
 		void hurt();
 		
-		// Test collisions
-		void doorCollisions();
-		
 		// Get character position
 		s16 x() const { return m_x; }
 		s16 y() const { return m_y; }
@@ -85,6 +82,9 @@ class Character : public Sprite {
 		// Set movement vectors
 		void vx(s8 vx) { m_vx = vx; }
 		void vy(s8 vy) { m_vy = vy; }
+		
+		// Set direction
+		void direction(s8 direction) { m_direction = direction; }
 		
 		// Set collision states
 		void collidedCharacter(Character *character) { m_collidedCharacter = character; }

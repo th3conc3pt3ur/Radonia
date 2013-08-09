@@ -211,7 +211,7 @@ void Character::move() {
 	}
 	
 	// Test collisions
-	doorCollisions();
+	CollisionManager::doorCollisions(this);
 	CollisionManager::testCollisions(this);
 	
 	// Move character
@@ -300,76 +300,5 @@ void Character::hurt() {
 			m_timerLastValue = m_hurtTimer.time();
 		}
 	}*/
-}
-
-bool inDoor = false;
-void Character::doorCollisions() {
-	/*
-	if(((inTiles((m_x + 8) >> 4, (m_y + 8) >> 4, changeMapTiles)) && (!inDoor))) {
-		// Reset movement vectors
-		m_vx = 0;
-		m_vy = 0;
-		
-		// Search for the door
-		s16 doorID = findDoorID(m_x, m_y, Game::currentMap->id(), Game::currentMap->area());
-		
-		// If door isn't found
-		if(doorID == -1) {
-			return;
-		}
-		
-		// Initialize transition
-		sf::RectangleShape rect1(sf::Vector2f(MAP_WIDTH * 16 / 2, MAP_HEIGHT * 16));
-		sf::RectangleShape rect2(sf::Vector2f(MAP_WIDTH * 16 / 2, MAP_HEIGHT * 16));
-		
-		rect1.setPosition(0, 0);
-		rect2.setPosition(MAP_WIDTH * 16 / 2, 0);
-		
-		Game::MainWindow->clear();
-		Game::MainWindow->setView(*Sprite::View);
-		Game::MainWindow->draw(rect1);
-		Game::MainWindow->draw(rect2);
-		Game::MainWindow->setView(Game::MainWindow->getDefaultView());
-		Game::MainWindow->display();
-		
-		// Update all values
-		Game::currentMap = Game::mapAreas[Game::doors[Game::doors[doorID]->nextDoorID]->mapArea][Game::doors[Game::doors[doorID]->nextDoorID]->mapID];
-		if(!Game::currentMap) exit(EXIT_FAILURE);
-		
-		m_x = Game::doors[Game::doors[doorID]->nextDoorID]->x;
-		m_y = Game::doors[Game::doors[doorID]->nextDoorID]->y;
-		m_direction = Game::doors[Game::doors[doorID]->nextDoorID]->direction;
-		
-		// Move view to display map correctly
-		Map::View->setCenter(Game::currentMap->x() * MAP_WIDTH * 16 + MAP_WIDTH * 16 / 2, Game::currentMap->y() * MAP_HEIGHT * 16 + MAP_HEIGHT * 16 / 2);
-		
-		// Transition
-		for(u16 x = 0 ; x <= MAP_HEIGHT / 1.5 ; x++) {
-			rect1.move(-32, 0);
-			rect2.move(32, 0);
-			
-			Game::MainWindow->clear();
-			Game::currentMap->render();
-			Game::currentMap->renderNPCs();
-			Game::currentMap->renderMonsters();
-			render();
-			Interface::renderHUD();
-			Game::MainWindow->setView(*Sprite::View);
-			Game::MainWindow->draw(rect1);
-			Game::MainWindow->draw(rect2);
-			Game::MainWindow->setView(Game::MainWindow->getDefaultView());
-			Game::MainWindow->display();
-		}
-		
-		// The player is in the door
-		inDoor = true;
-	}
-	
-	if((!inTiles((m_x + 2) >> 4, (m_y + 2) >> 4, changeMapTiles))
-	&& (!inTiles((m_x + 14) >> 4, (m_y + 14) >> 4, changeMapTiles))) {
-		// The player isn't in the door anymore
-		inDoor = false;
-	}
-	*/
 }
 

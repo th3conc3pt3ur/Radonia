@@ -134,4 +134,72 @@ void CollisionManager::testCollisions(Character *c){
 		}
 	}
 }
+bool inDoor = false;
+void CollisionManager::doorCollisions(Character *c) {
+	if(((inTiles((c->x() + 8) >> 4, (c->y() + 8) >> 4, MapManager::changeMapTiles)) && (!inDoor))) {
+		// Reset movement vectors
+		c->vx(0);
+		c->vy(0);
+		
+		// Search for the door
+		s16 doorID = DoorManager::findDoorID(c->x(), c->y(), Game::currentMap->id(), Game::currentMap->area());
+		
+		// If door isn't found
+		if(doorID == -1) {
+			return;
+		}
+		
+		// Initialize transition
+		sf::RectangleShape rect1(sf::Vector2f(MAP_WIDTH * 16 / 2, MAP_HEIGHT * 16));
+		sf::RectangleShape rect2(sf::Vector2f(MAP_WIDTH * 16 / 2, MAP_HEIGHT * 16));
+		
+		rect1.setPosition(0, 0);
+		rect2.setPosition(MAP_WIDTH * 16 / 2, 0);
+		
+		Game::MainWindow->clear();
+		Game::MainWindow->setView(*Sprite::View);
+		Game::MainWindow->draw(rect1);
+		Game::MainWindow->draw(rect2);
+		Game::MainWindow->setView(Game::MainWindow->getDefaultView());
+		Game::MainWindow->display();
+		
+		// Update all values
+		Game::currentMap = Game::mapAreas[Game::doors[Game::doors[doorID]->nextDoorID]->mapArea][Game::doors[Game::doors[doorID]->nextDoorID]->mapID];
+		if(!Game::currentMap) exit(EXIT_FAILURE);
+		
+		c->x(Game::doors[Game::doors[doorID]->nextDoorID]->x);
+		c->y(Game::doors[Game::doors[doorID]->nextDoorID]->y);
+		c->direction(Game::doors[Game::doors[doorID]->nextDoorID]->direction);
+		
+		// Move view to display map correctly
+		Map::View->setCenter(Game::currentMap->x() * MAP_WIDTH * 16 + MAP_WIDTH * 16 / 2, Game::currentMap->y() * MAP_HEIGHT * 16 + MAP_HEIGHT * 16 / 2);
+		
+		// Transition
+		for(u16 x = 0 ; x <= MAP_HEIGHT / 1.5 ; x++) {
+			rect1.move(-32, 0);
+			rect2.move(32, 0);
+			
+			Game::MainWindow->clear();
+			Game::currentMap->render();
+			Game::currentMap->renderNPCs();
+			Game::currentMap->renderMonsters();
+			c->render();
+			Interface::renderHUD();
+			Game::MainWindow->setView(*Sprite::View);
+			Game::MainWindow->draw(rect1);
+			Game::MainWindow->draw(rect2);
+			Game::MainWindow->setView(Game::MainWindow->getDefaultView());
+			Game::MainWindow->display();
+		}
+		
+		// The player is in the door
+		inDoor = true;
+	}
+	
+	if((!inTiles((c->x() + 2) >> 4, (c->y() + 2) >> 4, MapManager::changeMapTiles))
+	&& (!inTiles((c->x() + 14) >> 4, (c->y() + 14) >> 4, MapManager::changeMapTiles))) {
+		// The player isn't in the door anymore
+		inDoor = false;
+	}
+}
 
