@@ -52,55 +52,86 @@ u16 CollisionManager::collisionMatrix[4][4] = {
 	{5,15,10,15}	// Down
 };
 
-bool CollisionManager::passable(Character *character, s16 x, s16 y) {
-	/*// Setup tileX and tileY
+bool CollisionManager::passable(Character *c, s16 x, s16 y) {
+	// Setup tileX and tileY
 	s16 tileX = x >> 4;
 	s16 tileY = y >> 4;
 	
 	// Reset collision states
-	spr->collidedSprite = NULL;
-	spr->collidedTile = 0;
+	c->collidedCharacter(NULL);
+	c->collidedTile(0);
 	
 	// Collisions with NPCs
-	for(u16 i = 0 ; i < Game::currentMap->NPCs().size() ; i++) {
-		if((Game::currentMap->NPCs()[i]->x() < x && Game::currentMap->NPCs()[i]->x() + 16 > x)
-		&& (Game::currentMap->NPCs()[i]->y() < y && Game::currentMap->NPCs()[i]->y() + 16 > y)) {
-			spr->collidedSprite = Game::currentMap->NPCs()[i];
-			Game::currentMap->NPCs()[i]->collidedSprite = spr;
-			return false;
+	if(!c->isNPC()) {
+		for(u16 i = 0 ; i < Game::currentMap->NPCs().size() ; i++) {
+			if((Game::currentMap->NPCs()[i]->x() < x && Game::currentMap->NPCs()[i]->x() + 16 > x)
+			&& (Game::currentMap->NPCs()[i]->y() < y && Game::currentMap->NPCs()[i]->y() + 16 > y)) {
+				c->collidedCharacter(Game::currentMap->NPCs()[i]);
+					Game::currentMap->NPCs()[i]->collidedCharacter(c);
+				return false;
+			}
 		}
 	}
 	
 	// Collisions with monsters
-	for(u16 i = 0 ; i < Game::currentMap->monsters().size() ; i++) {
-		if((Game::currentMap->monsters()[i]->x() < x && Game::currentMap->monsters()[i]->x() + 16 > x)
-		&& (Game::currentMap->monsters()[i]->y() < y && Game::currentMap->monsters()[i]->y() + 16 > y)
-		&& Game::currentMap->monsters()[i]->lifes() > 0) {
-			spr->collidedSprite = Game::currentMap->monsters()[i];
-			Game::currentMap->monsters()[i]->collidedSprite = spr;
-			return false;
+	if(!c->isMonster()) {
+		for(u16 i = 0 ; i < Game::currentMap->monsters().size() ; i++) {
+			if((Game::currentMap->monsters()[i]->x() < x && Game::currentMap->monsters()[i]->x() + 16 > x)
+			&& (Game::currentMap->monsters()[i]->y() < y && Game::currentMap->monsters()[i]->y() + 16 > y)
+			&& Game::currentMap->monsters()[i]->lifes() > 0) {
+				c->collidedCharacter(Game::currentMap->monsters()[i]);
+				Game::currentMap->monsters()[i]->collidedCharacter(c);
+				return false;
+			}
 		}
 	}
 	
 	// Collisions with player
-	if(spr->isMonster() || spr->isNPC() || spr->isMWeapon()) {
+	if(!c->isPlayer()) {
 		if(Game::player->x() < x && Game::player->x() + 16 > x
 		&& Game::player->y() < y && Game::player->y() + 16 > y) {
-			spr->collidedSprite = Game::player;
+			c->collidedCharacter(Game::player);
 			return false;
 		}
 	}
 	
 	// Collisions with map
-	if(spr->isMonster() || spr->isNPC() || spr->isPlayer()) {
-		if(inTable(nonPassableTiles, Game::currentMap->tilesetInfo()[Game::currentMap->getTile(tileX, tileY)])) {
-			spr->collidedTile = Game::currentMap->tilesetInfo()[Game::currentMap->getTile(tileX, tileY)];
+	if(c->isMonster() || c->isNPC() || c->isPlayer()) {
+		if(inTable(MapManager::nonPassableTiles, Game::currentMap->tilesetInfo()[Game::currentMap->getTile(tileX, tileY)])) {
+			c->collidedTile(Game::currentMap->tilesetInfo()[Game::currentMap->getTile(tileX, tileY)]);
 			return false;
 		} else return true;
 	} else {
 		return true;
-	}*/
-	
-	return true;
+	}
+}
+
+void CollisionManager::testCollisions(Character *c){
+	// 0: Right | 1: Left | 2: Up | 3:Down
+	for(u8 i = 0 ; i < 4 ; i++) {
+		if(((i==0)?(c->vx() > 0):((i==1)?(c->vx() < 0):((i==2)?(c->vy() < 0):(c->vy() > 0))))
+		&& (!passable(c, c->x() + collisionMatrix[i][0], c->y() + collisionMatrix[i][1])
+		 || !passable(c, c->x() + collisionMatrix[i][2], c->y() + collisionMatrix[i][3]))) {
+			// Reset movement vector
+			if(i<2) c->vx(0);
+			else	c->vy(0);
+			
+			// Obstacles
+			if( passable(c, c->x() + collisionMatrix[i][2], c->y() + collisionMatrix[i][3])
+			&& !passable(c, c->x() + collisionMatrix[i][0], c->y() + collisionMatrix[i][1])) {
+				if(((i<2)?(c->vy() == 0):(c->vx() == 0)) && !c->collidedCharacter()/* && !collidedWeapon*/) {
+					if(i<2)	c->vy(1);
+					else	c->vx(1);
+				}
+			}
+			if( passable(c, c->x() + collisionMatrix[i][0], c->y() + collisionMatrix[i][1])
+			&& !passable(c, c->x() + collisionMatrix[i][2], c->y() + collisionMatrix[i][3])) {
+				if(((i<2)?(c->vy() == 0):(c->vx() == 0)) && !c->collidedCharacter()/* && !collidedWeapon*/) {
+					if(i<2) c->vy(-1);
+					else	c->vx(-1);
+				}
+			}
+		}
+	}
 }
 

@@ -44,6 +44,14 @@
 #include "interface.h"
 #include "game.h"
 
+// Movements are defined like that:
+// {nbMovements, vx1, vy1, vx2, vy2, vx3, vy3, etc...}
+
+int CharacterManager::moves[][21] = {
+	{6, 1, 0, 0, 1, 0, 1, -1, 0, 0, -1, 0, -1},
+	{6, 1, 0, 0, 1, 0, 1, -1, 0, 0, -1, 0, -1}
+};
+
 Player *CharacterManager::initPlayer() {
 	return new Player;
 }

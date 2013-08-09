@@ -87,6 +87,10 @@ Character::Character(char *filename, CharacterType type, s16 x, s16 y, u8 direct
 	
 	m_canMove = true;
 	m_canTurn = true;
+	
+	// FIXME: TEMP
+	m_lifes = 32;
+	m_maxLifes = 32;
 }
 
 Character::~Character() {
@@ -112,8 +116,8 @@ void Character::move() {
 		// Move or not?
 		if(m_movementTimer.time() > 4000) {
 			// Update movement vectors
-			//m_vx = moves[m_id][m_countMoves * 2 + 1];
-			//m_vy = moves[m_id][m_countMoves * 2 + 2];
+			m_vx = CharacterManager::moves[m_id][m_countMoves * 2 + 1];
+			m_vy = CharacterManager::moves[m_id][m_countMoves * 2 + 2];
 			
 			// Update counters
 			m_vxCount += m_vx * m_vx;
@@ -139,12 +143,12 @@ void Character::move() {
 			m_moving = false;
 		}
 		
-		/*if(m_countMoves >= moves[m_id][0]) {
+		if(m_countMoves >= CharacterManager::moves[m_id][0]) {
 			// Reset timer and counter
 			m_countMoves = 0;
 			m_movementTimer.reset();
 			m_movementTimer.start();
-		}*/
+		}
 		
 		// Set character direction
 		if(m_vx > 0) m_direction = Direction::Right;
@@ -208,7 +212,7 @@ void Character::move() {
 	
 	// Test collisions
 	doorCollisions();
-	testCollisions();
+	CollisionManager::testCollisions(this);
 	
 	// Move character
 	m_x += m_vx * CHARACTER_SPEED;
@@ -367,35 +371,5 @@ void Character::doorCollisions() {
 		inDoor = false;
 	}
 	*/
-}
-
-void Character::testCollisions() {
-	// TODO: Collisions manager
-	/*// 0: Right | 1: Left | 2: Up | 3:Down
-	for(u8 i = 0 ; i < 4 ; i++) {
-		if(((i==0)?(m_vx > 0):((i==1)?(m_vx < 0):((i==2)?(m_vy < 0):(m_vy > 0))))
-		&& (!passable(this, m_x + collisionMatrix[i][0], m_y + collisionMatrix[i][1])
-		 || !passable(this, m_x + collisionMatrix[i][2], m_y + collisionMatrix[i][3]))) {
-			// Reset movement vector
-			if(i<2) m_vx = 0;
-			else	m_vy = 0;
-			
-			// Obstacles
-			if( passable(this, m_x + collisionMatrix[i][2], m_y + collisionMatrix[i][3])
-			&& !passable(this, m_x + collisionMatrix[i][0], m_y + collisionMatrix[i][1])) {
-				if(((i<2)?(m_vy == 0):(m_vx == 0)) && !collidedCharacter && !collidedWeapon) {
-					if(i<2)	m_vy = 1;
-					else	m_vx = 1;
-				}
-			}
-			if( passable(this, m_x + collisionMatrix[i][0], m_y + collisionMatrix[i][1])
-			&& !passable(this, m_x + collisionMatrix[i][2], m_y + collisionMatrix[i][3])) {
-				if(((i<2)?(m_vy == 0):(m_vx == 0)) && !collidedSprite && !collidedWeapon) {
-					if(i<2) m_vy = -1;
-					else	m_vx = -1;
-				}
-			}
-		}
-	}*/
 }
 

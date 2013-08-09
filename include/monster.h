@@ -33,9 +33,6 @@ class Monster : public Character {
 		// Action function
 		void action() {};
 		
-		// Monsters moves
-		static int moves[NB_MONSTERS][21];
-		
 	private:
 		// Monster type
 		MonsterType m_subType;

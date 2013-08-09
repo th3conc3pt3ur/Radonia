@@ -45,12 +45,15 @@ class Character : public Sprite {
 		void hurt();
 		
 		// Test collisions
-		void testCollisions();
 		void doorCollisions();
 		
 		// Get character position
 		s16 x() const { return m_x; }
 		s16 y() const { return m_y; }
+		
+		// Get movement vectors
+		s8 vx() const { return m_vx; }
+		s8 vy() const { return m_vy; }
 		
 		// Get character lifes
 		s16 lifes() const { return m_lifes; }

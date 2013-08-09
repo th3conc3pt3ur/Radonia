@@ -42,7 +42,6 @@
 #include "game.h"
 
 char *NPC::texts[NB_NPCs] = {(char*)"Hello boy!"};
-int NPC::moves[NB_NPCs][21] = {{6, 1, 0, 0, 1, 0, 1, -1, 0, 0, -1, 0, -1}};
 
 NPC::NPC(u16 x, u16 y, u8 direction, u16 mapID, NPCType type, char *filename) : Character(filename, CHARA_NPC, x, y, direction, mapID) {
 	// Add animations to sprite

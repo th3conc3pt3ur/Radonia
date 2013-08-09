@@ -43,8 +43,6 @@
 
 // Monsters are called Qaewans
 
-int Monster::moves[NB_MONSTERS][21] = {{6, 1, 0, 0, 1, 0, 1, -1, 0, 0, -1, 0, -1}};
-
 Monster::Monster(u16 x, u16 y, u8 direction, u16 mapID, MonsterType type, char *filename) : Character(filename, CHARA_MONSTER, x, y, direction, mapID) {
 	// Sub type
 	m_subType = type;

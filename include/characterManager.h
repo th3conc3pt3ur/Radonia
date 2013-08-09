@@ -21,6 +21,9 @@
 #define CHARACTER_MANAGER_H
 
 namespace CharacterManager {
+	// Movements
+	extern int moves[][21];
+	
 	// Initialize player
 	Player *initPlayer();
 	

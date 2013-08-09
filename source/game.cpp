@@ -159,8 +159,8 @@ void Game::mainLoop() {
 		// Render player
 		player->render();
 		
-		// Player's actions
-		//player->actions();
+		// Move player
+		player->move();
 		
 		// Render HUD
 		Interface::renderHUD();

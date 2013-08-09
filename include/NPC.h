@@ -36,9 +36,6 @@ class NPC : public Character {
 		// NPCs texts
 		static char *texts[NB_NPCs];
 		
-		// NPCs moves
-		static int moves[NB_NPCs][21];
-		
 	private:
 		// NPC type
 		NPCType m_subType;
