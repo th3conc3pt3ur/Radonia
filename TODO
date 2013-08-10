@@ -1,8 +1,6 @@
 - Reorganize all
-- Interface
-	* HUD
-		* Hearts
-		* Monsters lifes
+	* Weapons
+	* Events
 - NPCs
 	* Dialog box for more than one text
 	* Adapt text to dialog box

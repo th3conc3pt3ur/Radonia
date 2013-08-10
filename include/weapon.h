@@ -44,6 +44,6 @@ class Weapon : public Sprite {
 		// Type
 		WeaponType type;
 		
-};
+;
 
 #endif // WEAPON_H
