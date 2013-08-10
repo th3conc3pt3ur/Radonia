@@ -102,6 +102,8 @@ void Interface::renderMonsterLife(Monster *monster) {
 	sf::RectangleShape background(sf::Vector2f(16, 3));
 	background.setPosition(monster->x(), monster->y() - 5);
 	background.setFillColor(sf::Color(255, 255, 255));
+	background.setOutlineColor(sf::Color(0,0,0));
+	background.setOutlineThickness(1);
 	
 	sf::RectangleShape life(sf::Vector2f(monster->lifes() * 16 / monster->maxLifes(), 3));
 	life.setPosition(monster->x(), monster->y() - 5);

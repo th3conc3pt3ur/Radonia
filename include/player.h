@@ -28,6 +28,9 @@ class Player : public Character {
 		Player();
 		~Player();
 		
+		// Movement function
+		void move();
+		
 		// Action function
 		void action() {};
 		

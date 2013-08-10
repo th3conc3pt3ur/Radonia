@@ -70,6 +70,77 @@ Player::~Player() {
 	//delete m_swordSpr;
 }
 
+void Player::move() {
+	if(m_canMove) {
+		// Reset moving state
+		m_moving = false;
+		
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+			// Set vertical movement vector negative
+			m_vy = -1;
+			m_moving = true;
+			
+			// If all other directional keys are released
+			if(!sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+				// Set direction to up
+				if(m_canTurn) m_direction = Direction::Up;
+			}
+		}
+		
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+			// Set vertical movement vector positive
+			m_vy = 1;
+			m_moving = true;
+			
+			// If all other directional keys are released
+			if(!sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+				// Set direction to down
+				if(m_canTurn) m_direction = Direction::Down;
+			}
+		}
+		
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+			// Set horizontal movement vector negative
+			m_vx = -1;
+			m_moving = true;
+			
+			// If all other directional keys are released
+			if(!sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+				// Set direction to left
+				if(m_canTurn) m_direction = Direction::Left;
+			}
+		}
+		
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+			// Set horizontal movement vector positive
+			m_vx = 1;
+			m_moving = true;
+			
+			// If all other directional keys are released
+			if(!sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+				// Set direction to right
+				if(m_canTurn) m_direction = Direction::Right;
+			}
+		}
+	}
+	
+	// Test collisions
+	CollisionManager::doorCollisions(this);
+	CollisionManager::testCollisions(this);
+	
+	if(m_collidedCharacter && m_collidedCharacter->isMonster() && isPlayer()) {
+		hurt();
+	}
+	
+	// Move character
+	m_x += m_vx * CHARACTER_SPEED;
+	m_y += m_vy * CHARACTER_SPEED;
+	
+	// Reset movement vectors
+	m_vx = 0;
+	m_vy = 0;
+}
+
 // Sword loading timer
 Timer swordLoading;
 
