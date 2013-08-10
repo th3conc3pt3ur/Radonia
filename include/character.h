@@ -65,6 +65,9 @@ class Character : public Sprite {
 		// Get character id
 		u16 id() const { return m_id; }
 		
+		// Get in door state
+		bool inDoor() const { return m_inDoor; }
+		
 		// Types
 		bool isPlayer()  { return m_type == CHARA_PLAYER;	}
 		bool isNPC()	 { return m_type == CHARA_NPC;		}
@@ -85,6 +88,9 @@ class Character : public Sprite {
 		
 		// Set direction
 		void direction(s8 direction) { m_direction = direction; }
+		
+		// Set in door state
+		void inDoor(bool inDoor) { m_inDoor = inDoor; }
 		
 		// Set collision states
 		void collidedCharacter(Character *character) { m_collidedCharacter = character; }
@@ -145,6 +151,9 @@ class Character : public Sprite {
 		
 		// Attacking state
 		bool m_isAttacking;
+		
+		// In door state
+		bool m_inDoor;
 };
 
 #endif // CHARACTER_H

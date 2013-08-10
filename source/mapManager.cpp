@@ -63,7 +63,7 @@
 		18: Block of sand 
 */
 
-// FIXME: Adding a zero member to the tiles arrays is a
+// FIXME: Adding a zero member to tiles arrays is a
 // temporary solution to prevent reading another arrays
 // when reading one
 

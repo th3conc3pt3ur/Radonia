@@ -135,9 +135,8 @@ void CollisionManager::testCollisions(Character *c){
 	}
 }
 
-bool inDoor = false;
 void CollisionManager::doorCollisions(Character *c) {
-	if(((inTiles((c->x() + 8) >> 4, (c->y() + 8) >> 4, MapManager::changeMapTiles)) && (!inDoor))) {
+	if(inTiles((c->x() + 8) >> 4, (c->y() + 8) >> 4, MapManager::changeMapTiles) && !c->inDoor()) {
 		// Reset movement vectors
 		c->vx(0);
 		c->vy(0);
@@ -146,9 +145,7 @@ void CollisionManager::doorCollisions(Character *c) {
 		s16 doorID = DoorManager::findDoorID(c->x(), c->y(), Game::currentMap->id(), Game::currentMap->area());
 		
 		// If door isn't found
-		if(doorID == -1) {
-			return;
-		}
+		if(doorID == -1) return;
 		
 		// Initialize transition
 		sf::RectangleShape rect1(sf::Vector2f(MAP_WIDTH * 16 / 2, MAP_HEIGHT * 16));
@@ -194,13 +191,13 @@ void CollisionManager::doorCollisions(Character *c) {
 		}
 		
 		// The player is in the door
-		inDoor = true;
+		c->inDoor(true);
 	}
 	
 	if((!inTiles((c->x() +  2) >> 4, (c->y() +  2) >> 4, MapManager::changeMapTiles))
-	&& (!inTiles((c->x() + 14) >> 4, (c->y() + 14) >> 4, MapManager::changeMapTiles))) {
+	&& (!inTiles((c->x() + 14) >> 4, (c->y() + 14) >> 4, MapManager::changeMapTiles)) && c->inDoor()) {
 		// The player isn't in the door anymore
-		inDoor = false;
+		c->inDoor(false);
 	}
 }
 
