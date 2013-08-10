@@ -45,7 +45,7 @@
 #include "interface.h"
 #include "game.h"
 
-Player::Player() : Character((char*)"graphics/characters/link.png", CHARA_PLAYER, 120, 160, Direction::Right) {
+Player::Player() : Character((char*)"graphics/characters/link.png", CHARA_PLAYER, 120, 160, DIR_RIGHT) {
 	// Set class members
 	/*m_swordSpr = new Weapon((char*)"graphics/animations/sword.png", PLAYER_WEAPON);
 	
@@ -83,7 +83,7 @@ void Player::move() {
 			// If all other directional keys are released
 			if(!sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 				// Set direction to up
-				if(m_canTurn) m_direction = Direction::Up;
+				if(m_canTurn) m_direction = DIR_UP;
 			}
 		}
 		
@@ -95,7 +95,7 @@ void Player::move() {
 			// If all other directional keys are released
 			if(!sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 				// Set direction to down
-				if(m_canTurn) m_direction = Direction::Down;
+				if(m_canTurn) m_direction = DIR_DOWN;
 			}
 		}
 		
@@ -107,7 +107,7 @@ void Player::move() {
 			// If all other directional keys are released
 			if(!sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 				// Set direction to left
-				if(m_canTurn) m_direction = Direction::Left;
+				if(m_canTurn) m_direction = DIR_LEFT;
 			}
 		}
 		
@@ -119,7 +119,7 @@ void Player::move() {
 			// If all other directional keys are released
 			if(!sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 				// Set direction to right
-				if(m_canTurn) m_direction = Direction::Right;
+				if(m_canTurn) m_direction = DIR_RIGHT;
 			}
 		}
 	}

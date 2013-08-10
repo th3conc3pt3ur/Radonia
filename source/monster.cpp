@@ -43,7 +43,7 @@
 
 // Monsters are called Qaewans
 
-Monster::Monster(u16 x, u16 y, u8 direction, u16 mapID, MonsterType type, char *filename) : Character(filename, CHARA_MONSTER, x, y, direction, mapID) {
+Monster::Monster(u16 x, u16 y, CharacterDirection direction, u16 mapID, MonsterType type, char *filename) : Character(filename, CHARA_MONSTER, x, y, direction, mapID) {
 	// Sub type
 	m_subType = type;
 	

@@ -27,7 +27,7 @@ typedef enum {
 class NPC : public Character {
 	public:
 		// Constructor and destructor
-		NPC(u16 x, u16 y, u8 direction, u16 mapID, NPCType type, char *filename);
+		NPC(u16 x, u16 y, CharacterDirection direction, u16 mapID, NPCType type, char *filename);
 		~NPC();
 		
 		// Speak function

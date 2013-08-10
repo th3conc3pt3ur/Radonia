@@ -26,10 +26,18 @@ typedef enum {
 	CHARA_MONSTER
 } CharacterType;
 
+// Characters directions
+typedef enum {
+	DIR_DOWN,
+	DIR_RIGHT,
+	DIR_LEFT,
+	DIR_UP
+} CharacterDirection;
+
 class Character : public Sprite {
 	public:
 		// Constructor and destructor
-		Character(char *filename, CharacterType type, s16 x, s16 y, u8 direction, s16 mapID = -1, u8 frameSize = 16);
+		Character(char *filename, CharacterType type, s16 x, s16 y, CharacterDirection direction, s16 mapID = -1, u8 frameSize = 16);
 		~Character();
 		
 		// Move function
@@ -87,7 +95,7 @@ class Character : public Sprite {
 		void vy(s8 vy) { m_vy = vy; }
 		
 		// Set direction
-		void direction(s8 direction) { m_direction = direction; }
+		void direction(CharacterDirection direction) { m_direction = direction; }
 		
 		// Set in door state
 		void inDoor(bool inDoor) { m_inDoor = inDoor; }
@@ -113,7 +121,7 @@ class Character : public Sprite {
 		s8 m_vy;
 		
 		// Direction
-		u8 m_direction;
+		CharacterDirection m_direction;
 		
 		// Map id
 		s16 m_mapID;

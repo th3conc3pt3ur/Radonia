@@ -34,10 +34,10 @@ namespace CharacterManager {
 	NPC **initAllNPCs();
 	
 	/* Monsters */
-	Monster *initRedMonster(u16 x, u16 y, u8 direction, u16 mapID);
+	Monster *initRedMonster(u16 x, u16 y, CharacterDirection direction, u16 mapID);
 	
 	/* NPCs */
-	NPC *initBlueBoy(u16 x, u16 y, u8 direction, u16 mapID);
+	NPC *initBlueBoy(u16 x, u16 y, CharacterDirection direction, u16 mapID);
 }
 
 #endif // CHARACTER_MANAGER_H

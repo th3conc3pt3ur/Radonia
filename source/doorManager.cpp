@@ -42,20 +42,20 @@
 Door** DoorManager::initDoors() {
 	Door** doors = new Door*[DOORS];
 	
-	doors[0] = new Door{0, 0, 6 << 4, 3 << 4, Direction::Down, 1};
-	doors[1] = new Door{1, 0, (19 << 4) + 8, 20 << 4, Direction::Up, 0};
+	doors[0] = new Door{0, 0, 6 << 4, 3 << 4, DIR_DOWN, 1};
+	doors[1] = new Door{1, 0, (19 << 4) + 8, 20 << 4, DIR_UP, 0};
 	
-	doors[2] = new Door{1, 0, 11 << 4, 7 << 4, Direction::Down, 3};
-	doors[3] = new Door{1, 1, 11 << 4, 17 << 4, Direction::Up, 2};
+	doors[2] = new Door{1, 0, 11 << 4, 7 << 4, DIR_DOWN, 3};
+	doors[3] = new Door{1, 1, 11 << 4, 17 << 4, DIR_UP, 2};
 	
-	doors[4] = new Door{0, MAP_POS(0, 1, 0), 19 << 4, 14 << 4, Direction::Down, 5};
-	doors[5] = new Door{2, 0, (15 << 4) + 8, 24 << 4, Direction::Up, 4};
+	doors[4] = new Door{0, MAP_POS(0, 1, 0), 19 << 4, 14 << 4, DIR_DOWN, 5};
+	doors[5] = new Door{2, 0, (15 << 4) + 8, 24 << 4, DIR_UP, 4};
 	
-	doors[6] = new Door{0, 0, 4 << 4, 2 << 4, Direction::Down, 7};
-	doors[7] = new Door{1, 0, 28 << 4, 7 << 4, Direction::Down, 6};
+	doors[6] = new Door{0, 0, 4 << 4, 2 << 4, DIR_DOWN, 7};
+	doors[7] = new Door{1, 0, 28 << 4, 7 << 4, DIR_DOWN, 6};
 	
-	doors[8] = new Door{0, MAP_POS(1, 1, 0), 10 << 4, 24 << 4, Direction::Up, 9};
-	doors[9] = new Door{2, MAP_POS(1, 0, 2), 37 << 4, 19 << 4, Direction::Left, 8};
+	doors[8] = new Door{0, MAP_POS(1, 1, 0), 10 << 4, 24 << 4, DIR_UP, 9};
+	doors[9] = new Door{2, MAP_POS(1, 0, 2), 37 << 4, 19 << 4, DIR_LEFT, 8};
 	
 	return doors;
 }

@@ -46,7 +46,7 @@
 
 u16 Character::nbCharacters = 0;
 
-Character::Character(char *filename, CharacterType type, s16 x, s16 y, u8 direction, s16 mapID, u8 frameSize) : Sprite(filename, frameSize) {
+Character::Character(char *filename, CharacterType type, s16 x, s16 y, CharacterDirection direction, s16 mapID, u8 frameSize) : Sprite(filename, frameSize) {
 	// Set character id
 	m_id = nbCharacters;
 	
@@ -150,10 +150,10 @@ void Character::move() {
 	}
 	
 	// Set character direction
-	if(m_vx > 0) m_direction = Direction::Right;
-	if(m_vx < 0) m_direction = Direction::Left;
-	if(m_vy > 0) m_direction = Direction::Down;
-	if(m_vy < 0) m_direction = Direction::Up;
+	if(m_vx > 0) m_direction = DIR_RIGHT;
+	if(m_vx < 0) m_direction = DIR_LEFT;
+	if(m_vy > 0) m_direction = DIR_DOWN;
+	if(m_vy < 0) m_direction = DIR_UP;
 	
 	// Test collisions
 	CollisionManager::doorCollisions(this);

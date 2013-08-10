@@ -24,7 +24,7 @@ typedef struct {
 	u16 mapArea;
 	u16 mapID;
 	s16 x, y;
-	const u8 direction;
+	CharacterDirection direction;
 	s16 nextDoorID;
 } Door;
 
