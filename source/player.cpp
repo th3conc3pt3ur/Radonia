@@ -70,7 +70,7 @@ void Player::move() {
 		// Reset moving state
 		m_moving = false;
 		
-		if(Keyboard::isKeyPressed(SDL_SCANCODE_UP)) {
+		if(Keyboard::isKeyPressed(Keyboard::GameUp)) {
 			// Set vertical movement vector negative
 			m_vy = -1;
 			m_moving = true;
@@ -82,7 +82,7 @@ void Player::move() {
 			}
 		}
 		
-		if(Keyboard::isKeyPressed(SDL_SCANCODE_DOWN)) {
+		if(Keyboard::isKeyPressed(Keyboard::GameDown)) {
 			// Set vertical movement vector positive
 			m_vy = 1;
 			m_moving = true;
@@ -94,7 +94,7 @@ void Player::move() {
 			}
 		}
 		
-		if(Keyboard::isKeyPressed(SDL_SCANCODE_LEFT)) {
+		if(Keyboard::isKeyPressed(Keyboard::GameLeft)) {
 			// Set horizontal movement vector negative
 			m_vx = -1;
 			m_moving = true;
@@ -106,7 +106,7 @@ void Player::move() {
 			}
 		}
 		
-		if(Keyboard::isKeyPressed(SDL_SCANCODE_RIGHT)) {
+		if(Keyboard::isKeyPressed(Keyboard::GameRight)) {
 			// Set horizontal movement vector positive
 			m_vx = 1;
 			m_moving = true;

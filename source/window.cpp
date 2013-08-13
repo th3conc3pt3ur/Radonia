@@ -23,7 +23,29 @@
 
 #include "types.h"
 #include "color.h"
+#include "config.h"
 #include "window.h"
+#include "keyboard.h"
+#include "timer.h"
+#include "image.h"
+#include "animation.h"
+#include "sprite.h"
+#include "weapon.h"
+#include "character.h"
+#include "monster.h"
+#include "NPC.h"
+#include "player.h"
+#include "map.h"
+#include "door.h"
+#include "animationManager.h"
+#include "mapManager.h"
+#include "doorManager.h"
+#include "characterManager.h"
+#include "collisionManager.h"
+#include "weaponManager.h"
+#include "tools.h"
+#include "interface.h"
+#include "game.h"
 
 Window::Window(char *caption, u16 width, u16 height) {
 	// Set class members
@@ -46,6 +68,23 @@ Window::Window(char *caption, u16 width, u16 height) {
 		exit(EXIT_FAILURE);
 	}
 	
+	// Initialize viewport position
+	m_viewportX = 0;
+	m_viewportY = 0;
+
+#ifndef VIEWPORT
+	// Initialize viewport size
+	m_viewportW = m_width;
+	m_viewportH = m_height;
+#else
+	// Initialize viewport size
+	m_viewportW = m_width / 2;
+	m_viewportH = m_height / 2;
+	
+	// Set viewport
+	SDL_RenderSetLogicalSize(m_renderer, m_viewportW, m_viewportH);
+#endif
+	
 	// Initialize renderer color
 	setRendererColor(Color(0, 0, 0));
 }
@@ -56,6 +95,12 @@ Window::~Window() {
 }
 
 void Window::update() {
+#ifdef VIEWPORT
+	// Update viewport with player position
+	centerViewportWithObject(Game::player->x(), Game::player->y(), Game::player->frameSize(), Game::player->frameSize());
+#endif
+	
+	// Refresh window
 	SDL_RenderPresent(m_renderer);
 }
 
@@ -88,5 +133,25 @@ void Window::drawFillRect(s16 x, s16 y, u16 w, u16 h, Color c) {
 	
 	// Draw
 	SDL_RenderFillRect(m_renderer, &r);
+}
+
+void Window::updateViewportPosition(s16 x, s16 y) {
+	// Check if the viewport is in the map
+	if(x < 0) x = 0;
+	if(x + m_viewportW >= MAP_WIDTH * 16) x = MAP_WIDTH * 16 - m_viewportW - 1;
+	if(y < 0) y = 0;
+	if(y + m_viewportH >= MAP_HEIGHT * 16) y = MAP_HEIGHT * 16 - m_viewportH - 1;
+	
+	// Update viewport position
+	m_viewportX = x;
+	m_viewportY = y;
+	
+	// Set viewport
+	SDL_Rect viewportRect = {-x, y - MAP_HEIGHT * 16 / 2, m_width, m_height};
+	SDL_RenderSetViewport(m_renderer, &viewportRect);
+}
+
+void Window::centerViewportWithObject(s16 x, s16 y, u16 w, u16 h) {
+	updateViewportPosition(x - (m_viewportW + w) / 2, y - (m_viewportH + h) / 2);
 }
 

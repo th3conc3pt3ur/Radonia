@@ -10,3 +10,8 @@ FIXED:	7 - Sometimes, NPCs, monsters, or both, don't spawn (???)
 FIXED:	9 - Map transition too fast
 		10 - Sometimes, when monster collided the player, the player isn't hurt, and the monster change way
 		11 - The player can slide on a monster without being hurt
+		12 - (ANDROID) Application is very slow
+		13 - (VIEWPORT) Bug during map scrolling
+		
+FIXME:
+		1 - (VIEWPORT) Improve viewports ( screen ratio )

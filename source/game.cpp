@@ -58,8 +58,19 @@ Monster **Game::monsters = NULL;
 Player *Game::player = NULL;
 
 Game::Game() {
+#ifdef __ANDROID__
+	// Initialize display mode
+	SDL_DisplayMode current;
+	
+	// Get current display mode
+	int success = SDL_GetCurrentDisplayMode(0, &current);
+	
+	// Create the main window
+	MainWindow = new Window((char*)"Radonia", current.w, current.h);
+#else
 	// Create the main window
 	MainWindow = new Window((char*)"Radonia", 640, 480);
+#endif
 	
 	// Setup default font
 /*	defaultFont = new sf::Font();
@@ -93,6 +104,11 @@ Game::Game() {
 	
 	// Initialize player
 	player = CharacterManager::initPlayer();
+	
+#ifdef VIEWPORT
+	// Update viewport with player position
+	MainWindow->centerViewportWithObject(player->x(), player->y(), player->frameSize(), player->frameSize());
+#endif
 	
 	// Initialize interface
 	Interface::initialize();

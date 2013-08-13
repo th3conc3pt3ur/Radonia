@@ -40,6 +40,9 @@ class Sprite : public Image {
 		bool animationAtFrame(u16 anim, u16 frame);
 		void playAnimation(s16 x, s16 y, u16 anim);
 		
+		// Get sprite frame size
+		u8 frameSize() const { return m_frameSize; }
+		
 	protected:
 		// Sprite frame size
 		u8 m_frameSize;

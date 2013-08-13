@@ -35,6 +35,12 @@ namespace Keyboard {
 	
 	// Force keyboard state update
 	void forceUpdate();
+	
+	// Game keys
+	extern const u32 GameUp;
+	extern const u32 GameDown;
+	extern const u32 GameLeft;
+	extern const u32 GameRight;
 };
 
 #endif // KEYBOARD_H

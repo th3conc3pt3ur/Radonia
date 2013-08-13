@@ -41,11 +41,6 @@ void initSDL() {
 	if(!SDL_SetHint(SDL_HINT_RENDER_VSYNC, "1")) {
 		fprintf(stderr, "Warning: VSync not enabled!");
 	}
-	
-	// Set texture filtering to linear if possible
-	if(!SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1")) {
-		fprintf(stderr, "Warning: Linear texture filtering not enabled!");
-	}
 }
 
 void exitSDL() {

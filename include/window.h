@@ -41,14 +41,25 @@ class Window {
 		// Draw fill rect
 		void drawFillRect(s16 x, s16 y, u16 w, u16 h, Color c);
 		
+		// Update viewport position
+		void updateViewportPosition(s16 x, s16 y);
+		
+		// Center viewport with object
+		void centerViewportWithObject(s16 x, s16 y, u16 w, u16 h);
+		
 		// Get SDL_Window object
 		SDL_Window *window() { return m_window; }
 		
 		// Get SDL_Renderer object
 		SDL_Renderer *renderer() { return m_renderer; }
 		
-		// Get SDL_Surface object
-		SDL_Surface *surface() { return SDL_GetWindowSurface(m_window);}
+		// Get viewport position
+		s16 viewportX() const { return m_viewportX; }
+		s16 viewportY() const { return m_viewportY; }
+		
+		// Get viewport size
+		u16 viewportW() const { return m_viewportW; }
+		u16 viewportH() const { return m_viewportH; }
 		
 	private:
 		// SDL_Window object
@@ -63,6 +74,14 @@ class Window {
 		// Window size
 		u16 m_width;
 		u16 m_height;
+		
+		// Viewport position
+		s16 m_viewportX;
+		s16 m_viewportY;
+		
+		// Viewport size
+		u16 m_viewportW;
+		u16 m_viewportH;
 		
 };
 

@@ -80,13 +80,19 @@ void Interface::initialize() {
 }
 
 void Interface::renderHUD() {
-	// Render hearts
+	// Get heart data
 	double entireHearts = 0;
 	double piecesOfHearts = modf((double)Game::player->lifes() / 4, &entireHearts);
+	
+	// Get viewport position
+	s16 x = Game::MainWindow->viewportX();
+	s16 y = Game::MainWindow->viewportY();
+	
+	// Render hearts
 	for(u8 i = 0 ; i < Game::player->maxLifes() / 4 ; i++) {
-		if(i < entireHearts) hearts->drawFrame(16 * i, 0, 4);
-		else if(i == entireHearts + ceil(piecesOfHearts) - 1) hearts->drawFrame(16 * i, 0, ((i < entireHearts + ceil(piecesOfHearts) - 1) ? 4 : piecesOfHearts * 4));
-		else if(i > entireHearts + ceil(piecesOfHearts) - 1) hearts->drawFrame(16 * i, 0, 0);
+		if(i < entireHearts) hearts->drawFrame(x + 16 * i, y, 4);
+		else if(i == entireHearts + ceil(piecesOfHearts) - 1) hearts->drawFrame(x + 16 * i, y, ((i < entireHearts + ceil(piecesOfHearts) - 1) ? 4 : piecesOfHearts * 4));
+		else if(i > entireHearts + ceil(piecesOfHearts) - 1) hearts->drawFrame(x + 16 * i, y, 0);
 	}
 	
 	// Render monsters lifes

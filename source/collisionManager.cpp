@@ -150,8 +150,8 @@ void CollisionManager::doorCollisions(Character *c) {
 		
 		// Initialize transition
 		Game::MainWindow->clear();
-		Game::MainWindow->drawFillRect(0, 0, MAP_WIDTH * 16 / 2, MAP_HEIGHT * 16, Color::white);
-		Game::MainWindow->drawFillRect(MAP_WIDTH * 16 / 2, 0, MAP_WIDTH * 16 / 2, MAP_HEIGHT * 16, Color::white);
+		Game::MainWindow->drawFillRect(Game::MainWindow->viewportX(), Game::MainWindow->viewportY(), Game::MainWindow->viewportW() / 2, Game::MainWindow->viewportH(), Color::white);
+		Game::MainWindow->drawFillRect(Game::MainWindow->viewportX() + Game::MainWindow->viewportW() / 2, Game::MainWindow->viewportY(), Game::MainWindow->viewportW() / 2, Game::MainWindow->viewportH(), Color::white);
 		Game::MainWindow->update();
 		
 		// Update all values
@@ -174,8 +174,8 @@ void CollisionManager::doorCollisions(Character *c) {
 			Game::currentMap->renderMonsters();
 			c->render();
 			Interface::renderHUD();
-			Game::MainWindow->drawFillRect(-32 * x, 0, MAP_WIDTH * 16 / 2, MAP_HEIGHT * 16, Color::white);
-			Game::MainWindow->drawFillRect(MAP_WIDTH * 16 / 2 + 32 * x, 0, MAP_WIDTH * 16 / 2, MAP_HEIGHT * 16, Color::white);
+			Game::MainWindow->drawFillRect(Game::MainWindow->viewportX() - 32 * x, Game::MainWindow->viewportY(), Game::MainWindow->viewportW() / 2, Game::MainWindow->viewportH(), Color::white);
+			Game::MainWindow->drawFillRect(Game::MainWindow->viewportX() + Game::MainWindow->viewportW() / 2 + 32 * x, Game::MainWindow->viewportY(), Game::MainWindow->viewportW() / 2, Game::MainWindow->viewportH(), Color::white);
 			Game::MainWindow->update();
 		}
 		

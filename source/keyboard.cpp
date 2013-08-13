@@ -26,6 +26,18 @@
 
 const u8 *Keyboard::state = NULL;
 
+#ifndef __ANDROID__
+	const u32 Keyboard::GameUp = SDL_SCANCODE_UP;
+	const u32 Keyboard::GameDown = SDL_SCANCODE_DOWN;
+	const u32 Keyboard::GameLeft = SDL_SCANCODE_LEFT;
+	const u32 Keyboard::GameRight = SDL_SCANCODE_RIGHT;
+#else
+	const u32 Keyboard::GameUp = SDL_SCANCODE_MENU;
+	const u32 Keyboard::GameDown = SDL_SCANCODE_AC_BACK;
+	const u32 Keyboard::GameLeft = SDL_SCANCODE_VOLUMEUP;
+	const u32 Keyboard::GameRight = SDL_SCANCODE_VOLUMEDOWN;
+#endif
+
 const u8 *Keyboard::getState() {
 	return SDL_GetKeyboardState(NULL);
 }

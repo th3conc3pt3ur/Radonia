@@ -21,6 +21,8 @@
 #define INCLUDESDL_H
 
 #ifdef __ANDROID__
+	#include <android/log.h>
+	
 	#include "SDL.h"
 	#include "SDL_image.h"
 #else
