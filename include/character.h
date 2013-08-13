@@ -90,6 +90,9 @@ class Character : public Sprite {
 		void x(s16 x) { m_x = x; }
 		void y(s16 y) { m_y = y; }
 		
+		// Reset position
+		void resetPos() { m_x = m_dx; m_y = m_dy; }
+		
 		// Set movement vectors
 		void vx(s8 vx) { m_vx = vx; }
 		void vy(s8 vy) { m_vy = vy; }
@@ -115,6 +118,10 @@ class Character : public Sprite {
 		// Character position
 		s16 m_x;
 		s16 m_y;
+		
+		// Default position
+		s16 m_dx;
+		s16 m_dy;
 		
 		// Movement vectors
 		s8 m_vx;

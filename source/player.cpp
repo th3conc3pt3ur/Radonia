@@ -52,10 +52,10 @@ Player::Player() : Character((char*)"graphics/characters/link.png", CHARA_PLAYER
 	//m_weapon = new Sword(this);
 	
 	// Add animations to sprite
-	addAnimation(2, Player_animations[0], 100); // Down
-	addAnimation(2, Player_animations[1], 100); // Right
-	addAnimation(2, Player_animations[2], 100); // Left
-	addAnimation(2, Player_animations[3], 100); // Up
+	addAnimation(2, Player_animations[0], 125); // Down
+	addAnimation(2, Player_animations[1], 125); // Right
+	addAnimation(2, Player_animations[2], 125); // Left
+	addAnimation(2, Player_animations[3], 125); // Up
 	addAnimation(4, Player_animations[4], 100); // Attack down
 	addAnimation(4, Player_animations[5], 100); // Attack right
 	addAnimation(4, Player_animations[6], 100); // Attack left

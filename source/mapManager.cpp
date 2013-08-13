@@ -186,14 +186,14 @@ Map*** MapManager::initMaps() {
 
 void MapManager::refreshMaps(Map **maps, s16 moveX, s16 moveY) {
 	// Get next map
-	Map *nextMap = maps[MAP_POS(Game::currentMap->x() + moveX / 32, Game::currentMap->y() + moveY / 32, Game::currentMap->area())];
+	Map *nextMap = maps[MAP_POS(Game::currentMap->x() + moveX / 16, Game::currentMap->y() + moveY / 16, Game::currentMap->area())];
 	
 	// Next map must be in the map
 	if(nextMap == NULL
-	   || MAP_POS(Game::currentMap->x() + moveX / 32, Game::currentMap->y(), Game::currentMap->area()) < 0
-	   || MAP_POS(Game::currentMap->x() + moveX / 32, Game::currentMap->y(), Game::currentMap->area()) >= areaSizes[Game::currentMap->area()]
-	   || MAP_POS(Game::currentMap->x(), Game::currentMap->y() + moveY / 32, Game::currentMap->area()) < 0
-	   || MAP_POS(Game::currentMap->x(), Game::currentMap->y() + moveY / 32, Game::currentMap->area()) >= areaSizes[Game::currentMap->area()])
+	   || MAP_POS(Game::currentMap->x() + moveX / 16, Game::currentMap->y(), Game::currentMap->area()) < 0
+	   || MAP_POS(Game::currentMap->x() + moveX / 16, Game::currentMap->y(), Game::currentMap->area()) >= areaSizes[Game::currentMap->area()]
+	   || MAP_POS(Game::currentMap->x(), Game::currentMap->y() + moveY / 16, Game::currentMap->area()) < 0
+	   || MAP_POS(Game::currentMap->x(), Game::currentMap->y() + moveY / 16, Game::currentMap->area()) >= areaSizes[Game::currentMap->area()])
 		return;
 	
 	// Render maps

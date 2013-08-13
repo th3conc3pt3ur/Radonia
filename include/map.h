@@ -60,6 +60,9 @@ class Map {
 		// Maps counter
 		static u16 nbMaps;
 		
+		// Map view rect
+		static SDL_Rect viewRect;
+		
 	private:
 		// Map id
 		u16 m_id;

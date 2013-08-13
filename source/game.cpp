@@ -122,6 +122,8 @@ Game::~Game() {
 }
 
 void Game::mainLoop() {
+	u32 lastTime = 0;
+	u32 actualTime = 0;
 	while(m_continue) {
 		// Process events
 		SDL_Event event;
@@ -129,6 +131,12 @@ void Game::mainLoop() {
 			switch(event.type) {
 				case SDL_QUIT: m_continue = false;
 			}
+		}
+		
+		actualTime = SDL_GetTicks();
+		if(actualTime - lastTime < 20) {
+			SDL_Delay(20 - (actualTime - lastTime));
+			continue;
 		}
 		
 		// Update keyboard state
@@ -160,6 +168,9 @@ void Game::mainLoop() {
 		
 		// Update the window
 		MainWindow->update();
+		
+		// Update timer
+		lastTime = actualTime;
 	}
 }
 
@@ -170,10 +181,10 @@ void Game::scroll() {
 	s16 playerX = 0;
 	s16 playerY = 0;
 	
-	if(player->x() > (MAP_WIDTH - 1) * 16 + 2)		 { moveX =  32; iMax = 20; playerX = -32; }
-	else if(player->x() < -2)						 { moveX = -32; iMax = 20; playerX =  32; }
-	else if(player->y() > (MAP_HEIGHT - 1) * 16 + 1) { moveY =  32; iMax = 15; playerY = -32; }
-	else if(player->y() < -2)						 { moveY = -32; iMax = 15; playerY =  32; }
+	if(player->x() > (MAP_WIDTH - 1) * 16 + 2)		 { moveX =  16; iMax = 40; playerX = -16; }
+	else if(player->x() < -2)						 { moveX = -16; iMax = 40; playerX =  16; }
+	else if(player->y() > (MAP_HEIGHT - 1) * 16 + 1) { moveY =  16; iMax = 30; playerY = -16; }
+	else if(player->y() < -2)						 { moveY = -16; iMax = 30; playerY =  16; }
 	else											 { return; }
 	
 	// Reset player movement vectors
@@ -185,8 +196,19 @@ void Game::scroll() {
 		if((i & 1) || !(i & 11)) player->x(player->x() + playerX); else player->x(player->x() + playerX - playerX / 16);
 		if((i & 1) || !(i & 15)) player->y(player->y() + playerY); else player->y(player->y() + playerY - playerY / 16);
 		
+		// Move NPCs and monsters
+		for(u16 j = 0 ; j < currentMap->NPCs().size() ; j++) {
+			if((i & 1) || !(i & 11)) currentMap->NPCs()[j]->x(currentMap->NPCs()[j]->x() + playerX); else currentMap->NPCs()[j]->x(currentMap->NPCs()[j]->x() + playerX - playerX / 16);
+			if((i & 1) || !(i & 15)) currentMap->NPCs()[j]->y(currentMap->NPCs()[j]->y() + playerY); else currentMap->NPCs()[j]->y(currentMap->NPCs()[j]->y() + playerY - playerY / 16);
+		}
+		for(u16 j = 0 ; j < currentMap->monsters().size() ; j++) {
+			if((i & 1) || !(i & 11)) currentMap->monsters()[j]->x(currentMap->monsters()[j]->x() + playerX); else currentMap->monsters()[j]->x(currentMap->monsters()[j]->x() + playerX - playerX / 16);
+			if((i & 1) || !(i & 15)) currentMap->monsters()[j]->y(currentMap->monsters()[j]->y() + playerY); else currentMap->monsters()[j]->y(currentMap->monsters()[j]->y() + playerY - playerY / 16);
+		}
+		
 		// Move view to scroll
-		//Map::View->move(moveX, moveY);
+		Map::viewRect.x += moveX;
+		Map::viewRect.y += moveY;
 		
 		// Refresh display on time in two
 		if(i & 1) {
@@ -202,14 +224,18 @@ void Game::scroll() {
 	
 	// Update currentMap variable
 	if(currentMap != NULL
-	   && currentMap->x() + moveX / 32 >= 0
-	   && currentMap->x() + moveX / 32 < WM_SIZE
-	   && currentMap->y() + moveY / 32 >= 0
-	   && currentMap->y() + moveY / 32 < WM_SIZE) currentMap = mapAreas[currentMap->area()][MAP_POS(currentMap->x() + moveX / 32, currentMap->y() + moveY / 32, currentMap->area())];
-	
-	// Regen monsters
+	   && currentMap->x() + moveX / 16 >= 0
+	   && currentMap->x() + moveX / 16 < WM_SIZE
+	   && currentMap->y() + moveY / 16 >= 0
+	   && currentMap->y() + moveY / 16 < WM_SIZE) currentMap = mapAreas[currentMap->area()][MAP_POS(currentMap->x() + moveX / 16, currentMap->y() + moveY / 16, currentMap->area())];
+	 
+	// Regen monsters and reset positions
 	for(u16 i = 0 ; i < currentMap->monsters().size() ; i++) {
 		currentMap->monsters()[i]->regen();
+		currentMap->monsters()[i]->resetPos();
+	}
+	for(u16 i = 0 ; i < currentMap->NPCs().size() ; i++) {
+		currentMap->NPCs()[i]->resetPos();
 	}
 }
 

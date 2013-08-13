@@ -65,6 +65,9 @@ Character::Character(char *filename, CharacterType type, s16 x, s16 y, Character
 	m_x = x;
 	m_y = y;
 	
+	m_dx = x;
+	m_dy = y;
+	
 	m_vx = 0;
 	m_vy = 0;
 	

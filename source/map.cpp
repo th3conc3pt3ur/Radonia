@@ -52,6 +52,9 @@ using namespace std;
 
 u16 Map::nbMaps = 0;
 
+// Initialize view rect
+SDL_Rect Map::viewRect = {0, 0, MAP_WIDTH << 4, MAP_HEIGHT << 4};
+
 Map::Map(Image *tileset, u16 *tilesetInfo, char *filename, u16 width, u16 height, u16 tileWidth, u16 tileHeight, u16 x, u16 y, u16 area) {
 	// Set map id
 	m_id = nbMaps;
@@ -115,7 +118,7 @@ void Map::render() {
 			u16 tileX = (tile - (tileY / m_tileHeight) * (m_tileset->width() / m_tileHeight)) * m_tileWidth;
 			
 			// Set position and clip tile to display
-			m_tileset->setPosRect((x + m_x * MAP_WIDTH) * m_tileWidth, (y + m_y * MAP_HEIGHT) * m_tileHeight, m_tileWidth, m_tileHeight);
+			m_tileset->setPosRect((x + m_x * MAP_WIDTH) * m_tileWidth - viewRect.x, (y + m_y * MAP_HEIGHT) * m_tileHeight - viewRect.y, m_tileWidth, m_tileHeight);
 			m_tileset->setClipRect(tileX, tileY, m_tileWidth, m_tileHeight);
 			
 			// Display the tile
