@@ -149,19 +149,10 @@ void CollisionManager::doorCollisions(Character *c) {
 		if(doorID == -1) return;
 		
 		// Initialize transition
-		/*sf::RectangleShape rect1(sf::Vector2f(MAP_WIDTH * 16 / 2, MAP_HEIGHT * 16));
-		sf::RectangleShape rect2(sf::Vector2f(MAP_WIDTH * 16 / 2, MAP_HEIGHT * 16));
-		
-		rect1.setPosition(0, 0);
-		rect2.setPosition(MAP_WIDTH * 16 / 2, 0);
-		
 		Game::MainWindow->clear();
-		Game::MainWindow->setView(*Sprite::View);
-		Game::MainWindow->draw(rect1);
-		Game::MainWindow->draw(rect2);
-		Game::MainWindow->setView(Game::MainWindow->getDefaultView());
-		Game::MainWindow->display();
-		*/
+		Game::MainWindow->drawFillRect(0, 0, MAP_WIDTH * 16 / 2, MAP_HEIGHT * 16, Color::white);
+		Game::MainWindow->drawFillRect(MAP_WIDTH * 16 / 2, 0, MAP_WIDTH * 16 / 2, MAP_HEIGHT * 16, Color::white);
+		Game::MainWindow->update();
 		
 		// Update all values
 		Game::currentMap = Game::mapAreas[Game::doors[Game::doors[doorID]->nextDoorID]->mapArea][Game::doors[Game::doors[doorID]->nextDoorID]->mapID];
@@ -172,24 +163,20 @@ void CollisionManager::doorCollisions(Character *c) {
 		c->direction(Game::doors[Game::doors[doorID]->nextDoorID]->direction);
 		
 		// Move view to display map correctly
-		//Map::View->setCenter(Game::currentMap->x() * MAP_WIDTH * 16 + MAP_WIDTH * 16 / 2, Game::currentMap->y() * MAP_HEIGHT * 16 + MAP_HEIGHT * 16 / 2);
+		Map::viewRect.x = Game::currentMap->x() * MAP_WIDTH * 16;
+		Map::viewRect.y = Game::currentMap->y() * MAP_HEIGHT * 16;
 		
 		// Transition
 		for(u16 x = 0 ; x <= MAP_HEIGHT / 1.5 ; x++) {
-		/*	rect1.move(-32, 0);
-			rect2.move(32, 0);
-			
 			Game::MainWindow->clear();
 			Game::currentMap->render();
 			Game::currentMap->renderNPCs();
 			Game::currentMap->renderMonsters();
 			c->render();
 			Interface::renderHUD();
-			Game::MainWindow->setView(*Sprite::View);
-			Game::MainWindow->draw(rect1);
-			Game::MainWindow->draw(rect2);
-			Game::MainWindow->setView(Game::MainWindow->getDefaultView());
-			Game::MainWindow->display();*/
+			Game::MainWindow->drawFillRect(-32 * x, 0, MAP_WIDTH * 16 / 2, MAP_HEIGHT * 16, Color::white);
+			Game::MainWindow->drawFillRect(MAP_WIDTH * 16 / 2 + 32 * x, 0, MAP_WIDTH * 16 / 2, MAP_HEIGHT * 16, Color::white);
+			Game::MainWindow->update();
 		}
 		
 		// The player is in the door

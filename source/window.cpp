@@ -68,3 +68,25 @@ void Window::setRendererColor(Color color) {
 	SDL_SetRenderDrawColor(m_renderer, color.r, color.g, color.b, color.a);
 }
 
+void Window::drawRect(s16 x, s16 y, u16 w, u16 h, Color c) {
+	// Setup color
+	setRendererColor(c);
+	
+	// Setup rect to draw
+	SDL_Rect r = {x, y, w, h};
+	
+	// Draw
+	SDL_RenderDrawRect(m_renderer, &r);
+}
+
+void Window::drawFillRect(s16 x, s16 y, u16 w, u16 h, Color c) {
+	// Setup color
+	setRendererColor(c);
+	
+	// Setup rect to draw
+	SDL_Rect r = {x, y, w, h};
+	
+	// Draw
+	SDL_RenderFillRect(m_renderer, &r);
+}
+

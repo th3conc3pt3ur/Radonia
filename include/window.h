@@ -35,6 +35,12 @@ class Window {
 		// Set renderer color
 		void setRendererColor(Color color);
 		
+		// Draw rect
+		void drawRect(s16 x, s16 y, u16 w, u16 h, Color c);
+		
+		// Draw fill rect
+		void drawFillRect(s16 x, s16 y, u16 w, u16 h, Color c);
+		
 		// Get SDL_Window object
 		SDL_Window *window() { return m_window; }
 		

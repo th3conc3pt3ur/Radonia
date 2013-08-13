@@ -30,6 +30,8 @@ class Color {
 		u8 g;
 		u8 b;
 		u8 a;
+		
+		static Color white;
 };
 
 #endif // COLOR_H

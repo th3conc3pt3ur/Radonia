@@ -24,6 +24,8 @@
 #include "types.h"
 #include "color.h"
 
+Color Color::white(255, 255, 255);
+
 Color::Color(u8 _r, u8 _g, u8 _b, u8 _a) {
 	// Set class members
 	r = _r;
