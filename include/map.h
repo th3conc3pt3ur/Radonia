@@ -1,7 +1,7 @@
 /*---------------------------------------------------------------------------------
 	
 	Radonia
-	Copyright (C) 2013 Deloptia <deloptia.devteam@gmail.com>
+	Copyright (C) 2013-2014 Deloptia <deloptia.devteam@gmail.com>
 	
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@
 class Map {
 	public:
 		// Constructor and destructor
-		Map(sf::Texture *tileset, u16 *tilesetInfo, char *filename, u16 width, u16 height, u16 tileWidth, u16 tileHeight, u16 mapX, u16 mapY, u16 area = 0); // area 0 is overworld
+		Map(Image *tileset, u16 *tilesetInfo, char *filename, u16 width, u16 height, u16 tileWidth, u16 tileHeight, u16 mapX, u16 mapY, u16 area = 0); // area 0 is overworld
 		~Map();
 		
 		// Map render function
@@ -57,18 +57,15 @@ class Map {
 		// Render monsters
 		void renderMonsters();
 		
-		// Map view
-		static sf::View *View;
-		
 		// Maps counter
-		static int nbMaps;
+		static u16 nbMaps;
 		
 	private:
 		// Map id
 		u16 m_id;
 		
 		// Map tileset
-		sf::Texture *m_tileset;
+		Image *m_tileset;
 		u16 *m_tilesetInfo;
 		
 		// Map data

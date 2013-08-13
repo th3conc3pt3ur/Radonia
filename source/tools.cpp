@@ -1,7 +1,7 @@
 /*---------------------------------------------------------------------------------
 	
 	Radonia
-	Copyright (C) 2013 Deloptia <deloptia.devteam@gmail.com>
+	Copyright (C) 2013-2014 Deloptia <deloptia.devteam@gmail.com>
 	
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -18,15 +18,16 @@
 	
 ---------------------------------------------------------------------------------*/
 #include <iostream>
-#include <cstdio>
 
-#include <SFML/System.hpp>
-#include <SFML/Audio.hpp>
-#include <SFML/Graphics.hpp>
+#include "includeSDL.h"
 
 #include "types.h"
+#include "color.h"
 #include "config.h"
+#include "window.h"
+#include "keyboard.h"
 #include "timer.h"
+#include "image.h"
 #include "animation.h"
 #include "sprite.h"
 #include "character.h"
@@ -38,8 +39,4 @@
 #include "mapManager.h"
 #include "tools.h"
 #include "game.h"
-
-sf::Color invertColor(sf::Color c) {
-	return sf::Color(255-c.r, 255-c.g, 255-c.b);
-}
 

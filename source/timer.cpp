@@ -1,7 +1,7 @@
 /*---------------------------------------------------------------------------------
 	
 	Radonia
-	Copyright (C) 2013 Deloptia <deloptia.devteam@gmail.com>
+	Copyright (C) 2013-2014 Deloptia <deloptia.devteam@gmail.com>
 	
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -17,15 +17,14 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	
 ---------------------------------------------------------------------------------*/
-#include <SFML/System.hpp>
+#include "includeSDL.h"
 
+#include "types.h"
 #include "timer.h"
-
-sf::Clock Timer::clock;
 
 Timer::Timer() {
 	// Initialize class members
-	m_t = clock.getElapsedTime().asMilliseconds();
+	m_t = SDL_GetTicks();
 	m_isStarted = false;
 	m_tick = 0;
 }
@@ -38,24 +37,20 @@ Timer::~Timer() {
 void Timer::stop() {
 	if(m_isStarted) {
 		m_isStarted = false;
-		m_tick = clock.getElapsedTime().asMilliseconds() - m_t;
+		m_tick = SDL_GetTicks() - m_t;
 	}
 }
 
 void Timer::start() {
 	if(!m_isStarted) {
 		m_isStarted = true;
-		m_t = clock.getElapsedTime().asMilliseconds() - m_tick;
+		m_t = SDL_GetTicks() - m_tick;
 	}
 }
 
 void Timer::reset() {
-	m_t = clock.getElapsedTime().asMilliseconds();
+	m_t = SDL_GetTicks();
 	m_isStarted = false;
 	m_tick = 0;
-}
-
-void Timer::initTimers() {
-	clock.restart();
 }
 

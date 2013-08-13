@@ -1,7 +1,7 @@
 /*---------------------------------------------------------------------------------
 	
 	Radonia
-	Copyright (C) 2013 Deloptia <deloptia.devteam@gmail.com>
+	Copyright (C) 2013-2014 Deloptia <deloptia.devteam@gmail.com>
 	
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -18,18 +18,19 @@
 	
 ---------------------------------------------------------------------------------*/
 #include <iostream>
-#include <cstdio>
-#include <cstdlib>
 
-#include <SFML/System.hpp>
-#include <SFML/Audio.hpp>
-#include <SFML/Graphics.hpp>
+#include "includeSDL.h"
 
 #include "types.h"
+#include "color.h"
 #include "config.h"
+#include "window.h"
+#include "keyboard.h"
 #include "timer.h"
 #include "animation.h"
+#include "image.h"
 #include "sprite.h"
+#include "weapon.h"
 #include "character.h"
 #include "monster.h"
 #include "NPC.h"
@@ -47,7 +48,7 @@
 // Movements are defined like that:
 // {nbMovements, vx1, vy1, vx2, vy2, vx3, vy3, etc...}
 
-int CharacterManager::moves[][21] = {
+s16 CharacterManager::moves[][21] = {
 	{6, 1, 0, 0, 1, 0, 1, -1, 0, 0, -1, 0, -1},
 	{6, 1, 0, 0, 1, 0, 1, -1, 0, 0, -1, 0, -1}
 };

@@ -1,7 +1,7 @@
 /*---------------------------------------------------------------------------------
 	
 	Radonia
-	Copyright (C) 2013 Deloptia <deloptia.devteam@gmail.com>
+	Copyright (C) 2013-2014 Deloptia <deloptia.devteam@gmail.com>
 	
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@
 
 namespace CharacterManager {
 	// Movements
-	extern int moves[][21];
+	extern s16 moves[][21];
 	
 	// Initialize player
 	Player *initPlayer();

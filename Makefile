@@ -14,7 +14,7 @@ LDFLAGS	:=	-g -Wl
 #---------------------------------------------------------------------------------
 # Any extra libraries you wish to link with your project
 #---------------------------------------------------------------------------------
-LIBS	:=	-lsfml-audio-s -lsfml-network-s -lsfml-graphics-s -lsfml-window-s -lsfml-system-s -lGLEW -lGL -lGLU -lfreetype -ljpeg -lXrandr
+LIBS	:=	-lSDL2_image -lSDL2
 
 #---------------------------------------------------------------------------------
 # list of directories containing libraries, this must be the top level containing

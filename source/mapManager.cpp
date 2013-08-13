@@ -1,7 +1,7 @@
 /*---------------------------------------------------------------------------------
 	
 	Radonia
-	Copyright (C) 2013 Deloptia <deloptia.devteam@gmail.com>
+	Copyright (C) 2013-2014 Deloptia <deloptia.devteam@gmail.com>
 	
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -18,15 +18,16 @@
 	
 ---------------------------------------------------------------------------------*/
 #include <iostream>
-#include <cstdio>
 
-#include <SFML/System.hpp>
-#include <SFML/Audio.hpp>
-#include <SFML/Graphics.hpp>
+#include "includeSDL.h"
 
 #include "types.h"
+#include "color.h"
 #include "config.h"
+#include "window.h"
+#include "keyboard.h"
 #include "timer.h"
+#include "image.h"
 #include "animation.h"
 #include "sprite.h"
 #include "character.h"
@@ -132,23 +133,20 @@ u16 MapManager::undergroundInfo[256] = {
 	8,9,10,0,0,0,0,0,0,0,0,0,0,0,0,0
 };
 
-sf::Texture **MapManager::initTilesets() {
+Image **MapManager::initTilesets() {
 	// Initialize tileset array
-	sf::Texture **tilesets = new sf::Texture*[3];
+	Image **tilesets = new Image*[NB_TILESETS];
 	
 	/* Initialize tilesets */
 	
 	// Plain
-	tilesets[0] = new sf::Texture;
-	tilesets[0]->loadFromFile("graphics/tilesets/plain.png");
+	tilesets[0] = new Image((char*)"graphics/tilesets/plain.png");
 	
 	// Indoor
-	tilesets[1] = new sf::Texture;
-	tilesets[1]->loadFromFile("graphics/tilesets/indoor.png");
+	tilesets[1] = new Image((char*)"graphics/tilesets/indoor.png");
 	
 	// Underground
-	tilesets[2] = new sf::Texture;
-	tilesets[2]->loadFromFile("graphics/tilesets/underground.png");
+	tilesets[2] = new Image((char*)"graphics/tilesets/underground.png");
 	
 	return tilesets;
 }
@@ -211,7 +209,7 @@ u16 _mid(u16 area, u16 id) {
 }
 
 bool inTable(u16 tiles[], u16 id) {
-	int i = 0;
+	u16 i = 0;
 	while(tiles[i]) {
 		if(tiles[i] == id) return true;
 		i++;

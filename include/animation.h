@@ -1,7 +1,7 @@
 /*---------------------------------------------------------------------------------
 	
 	Radonia
-	Copyright (C) 2013 Deloptia <deloptia.devteam@gmail.com>
+	Copyright (C) 2013-2014 Deloptia <deloptia.devteam@gmail.com>
 	
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -23,12 +23,12 @@
 // Animation struct
 struct Animation {
 	// Constructor
-	Animation(int _size, int *_tabAnim, int _delay, bool _isPlaying = false) :
+	Animation(u16 _size, u16 *_tabAnim, u16 _delay, bool _isPlaying = false) :
 		size(_size), tabAnim(_tabAnim), delay(_delay), isPlaying(_isPlaying) {}
 	
-	int size;		// Animation size
-	int *tabAnim;	// Animation table
-	int delay;		// Delay between animations
+	u16 size;		// Animation size
+	u16 *tabAnim;	// Animation table
+	u16 delay;		// Delay between animations
 	Timer timer;	// Timer
 	bool isPlaying; // Playing animation state
 };

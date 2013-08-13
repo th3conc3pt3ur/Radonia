@@ -1,7 +1,7 @@
 /*---------------------------------------------------------------------------------
 	
 	Radonia
-	Copyright (C) 2013 Deloptia <deloptia.devteam@gmail.com>
+	Copyright (C) 2013-2014 Deloptia <deloptia.devteam@gmail.com>
 	
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -18,18 +18,19 @@
 	
 ---------------------------------------------------------------------------------*/
 #include <iostream>
-#include <cstdio>
-#include <cstdlib>
 
-#include <SFML/System.hpp>
-#include <SFML/Audio.hpp>
-#include <SFML/Graphics.hpp>
+#include "includeSDL.h"
 
 #include "types.h"
+#include "color.h"
 #include "config.h"
+#include "window.h"
+#include "keyboard.h"
 #include "timer.h"
+#include "image.h"
 #include "animation.h"
 #include "sprite.h"
+#include "weapon.h"
 #include "character.h"
 #include "monster.h"
 #include "NPC.h"
@@ -148,7 +149,7 @@ void CollisionManager::doorCollisions(Character *c) {
 		if(doorID == -1) return;
 		
 		// Initialize transition
-		sf::RectangleShape rect1(sf::Vector2f(MAP_WIDTH * 16 / 2, MAP_HEIGHT * 16));
+		/*sf::RectangleShape rect1(sf::Vector2f(MAP_WIDTH * 16 / 2, MAP_HEIGHT * 16));
 		sf::RectangleShape rect2(sf::Vector2f(MAP_WIDTH * 16 / 2, MAP_HEIGHT * 16));
 		
 		rect1.setPosition(0, 0);
@@ -160,6 +161,7 @@ void CollisionManager::doorCollisions(Character *c) {
 		Game::MainWindow->draw(rect2);
 		Game::MainWindow->setView(Game::MainWindow->getDefaultView());
 		Game::MainWindow->display();
+		*/
 		
 		// Update all values
 		Game::currentMap = Game::mapAreas[Game::doors[Game::doors[doorID]->nextDoorID]->mapArea][Game::doors[Game::doors[doorID]->nextDoorID]->mapID];
@@ -170,11 +172,11 @@ void CollisionManager::doorCollisions(Character *c) {
 		c->direction(Game::doors[Game::doors[doorID]->nextDoorID]->direction);
 		
 		// Move view to display map correctly
-		Map::View->setCenter(Game::currentMap->x() * MAP_WIDTH * 16 + MAP_WIDTH * 16 / 2, Game::currentMap->y() * MAP_HEIGHT * 16 + MAP_HEIGHT * 16 / 2);
+		//Map::View->setCenter(Game::currentMap->x() * MAP_WIDTH * 16 + MAP_WIDTH * 16 / 2, Game::currentMap->y() * MAP_HEIGHT * 16 + MAP_HEIGHT * 16 / 2);
 		
 		// Transition
 		for(u16 x = 0 ; x <= MAP_HEIGHT / 1.5 ; x++) {
-			rect1.move(-32, 0);
+		/*	rect1.move(-32, 0);
 			rect2.move(32, 0);
 			
 			Game::MainWindow->clear();
@@ -187,7 +189,7 @@ void CollisionManager::doorCollisions(Character *c) {
 			Game::MainWindow->draw(rect1);
 			Game::MainWindow->draw(rect2);
 			Game::MainWindow->setView(Game::MainWindow->getDefaultView());
-			Game::MainWindow->display();
+			Game::MainWindow->display();*/
 		}
 		
 		// The player is in the door

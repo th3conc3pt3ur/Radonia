@@ -1,7 +1,7 @@
 /*---------------------------------------------------------------------------------
 	
 	Radonia
-	Copyright (C) 2013 Deloptia <deloptia.devteam@gmail.com>
+	Copyright (C) 2013-2014 Deloptia <deloptia.devteam@gmail.com>
 	
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -18,12 +18,8 @@
 	
 ---------------------------------------------------------------------------------*/
 #include <iostream>
-#include <cstdio>
-#include <cstdlib>
 
-#include <SFML/System.hpp>
-#include <SFML/Audio.hpp>
-#include <SFML/Graphics.hpp>
+#include "includeSDL.h"
 
 #include "types.h"
 #include "config.h"
@@ -31,7 +27,7 @@
 #include "animation.h"
 
 // Player animations
-int Player_animations[8][4] = {
+u16 Player_animations[8][4] = {
 	{4,0},
 	{5,1},
 	{6,2},
@@ -43,7 +39,7 @@ int Player_animations[8][4] = {
 };
 
 // Sword animations
-int Sword_animations[4][4] = {
+u16 Sword_animations[4][4] = {
 	{0,4,8,8},
 	{1,5,9,9},
 	{2,6,10,10},
@@ -51,7 +47,7 @@ int Sword_animations[4][4] = {
 };
 
 // NPC animations
-int NPC_animations[4][4] = {
+u16 NPC_animations[4][4] = {
 	{4,0},
 	{5,1},
 	{6,2},
@@ -59,7 +55,7 @@ int NPC_animations[4][4] = {
 };
 
 // Monster animations
-int Monster_animations[12][4] = {
+u16 Monster_animations[12][4] = {
 	{4,0},
 	{5,1},
 	{6,2},

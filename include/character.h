@@ -1,7 +1,7 @@
 /*---------------------------------------------------------------------------------
 	
 	Radonia
-	Copyright (C) 2013 Deloptia <deloptia.devteam@gmail.com>
+	Copyright (C) 2013-2014 Deloptia <deloptia.devteam@gmail.com>
 	
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -84,7 +84,7 @@ class Character : public Sprite {
 		// Get collision states
 		Character *collidedCharacter() { return m_collidedCharacter; }
 		//Weapon *collidedWeapon() { return m_collidedWeapon; }
-		int collidedTile() { return m_collidedTile; }
+		u16 collidedTile() { return m_collidedTile; }
 		
 		// Set position
 		void x(s16 x) { m_x = x; }
@@ -103,7 +103,7 @@ class Character : public Sprite {
 		// Set collision states
 		void collidedCharacter(Character *character) { m_collidedCharacter = character; }
 		//void collidedWeapon(Weapon *weapon) { m_collidedWeapon = weapon; }
-		void collidedTile(int tile) { m_collidedTile = tile; }
+		void collidedTile(u16 tile) { m_collidedTile = tile; }
 		
 		// Characters counter
 		static u16 nbCharacters;
@@ -155,13 +155,16 @@ class Character : public Sprite {
 		// Collision states
 		Character *m_collidedCharacter;
 		//Weapon *m_collidedWeapon;
-		int m_collidedTile;
+		u16 m_collidedTile;
 		
 		// Attacking state
 		bool m_isAttacking;
 		
 		// In door state
 		bool m_inDoor;
+		
+		// Friend class Weapon
+		friend class Weapon;
 };
 
 #endif // CHARACTER_H

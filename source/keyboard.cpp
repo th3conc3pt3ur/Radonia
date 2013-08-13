@@ -17,42 +17,30 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	
 ---------------------------------------------------------------------------------*/
-#ifndef MAPMANAGER_H
-#define MAPMANAGER_H
+#include <iostream>
 
-// Map position in the area
-#define MAP_POS(x, y, area) (u16)((x) + (y) * sqrt((double)MapManager::areaSizes[(area)]))
+#include "includeSDL.h"
 
-namespace MapManager {
+#include "types.h"
+#include "keyboard.h"
 
-// Tiles tables
-extern u16 nonPassableTiles[13];
-extern u16 changeMapTiles[3];
+const u8 *Keyboard::state = NULL;
 
-// Tilesets infos
-extern u16 plainInfo[256];
-extern u16 indoorInfo[256];
-extern u16 undergroundInfo[256];
-
-// Tileset init function
-Image **initTilesets();
-
-// Sizes of map areas
-extern u16 areaSizes[MAP_AREAS];
-
-// Map init function
-Map*** initMaps();
-
-// Map update function
-void refreshMaps(Map **maps, s16 moveX, s16 moveY);
-
+const u8 *Keyboard::getState() {
+	return SDL_GetKeyboardState(NULL);
 }
 
-// Get map id from area
-u16 _mid(u16 area, u16 id);
+bool Keyboard::isKeyPressed(u32 key) {
+	if(state[key]) return true;
+	else		   return false;
+}
 
-// Functions for tiles
-bool inTable(u16 *tiles, u16 id);
-bool inTiles(s16 tileX, s16 tileY, u16 *tiles);
+void Keyboard::update() {
+	state = getState();
+}
 
-#endif // MAPMANAGER_H
+void Keyboard::forceUpdate() {
+	SDL_PumpEvents();
+	update();
+}
+

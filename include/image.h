@@ -17,42 +17,48 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	
 ---------------------------------------------------------------------------------*/
-#ifndef MAPMANAGER_H
-#define MAPMANAGER_H
+#ifndef IMAGE_H
+#define IMAGE_H
 
-// Map position in the area
-#define MAP_POS(x, y, area) (u16)((x) + (y) * sqrt((double)MapManager::areaSizes[(area)]))
+class Image {
+	public:
+		// Constructor and destructor
+		Image(char *filename);
+		~Image();
+		
+		// Render
+		void render();
+		
+		// Get image size
+		u16 width() const { return m_width; }
+		u16 height() const { return m_height; }
+		
+		// Set color
+		void setColor(Color color) { SDL_SetTextureColorMod(m_texture, color.r, color.g, color.b); }
+		
+		// Set alpha
+		void setAlpha(u8 alpha) { SDL_SetTextureAlphaMod(m_texture, alpha); }
+		
+		// Set positon
+		void setPosRect(u16 x, u16 y, u16 w, u16 h);
+		
+		// Set clip rect
+		void setClipRect(u16 x, u16 y, u16 w, u16 h);
+		
+	protected:
+		// Image filename
+		char *m_filename;
+		
+		// Size
+		u16 m_width;
+		u16 m_height;
+		
+		// Texture object
+		SDL_Texture *m_texture;
+		
+		// SDL rects
+		SDL_Rect m_clipRect;
+		SDL_Rect m_posRect;
+};
 
-namespace MapManager {
-
-// Tiles tables
-extern u16 nonPassableTiles[13];
-extern u16 changeMapTiles[3];
-
-// Tilesets infos
-extern u16 plainInfo[256];
-extern u16 indoorInfo[256];
-extern u16 undergroundInfo[256];
-
-// Tileset init function
-Image **initTilesets();
-
-// Sizes of map areas
-extern u16 areaSizes[MAP_AREAS];
-
-// Map init function
-Map*** initMaps();
-
-// Map update function
-void refreshMaps(Map **maps, s16 moveX, s16 moveY);
-
-}
-
-// Get map id from area
-u16 _mid(u16 area, u16 id);
-
-// Functions for tiles
-bool inTable(u16 *tiles, u16 id);
-bool inTiles(s16 tileX, s16 tileY, u16 *tiles);
-
-#endif // MAPMANAGER_H
+#endif // IMAGE_H

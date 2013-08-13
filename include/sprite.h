@@ -1,7 +1,7 @@
 /*---------------------------------------------------------------------------------
 	
 	Radonia
-	Copyright (C) 2013 Deloptia <deloptia.devteam@gmail.com>
+	Copyright (C) 2013-2014 Deloptia <deloptia.devteam@gmail.com>
 	
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -20,43 +20,27 @@
 #ifndef SPRITE_H
 #define SPRITE_H
 
-class Sprite {
+#include <vector>
+
+class Sprite : public Image {
 	public:
 		// Constructor and destructor
 		Sprite(char *filename, u8 frameSize = 16);
 		~Sprite();
 		
 		// Draw sprite
-		void drawFrame(s16 x, s16 y, int frame);
+		void drawFrame(s16 x, s16 y, u16 frame);
 		
 		// Animations
-		void addAnimation(int size, int *tabAnim, int delay);
-		void resetAnimation(int anim);
-		void startAnimation(int anim);
-		void stopAnimation(int anim);
-		bool animationAtEnd(int anim);
-		bool animationAtFrame(int anim, int frame);
-		void playAnimation(s16 x, s16 y, int anim);
-		
-		// Get sprite
-		sf::Sprite spr() { return m_spr; }
-		
-		// Get default color
-		sf::Color defaultColor() const { return m_defaultColor; }
-		
-		// Sprite view
-		static sf::View *View;
+		void addAnimation(u16 size, u16 *tabAnim, u16 delay);
+		void resetAnimation(u16 anim);
+		void startAnimation(u16 anim);
+		void stopAnimation(u16 anim);
+		bool animationAtEnd(u16 anim);
+		bool animationAtFrame(u16 anim, u16 frame);
+		void playAnimation(s16 x, s16 y, u16 anim);
 		
 	protected:
-		// Sprite texture
-		sf::Texture m_tex;
-		
-		// Sprite frame to display
-		sf::Sprite m_spr;
-		
-		// Default texture color
-		sf::Color m_defaultColor;
-		
 		// Sprite frame size
 		u8 m_frameSize;
 		

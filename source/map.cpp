@@ -1,7 +1,7 @@
 /*---------------------------------------------------------------------------------
 	
 	Radonia
-	Copyright (C) 2013 Deloptia <deloptia.devteam@gmail.com>
+	Copyright (C) 2013-2014 Deloptia <deloptia.devteam@gmail.com>
 	
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -23,13 +23,15 @@
 #include <cmath>
 #include <sys/stat.h>
 
-#include <SFML/System.hpp>
-#include <SFML/Audio.hpp>
-#include <SFML/Graphics.hpp>
+#include "includeSDL.h"
 
 #include "types.h"
+#include "color.h"
 #include "config.h"
+#include "window.h"
+#include "keyboard.h"
 #include "timer.h"
+#include "image.h"
 #include "animation.h"
 #include "sprite.h"
 #include "character.h"
@@ -48,16 +50,11 @@
 
 using namespace std;
 
-int Map::nbMaps = 0;
+u16 Map::nbMaps = 0;
 
-sf::View *Map::View = NULL;
-
-Map::Map(sf::Texture *tileset, u16 *tilesetInfo, char *filename, u16 width, u16 height, u16 tileWidth, u16 tileHeight, u16 x, u16 y, u16 area) {
+Map::Map(Image *tileset, u16 *tilesetInfo, char *filename, u16 width, u16 height, u16 tileWidth, u16 tileHeight, u16 x, u16 y, u16 area) {
 	// Set map id
 	m_id = nbMaps;
-	
-	// Initialize sprite view
-	if(View == NULL) View = new sf::View(sf::FloatRect(0, 0, 640, 480));
 	
 	// Update maps counter
 	nbMaps++;
@@ -81,19 +78,13 @@ Map::Map(sf::Texture *tileset, u16 *tilesetInfo, char *filename, u16 width, u16 
 	u16* table = (u16*)malloc(m_width * m_height * sizeof(u16));
 	
 	// Load map from file
-	struct stat file_status;
-	if(stat(filename, &file_status) != 0) {
-		printf("Unable to load %s, file not found\n", filename);
-		exit(1);
+	SDL_RWops *f = SDL_RWFromFile(filename, "r");
+	if(!f) {
+		fprintf(stderr, "Unable to open file %s: %s", filename, SDL_GetError());
+		exit(EXIT_FAILURE);
 	}
-	
-	// Get filesize for fread
-	int filesize = file_status.st_size;
-	
-	// Read data
-	FILE* f = fopen(filename, "r");
-	fread(table, 2, filesize, f);
-	fclose(f);
+	SDL_RWread(f, table, 2, sizeof(table) * m_width * m_height);
+	SDL_RWclose(f);
 	
 	// Save data in current map
 	m_data = table;
@@ -114,32 +105,23 @@ Map::~Map() {
 }
 
 void Map::render() {
-	// Load temporary sprite to render tiles
-	sf::Sprite renderedTile(*m_tileset);
-	
-	// Set view for drawing maps
-	Game::MainWindow->setView(*View);
-	
 	for(u16 y = 0 ; y < m_height ; y++) {
 		for(u16 x = 0 ; x < m_width ; x++) {
 			// Get tile id
 			u16 tile = getTile(x, y);
 			
 			// Get tile position
-			u16 tileY = (tile / (m_tileset->getSize().x / m_tileHeight)) * m_tileHeight;
-			u16 tileX = (tile - (tileY / m_tileHeight) * (m_tileset->getSize().x / m_tileHeight)) * m_tileWidth;
+			u16 tileY = (tile / (m_tileset->width() / m_tileHeight)) * m_tileHeight;
+			u16 tileX = (tile - (tileY / m_tileHeight) * (m_tileset->width() / m_tileHeight)) * m_tileWidth;
 			
-			// Set position and cut tile to display
-			renderedTile.setPosition((x + m_x * MAP_WIDTH) * m_tileWidth, (y + m_y * MAP_HEIGHT) * m_tileHeight);
-			renderedTile.setTextureRect(sf::IntRect(tileX, tileY, m_tileWidth, m_tileHeight));
+			// Set position and clip tile to display
+			m_tileset->setPosRect((x + m_x * MAP_WIDTH) * m_tileWidth, (y + m_y * MAP_HEIGHT) * m_tileHeight, m_tileWidth, m_tileHeight);
+			m_tileset->setClipRect(tileX, tileY, m_tileWidth, m_tileHeight);
 			
 			// Display the tile
-			Game::MainWindow->draw(renderedTile);
+			m_tileset->render();
 		}
 	}
-	
-	// Reset the view
-	Game::MainWindow->setView(Game::MainWindow->getDefaultView());
 }
 
 u16 Map::getTile(u16 tileX, u16 tileY) {

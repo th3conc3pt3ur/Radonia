@@ -1,7 +1,7 @@
 /*---------------------------------------------------------------------------------
 	
 	Radonia
-	Copyright (C) 2013 Deloptia <deloptia.devteam@gmail.com>
+	Copyright (C) 2013-2014 Deloptia <deloptia.devteam@gmail.com>
 	
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -19,12 +19,15 @@
 ---------------------------------------------------------------------------------*/
 #include <iostream>
 
-#include <SFML/System.hpp>
-#include <SFML/Graphics.hpp>
+#include "includeSDL.h"
 
 #include "types.h"
+#include "color.h"
 #include "config.h"
+#include "window.h"
+#include "keyboard.h"
 #include "timer.h"
+#include "image.h"
 #include "animation.h"
 #include "sprite.h"
 #include "character.h"
@@ -42,76 +45,62 @@
 #include "interface.h"
 #include "game.h"
 
-sf::View *Sprite::View = NULL;
-
-Sprite::Sprite(char *filename, u8 frameSize) {
-	// Initialize sprite view
-	if(View == NULL) View = new sf::View(sf::FloatRect(0, 0, 640, 480));
-	
-	// Load sprite
-	sf::Image img;
-	img.loadFromFile(filename);
-	img.createMaskFromColor(sf::Color(255, 0, 255));
-	
-	m_tex.loadFromImage(img);
-	
-	m_spr.setTexture(m_tex);
-	
+Sprite::Sprite(char *filename, u8 frameSize) : Image(filename) {
 	// Set frame size
 	m_frameSize = frameSize;
 	
-	// Set default color
-	m_defaultColor = m_spr.getColor();
+	m_posRect.w = m_frameSize;
+	m_posRect.h = m_frameSize;
 }
 
 Sprite::~Sprite() {
 }
 
-void Sprite::drawFrame(s16 x, s16 y, int frame) {
+void Sprite::drawFrame(s16 x, s16 y, u16 frame) {
 	// Get frame position
-	u16 frameY = (frame / (m_tex.getSize().x / m_frameSize)) * m_frameSize;
-	u16 frameX = (frame - (frameY / m_frameSize) * (m_tex.getSize().x / m_frameSize)) * m_frameSize;
+	u16 frameY = (frame / (m_width / m_frameSize)) * m_frameSize;
+	u16 frameX = (frame - (frameY / m_frameSize) * (m_width / m_frameSize)) * m_frameSize;
 	
-	// Setup sprite
-	m_spr.setPosition(x, y);
-	m_spr.setTextureRect(sf::IntRect(frameX, frameY, m_frameSize, m_frameSize));
+	// Set position
+	m_posRect.x = x;
+	m_posRect.y = y;
 	
-	// Set view for drawing sprites
-	Game::MainWindow->setView(*View);
+	// Set clip rect
+	m_clipRect.x = frameX;
+	m_clipRect.y = frameY;
+	m_clipRect.w = m_frameSize;
+	m_clipRect.h = m_frameSize;
 	
-	// Draw the sprite
-	Game::MainWindow->draw(m_spr);
-	
-	// Reset the view
-	Game::MainWindow->setView(Game::MainWindow->getDefaultView());
+	// Render clipped image
+	render();
 }
 
-void Sprite::addAnimation(int size, int *tabAnim, int delay) {
+void Sprite::addAnimation(u16 size, u16 *tabAnim, u16 delay) {
 	Animation* tmp = new Animation(size, tabAnim, delay);
 	m_animations.push_back(tmp);
 }
 
-void Sprite::resetAnimation(int anim) {
+void Sprite::resetAnimation(u16 anim) {
 	m_animations[anim]->timer.reset();
 }
 
-void Sprite::startAnimation(int anim) {
+void Sprite::startAnimation(u16 anim) {
 	m_animations[anim]->timer.start();
 }
 
-void Sprite::stopAnimation(int anim) {
+void Sprite::stopAnimation(u16 anim) {
 	m_animations[anim]->timer.stop();
 }
 
-bool Sprite::animationAtEnd(int anim) {
+bool Sprite::animationAtEnd(u16 anim) {
 	return m_animations[anim]->timer.time() / m_animations[anim]->delay >= m_animations[anim]->size;
 }
 
-bool Sprite::animationAtFrame(int anim, int frame) {
-	return (int)(m_animations[anim]->timer.time() / m_animations[anim]->delay) == frame;
+bool Sprite::animationAtFrame(u16 anim, u16 frame) {
+	return (u16)(m_animations[anim]->timer.time() / m_animations[anim]->delay) == frame;
 }
 
-void Sprite::playAnimation(s16 x, s16 y, int anim) {
+void Sprite::playAnimation(s16 x, s16 y, u16 anim) {
 	// If the animation is not playing
 	if(!m_animations[anim]->isPlaying) {
 		resetAnimation(anim); // Reset animation timer
@@ -126,7 +115,7 @@ void Sprite::playAnimation(s16 x, s16 y, int anim) {
 	}
 	
 	// This variable contains the number of the animation's frame to draw
-	int animToDraw = m_animations[anim]->tabAnim[(int)(m_animations[anim]->timer.time() / m_animations[anim]->delay)];
+	u16 animToDraw = m_animations[anim]->tabAnim[(u16)(m_animations[anim]->timer.time() / m_animations[anim]->delay)];
 	drawFrame(x, y, animToDraw); // Draw the frame
 }
 

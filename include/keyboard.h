@@ -17,42 +17,24 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	
 ---------------------------------------------------------------------------------*/
-#ifndef MAPMANAGER_H
-#define MAPMANAGER_H
+#ifndef KEYBOARD_H
+#define KEYBOARD_H
 
-// Map position in the area
-#define MAP_POS(x, y, area) (u16)((x) + (y) * sqrt((double)MapManager::areaSizes[(area)]))
+namespace Keyboard {
+	// Get keyboard state
+	const u8 *getState();
+	
+	// Is key pressed
+	bool isKeyPressed(u32 key);
+	
+	// Keyboard state
+	extern const u8 *state;
+	
+	// Update keyboard state
+	void update();
+	
+	// Force keyboard state update
+	void forceUpdate();
+};
 
-namespace MapManager {
-
-// Tiles tables
-extern u16 nonPassableTiles[13];
-extern u16 changeMapTiles[3];
-
-// Tilesets infos
-extern u16 plainInfo[256];
-extern u16 indoorInfo[256];
-extern u16 undergroundInfo[256];
-
-// Tileset init function
-Image **initTilesets();
-
-// Sizes of map areas
-extern u16 areaSizes[MAP_AREAS];
-
-// Map init function
-Map*** initMaps();
-
-// Map update function
-void refreshMaps(Map **maps, s16 moveX, s16 moveY);
-
-}
-
-// Get map id from area
-u16 _mid(u16 area, u16 id);
-
-// Functions for tiles
-bool inTable(u16 *tiles, u16 id);
-bool inTiles(s16 tileX, s16 tileY, u16 *tiles);
-
-#endif // MAPMANAGER_H
+#endif // KEYBOARD_H

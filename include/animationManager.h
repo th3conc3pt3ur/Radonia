@@ -1,7 +1,7 @@
 /*---------------------------------------------------------------------------------
 	
 	Radonia
-	Copyright (C) 2013 Deloptia <deloptia.devteam@gmail.com>
+	Copyright (C) 2013-2014 Deloptia <deloptia.devteam@gmail.com>
 	
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -21,15 +21,15 @@
 #define ANIMATION_MANAGER_H
 
 // Player animations
-extern int Player_animations[8][4];
+extern u16 Player_animations[8][4];
 
 // Sword animations
-extern int Sword_animations[4][4];
+extern u16 Sword_animations[4][4];
 
 // NPC animations
-extern int NPC_animations[4][4];
+extern u16 NPC_animations[4][4];
 
 // Monster animations
-extern int Monster_animations[4][4];
+extern u16 Monster_animations[4][4];
 
 #endif // ANIMATION_MANAGER_H

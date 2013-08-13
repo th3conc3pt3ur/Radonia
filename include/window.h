@@ -17,42 +17,47 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	
 ---------------------------------------------------------------------------------*/
-#ifndef MAPMANAGER_H
-#define MAPMANAGER_H
+#ifndef WINDOW_H
+#define WINDOW_H
 
-// Map position in the area
-#define MAP_POS(x, y, area) (u16)((x) + (y) * sqrt((double)MapManager::areaSizes[(area)]))
+class Window {
+	public:
+		// Constructor and destructor
+		Window(char *caption, u16 width, u16 height);
+		~Window();
+		
+		// Update window
+		void update();
+		
+		// Clear the window
+		void clear();
+		
+		// Set renderer color
+		void setRendererColor(Color color);
+		
+		// Get SDL_Window object
+		SDL_Window *window() { return m_window; }
+		
+		// Get SDL_Renderer object
+		SDL_Renderer *renderer() { return m_renderer; }
+		
+		// Get SDL_Surface object
+		SDL_Surface *surface() { return SDL_GetWindowSurface(m_window);}
+		
+	private:
+		// SDL_Window object
+		SDL_Window *m_window;
+		
+		// SDL_Renderer object
+		SDL_Renderer *m_renderer;
+		
+		// Window caption
+		char *m_caption;
+		
+		// Window size
+		u16 m_width;
+		u16 m_height;
+		
+};
 
-namespace MapManager {
-
-// Tiles tables
-extern u16 nonPassableTiles[13];
-extern u16 changeMapTiles[3];
-
-// Tilesets infos
-extern u16 plainInfo[256];
-extern u16 indoorInfo[256];
-extern u16 undergroundInfo[256];
-
-// Tileset init function
-Image **initTilesets();
-
-// Sizes of map areas
-extern u16 areaSizes[MAP_AREAS];
-
-// Map init function
-Map*** initMaps();
-
-// Map update function
-void refreshMaps(Map **maps, s16 moveX, s16 moveY);
-
-}
-
-// Get map id from area
-u16 _mid(u16 area, u16 id);
-
-// Functions for tiles
-bool inTable(u16 *tiles, u16 id);
-bool inTiles(s16 tileX, s16 tileY, u16 *tiles);
-
-#endif // MAPMANAGER_H
+#endif // WINDOW_H

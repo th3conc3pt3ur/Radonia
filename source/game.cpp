@@ -1,7 +1,7 @@
 /*---------------------------------------------------------------------------------
 	
 	Radonia
-	Copyright (C) 2013 Deloptia <deloptia.devteam@gmail.com>
+	Copyright (C) 2013-2014 Deloptia <deloptia.devteam@gmail.com>
 	
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -19,13 +19,15 @@
 ---------------------------------------------------------------------------------*/
 #include <iostream>
 
-#include <SFML/System.hpp>
-#include <SFML/Audio.hpp>
-#include <SFML/Graphics.hpp>
+#include "includeSDL.h"
 
 #include "types.h"
+#include "color.h"
 #include "config.h"
+#include "window.h"
+#include "keyboard.h"
 #include "timer.h"
+#include "image.h"
 #include "animation.h"
 #include "sprite.h"
 #include "character.h"
@@ -44,9 +46,9 @@
 
 using namespace std;
 
-sf::RenderWindow *Game::MainWindow = NULL;
-sf::Font *Game::defaultFont = NULL;
-sf::Texture **Game::tilesets = NULL;
+Window *Game::MainWindow = NULL;
+//sf::Font *Game::defaultFont = NULL;
+Image **Game::tilesets = NULL;
 Map ***Game::mapAreas = NULL;
 Map **Game::maps = NULL;
 Map *Game::currentMap = NULL;
@@ -57,23 +59,19 @@ Player *Game::player = NULL;
 
 Game::Game() {
 	// Create the main window
-	MainWindow = new sf::RenderWindow(sf::VideoMode(640, 480), "Radonia", sf::Style::Close);
-	MainWindow->setVerticalSyncEnabled(true);
-	MainWindow->setFramerateLimit(60);
+	MainWindow = new Window((char*)"Radonia", 640, 480);
 	
 	// Setup default font
-	defaultFont = new sf::Font();
+/*	defaultFont = new sf::Font();
 	if(!defaultFont->loadFromFile((char*)"fonts/Vani.ttf")) {
 		std::cout << "FATAL ERROR: Unable to load default font." << std::endl;
 		exit(EXIT_FAILURE);
 	}
+*/
 	
 	// Set default values
 	m_continue = true;
 	m_paused = false;
-	
-	// Initialize timers
-	Timer::initTimers();
 	
 	// Initialize tilesets
 	tilesets = MapManager::initTilesets();
@@ -104,14 +102,8 @@ Game::~Game() {
 	// Delete main window
 	delete MainWindow;
 	
-	// Delete sprite view
-	delete Sprite::View;
-	
-	// Delete map view
-	delete Map::View;
-	
 	// Delete default font
-	delete defaultFont;
+	//delete defaultFont;
 	
 	// Delete maps
 	delete[] mapAreas;
@@ -130,16 +122,17 @@ Game::~Game() {
 }
 
 void Game::mainLoop() {
-	while(MainWindow->isOpen() && m_continue) {
+	while(m_continue) {
 		// Process events
-		sf::Event event;
-		
-		while(MainWindow->pollEvent(event)) {
-			// Close window: exit game
-			if((event.type == sf::Event::Closed) || (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)) {
-				MainWindow->close();
+		SDL_Event event;
+		while(SDL_PollEvent(&event) != 0) {
+			switch(event.type) {
+				case SDL_QUIT: m_continue = false;
 			}
 		}
+		
+		// Update keyboard state
+		Keyboard::update();
 		
 		// Test for map scrolling
 		scroll();
@@ -166,7 +159,7 @@ void Game::mainLoop() {
 		Interface::renderHUD();
 		
 		// Update the window
-		MainWindow->display();
+		MainWindow->update();
 	}
 }
 
@@ -193,7 +186,7 @@ void Game::scroll() {
 		if((i & 1) || !(i & 15)) player->y(player->y() + playerY); else player->y(player->y() + playerY - playerY / 16);
 		
 		// Move view to scroll
-		Map::View->move(moveX, moveY);
+		//Map::View->move(moveX, moveY);
 		
 		// Refresh display on time in two
 		if(i & 1) {
@@ -203,7 +196,7 @@ void Game::scroll() {
 			currentMap->renderMonsters();
 			player->render();
 			Interface::renderHUD();
-			MainWindow->display();
+			MainWindow->update();
 		}
 	}
 	
@@ -215,7 +208,7 @@ void Game::scroll() {
 	   && currentMap->y() + moveY / 32 < WM_SIZE) currentMap = mapAreas[currentMap->area()][MAP_POS(currentMap->x() + moveX / 32, currentMap->y() + moveY / 32, currentMap->area())];
 	
 	// Regen monsters
-	for(unsigned int i = 0 ; i < currentMap->monsters().size() ; i++) {
+	for(u16 i = 0 ; i < currentMap->monsters().size() ; i++) {
 		currentMap->monsters()[i]->regen();
 	}
 }

@@ -17,42 +17,21 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	
 ---------------------------------------------------------------------------------*/
-#ifndef MAPMANAGER_H
-#define MAPMANAGER_H
+#include <iostream>
 
-// Map position in the area
-#define MAP_POS(x, y, area) (u16)((x) + (y) * sqrt((double)MapManager::areaSizes[(area)]))
+#include "includeSDL.h"
 
-namespace MapManager {
+#include "types.h"
+#include "color.h"
 
-// Tiles tables
-extern u16 nonPassableTiles[13];
-extern u16 changeMapTiles[3];
-
-// Tilesets infos
-extern u16 plainInfo[256];
-extern u16 indoorInfo[256];
-extern u16 undergroundInfo[256];
-
-// Tileset init function
-Image **initTilesets();
-
-// Sizes of map areas
-extern u16 areaSizes[MAP_AREAS];
-
-// Map init function
-Map*** initMaps();
-
-// Map update function
-void refreshMaps(Map **maps, s16 moveX, s16 moveY);
-
+Color::Color(u8 _r, u8 _g, u8 _b, u8 _a) {
+	// Set class members
+	r = _r;
+	g = _g;
+	b = _b;
+	a = _a;
 }
 
-// Get map id from area
-u16 _mid(u16 area, u16 id);
+Color::~Color() {
+}
 
-// Functions for tiles
-bool inTable(u16 *tiles, u16 id);
-bool inTiles(s16 tileX, s16 tileY, u16 *tiles);
-
-#endif // MAPMANAGER_H

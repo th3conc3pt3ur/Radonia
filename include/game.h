@@ -1,7 +1,7 @@
 /*---------------------------------------------------------------------------------
 	
 	Radonia
-	Copyright (C) 2013 Deloptia <deloptia.devteam@gmail.com>
+	Copyright (C) 2013-2014 Deloptia <deloptia.devteam@gmail.com>
 	
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -33,11 +33,11 @@ class Game {
 		void scroll();
 		
 		// Main window
-		static sf::RenderWindow *MainWindow;
-		static sf::Font *defaultFont;
+		static Window *MainWindow;
+		//static sf::Font *defaultFont;
 		
 		// Tilesets array
-		static sf::Texture **tilesets;
+		static Image **tilesets;
 		
 		// Map areas array
 		static Map ***mapAreas;

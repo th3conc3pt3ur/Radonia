@@ -1,7 +1,7 @@
 /*---------------------------------------------------------------------------------
 	
 	Radonia
-	Copyright (C) 2013 Deloptia <deloptia.devteam@gmail.com>
+	Copyright (C) 2013-2014 Deloptia <deloptia.devteam@gmail.com>
 	
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -19,21 +19,23 @@
 ---------------------------------------------------------------------------------*/
 #ifndef WEAPON_H
 #define WEAPON_H
-
+/*
 typedef enum {
 	WEAPON_MELEE,
 	WEAPON_TOOL,
 	WEAPON_PROJECTILE
 } WeaponType;
 
+class Character;
+
 class Weapon : public Sprite {
 	public:
 		// Constructor and destructor
-		Weapon(WeaponType type);
+		Weapon(char *filename, WeaponType type, Character *owner = NULL);
 		~Weapon();
 		
 		// Action function
-		void action();
+		virtual void action() = 0;
 		
 		// Get types
 		bool isMelee()		{ return m_type == WEAPON_MELEE;	  }
@@ -42,8 +44,27 @@ class Weapon : public Sprite {
 		
 	private:
 		// Type
-		WeaponType type;
+		WeaponType m_type;
 		
+		// Owner
+		Character *m_owner;
+		
+		// Weapon position
+		s16 m_x;
+		s16 m_y;
 };
+
+class Sword : public Weapon {
+	public:
+		// Constructor and destructor
+		Sword(Character *owner = NULL);
+		~Sword();
+		
+		// Action function
+		void action();
+		
+	private:
+		Timer m_loadingTimer;
+};*/
 
 #endif // WEAPON_H

@@ -1,7 +1,7 @@
 /*---------------------------------------------------------------------------------
 	
 	Radonia
-	Copyright (C) 2013 Deloptia <deloptia.devteam@gmail.com>
+	Copyright (C) 2013-2014 Deloptia <deloptia.devteam@gmail.com>
 	
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -20,8 +20,6 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-// TODO when back: put all movement/rendering/basic actions functions in Character
-
 class Player : public Character {
 	public:
 		// Constructor and destructor
@@ -32,17 +30,10 @@ class Player : public Character {
 		void move();
 		
 		// Action function
-		void action() {};
-		
-		// Sword attack
-		//void sword(); TODO: Weapon class
-		
-		// Get sword sprite
-		//Sprite *swordSpr() const { return m_swordSpr; }
+		void action() {}; //{ m_weapon->action(); }
 		
 	private:
-		// Sword sprite
-		//Sprite *m_swordSpr;
+		//Weapon *m_weapon;
 };
 
 #endif // PLAYER_H

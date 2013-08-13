@@ -1,7 +1,7 @@
 /*---------------------------------------------------------------------------------
 	
 	Radonia
-	Copyright (C) 2013 Deloptia <deloptia.devteam@gmail.com>
+	Copyright (C) 2013-2014 Deloptia <deloptia.devteam@gmail.com>
 	
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -18,16 +18,16 @@
 	
 ---------------------------------------------------------------------------------*/
 #include <iostream>
-#include <cstdio>
-#include <cstdlib>
 
-#include <SFML/System.hpp>
-#include <SFML/Audio.hpp>
-#include <SFML/Graphics.hpp>
+#include "includeSDL.h"
 
 #include "types.h"
+#include "color.h"
 #include "config.h"
+#include "window.h"
+#include "keyboard.h"
 #include "timer.h"
+#include "image.h"
 #include "animation.h"
 #include "sprite.h"
 #include "character.h"
@@ -47,32 +47,31 @@ Sprite *Interface::hearts = NULL;
 
 void Interface::titleScreen() {
 	// Load title screen background
-	sf::Texture titleScreenBgImg;
-	titleScreenBgImg.loadFromFile("graphics/interface/titleScreen.png");
-	sf::Sprite titleScreenBg;
-	titleScreenBg.setTexture(titleScreenBgImg);
+	Image *titleScreen = new Image((char*)"graphics/interface/titleScreen.png");
 	
 	// Wait for player
-	sf::Event event;
-	while(Game::MainWindow->isOpen()) {
+	SDL_Event event;
+	bool cont;
+	while(cont) {
 		// Close window: exit game
-		if((event.type == sf::Event::Closed) || (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape) || (sf::Mouse::isButtonPressed(sf::Mouse::Left) && sf::Mouse::getPosition(*Game::MainWindow).x > 222 && sf::Mouse::getPosition(*Game::MainWindow).x < 445 && sf::Mouse::getPosition(*Game::MainWindow).y > 323 && sf::Mouse::getPosition(*Game::MainWindow).y < 380)) {
-			Game::MainWindow->close();
-		}
-		
-		if(sf::Mouse::isButtonPressed(sf::Mouse::Left) && sf::Mouse::getPosition(*Game::MainWindow).x > 223 && sf::Mouse::getPosition(*Game::MainWindow).x < 445 && sf::Mouse::getPosition(*Game::MainWindow).y > 226 && sf::Mouse::getPosition(*Game::MainWindow).y < 333) {
-			break;
-		}
+		while(SDL_PollEvent(&event) != 0) {
+			switch(event.type) {
+				case SDL_QUIT: cont = false;
+			}
+		};
 		
 		// Clear main window
 		Game::MainWindow->clear();
 		
 		// Display background
-		Game::MainWindow->draw(titleScreenBg);
+		titleScreen->render();
 		
 		// Update main window display
-		Game::MainWindow->display();
+		Game::MainWindow->update();
 	}
+	
+	// Delete title screen image
+	delete titleScreen;
 }
 
 void Interface::initialize() {
@@ -91,13 +90,14 @@ void Interface::renderHUD() {
 	}
 	
 	// Render monsters lifes
-	for(unsigned int i = 0 ; i < Game::currentMap->monsters().size() ; i++) {
+	for(u16 i = 0 ; i < Game::currentMap->monsters().size() ; i++) {
 		if(Game::currentMap->monsters()[i]->lifes() > 0)
 			renderMonsterLife(Game::currentMap->monsters()[i]);
 	}
 }
 
 void Interface::renderMonsterLife(Monster *monster) {
+/*
 	// Initialize rectangles
 	sf::RectangleShape background(sf::Vector2f(16, 3));
 	background.setPosition(monster->x(), monster->y() - 5);
@@ -114,9 +114,11 @@ void Interface::renderMonsterLife(Monster *monster) {
 	Game::MainWindow->draw(background);
 	Game::MainWindow->draw(life);
 	Game::MainWindow->setView(Game::MainWindow->getDefaultView());
+*/
 }
 
 void Interface::newDialogBox(char *text) {
+/*	
 	// Initialize box
 	sf::RectangleShape box;
 	box.setPosition((MAP_WIDTH * 16) / 8, 3 * (MAP_HEIGHT * 16) / 4);
@@ -148,5 +150,6 @@ void Interface::newDialogBox(char *text) {
 	
 	// Reset view
 	Game::MainWindow->setView(Game::MainWindow->getDefaultView());	
+*/
 }
 

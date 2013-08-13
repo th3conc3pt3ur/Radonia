@@ -1,7 +1,7 @@
 /*---------------------------------------------------------------------------------
 	
 	Radonia
-	Copyright (C) 2013 Deloptia <deloptia.devteam@gmail.com>
+	Copyright (C) 2013-2014 Deloptia <deloptia.devteam@gmail.com>
 	
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -32,23 +32,17 @@ class Timer {
 		void reset();
 		
 		// Get time function
-		int time() { return (m_isStarted) ? clock.getElapsedTime().asMilliseconds() - m_t : m_tick; }
-		
-		// Initialization function
-		static void initTimers();
-		
-		// Time since global initialization (in seconds)
-		static sf::Clock clock;
+		u16 time() { return (m_isStarted) ? SDL_GetTicks() - m_t : m_tick; }
 		
 	private:
 		// Time at initialization
-		int m_t;
+		u16 m_t;
 		
 		// Is the timer started?
 		bool m_isStarted;
 		
 		// Time elapsed since initialization
-		int m_tick;
+		u16 m_tick;
 };
 
 #endif // TIMER_H

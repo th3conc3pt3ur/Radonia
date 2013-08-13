@@ -1,7 +1,7 @@
 /*---------------------------------------------------------------------------------
 	
 	Radonia
-	Copyright (C) 2013 Deloptia <deloptia.devteam@gmail.com>
+	Copyright (C) 2013-2014 Deloptia <deloptia.devteam@gmail.com>
 	
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -18,18 +18,19 @@
 	
 ---------------------------------------------------------------------------------*/
 #include <iostream>
-#include <cstdio>
-#include <cstdlib>
 
-#include <SFML/System.hpp>
-#include <SFML/Audio.hpp>
-#include <SFML/Graphics.hpp>
+#include "includeSDL.h"
 
 #include "types.h"
+#include "color.h"
 #include "config.h"
+#include "window.h"
+#include "keyboard.h"
 #include "timer.h"
+#include "image.h"
 #include "animation.h"
 #include "sprite.h"
+#include "weapon.h"
 #include "character.h"
 #include "monster.h"
 #include "NPC.h"
@@ -188,8 +189,8 @@ void Character::hurt() {
 		}
 		
 		// Change sprite texture
-		sf::Color c = m_spr.getColor();
-		m_spr.setColor(invertColor(c));
+		//sf::Color c = m_spr.getColor();
+		//m_spr.setColor(invertColor(c));
 		
 		// Get character direction vectors
 		s8 e_x = m_x - m_collidedCharacter->x();
@@ -231,7 +232,7 @@ void Character::hurt() {
 			//m_collidedWeapon = NULL;
 			if(isPlayer()) m_canMove = true;
 			else		   m_movementTimer.start();
-			m_spr.setColor(m_defaultColor);
+			//m_spr.setColor(m_defaultColor);
 		}
 	}
 	

@@ -17,42 +17,39 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	
 ---------------------------------------------------------------------------------*/
-#ifndef MAPMANAGER_H
-#define MAPMANAGER_H
+#include <iostream>
 
-// Map position in the area
-#define MAP_POS(x, y, area) (u16)((x) + (y) * sqrt((double)MapManager::areaSizes[(area)]))
+#include "includeSDL.h"
 
-namespace MapManager {
+#include "types.h"
+#include "init.h"
 
-// Tiles tables
-extern u16 nonPassableTiles[13];
-extern u16 changeMapTiles[3];
-
-// Tilesets infos
-extern u16 plainInfo[256];
-extern u16 indoorInfo[256];
-extern u16 undergroundInfo[256];
-
-// Tileset init function
-Image **initTilesets();
-
-// Sizes of map areas
-extern u16 areaSizes[MAP_AREAS];
-
-// Map init function
-Map*** initMaps();
-
-// Map update function
-void refreshMaps(Map **maps, s16 moveX, s16 moveY);
-
+void initSDL() {
+	// Initialize SDL
+	if(SDL_Init(SDL_INIT_VIDEO) < 0) {
+		fprintf(stderr, "SDL init error: %s\n", SDL_GetError());
+		exit(EXIT_FAILURE);
+	}
+	
+	// Initialize SDL_image
+	if(!IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG) {
+		fprintf(stderr, "SDL_image init error: %s\n", IMG_GetError());
+		exit(EXIT_FAILURE);
+	}
+	
+	// Enable VSync if possible
+	if(!SDL_SetHint(SDL_HINT_RENDER_VSYNC, "1")) {
+		fprintf(stderr, "Warning: VSync not enabled!");
+	}
+	
+	// Set texture filtering to linear if possible
+	if(!SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1")) {
+		fprintf(stderr, "Warning: Linear texture filtering not enabled!");
+	}
 }
 
-// Get map id from area
-u16 _mid(u16 area, u16 id);
+void exitSDL() {
+	IMG_Quit();
+	SDL_Quit();
+}
 
-// Functions for tiles
-bool inTable(u16 *tiles, u16 id);
-bool inTiles(s16 tileX, s16 tileY, u16 *tiles);
-
-#endif // MAPMANAGER_H
