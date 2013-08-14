@@ -155,6 +155,6 @@ void Window::updateViewportPosition(s16 x, s16 y) {
 }
 
 void Window::centerViewportWithObject(s16 x, s16 y, u16 w, u16 h) {
-	updateViewportPosition(x - (m_viewportW + w) / 2, y - (m_viewportH + h) / 2);
+	updateViewportPosition(x - (m_viewportW - w) / 2, y - (m_viewportH - h) / 2);
 }
 
