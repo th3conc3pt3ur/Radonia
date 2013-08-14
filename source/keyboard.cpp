@@ -101,8 +101,8 @@ void Keyboard::updatePad(SDL_Event *e) {
 	u16 py = Interface::pad->posRect()->y - Game::MainWindow->viewportY();
 	
 	// Get a button position
-	//u16 ax = Interface::buttonA->posRect()->x - Game::MainWindow->viewportX();
-	//u16 ay = Interface::buttonA->posRect()->y - Game::MainWindow->viewportY();
+	u16 ax = Interface::buttonA->posRect()->x - Game::MainWindow->viewportX();
+	u16 ay = Interface::buttonA->posRect()->y - Game::MainWindow->viewportY();
 	
 	// Reset pad
 	resetPad();
@@ -126,6 +126,11 @@ void Keyboard::updatePad(SDL_Event *e) {
 	// Right: (44;0;71;71)
 	if(fx > px + 44 + 8 && fx < px + 71 + 16 && fy > py - 16 && fy < py + 71 + 16) {
 		padState[PAD_RIGHT] = 1;
+	}
+	
+	// Button A
+	if(ax > px && ax < px + 32 && ay > py && ay < py + 32) {
+		padState[PAD_A] = 1;
 	}
 }
 
