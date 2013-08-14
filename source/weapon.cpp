@@ -88,7 +88,7 @@ void Sword::action() {
 		m_loadingTimer.reset();
 		
 		// Deblock directions
-		m_owner->m_canMove = true;
+		if(!(m_owner->collidedCharacter() && m_owner->collidedCharacter()->isMonster())) m_owner->m_canMove = true;
 	}
 	
 	// If the player attacks

@@ -123,7 +123,7 @@ void Player::move() {
 	CollisionManager::doorCollisions(this);
 	CollisionManager::testCollisions(this);
 	
-	if(m_collidedCharacter && m_collidedCharacter->isMonster() && isPlayer()) {
+	if(m_collidedCharacter && m_collidedCharacter->isMonster()) {
 		hurt();
 	}
 	
