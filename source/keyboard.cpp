@@ -97,24 +97,27 @@ void Keyboard::updatePad(SDL_Event *e) {
 	u16 px = Interface::pad->posRect()->x - Game::MainWindow->viewportX();
 	u16 py = Interface::pad->posRect()->y - Game::MainWindow->viewportY();
 	
+	// Reset pad
+	resetPad();
+	
 	// Test pad
 	// Up:    (0;0;71;28)
-	if(fx > px - 16 && fx < px + 71 + 16 && fy > py - 16 && fy < py + 28) {
+	if(fx > px - 16 && fx < px + 71 + 16 && fy > py - 16 && fy < py + 28 - 8) {
 		padState[PAD_UP] = 1;
 	}
 	
 	// Down:  (0;44;71;71)
-	if(fx > px - 16 && fx < px + 71 + 16 && fy > py + 44 && fy < py + 71 + 16) {
+	if(fx > px - 16 && fx < px + 71 + 16 && fy > py + 44 + 8 && fy < py + 71 + 16) {
 		padState[PAD_DOWN] = 1;
 	}
 	
 	// Left:  (0;0;28;71)
-	if(fx > px - 16 && fx < px + 28 && fy > py - 16 && fy < py + 71 + 16) {
+	if(fx > px - 16 && fx < px + 28 - 8 && fy > py - 16 && fy < py + 71 + 16) {
 		padState[PAD_LEFT] = 1;
 	}
 	
 	// Right: (44;0;71;71)
-	if(fx > px + 44 && fx < px + 71 + 16 && fy > py - 16 && fy < py + 71 + 16) {
+	if(fx > px + 44 + 8 && fx < px + 71 + 16 && fy > py - 16 && fy < py + 71 + 16) {
 		padState[PAD_RIGHT] = 1;
 	}
 }

@@ -106,9 +106,11 @@ void Interface::renderHUD() {
 		else if(i > entireHearts + ceil(piecesOfHearts) - 1) hearts->drawFrame(x + 16 * i, y, 0);
 	}
 	
+#ifdef __ANDROID__
 	// Render pad
 	pad->setPosRect(Game::MainWindow->viewportX() + 16, Game::MainWindow->viewportY() + Game::MainWindow->viewportH() - pad->height() - 16, pad->width(), pad->height());
 	pad->render();
+#endif
 	
 	// Render monsters lifes
 	for(u16 i = 0 ; i < Game::currentMap->monsters().size() ; i++) {
