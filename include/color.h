@@ -37,6 +37,8 @@ class Color {
 		
 		// Predefined colors
 		static Color white;
+		static Color black;
+		static Color life;
 };
 
 #endif // COLOR_H
