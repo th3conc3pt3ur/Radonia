@@ -27,7 +27,7 @@ class Window {
 		~Window();
 		
 		// Update window
-		void update();
+		void update(bool viewport = true);
 		
 		// Clear the window
 		void clear();

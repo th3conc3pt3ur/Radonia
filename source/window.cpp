@@ -94,10 +94,10 @@ Window::~Window() {
 	SDL_DestroyWindow(m_window);
 }
 
-void Window::update() {
+void Window::update(bool viewport) {
 #ifdef VIEWPORT
 	// Update viewport with player position
-	centerViewportWithObject(Game::player->x(), Game::player->y(), Game::player->frameSize(), Game::player->frameSize());
+	if(viewport) centerViewportWithObject(Game::player->x(), Game::player->y(), Game::player->frameSize(), Game::player->frameSize());
 #endif
 	
 	// Refresh window

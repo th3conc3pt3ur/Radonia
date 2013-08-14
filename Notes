@@ -11,7 +11,7 @@ FIXED:	9 - Map transition too fast
 		10 - Sometimes, when monster collided the player, the player isn't hurt, and the monster change way
 		11 - The player can slide on a monster without being hurt
 		12 - [ANDROID] Application is very slow sometimes
-		13 - [VIEWPORT] Bug during map scrolling
+FIXED:	13 - [VIEWPORT] Bug during map scrolling
 		14 - [VIEWPORT] Improve viewports ( screen ratio )
 		15 - [ANDROID] After indoor transition you can see a black flash
 		16 - [ANDROID] When you lock screen, you can't wake up to game ( app crash )

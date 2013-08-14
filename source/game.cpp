@@ -250,6 +250,11 @@ void Game::scroll() {
 		Map::viewRect.x += moveX;
 		Map::viewRect.y += moveY;
 		
+#ifdef VIEWPORT
+		// Update viewport
+		MainWindow->updateViewportPosition(MainWindow->viewportX() - moveX, MainWindow->viewportY() - moveY);
+#endif
+		
 		// Refresh display on time in two
 		if(i & 1) {
 			MainWindow->clear();
@@ -258,7 +263,7 @@ void Game::scroll() {
 			currentMap->renderMonsters();
 			player->render();
 			Interface::renderHUD();
-			MainWindow->update();
+			MainWindow->update(false);
 		}
 	}
 	
