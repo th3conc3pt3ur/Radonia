@@ -156,6 +156,7 @@ void Game::mainLoop() {
 					break;
 #ifdef __ANDROID__
 				case SDL_FINGERDOWN:
+				case SDL_FINGERMOTION:
 					Keyboard::updatePad(&event);
 					break;
 				case SDL_FINGERUP:

@@ -94,8 +94,8 @@ void Keyboard::updatePad(SDL_Event *e) {
 	u16 fy = e->tfinger.y * Game::MainWindow->viewportH();
 	
 	// Get pad position
-	u16 px = Interface::pad->posRect()->x;
-	u16 py = Interface::pad->posRect()->y;
+	u16 px = Interface::pad->posRect()->x - Game::MainWindow->viewportX();
+	u16 py = Interface::pad->posRect()->y - Game::MainWindow->viewportY();
 	
 	// Test pad
 	// Up:    (0;0;71;28)
