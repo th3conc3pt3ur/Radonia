@@ -158,6 +158,14 @@ void CollisionManager::doorCollisions(Character *c) {
 		Game::currentMap = Game::mapAreas[Game::doors[Game::doors[doorID]->nextDoorID]->mapArea][Game::doors[Game::doors[doorID]->nextDoorID]->mapID];
 		if(!Game::currentMap) exit(EXIT_FAILURE);
 		
+		// Regen monsters and reset positions
+		for(u16 i = 0 ; i < Game::currentMap->monsters().size() ; i++) {
+			Game::currentMap->monsters()[i]->reset();
+		}
+		for(u16 i = 0 ; i < Game::currentMap->NPCs().size() ; i++) {
+			Game::currentMap->NPCs()[i]->reset();
+		}
+		
 		c->x(Game::doors[Game::doors[doorID]->nextDoorID]->x);
 		c->y(Game::doors[Game::doors[doorID]->nextDoorID]->y);
 		c->direction(Game::doors[Game::doors[doorID]->nextDoorID]->direction);

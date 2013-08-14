@@ -81,6 +81,7 @@ Character::Character(char *filename, CharacterType type, s16 x, s16 y, Character
 	
 	m_moving = false;
 	
+	m_movementTimer.reset();
 	m_movementTimer.start();
 	
 	m_countMoves = 0;
@@ -250,5 +251,39 @@ void Character::hurt() {
 		// Reset timer last value
 		m_timerLastValue = m_hurtTimer.time();
 	}
+}
+
+void Character::reset() {
+	// Reset class members
+	m_hurtTimer.reset();
+	m_hurtTimer.start();
+	
+	m_timerLastValue = 0;
+	
+	m_x = m_dx;
+	m_y = m_dy;
+	
+	m_vx = 0;
+	m_vy = 0;
+	
+	m_collidedCharacter = NULL;
+	//m_collidedWeapon = NULL;
+	m_collidedTile = 0;
+	
+	m_moving = false;
+	
+	m_movementTimer.reset();
+	m_movementTimer.start();
+	
+	m_countMoves = 0;
+	m_vxCount = 0;
+	m_vyCount = 0;
+	
+	m_isAttacking = false;
+	
+	m_canMove = true;
+	m_canTurn = true;
+	
+	m_lifes = m_maxLifes;
 }
 

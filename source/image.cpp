@@ -56,7 +56,7 @@ Image::Image(char *filename) {
 	surface = IMG_Load_RW(file, 1);
 	
 	if(!surface) {
-		fprintf(stderr, "Failed to load image: %s\n", IMG_GetError());
+		fprintf(stderr, "Failed to load image \"%s\": %s\n", filename, IMG_GetError());
 		exit(EXIT_FAILURE);
 	}
 	

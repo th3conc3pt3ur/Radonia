@@ -20,6 +20,13 @@
 #ifndef KEYBOARD_H
 #define KEYBOARD_H
 
+typedef enum {
+	PAD_UP,
+	PAD_DOWN,
+	PAD_LEFT,
+	PAD_RIGHT
+} PadState;
+
 namespace Keyboard {
 	// Get keyboard state
 	const u8 *getState();
@@ -30,8 +37,17 @@ namespace Keyboard {
 	// Keyboard state
 	extern const u8 *state;
 	
+	// Pad state
+	extern u8 padState[4];
+	
 	// Update keyboard state
 	void update();
+	
+	// Reset pad state
+	void resetPad();
+	
+	// Update pad state
+	void updatePad(SDL_Event *e);
 	
 	// Force keyboard state update
 	void forceUpdate();

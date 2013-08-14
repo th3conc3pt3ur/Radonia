@@ -27,6 +27,9 @@ namespace Interface {
 	// Initialize interface
 	void initialize();
 	
+	// Unload interface
+	void unload();
+	
 	// Display HUD
 	void renderHUD();
 	
@@ -38,6 +41,9 @@ namespace Interface {
 	
 	// Hearts sprite
 	extern Sprite *hearts;
+	
+	// Pad image
+	extern Image *pad;
 }
 
 #endif // INTERFACE_H

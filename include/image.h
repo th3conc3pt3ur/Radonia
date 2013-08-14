@@ -33,6 +33,9 @@ class Image {
 		u16 width() const { return m_width; }
 		u16 height() const { return m_height; }
 		
+		// Get position
+		SDL_Rect *posRect() { return &m_posRect; }
+		
 		// Set color
 		void setColor(Color color) { SDL_SetTextureColorMod(m_texture, color.r, color.g, color.b); }
 		

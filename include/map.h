@@ -51,8 +51,14 @@ class Map {
 		// Get monsters
 		std::vector<Monster*> monsters() const { return m_monsters; }
 		
+		// Move NPCs
+		void moveNPCs();
+		
 		// Render NPCs
 		void renderNPCs();
+		
+		// Move monsters
+		void moveMonsters();
 		
 		// Render monsters
 		void renderMonsters();

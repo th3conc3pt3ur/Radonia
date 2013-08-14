@@ -110,6 +110,14 @@ Map::~Map() {
 void Map::render() {
 	for(u16 y = 0 ; y < m_height ; y++) {
 		for(u16 x = 0 ; x < m_width ; x++) {
+			// Get position
+			u16 posX = (x + m_x * MAP_WIDTH) * m_tileWidth - viewRect.x;
+			u16 posY = (y + m_y * MAP_HEIGHT) * m_tileHeight - viewRect.y;
+			
+			// If the tile isn't in the viewport: don't display it
+			if(posX < Game::MainWindow->viewportX() - m_tileWidth * (int)ceil((double)Game::MainWindow->viewportW() / (double)Game::MainWindow->viewportH()) || posX > Game::MainWindow->viewportX() + Game::MainWindow->viewportW()) continue;
+			if(posY < Game::MainWindow->viewportY() - m_tileHeight * (int)ceil((double)Game::MainWindow->viewportW() / (double)Game::MainWindow->viewportH()) || posY > Game::MainWindow->viewportY() + Game::MainWindow->viewportH()) continue;
+			
 			// Get tile id
 			u16 tile = getTile(x, y);
 			
@@ -118,7 +126,7 @@ void Map::render() {
 			u16 tileX = (tile - (tileY / m_tileHeight) * (m_tileset->width() / m_tileHeight)) * m_tileWidth;
 			
 			// Set position and clip tile to display
-			m_tileset->setPosRect((x + m_x * MAP_WIDTH) * m_tileWidth - viewRect.x, (y + m_y * MAP_HEIGHT) * m_tileHeight - viewRect.y, m_tileWidth, m_tileHeight);
+			m_tileset->setPosRect(posX, posY, m_tileWidth, m_tileHeight);
 			m_tileset->setClipRect(tileX, tileY, m_tileWidth, m_tileHeight);
 			
 			// Display the tile
@@ -135,17 +143,29 @@ u16 Map::getTile(u16 tileX, u16 tileY) {
 	}
 }
 
-void Map::renderNPCs() {
+void Map::moveNPCs() {
 	for(std::vector<NPC*>::iterator it = m_NPCs.begin() ; it != m_NPCs.end() ; it++) {
 		(*it)->move();
+	}
+}
+
+void Map::renderNPCs() {
+	for(std::vector<NPC*>::iterator it = m_NPCs.begin() ; it != m_NPCs.end() ; it++) {
 		(*it)->render();
+	}
+}
+
+void Map::moveMonsters() {
+	for(std::vector<Monster*>::iterator it = m_monsters.begin() ; it != m_monsters.end() ; it++) {
+		if((*it)->lifes() > 0) {
+			(*it)->move();
+		}
 	}
 }
 
 void Map::renderMonsters() {
 	for(std::vector<Monster*>::iterator it = m_monsters.begin() ; it != m_monsters.end() ; it++) {
 		if((*it)->lifes() > 0) {
-			(*it)->move();
 			(*it)->render();
 		}
 	}

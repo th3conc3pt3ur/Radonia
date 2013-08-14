@@ -44,6 +44,7 @@
 #include "game.h"
 
 Sprite *Interface::hearts = NULL;
+Image *Interface::pad = NULL;
 
 void Interface::titleScreen() {
 	// Load title screen background
@@ -75,8 +76,18 @@ void Interface::titleScreen() {
 }
 
 void Interface::initialize() {
-	// Load sprite
+	// Load hearts sprite
 	hearts = new Sprite((char*)"graphics/interface/hearts.png");
+	
+	// Load pad image
+	pad = new Image((char*)"graphics/interface/pad.png");
+	pad->setAlpha(175);
+}
+
+void Interface::unload() {
+	// Delete images
+	delete hearts;
+	delete pad;
 }
 
 void Interface::renderHUD() {
@@ -94,6 +105,10 @@ void Interface::renderHUD() {
 		else if(i == entireHearts + ceil(piecesOfHearts) - 1) hearts->drawFrame(x + 16 * i, y, ((i < entireHearts + ceil(piecesOfHearts) - 1) ? 4 : piecesOfHearts * 4));
 		else if(i > entireHearts + ceil(piecesOfHearts) - 1) hearts->drawFrame(x + 16 * i, y, 0);
 	}
+	
+	// Render pad
+	pad->setPosRect(Game::MainWindow->viewportX() + 16, Game::MainWindow->viewportY() + Game::MainWindow->viewportH() - pad->height() - 16, pad->width(), pad->height());
+	pad->render();
 	
 	// Render monsters lifes
 	for(u16 i = 0 ; i < Game::currentMap->monsters().size() ; i++) {

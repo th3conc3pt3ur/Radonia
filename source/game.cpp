@@ -65,6 +65,9 @@ Game::Game() {
 	// Get current display mode
 	int success = SDL_GetCurrentDisplayMode(0, &current);
 	
+	// Log cat
+	__android_log_print(ANDROID_LOG_INFO, "Radonia", "Current display: %dx%d", current.w, current.h);
+	
 	// Create the main window
 	MainWindow = new Window((char*)"Radonia", current.w, current.h);
 #else
@@ -115,6 +118,9 @@ Game::Game() {
 }
 
 Game::~Game() {
+	// Unload interface
+	Interface::unload();
+	
 	// Delete main window
 	delete MainWindow;
 	
@@ -145,14 +151,18 @@ void Game::mainLoop() {
 		SDL_Event event;
 		while(SDL_PollEvent(&event) != 0) {
 			switch(event.type) {
-				case SDL_QUIT: m_continue = false;
+				case SDL_QUIT:
+					m_continue = false;
+					break;
+#ifdef __ANDROID__
+				case SDL_FINGERDOWN:
+					Keyboard::updatePad(&event);
+					break;
+				case SDL_FINGERUP:
+					Keyboard::resetPad();
+					break;
+#endif
 			}
-		}
-		
-		actualTime = SDL_GetTicks();
-		if(actualTime - lastTime < 20) {
-			SDL_Delay(20 - (actualTime - lastTime));
-			continue;
 		}
 		
 		// Update keyboard state
@@ -160,6 +170,22 @@ void Game::mainLoop() {
 		
 		// Test for map scrolling
 		scroll();
+		
+		// Make if framerate independant
+		actualTime = SDL_GetTicks();
+		if(actualTime - lastTime < 15) {
+			SDL_Delay(15 - (actualTime - lastTime));
+			continue;
+		}
+		
+		// Move NPCs
+		currentMap->moveNPCs();
+		
+		// Move monsters
+		currentMap->moveMonsters();
+		
+		// Move player
+		player->move();
 		
 		// Clear screen
 		MainWindow->clear();
@@ -175,9 +201,6 @@ void Game::mainLoop() {
 		
 		// Render player
 		player->render();
-		
-		// Move player
-		player->move();
 		
 		// Render HUD
 		Interface::renderHUD();
@@ -244,14 +267,13 @@ void Game::scroll() {
 	   && currentMap->x() + moveX / 16 < WM_SIZE
 	   && currentMap->y() + moveY / 16 >= 0
 	   && currentMap->y() + moveY / 16 < WM_SIZE) currentMap = mapAreas[currentMap->area()][MAP_POS(currentMap->x() + moveX / 16, currentMap->y() + moveY / 16, currentMap->area())];
-	 
+	
 	// Regen monsters and reset positions
 	for(u16 i = 0 ; i < currentMap->monsters().size() ; i++) {
-		currentMap->monsters()[i]->regen();
-		currentMap->monsters()[i]->resetPos();
+		currentMap->monsters()[i]->reset();
 	}
 	for(u16 i = 0 ; i < currentMap->NPCs().size() ; i++) {
-		currentMap->NPCs()[i]->resetPos();
+		currentMap->NPCs()[i]->reset();
 	}
 }
 

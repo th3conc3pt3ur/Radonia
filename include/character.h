@@ -52,6 +52,9 @@ class Character : public Sprite {
 		// Hurt comportement
 		void hurt();
 		
+		// Reset character attributes
+		void reset();
+		
 		// Get character position
 		s16 x() const { return m_x; }
 		s16 y() const { return m_y; }
@@ -63,9 +66,6 @@ class Character : public Sprite {
 		// Get character lifes
 		s16 lifes() const { return m_lifes; }
 		u16 maxLifes() const { return m_maxLifes; }
-		
-		// Regenerate a character
-		void regen() { m_lifes = m_maxLifes; }
 		
 		// Get map id
 		s16 mapID() const { return m_mapID; }
@@ -89,9 +89,6 @@ class Character : public Sprite {
 		// Set position
 		void x(s16 x) { m_x = x; }
 		void y(s16 y) { m_y = y; }
-		
-		// Reset position
-		void resetPos() { m_x = m_dx; m_y = m_dy; }
 		
 		// Set movement vectors
 		void vx(s8 vx) { m_vx = vx; }
