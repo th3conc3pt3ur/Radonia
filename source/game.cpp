@@ -58,6 +58,9 @@ Monster **Game::monsters = NULL;
 Player *Game::player = NULL;
 
 Game::Game() {
+	// Initialize random seed
+	srand(time(NULL));
+	
 #ifdef __ANDROID__
 	// Initialize display mode
 	SDL_DisplayMode current;

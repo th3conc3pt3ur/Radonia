@@ -26,11 +26,16 @@ class Color {
 		Color(u8 _r, u8 _g, u8 _b, u8 _a = 255);
 		~Color();
 		
+		// Invert color
+		void invert() { r=255-r; g=255-g; b=255-b; }
+		
+		// Color attributes
 		u8 r;
 		u8 g;
 		u8 b;
 		u8 a;
 		
+		// Predefined colors
 		static Color white;
 };
 

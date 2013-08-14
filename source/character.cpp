@@ -193,8 +193,7 @@ void Character::hurt() {
 		}
 		
 		// Change sprite texture
-		//sf::Color c = m_spr.getColor();
-		//m_spr.setColor(invertColor(c));
+		SDL_SetTextureColorMod(m_texture, rand()%255, rand()%255, rand()%255);
 		
 		// Get character direction vectors
 		s8 e_x = m_x - m_collidedCharacter->x();
@@ -236,7 +235,7 @@ void Character::hurt() {
 			//m_collidedWeapon = NULL;
 			if(isPlayer()) m_canMove = true;
 			else		   m_movementTimer.start();
-			//m_spr.setColor(m_defaultColor);
+			SDL_SetTextureColorMod(m_texture, 255, 255, 255);
 		}
 	}
 	
