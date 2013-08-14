@@ -72,13 +72,21 @@ void Sword::action() {
 	s16 mx = 0; s16 my = 0;
 	
 	// If attack key is pressed and the player isn't attacking
-	if(Keyboard::isKeyPressed(Keyboard::GameAttack) && !m_owner->m_isAttacking) {
-		// Update attack state
-		m_owner->m_isAttacking = true;
-		
-		// Block commands
-		m_owner->m_canMove = false;
-		m_owner->m_canTurn = false;
+	if(Keyboard::isKeyPressed(Keyboard::GameAttack)) {
+		if(!m_owner->m_isAttacking) { 
+			// Update attack state
+			m_owner->m_isAttacking = true;
+			
+			// Block commands
+			m_owner->m_canMove = false;
+		} else {
+			// Reset timer
+			m_loadingTimer.reset();
+			m_loadingTimer.start();
+			
+			// Block commands
+			m_owner->m_canMove = false;
+		}
 	}
 	
 	// If attack key isn't pressed

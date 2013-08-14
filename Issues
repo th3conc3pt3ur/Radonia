@@ -1,14 +1,14 @@
-FIXED:	1 - NPCs and Monsters don't scroll with the map
-		2 - Monsters can move out of the map
-		3 - NPCs and Monsters can move over non passable tiles ( not perfect )
-		4 - Monsters don't go back correctly sometimes when they're hurt
-FIXED:	5 - Monsters' textures bug when they're hurt
-		6 - Sword animation is quite strange
-FIXED:	7 - Sometimes, NPCs, monsters, or both, don't spawn
-		8 - Player can moonwalk
-FIXED:	9 - Map transition too fast
-		10 - Sometimes, when a monster moves collided the player, the player isn't hurt, and the monster change way
-		11 - The player can slide on a monster without being hurt
+FIXED:	 1 - [NPCS/MONSTERS] [SCROLLING] NPCs and Monsters don't scroll with the map
+		 2 - [NPCS/MONSTERS] [MOVEMENT] NPCs and monsters can move out of the map
+		 3 - [NPCS/MONSTERS] [COLLISIONS] NPCs and monsters can move over non passable tiles ( not perfect )
+		 4 - [MONSTERS] [HURTING] Monsters don't go back correctly sometimes when they're hurt
+FIXED:	 5 - [MONSTERS] [TEXTURE] Monsters' textures bug when they're hurt
+FIXED:	 6 - [SWORD] [ANIMATION] Sword animation is quite strange
+FIXED:	 7 - [NPCS/MONSTERS] [DISPLAY] Sometimes, NPCs, monsters, or both, don't spawn
+		 8 - [PLAYER] [MOVEMENT] Player can moonwalk
+FIXED:	 9 - [MAP] [TRANSITION] Map transition too fast
+		10 - [MONSTERS/PLAYER] [COLLISIONS] Sometimes, when a monster moves collided the player, the player isn't hurt, and the monster changes way
+		11 - [PLAYER/MONSTERS] [COLLISIONS] The player can slide on a monster without being hurt
 		12 - [ANDROID] Application is very slow sometimes
 FIXED:	13 - [VIEWPORT] Bug during map scrolling
 		14 - [VIEWPORT] Improve viewports ( screen ratio )
@@ -19,4 +19,7 @@ FIXED:	15 - [ANDROID] After indoor transition you can see a black flash
 		19 - Sometimes the player is blocked in a monster
 		20 - Sometimes, when hurt, the player is blocked in a non passable tile
 		21 - [ANDROID] Map transition too fast
-		
+		22 - [PLAYER] [ATTACK] [SWORD] It's possible to see the normal player animation behind the attacking one
+		23 - [PLAYER] [ATTACK] [SWORD] Sword attack loops ( no loading )
+		24 - [PLAYER] [ATTACK] [SWORD] It's not possible to stop current attack to start a new one
+		25 - [PLAYER] [ATTACK] [SWORD] While tapping fast on attack key, you can move back
