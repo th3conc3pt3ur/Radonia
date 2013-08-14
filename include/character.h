@@ -76,6 +76,9 @@ class Character : public Sprite {
 		// Get in door state
 		bool inDoor() const { return m_inDoor; }
 		
+		// Get movement timer
+		Timer movementTimer() { return m_movementTimer; }
+		
 		// Types
 		bool isPlayer()  { return m_type == CHARA_PLAYER;	}
 		bool isNPC()	 { return m_type == CHARA_NPC;		}

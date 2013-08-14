@@ -1,10 +1,10 @@
-FIXED:	1 - NPCs and Monsters don't scroll with the map (game.cpp:scroll)
-		2 - Monsters can move out of the map (sprite.h:102/103)
-		3 - NPCs and Monsters can move over non passable tiles (sprite.cpp:201)
-		4 - Monsters don't go back correctly when they're hurt (player.cpp:280)
-		5 - Monsters' textures bug when they're hurt (sprite.cpp:214)
-		6 - Sword animation is quite strange (player.cpp:sword)
-FIXED:	7 - Sometimes, NPCs, monsters, or both, don't spawn (???)
+FIXED:	1 - NPCs and Monsters don't scroll with the map
+		2 - Monsters can move out of the map
+		3 - NPCs and Monsters can move over non passable tiles ( almost fixed )
+		4 - Monsters don't go back correctly sometimes when they're hurt
+FIXED:	5 - Monsters' textures bug when they're hurt
+		6 - Sword animation is quite strange
+FIXED:	7 - Sometimes, NPCs, monsters, or both, don't spawn
 		8 - Player can moonwalk
 FIXED:	9 - Map transition too fast
 		10 - Sometimes, when monster collided the player, the player isn't hurt, and the monster change way

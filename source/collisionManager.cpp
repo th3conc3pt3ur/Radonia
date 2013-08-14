@@ -108,6 +108,9 @@ bool CollisionManager::passable(Character *c, s16 x, s16 y) {
 }
 
 void CollisionManager::testCollisions(Character *c){
+	// Be sure movement timer is started
+	if(!c->movementTimer().isStarted()) c->movementTimer().start();
+	
 	// 0: Right | 1: Left | 2: Up | 3:Down
 	for(u8 i = 0 ; i < 4 ; i++) {
 		if(((i==0)?(c->vx() > 0):((i==1)?(c->vx() < 0):((i==2)?(c->vy() < 0):(c->vy() > 0))))
@@ -116,6 +119,9 @@ void CollisionManager::testCollisions(Character *c){
 			// Reset movement vector
 			if(i<2) c->vx(0);
 			else	c->vy(0);
+			
+			// Stop movement timer
+			c->movementTimer().stop();
 			
 			// Obstacles
 			if( passable(c, c->x() + collisionMatrix[i][2], c->y() + collisionMatrix[i][3])
@@ -141,6 +147,7 @@ void CollisionManager::doorCollisions(Character *c) {
 		// Reset movement vectors
 		c->vx(0);
 		c->vy(0);
+		c->movementTimer().stop();
 		
 		// Search for the door
 		s16 doorID = DoorManager::findDoorID(c->x(), c->y(), Game::currentMap->id(), Game::currentMap->area());

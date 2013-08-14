@@ -31,6 +31,9 @@ class Timer {
 		void start();
 		void reset();
 		
+		// Is the timer started?
+		bool isStarted() const { return m_isStarted; }
+		
 		// Get time function
 		u16 time() { return (m_isStarted) ? SDL_GetTicks() - m_t : m_tick; }
 		

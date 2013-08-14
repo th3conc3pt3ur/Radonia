@@ -102,21 +102,6 @@ Character::~Character() {
 }
 
 void Character::move() {
-	// If player collided monster, don't move
-	if(((m_x + 2 > Game::player->x() && m_x + 2 < Game::player->x() + 16)
-	&&  (m_y + 2 > Game::player->y() && m_y + 2 < Game::player->y() + 16))
-	|| ((m_x + 14 > Game::player->x() && m_x + 14 < Game::player->x() + 16)
-	&&  (m_y + 2 > Game::player->y() && m_y + 2 < Game::player->y() + 16))
-	|| ((m_x + 2 > Game::player->x() && m_x + 2 < Game::player->x() + 16)
-	&&  (m_y + 14 > Game::player->y() && m_y + 14 < Game::player->y() + 16))
-	|| ((m_x + 14 > Game::player->x() && m_x + 14 < Game::player->x() + 16)
-	&&  (m_y + 14 > Game::player->y() && m_y + 14 < Game::player->y() + 16))) {
-		m_movementTimer.stop();
-		Game::player->collidedCharacter(this);
-		return;
-	}
-	else m_movementTimer.start();
-	
 	// Move or not?
 	if(m_movementTimer.time() > 4000) {
 		// Update movement vectors
@@ -165,6 +150,9 @@ void Character::move() {
 	CollisionManager::testCollisions(this);
 	
 	if(m_collidedCharacter && m_collidedCharacter->isMonster() && isPlayer()) {
+		hurt();
+	}
+	if(m_collidedCharacter && m_collidedCharacter->isPlayer() && isMonster()) {
 		hurt();
 	}
 	
@@ -249,6 +237,9 @@ void Character::hurt() {
 		
 		// Reset timer last value
 		m_timerLastValue = m_hurtTimer.time();
+		
+		// Reset color
+		SDL_SetTextureColorMod(m_texture, 255, 255, 255);
 	}
 }
 

@@ -62,8 +62,10 @@ export INCLUDE	:=	$(foreach dir,$(INCLUDES),-I$(CURDIR)/$(dir))
 
 export LIBPATHS	:=	$(foreach dir,$(LIBDIRS),-L$(dir)/lib)
 
+export NDK_PROJECT_PATH := $(CURDIR)/$(TARGET)Droid
+
 #---------------------------------------------------------------------------------
-.PHONY: $(BUILD) clean run maps install uninstall
+.PHONY: $(BUILD) clean run edit maps install uninstall droid
 #------------------------------------------------------------------------------
 $(BUILD):
 	@[ -d $@ ] || mkdir -p $@
@@ -73,6 +75,11 @@ $(BUILD):
 run:
 	@echo running ...
 	@./$(TARGET)
+
+#---------------------------------------------------------------------------------
+edit:
+	@echo editing ...
+	@sudo gvim -c "Project $(TARGET).vimproj"
 
 #---------------------------------------------------------------------------------
 maps:
@@ -94,6 +101,18 @@ install:
 uninstall:
 	@rm -f /usr/bin/$(TARGET)
 	@echo uninstalled.
+
+#---------------------------------------------------------------------------------
+droid:
+	@echo making for android ...
+	@cd $(TARGET)Droid && \
+	pwd && \
+	$(ANDROID_NDK)/ndk-build && \
+	ant debug && \
+	dropbox start > /dev/null && \
+	cp -f bin/$(TARGET)-debug.apk ~/Dropbox/Public/$(TARGET)-debug.apk && \
+	cd ..
+	@echo done.
 
 #---------------------------------------------------------------------------------
 else
