@@ -19,4 +19,5 @@ FIXED:	15 - [ANDROID] After indoor transition you can see a black flash
 		18 - [ANDROID] [PAD] Pad main directions are PAD_LEFT and PAD_RIGHT ( fix pad to make it perfectly working )
 		19 - Sometimes the player is blocked in a monster
 		20 - Sometimes, when hurt, the player is blocked in a non passable tile
+		21 - [ANDROID] Map transition too fast
 		
