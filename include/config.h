@@ -37,8 +37,8 @@
 
 #define CHARACTER_SPEED 1
 
-//#ifdef __ANDROID__
+#ifdef __ANDROID__
 	#define VIEWPORT
-//#endif
+#endif
 
 #endif // CONFIG_H

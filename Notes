@@ -13,7 +13,7 @@ FIXED:	9 - Map transition too fast
 		12 - [ANDROID] Application is very slow sometimes
 FIXED:	13 - [VIEWPORT] Bug during map scrolling
 		14 - [VIEWPORT] Improve viewports ( screen ratio )
-		15 - [ANDROID] After indoor transition you can see a black flash
+FIXED:	15 - [ANDROID] After indoor transition you can see a black flash
 		16 - [ANDROID] When you lock screen, you can't wake up to game ( app crash )
 		17 - [ANDROID] [VIEWPORT] [960x540] Viewport don't display correctly
 		18 - [ANDROID] [PAD] Pad main directions are PAD_LEFT and PAD_RIGHT ( fix pad to make it perfectly working )
