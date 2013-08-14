@@ -149,12 +149,9 @@ void Character::move() {
 	CollisionManager::doorCollisions(this);
 	CollisionManager::testCollisions(this);
 	
-	if(m_collidedCharacter && m_collidedCharacter->isMonster() && isPlayer()) {
+	/*if(m_collidedCharacter && m_collidedCharacter->isPlayer() && isMonster()) {
 		hurt();
-	}
-	if(m_collidedCharacter && m_collidedCharacter->isPlayer() && isMonster()) {
-		hurt();
-	}
+	}*/
 	
 	// Move character
 	m_x += m_vx * CHARACTER_SPEED;
@@ -166,8 +163,10 @@ void Character::move() {
 }
 
 void Character::render() {
-	if(m_moving) playAnimation(m_x, m_y, m_direction);
-	else drawFrame(m_x, m_y, m_direction);
+	if(!m_isAttacking || m_weapon->loadingTimer().time() != 0) {
+		if(m_moving) playAnimation(m_x, m_y, m_direction);
+		else drawFrame(m_x, m_y, m_direction);
+	}
 }
 
 void Character::hurt() {

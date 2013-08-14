@@ -25,20 +25,21 @@
 #define NB_TILESETS 3
 
 #define WM_SIZE 2
-#define INDOOR_MAPS 2
+#define INDOOR_MAPS 3
 
 #define NB_NPCs 1
 #define NB_MONSTERS 1
 
-#define DOORS 10
+#define DOORS 12
 
 #define MAP_WIDTH 40
 #define MAP_HEIGHT 30
 
 #define CHARACTER_SPEED 1
 
-#ifdef __ANDROID__
+//#ifdef __ANDROID__
 	#define VIEWPORT
-#endif
+	#define PAD
+//#endif
 
 #endif // CONFIG_H

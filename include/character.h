@@ -171,7 +171,10 @@ class Character : public Sprite {
 		bool m_inDoor;
 		
 		// Friend class Weapon
-		friend class Weapon;
+		friend class Sword;
+		
+		// Character's weapon
+		Weapon *m_weapon;
 };
 
 #endif // CHARACTER_H

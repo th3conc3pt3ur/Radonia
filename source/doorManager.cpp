@@ -59,6 +59,9 @@ Door** DoorManager::initDoors() {
 	doors[8] = new Door{0, MAP_POS(1, 1, 0), 10 << 4, 24 << 4, DIR_UP, 9};
 	doors[9] = new Door{2, MAP_POS(1, 0, 2), 37 << 4, 19 << 4, DIR_LEFT, 8};
 	
+	doors[10] = new Door{0, MAP_POS(1, 0, 0), 17 << 4, 16 << 4, DIR_DOWN, 11};
+	doors[11] = new Door{1, 2, (19 << 4) + 8, 20 << 4, DIR_UP, 10};
+	
 	return doors;
 }
 

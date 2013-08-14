@@ -24,7 +24,8 @@ typedef enum {
 	PAD_UP,
 	PAD_DOWN,
 	PAD_LEFT,
-	PAD_RIGHT
+	PAD_RIGHT,
+	PAD_A
 } PadState;
 
 namespace Keyboard {
@@ -38,7 +39,7 @@ namespace Keyboard {
 	extern const u8 *state;
 	
 	// Pad state
-	extern u8 padState[4];
+	extern u8 padState[5];
 	
 	// Update keyboard state
 	void update();
@@ -57,6 +58,7 @@ namespace Keyboard {
 	extern const u32 GameDown;
 	extern const u32 GameLeft;
 	extern const u32 GameRight;
+	extern const u32 GameAttack;
 };
 
 #endif // KEYBOARD_H

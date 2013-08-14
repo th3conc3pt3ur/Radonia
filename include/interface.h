@@ -44,6 +44,9 @@ namespace Interface {
 	
 	// Pad image
 	extern Image *pad;
+	
+	// Buttons images
+	extern Image *buttonA;
 }
 
 #endif // INTERFACE_H

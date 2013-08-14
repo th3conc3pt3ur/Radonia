@@ -47,7 +47,6 @@
 #include "interface.h"
 #include "game.h"
 
-/*
 Weapon::Weapon(char *filename, WeaponType type, Character *owner) : Sprite(filename) {
 	// Set class members
 	m_type = type;
@@ -72,17 +71,18 @@ void Sword::action() {
 	// Sword position
 	s16 mx = 0; s16 my = 0;
 	
-	// If S is pressed and the player isn't attacking
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::S) && !m_owner->m_isAttacking) {
+	// If attack key is pressed and the player isn't attacking
+	if(Keyboard::isKeyPressed(Keyboard::GameAttack) && !m_owner->m_isAttacking) {
 		// Update attack state
 		m_owner->m_isAttacking = true;
 		
 		// Block commands
 		m_owner->m_canMove = false;
+		m_owner->m_canTurn = false;
 	}
 	
-	// If S isn't pressed
-	if(!sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+	// If attack key isn't pressed
+	if(!Keyboard::isKeyPressed(Keyboard::GameAttack)) {
 		// Reset sword loading timer
 		m_loadingTimer.stop();
 		m_loadingTimer.reset();
@@ -95,8 +95,8 @@ void Sword::action() {
 	if(m_owner->m_isAttacking) {
 		// If the animation is at end
 		if(m_owner->animationAtEnd(m_owner->m_direction + 4)) {
-			// Stop attacking is S is released
-			if(!sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+			// Stop attacking is attack is released
+			if(!Keyboard::isKeyPressed(Keyboard::GameAttack)) {
 				m_owner->m_isAttacking = false;
 				
 				// Deblock movements
@@ -119,65 +119,66 @@ void Sword::action() {
 		
 		if(m_loadingTimer.time() == 0) {
 			// Play attack animation
-			playAnimation(m_x, m_y, m_direction + 4);
+			m_owner->playAnimation(m_owner->m_x, m_owner->m_y, m_owner->m_direction + 4);
 			
 			// Get sword position
-			switch(m_direction) {
-				case Direction::Down:
-					if(animationAtFrame(m_direction, 0))	  { mx = -12;	my = 0;  }
-					else if(animationAtFrame(m_direction, 1)) { mx = -12;	my = 12; }
-					else if(animationAtFrame(m_direction, 2)) { mx = 0;		my = 16; }
-					else if(animationAtFrame(m_direction, 3)) { mx = 0;		my = 16; }
+			switch(m_owner->m_direction) {
+				case DIR_DOWN:
+					if(animationAtFrame(m_owner->m_direction, 0))	{ mx = -12;	my = 0;  }
+					else if(animationAtFrame(m_owner->m_direction, 1))		{ mx = -12;	my = 12; }
+					else if(animationAtFrame(m_owner->m_direction, 2))		{ mx = 0;		my = 16; }
+					else if(animationAtFrame(m_owner->m_direction, 3))		{ mx = 0;		my = 16; }
 					break;
-				case Direction::Right:
-					if(animationAtFrame(m_direction, 0))	  { mx = 0;		my = -12; }
-					else if(animationAtFrame(m_direction, 1)) { mx = 12;	my = -12; }
-					else if(animationAtFrame(m_direction, 2)) { mx = 12;	my = 0;   }
-					else if(animationAtFrame(m_direction, 3)) { mx = 12;	my = 0;   }
+				case DIR_RIGHT:
+					if(animationAtFrame(m_owner->m_direction, 0))			{ mx = 0;		my = -12; }
+					else if(animationAtFrame(m_owner->m_direction, 1))		{ mx = 12;	my = -12; }
+					else if(animationAtFrame(m_owner->m_direction, 2))		{ mx = 12;	my = 0;   }
+					else if(animationAtFrame(m_owner->m_direction, 3))		{ mx = 12;	my = 0;   }
 					break;
-				case Direction::Left:
-					if(animationAtFrame(m_direction, 0))	  { mx = 0;		my = -12; }
-					else if(animationAtFrame(m_direction, 1)) { mx = -12;	my = -12; }
-					else if(animationAtFrame(m_direction, 2)) { mx = -12;	my = 0;   }
-					else if(animationAtFrame(m_direction, 3)) { mx = -12;	my = 0;   }
+				case DIR_LEFT:
+					if(animationAtFrame(m_owner->m_direction, 0))			{ mx = 0;		my = -12; }
+					else if(animationAtFrame(m_owner->m_direction, 1))		{ mx = -12;	my = -12; }
+					else if(animationAtFrame(m_owner->m_direction, 2))		{ mx = -12;	my = 0;   }
+					else if(animationAtFrame(m_owner->m_direction, 3))		{ mx = -12;	my = 0;   }
 					break;
-				case Direction::Up:	
-					if(animationAtFrame(m_direction, 0))	  { mx = 12;	my = 0;  }
-					else if(animationAtFrame(m_direction, 1)) { mx = 12;	my = -12; }
-					else if(animationAtFrame(m_direction, 2)) { mx = 0;		my = -12; }
-					else if(animationAtFrame(m_direction, 3)) { mx = 0;		my = -12; }
+				case DIR_UP:	
+					if(animationAtFrame(m_owner->m_direction, 0))			{ mx = 12;	my = 0;  }
+					else if(animationAtFrame(m_owner->m_direction, 1))		{ mx = 12;	my = -12; }
+					else if(animationAtFrame(m_owner->m_direction, 2))		{ mx = 0;		my = -12; }
+					else if(animationAtFrame(m_owner->m_direction, 3))		{ mx = 0;		my = -12; }
 					break;
 				default: break;
 			}
 			
 			// Play sword animation
-			playAnimation(m_x + mx, m_y + my, m_direction);
+			playAnimation(m_owner->m_x + mx, m_owner->m_y + my, m_owner->m_direction);
 		} else {
 			// Get sword position
-			switch(m_direction) {
-				case Direction::Down:	mx = 0;		my = 16;	break;
-				case Direction::Right:	mx = 12;	my = 0;		break;
-				case Direction::Left:	mx = -12;	my = 0;		break;
-				case Direction::Up:		mx = 0;		my = -12;	break;
+			switch(m_owner->m_direction) {
+				case DIR_DOWN:	mx = 0;		my = 16;	break;
+				case DIR_RIGHT:	mx = 12;	my = 0;		break;
+				case DIR_LEFT:	mx = -12;	my = 0;		break;
+				case DIR_UP:	mx = 0;		my = -12;	break;
 				default: break;
 			}
 			
 			// Draw sword
-			drawFrame(m_x + mx, m_y + my, m_direction + 8);
+			drawFrame(m_owner->m_x + mx, m_owner->m_y + my, m_owner->m_direction + 8);
 		}
 		
+		/*
 		// Test if sword collided a monster
-		if((!passable(this, m_x +  2, m_y +  2)
-		||  !passable(this, m_x + 14, m_y +  2)
-		||  !passable(this, m_x +  2, m_y + 14)
-		||  !passable(this, m_x + 14, m_y + 14))
+		if((!CollisionManager::passable(this, m_x +  2, m_y +  2)
+		||  !CollisionManager::passable(this, m_x + 14, m_y +  2)
+		||  !CollisionManager::passable(this, m_x +  2, m_y + 14)
+		||  !CollisionManager::passable(this, m_x + 14, m_y + 14))
 		&& m_owner->collidedCharacter() && m_owner->collidedCharacter()->isMonster()) {
 			// Hurt monster
 			m_owner->collidedCharacter()->hurt();
 			
 			// Move it
 			m_owner->collidedCharacter()->move();
-		}
+		}*/
 	}
 }
-*/
+

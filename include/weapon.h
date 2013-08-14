@@ -19,7 +19,7 @@
 ---------------------------------------------------------------------------------*/
 #ifndef WEAPON_H
 #define WEAPON_H
-/*
+
 typedef enum {
 	WEAPON_MELEE,
 	WEAPON_TOOL,
@@ -42,7 +42,10 @@ class Weapon : public Sprite {
 		bool isTool()		{ return m_type == WEAPON_TOOL;		  }
 		bool isProjectile() { return m_type == WEAPON_PROJECTILE; }
 		
-	private:
+		// Get loading timer
+		Timer loadingTimer() const { return m_loadingTimer; }
+		
+	protected:
 		// Type
 		WeaponType m_type;
 		
@@ -52,6 +55,9 @@ class Weapon : public Sprite {
 		// Weapon position
 		s16 m_x;
 		s16 m_y;
+		
+		// Weapon loading timer
+		Timer m_loadingTimer;
 };
 
 class Sword : public Weapon {
@@ -62,9 +68,6 @@ class Sword : public Weapon {
 		
 		// Action function
 		void action();
-		
-	private:
-		Timer m_loadingTimer;
-};*/
+};
 
 #endif // WEAPON_H

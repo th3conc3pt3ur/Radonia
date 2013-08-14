@@ -30,10 +30,7 @@ class Player : public Character {
 		void move();
 		
 		// Action function
-		void action() {}; //{ m_weapon->action(); }
-		
-	private:
-		//Weapon *m_weapon;
+		void action() { m_weapon->action(); }
 };
 
 #endif // PLAYER_H

@@ -54,6 +54,9 @@ Window::Window(char *caption, u16 width, u16 height) {
 	m_width = width;
 	m_height = height;
 	
+	if(m_width < 640) m_width = 640;
+	if(m_height < 480) m_height = 480;
+	
 	// Initialize window
 	m_window = SDL_CreateWindow(m_caption, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, m_width, m_height, SDL_WINDOW_SHOWN);
 	if(!m_window) {
@@ -147,7 +150,7 @@ void Window::updateViewportPosition(s16 x, s16 y) {
 	m_viewportY = y;
 	
 	// Set viewport
-	SDL_Rect viewportRect = {-x, y - MAP_HEIGHT * 16 / 2, m_width, m_height};
+	SDL_Rect viewportRect = {-x, y - m_height / 2, m_width, m_height};
 	SDL_RenderSetViewport(m_renderer, &viewportRect);
 }
 

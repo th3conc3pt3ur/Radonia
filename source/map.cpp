@@ -34,6 +34,7 @@
 #include "image.h"
 #include "animation.h"
 #include "sprite.h"
+#include "weapon.h"
 #include "character.h"
 #include "monster.h"
 #include "NPC.h"

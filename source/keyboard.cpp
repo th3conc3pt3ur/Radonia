@@ -48,18 +48,20 @@
 #include "game.h"
 
 const u8 *Keyboard::state = NULL;
-u8 Keyboard::padState[4] = {0, 0, 0, 0};
+u8 Keyboard::padState[5] = {0, 0, 0, 0, 0};
 
 #ifndef __ANDROID__
 	const u32 Keyboard::GameUp = SDL_SCANCODE_UP;
 	const u32 Keyboard::GameDown = SDL_SCANCODE_DOWN;
 	const u32 Keyboard::GameLeft = SDL_SCANCODE_LEFT;
 	const u32 Keyboard::GameRight = SDL_SCANCODE_RIGHT;
+	const u32 Keyboard::GameAttack = SDL_SCANCODE_S;
 #else
 	const u32 Keyboard::GameUp = PAD_UP;
 	const u32 Keyboard::GameDown = PAD_DOWN;
 	const u32 Keyboard::GameLeft = PAD_LEFT;
 	const u32 Keyboard::GameRight = PAD_RIGHT;
+	const u32 Keyboard::GameAttack = PAD_A;
 #endif
 
 const u8 *Keyboard::getState() {
@@ -86,6 +88,7 @@ void Keyboard::resetPad() {
 	padState[PAD_DOWN] = 0;
 	padState[PAD_LEFT] = 0;
 	padState[PAD_RIGHT] = 0;
+	padState[PAD_A] = 0;
 }
 
 void Keyboard::updatePad(SDL_Event *e) {
@@ -96,6 +99,10 @@ void Keyboard::updatePad(SDL_Event *e) {
 	// Get pad position
 	u16 px = Interface::pad->posRect()->x - Game::MainWindow->viewportX();
 	u16 py = Interface::pad->posRect()->y - Game::MainWindow->viewportY();
+	
+	// Get a button position
+	//u16 ax = Interface::buttonA->posRect()->x - Game::MainWindow->viewportX();
+	//u16 ay = Interface::buttonA->posRect()->y - Game::MainWindow->viewportY();
 	
 	// Reset pad
 	resetPad();

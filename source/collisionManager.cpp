@@ -144,16 +144,16 @@ void CollisionManager::testCollisions(Character *c){
 
 void CollisionManager::doorCollisions(Character *c) {
 	if(inTiles((c->x() + 8) >> 4, (c->y() + 8) >> 4, MapManager::changeMapTiles) && !c->inDoor()) {
-		// Reset movement vectors
-		c->vx(0);
-		c->vy(0);
-		c->movementTimer().stop();
-		
 		// Search for the door
 		s16 doorID = DoorManager::findDoorID(c->x(), c->y(), Game::currentMap->id(), Game::currentMap->area());
 		
 		// If door isn't found
 		if(doorID == -1) return;
+		
+		// Reset movement vectors
+		c->vx(0);
+		c->vy(0);
+		c->movementTimer().stop();
 		
 		// Initialize transition
 		Game::MainWindow->clear();

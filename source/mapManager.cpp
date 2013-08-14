@@ -30,6 +30,7 @@
 #include "image.h"
 #include "animation.h"
 #include "sprite.h"
+#include "weapon.h"
 #include "character.h"
 #include "monster.h"
 #include "NPC.h"
@@ -173,6 +174,7 @@ Map*** MapManager::initMaps() {
 	// Indoor maps
 	mapAreas[1][0] = new Map(Game::tilesets[1], indoorInfo, (char*)"maps/in1.map", MAP_WIDTH, MAP_HEIGHT, 16, 16, 0, 0, 1);
 	mapAreas[1][1] = new Map(Game::tilesets[1], indoorInfo, (char*)"maps/in2.map", MAP_WIDTH, MAP_HEIGHT, 16, 16, 0, 0, 1);
+	mapAreas[1][2] = new Map(Game::tilesets[1], indoorInfo, (char*)"maps/in3.map", MAP_WIDTH, MAP_HEIGHT, 16, 16, 0, 0, 1);
 	
 	/* Caves */
 	

@@ -49,7 +49,7 @@
 
 Player::Player() : Character((char*)"graphics/characters/link.png", CHARA_PLAYER, 120, 160, DIR_RIGHT) {
 	// Initialize weapon
-	//m_weapon = new Sword(this);
+	m_weapon = new Sword(this);
 	
 	// Add animations to sprite
 	addAnimation(2, Player_animations[0], 125); // Down
