@@ -129,7 +129,7 @@ void Keyboard::updatePad(SDL_Event *e) {
 	}
 	
 	// Button A
-	if(ax > px && ax < px + 32 && ay > py && ay < py + 32) {
+	if(fx > ax && fx < ax + 32 && fy > ay && fy < ay + 32) {
 		padState[PAD_A] = 1;
 	}
 }
