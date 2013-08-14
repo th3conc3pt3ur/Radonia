@@ -19,7 +19,7 @@ FIXED:	15 - [ANDROID] After indoor transition you can see a black flash
 		19 - Sometimes the player is blocked in a monster
 		20 - Sometimes, when hurt, the player is blocked in a non passable tile
 		21 - [ANDROID] Map transition too fast
-		22 - [PLAYER] [ATTACK] [SWORD] It's possible to see the normal player animation behind the attacking one
+FIXED:	22 - [PLAYER] [ATTACK] [SWORD] It's possible to see the normal player animation behind the attacking one
 		23 - [PLAYER] [ATTACK] [SWORD] Sword attack loops ( no loading )
 		24 - [PLAYER] [ATTACK] [SWORD] It's not possible to stop current attack to start a new one
 		25 - [PLAYER] [ATTACK] [SWORD] While tapping fast on attack key, you can move back

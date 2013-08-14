@@ -82,7 +82,7 @@ void Sword::action() {
 		} else {
 			// Reset timer
 			m_loadingTimer.reset();
-			m_loadingTimer.start();
+			m_loadingTimer.stop();
 			
 			// Block commands
 			m_owner->m_canMove = false;
