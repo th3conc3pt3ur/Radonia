@@ -26,3 +26,4 @@
 [FIXED]	26 - [HIGH]		[PLAYER]  [ATTACK]  [SWORD]			When sword attack loops, you can move
 [FIXED]	27 - [HIGH]		[PLAYER]  [ATTACK]  [SWORD]			Sometimes only a part of sword animation is displayed
 		28 - [HIGH]		[PLAYER]  [DISPLAY] [ATTACK]		When attacking, player appears to twinkle
+		29 - [HIGH]		[ANDROID] [PLAYER]	[ATTACK]		Loading doesn't work because of touch priority in pad buttons
