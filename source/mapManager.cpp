@@ -163,7 +163,7 @@ Map*** MapManager::initMaps() {
 	/* Initialize area maps */
 	
 	// Overworld
-	mapAreas[0][MAP_POS(0, 0, 0)] = new Map(Game::tilesets[0], plainInfo, (char*)"maps/test.map", MAP_WIDTH, MAP_HEIGHT, 16, 16, 0, 0);
+	mapAreas[0][MAP_POS(0, 0, 0)] = new Map(Game::tilesets[0], plainInfo, (char*)"maps/a1.map", MAP_WIDTH, MAP_HEIGHT, 16, 16, 0, 0);
 	mapAreas[0][MAP_POS(1, 0, 0)] = new Map(Game::tilesets[0], plainInfo, (char*)"maps/a2.map", MAP_WIDTH, MAP_HEIGHT, 16, 16, 1, 0);
 	mapAreas[0][MAP_POS(0, 1, 0)] = new Map(Game::tilesets[0], plainInfo, (char*)"maps/b1.map", MAP_WIDTH, MAP_HEIGHT, 16, 16, 0, 1);
 	mapAreas[0][MAP_POS(1, 1, 0)] = new Map(Game::tilesets[0], plainInfo, (char*)"maps/b2.map", MAP_WIDTH, MAP_HEIGHT, 16, 16, 1, 1);

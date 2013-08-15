@@ -47,7 +47,7 @@
 #include "interface.h"
 #include "game.h"
 
-Player::Player() : Character((char*)"graphics/characters/link.png", CHARA_PLAYER, 120, 160, DIR_RIGHT) {
+Player::Player() : Character((char*)"graphics/characters/link.png", CHARA_PLAYER, 17 << 4, 21 << 4, DIR_RIGHT) {
 	// Initialize weapon
 	m_weapon = new Sword(this);
 	
