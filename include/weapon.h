@@ -43,7 +43,7 @@ class Weapon : public Sprite {
 		bool isProjectile() { return m_type == WEAPON_PROJECTILE; }
 		
 		// Get loading timer
-		Timer loadingTimer() const { return m_loadingTimer; }
+		Timer timer() const { return m_timer; }
 		
 	protected:
 		// Type
@@ -57,7 +57,7 @@ class Weapon : public Sprite {
 		s16 m_y;
 		
 		// Weapon loading timer
-		Timer m_loadingTimer;
+		Timer m_timer;
 };
 
 class Sword : public Weapon {

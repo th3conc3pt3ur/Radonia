@@ -174,7 +174,7 @@ void Character::move() {
 }
 
 void Character::render() {
-	if(!m_isAttacking || m_weapon->loadingTimer().time() != 0) {
+	if(!m_isAttacking) {
 		if(m_moving) playAnimation(m_x, m_y, m_direction);
 		else drawFrame(m_x, m_y, m_direction);
 	}

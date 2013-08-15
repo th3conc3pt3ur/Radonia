@@ -71,82 +71,35 @@ void Sword::action() {
 	// Sword position
 	s16 mx = 0; s16 my = 0;
 	
-	// If attack key is pressed and the player isn't attacking
-	if(Keyboard::isKeyPressed(Keyboard::GameAttack)) {
-		if(!m_owner->m_isAttacking) { 
-			// Update attack state
+	if(Keyboard::isKeyPressed(Keyboard::GameAttack) || m_owner->m_isAttacking) {
+		if(!m_owner->m_isAttacking) {
+			// Update owner states
 			m_owner->m_isAttacking = true;
-			
-			// Block commands
 			m_owner->m_canMove = false;
-		}
-		//else if(m_loadingTimer.time() == 0) {
-		else {
-			// Reset timer
-			m_loadingTimer.reset();
-			m_loadingTimer.stop();
 			
-			// Block commands
-			m_owner->m_canMove = false;
-		}
-	}
-	
-	// If attack key isn't pressed
-	if(!Keyboard::isKeyPressed(Keyboard::GameAttack)) {
-		// Reset sword loading timer
-		m_loadingTimer.stop();
-		m_loadingTimer.reset();
-		
-		// Deblock directions
-		if(!(m_owner->collidedCharacter() && m_owner->collidedCharacter()->isMonster())) m_owner->m_canMove = true;
-	}
-	
-	// If the player attacks
-	if(m_owner->m_isAttacking) {
-		// If the animation is at end
-		if(m_owner->animationAtEnd(m_owner->m_direction + 4)) {
-			// Stop attacking is attack is released
-			if(!Keyboard::isKeyPressed(Keyboard::GameAttack)) {
-				m_owner->m_isAttacking = false;
-				
-				// Deblock movements
-				m_owner->m_canMove = true;
-				m_owner->m_canTurn = true;
-				
-				// Reset sword loading timer
-				m_loadingTimer.stop();
-				m_loadingTimer.reset();
-			}
-			else if(m_loadingTimer.time() == 0) {
-				// Start sword loading timer
-				m_loadingTimer.start();
-				
-				// Block movements
-				m_owner->m_canMove = false;
-				m_owner->m_canTurn = false;
-			}
-		}
-		
-		if(m_loadingTimer.time() == 0) {
+			// Reset player animation
+			m_owner->resetAnimation(m_owner->m_direction + 4);
+			m_owner->startAnimation(m_owner->m_direction + 4);
+		} else if(!m_owner->animationAtEnd(m_owner->m_direction + 4)) {
 			// Play attack animation
 			m_owner->playAnimation(m_owner->m_x, m_owner->m_y, m_owner->m_direction + 4);
-			
+	
 			// Get sword position
 			switch(m_owner->m_direction) {
 				case DIR_DOWN:
-					if(animationAtFrame(m_owner->m_direction, 0))	{ mx = -12;	my = 0;  }
+					if(animationAtFrame(m_owner->m_direction, 0))			{ mx = -12;	my = 0;  }
 					else if(animationAtFrame(m_owner->m_direction, 1))		{ mx = -12;	my = 12; }
-					else if(animationAtFrame(m_owner->m_direction, 2))		{ mx = 0;		my = 16; }
-					else if(animationAtFrame(m_owner->m_direction, 3))		{ mx = 0;		my = 16; }
+					else if(animationAtFrame(m_owner->m_direction, 2))		{ mx = 0;	my = 16; }
+					else if(animationAtFrame(m_owner->m_direction, 3))		{ mx = 0;	my = 16; }
 					break;
 				case DIR_RIGHT:
-					if(animationAtFrame(m_owner->m_direction, 0))			{ mx = 0;		my = -12; }
+					if(animationAtFrame(m_owner->m_direction, 0))			{ mx = 0;	my = -12; }
 					else if(animationAtFrame(m_owner->m_direction, 1))		{ mx = 12;	my = -12; }
 					else if(animationAtFrame(m_owner->m_direction, 2))		{ mx = 12;	my = 0;   }
 					else if(animationAtFrame(m_owner->m_direction, 3))		{ mx = 12;	my = 0;   }
 					break;
 				case DIR_LEFT:
-					if(animationAtFrame(m_owner->m_direction, 0))			{ mx = 0;		my = -12; }
+					if(animationAtFrame(m_owner->m_direction, 0))			{ mx = 0;	my = -12; }
 					else if(animationAtFrame(m_owner->m_direction, 1))		{ mx = -12;	my = -12; }
 					else if(animationAtFrame(m_owner->m_direction, 2))		{ mx = -12;	my = 0;   }
 					else if(animationAtFrame(m_owner->m_direction, 3))		{ mx = -12;	my = 0;   }
@@ -154,15 +107,29 @@ void Sword::action() {
 				case DIR_UP:	
 					if(animationAtFrame(m_owner->m_direction, 0))			{ mx = 12;	my = 0;  }
 					else if(animationAtFrame(m_owner->m_direction, 1))		{ mx = 12;	my = -12; }
-					else if(animationAtFrame(m_owner->m_direction, 2))		{ mx = 0;		my = -12; }
-					else if(animationAtFrame(m_owner->m_direction, 3))		{ mx = 0;		my = -12; }
+					else if(animationAtFrame(m_owner->m_direction, 2))		{ mx = 0;	my = -12; }
+					else if(animationAtFrame(m_owner->m_direction, 3))		{ mx = 0;	my = -12; }
 					break;
 				default: break;
 			}
 			
 			// Play sword animation
 			playAnimation(m_owner->m_x + mx, m_owner->m_y + my, m_owner->m_direction);
+		} else if(m_timer.time() == 0) {
+			// Start loading timer
+			m_timer.start();
+			
+			// Update owner states
+			if(!(m_owner->collidedCharacter() && m_owner->collidedCharacter()->isMonster())) m_owner->m_canMove = true;
+			m_owner->m_canTurn = false;
 		} else {
+			// If player don't move draw frame, else, play animation
+			if(m_owner->m_moving) {
+				m_owner->playAnimation(m_owner->m_x, m_owner->m_y, m_owner->m_direction);
+			} else {
+				m_owner->drawFrame(m_owner->m_x, m_owner->m_y, m_owner->m_direction);
+			}
+			
 			// Get sword position
 			switch(m_owner->m_direction) {
 				case DIR_DOWN:	mx = 0;		my = 16;	break;
@@ -175,20 +142,16 @@ void Sword::action() {
 			// Draw sword
 			drawFrame(m_owner->m_x + mx, m_owner->m_y + my, m_owner->m_direction + 8);
 		}
+	}
+	
+	if(!Keyboard::isKeyPressed(Keyboard::GameAttack) && m_owner->m_isAttacking && m_owner->animationAtEnd(m_owner->m_direction + 4)) {
+		// Reset timer
+		m_timer.reset();
 		
-		/*
-		// Test if sword collided a monster
-		if((!CollisionManager::passable(this, m_x +  2, m_y +  2)
-		||  !CollisionManager::passable(this, m_x + 14, m_y +  2)
-		||  !CollisionManager::passable(this, m_x +  2, m_y + 14)
-		||  !CollisionManager::passable(this, m_x + 14, m_y + 14))
-		&& m_owner->collidedCharacter() && m_owner->collidedCharacter()->isMonster()) {
-			// Hurt monster
-			m_owner->collidedCharacter()->hurt();
-			
-			// Move it
-			m_owner->collidedCharacter()->move();
-		}*/
+		// Reset owner states
+		m_owner->m_isAttacking = false;
+		if(!(m_owner->collidedCharacter() && m_owner->collidedCharacter()->isMonster())) m_owner->m_canMove = true;
+		m_owner->m_canTurn = true;
 	}
 }
 

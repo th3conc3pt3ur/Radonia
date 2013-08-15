@@ -1,6 +1,6 @@
 [FIXED]	 1 - [HIGH]		[NPCS] [MONSTERS]	[SCROLLING]		NPCs and Monsters don't scroll with the map
 		 2 - [HIGH]		[NPCS] [MONSTERS]	[MOVEMENT]		NPCs and monsters can move out of the map
-		 3 - [HIGH]		[NPCS] [MONSTERS]	[COLLISIONS]	NPCs and monsters can move over non passable tiles ( not perfect )
+		 3 - [HIGH]		[NPCS] [MONSTERS]	[COLLISIONS]	NPCs and monsters can move over non passable tiles sometimes ( not perfect )
 		 4 - [HIGH]		[MONSTERS]			[HURTING]		Monsters don't go back correctly sometimes when they're hurt
 [FIXED]	 5 - [HIGH]		[MONSTERS]			[TEXTURE]		Monsters' textures bug when they're hurt
 [FIXED]	 6 - [HIGH]		[SWORD]				[ANIMATION]		Sword animation is quite strange
@@ -20,8 +20,9 @@
 		20 - [HIGH]		[PLAYER]			[COLLISIONS]	Sometimes, when hurt, the player is blocked in a non passable tile
 		21 - [LOW]		[ANDROID] [MAP]		[TRANSITION]	Map transition too fast
 [FIXED]	22 - [HIGH]		[PLAYER]  [ATTACK]	[SWORD]			It's possible to see the normal player animation behind the attacking one
-		23 - [MEDIUM]	[PLAYER]  [ATTACK]	[SWORD]			Sword attack loops ( no loading )
+[FIXED]	23 - [MEDIUM]	[PLAYER]  [ATTACK]	[SWORD]			Sword attack loops ( no loading )
 		24 - [MEDIUM]	[PLAYER]  [ATTACK]	[SWORD]			It's not possible to stop current attack to start a new one
 		25 - [MEDIUM]	[PLAYER]  [ATTACK]	[SWORD]			While tapping fast on attack key, you can move back
-		26 - [HIGH]		[PLAYER]  [ATTACK]  [SWORD]			When sword attack loops, you can move
-		27 - [HIGH]		[PLAYER]  [ATTACK]  [SWORD]			Sometimes only a part of sword animation is displayed
+[FIXED]	26 - [HIGH]		[PLAYER]  [ATTACK]  [SWORD]			When sword attack loops, you can move
+[FIXED]	27 - [HIGH]		[PLAYER]  [ATTACK]  [SWORD]			Sometimes only a part of sword animation is displayed
+		28 - [HIGH]		[PLAYER]  [DISPLAY] [ATTACK]		When attacking, player appears to twinkle

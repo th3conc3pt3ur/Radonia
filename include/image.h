@@ -62,6 +62,7 @@ class Image {
 		// SDL rects
 		SDL_Rect m_clipRect;
 		SDL_Rect m_posRect;
+		
 };
 
 #endif // IMAGE_H

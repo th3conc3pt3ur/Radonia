@@ -205,8 +205,8 @@ void Game::mainLoop() {
 		currentMap->renderMonsters();
 		
 		// Render player
-		player->render();
 		player->action();
+		player->render();
 		
 		// Render HUD
 		Interface::renderHUD();

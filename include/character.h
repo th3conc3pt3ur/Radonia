@@ -79,6 +79,9 @@ class Character : public Sprite {
 		// Get movement timer
 		Timer movementTimer() { return m_movementTimer; }
 		
+		// Get attack state
+		bool isAttacking() const { return m_isAttacking; }
+		
 		// Types
 		bool isPlayer()  { return m_type == CHARA_PLAYER;	}
 		bool isNPC()	 { return m_type == CHARA_NPC;		}
