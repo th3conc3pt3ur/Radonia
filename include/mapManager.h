@@ -54,5 +54,6 @@ u16 _mid(u16 area, u16 id);
 // Functions for tiles
 bool inTable(u16 *tiles, u16 id);
 bool inTiles(s16 tileX, s16 tileY, u16 *tiles);
+bool inZone(s16 x, s16 y, u16 tile);
 
 #endif // MAPMANAGER_H

@@ -96,9 +96,14 @@ Character::Character(char *filename, CharacterType type, s16 x, s16 y, Character
 	// FIXME: TEMP
 	m_lifes = 27;
 	m_maxLifes = 32;
+	
+	// Load grass image
+	m_grassSup = new Image((char*)"graphics/animations/grassSup.png");
 }
 
 Character::~Character() {
+	// Unload all images
+	delete m_grassSup;
 }
 
 void Character::move() {
@@ -166,6 +171,12 @@ void Character::render() {
 	if(!m_isAttacking || m_weapon->loadingTimer().time() != 0) {
 		if(m_moving) playAnimation(m_x, m_y, m_direction);
 		else drawFrame(m_x, m_y, m_direction);
+	}
+	
+	// Test if character is in grass
+	if(inZone(m_x, m_y, 2)) {
+		m_grassSup->setPosRect(m_x, m_y, m_grassSup->width(), m_grassSup->height());
+		m_grassSup->render();
 	}
 }
 

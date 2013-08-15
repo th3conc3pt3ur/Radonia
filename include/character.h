@@ -175,6 +175,9 @@ class Character : public Sprite {
 		
 		// Character's weapon
 		Weapon *m_weapon;
+		
+		// Grass image
+		Image *m_grassSup;
 };
 
 #endif // CHARACTER_H
