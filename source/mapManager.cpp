@@ -228,10 +228,10 @@ bool inTiles(s16 tileX, s16 tileY, u16 tiles[]) {
 }
 
 bool inZone(s16 x, s16 y, u16 tile) {
-	if(Game::currentMap->tilesetInfo()[Game::currentMap->getTile(floor(((double)x + 6) / 16), floor(((double)y + 12) / 16))] == tile
-	|| Game::currentMap->tilesetInfo()[Game::currentMap->getTile( ceil(((double)x - 2) / 16), floor(((double)y + 12) / 16))] == tile
-	|| Game::currentMap->tilesetInfo()[Game::currentMap->getTile(floor(((double)x + 6) / 16),  ceil(((double)y - 4) / 16))] == tile
-	|| Game::currentMap->tilesetInfo()[Game::currentMap->getTile( ceil(((double)x - 2) / 16),  ceil(((double)y - 4) / 16))] == tile) {
+	if(Game::currentMap->tilesetInfo()[Game::currentMap->getTile(floor(((double)x + 4) / 16), floor(((double)y + 12) / 16))] == tile
+	|| Game::currentMap->tilesetInfo()[Game::currentMap->getTile( ceil(((double)x - 4) / 16), floor(((double)y + 12) / 16))] == tile
+	|| Game::currentMap->tilesetInfo()[Game::currentMap->getTile(floor(((double)x + 4) / 16),  ceil(((double)y - 4) / 16))] == tile
+	|| Game::currentMap->tilesetInfo()[Game::currentMap->getTile( ceil(((double)x - 4) / 16),  ceil(((double)y - 4) / 16))] == tile) {
 		return true;
 	} else {
 		return false;
