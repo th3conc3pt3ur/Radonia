@@ -79,7 +79,9 @@ void Sword::action() {
 			
 			// Block commands
 			m_owner->m_canMove = false;
-		} else {
+		}
+		//else if(m_loadingTimer.time() == 0) {
+		else {
 			// Reset timer
 			m_loadingTimer.reset();
 			m_loadingTimer.stop();

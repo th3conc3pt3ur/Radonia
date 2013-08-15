@@ -1,25 +1,25 @@
-FIXED:	 1 - [NPCS/MONSTERS] [SCROLLING] NPCs and Monsters don't scroll with the map
-		 2 - [NPCS/MONSTERS] [MOVEMENT] NPCs and monsters can move out of the map
-		 3 - [NPCS/MONSTERS] [COLLISIONS] NPCs and monsters can move over non passable tiles ( not perfect )
-		 4 - [MONSTERS] [HURTING] Monsters don't go back correctly sometimes when they're hurt
-FIXED:	 5 - [MONSTERS] [TEXTURE] Monsters' textures bug when they're hurt
-FIXED:	 6 - [SWORD] [ANIMATION] Sword animation is quite strange
-FIXED:	 7 - [NPCS/MONSTERS] [DISPLAY] Sometimes, NPCs, monsters, or both, don't spawn
-		 8 - [PLAYER] [MOVEMENT] Player can moonwalk
-FIXED:	 9 - [MAP] [TRANSITION] Map transition too fast
-		10 - [MONSTERS/PLAYER] [COLLISIONS] Sometimes, when a monster moves collided the player, the player isn't hurt, and the monster changes way
-		11 - [PLAYER/MONSTERS] [COLLISIONS] The player can slide on a monster without being hurt
-		12 - [ANDROID] Application is very slow sometimes
-FIXED:	13 - [VIEWPORT] Bug during map scrolling
-		14 - [VIEWPORT] Improve viewports ( screen ratio )
-FIXED:	15 - [ANDROID] After indoor transition you can see a black flash
-		16 - [ANDROID] When you lock screen, you can't wake up to game ( app crash )
-		17 - [ANDROID] [VIEWPORT] [960x540] Viewport don't display correctly
-		18 - [ANDROID] [PAD] Pad main directions are PAD_LEFT and PAD_RIGHT ( fix pad to make it perfectly working )
-		19 - Sometimes the player is blocked in a monster
-		20 - Sometimes, when hurt, the player is blocked in a non passable tile
-		21 - [ANDROID] Map transition too fast
-FIXED:	22 - [PLAYER] [ATTACK] [SWORD] It's possible to see the normal player animation behind the attacking one
-		23 - [PLAYER] [ATTACK] [SWORD] Sword attack loops ( no loading )
-		24 - [PLAYER] [ATTACK] [SWORD] It's not possible to stop current attack to start a new one
-		25 - [PLAYER] [ATTACK] [SWORD] While tapping fast on attack key, you can move back
+[FIXED]	 1 - [HIGH]		[NPCS] [MONSTERS]	[SCROLLING]		NPCs and Monsters don't scroll with the map
+		 2 - [HIGH]		[NPCS] [MONSTERS]	[MOVEMENT]		NPCs and monsters can move out of the map
+		 3 - [HIGH]		[NPCS] [MONSTERS]	[COLLISIONS]	NPCs and monsters can move over non passable tiles ( not perfect )
+		 4 - [HIGH]		[MONSTERS]			[HURTING]		Monsters don't go back correctly sometimes when they're hurt
+[FIXED]	 5 - [HIGH]		[MONSTERS]			[TEXTURE]		Monsters' textures bug when they're hurt
+[FIXED]	 6 - [HIGH]		[SWORD]				[ANIMATION]		Sword animation is quite strange
+[FIXED]	 7 - [HIGH]		[NPCS] [MONSTERS]	[DISPLAY]		Sometimes, NPCs, monsters, or both, don't spawn
+		 8 - [MEDIUM]	[PLAYER]			[MOVEMENT]		Player can moonwalk
+[FIXED]	 9 - [LOW]		[MAP]				[TRANSITION]	Map transition too fast
+		10 - [HIGH]		[MONSTERS] [PLAYER]	[COLLISIONS]	Sometimes, when a monster moves collided the player, the player isn't hurt, and the monster changes way
+		11 - [HIGH]		[PLAYER] [MONSTERS]	[COLLISIONS]	The player can slide on a monster without being hurt
+		12 - [HIGH]		[ANDROID]			[PERFORMANCE]	Application is very slow sometimes
+[FIXED]	13 - [HIGH]		[ANDROID]			[VIEWPORT]		Bug during map scrolling
+		14 - [HIGH]		[ANDROID]			[VIEWPORT]		Improve viewports ( screen ratio )
+[FIXED]	15 - [HIGH]		[ANDROID]			[DISPLAY]		After indoor transition you can see a black flash
+		16 - [HIGH]		[ANDROID]			[SYSTEM]		When you lock screen, you can't wake up to game ( app crash )
+		17 - [HIGH]		[ANDROID] [960x540]	[VIEWPORT]		Viewport don't display correctly
+		18 - [MEDIUM]	[ANDROID]			[PAD]			Pad main directions are PAD_LEFT and PAD_RIGHT ( fix pad to make it perfectly working )
+		19 - [HIGH]		[PLAYER]  [MONSTER]	[COLLISIONS]	Sometimes the player is blocked in a monster
+		20 - [HIGH]		[PLAYER]			[COLLISIONS]	Sometimes, when hurt, the player is blocked in a non passable tile
+		21 - [LOW]		[ANDROID] [MAP]		[TRANSITION]	Map transition too fast
+[FIXED]	22 - [HIGH]		[PLAYER]  [ATTACK]	[SWORD]			It's possible to see the normal player animation behind the attacking one
+		23 - [MEDIUM]	[PLAYER]  [ATTACK]	[SWORD]			Sword attack loops ( no loading )
+		24 - [MEDIUM]	[PLAYER]  [ATTACK]	[SWORD]			It's not possible to stop current attack to start a new one
+		25 - [MEDIUM]	[PLAYER]  [ATTACK]	[SWORD]			While tapping fast on attack key, you can move back
