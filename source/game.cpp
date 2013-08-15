@@ -184,10 +184,10 @@ void Game::mainLoop() {
 		}
 		
 		// Move NPCs
-		currentMap->moveNPCs();
+		//currentMap->moveNPCs();
 		
 		// Move monsters
-		currentMap->moveMonsters();
+		//currentMap->moveMonsters();
 		
 		// Move player
 		player->move();
