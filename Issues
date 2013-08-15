@@ -23,3 +23,5 @@
 		23 - [MEDIUM]	[PLAYER]  [ATTACK]	[SWORD]			Sword attack loops ( no loading )
 		24 - [MEDIUM]	[PLAYER]  [ATTACK]	[SWORD]			It's not possible to stop current attack to start a new one
 		25 - [MEDIUM]	[PLAYER]  [ATTACK]	[SWORD]			While tapping fast on attack key, you can move back
+		26 - [HIGH]		[PLAYER]  [ATTACK]  [SWORD]			When sword attack loops, you can move
+		27 - [HIGH]		[PLAYER]  [ATTACK]  [SWORD]			Sometimes only a part of sword animation is displayed
