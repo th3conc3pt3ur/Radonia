@@ -32,4 +32,7 @@ extern u16 NPC_animations[4][4];
 // Monster animations
 extern u16 Monster_animations[4][4];
 
+// Water effect animation
+extern u16 WaterEffect_animations[3];
+
 #endif // ANIMATION_MANAGER_H

@@ -177,7 +177,8 @@ class Character : public Sprite {
 		Weapon *m_weapon;
 		
 		// Grass image
-		Image *m_grassSup;
+		Image *m_grassEffect;
+		Sprite *m_waterEffect;
 };
 
 #endif // CHARACTER_H

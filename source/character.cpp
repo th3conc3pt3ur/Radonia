@@ -39,6 +39,7 @@
 #include "door.h"
 #include "mapManager.h"
 #include "doorManager.h"
+#include "animationManager.h"
 #include "characterManager.h"
 #include "collisionManager.h"
 #include "tools.h"
@@ -98,12 +99,17 @@ Character::Character(char *filename, CharacterType type, s16 x, s16 y, Character
 	m_maxLifes = 32;
 	
 	// Load grass image
-	m_grassSup = new Image((char*)"graphics/animations/grassSup.png");
+	m_grassEffect = new Image((char*)"graphics/animations/grassEffect.png");
+	
+	// Load water effect
+	m_waterEffect = new Sprite((char*)"graphics/animations/waterEffect.png");
+	m_waterEffect->addAnimation(3, WaterEffect_animations, 150);
 }
 
 Character::~Character() {
 	// Unload all images
-	delete m_grassSup;
+	delete m_grassEffect;
+	delete m_waterEffect;
 }
 
 void Character::move() {
@@ -175,8 +181,13 @@ void Character::render() {
 	
 	// Test if character is in grass
 	if(inZone(m_x, m_y, 2)) {
-		m_grassSup->setPosRect(m_x, m_y, m_grassSup->width(), m_grassSup->height());
-		m_grassSup->render();
+		m_grassEffect->setPosRect(m_x, m_y, m_grassEffect->width(), m_grassEffect->height());
+		m_grassEffect->render();
+	}
+	
+	// Test if character is in water
+	if(inZone(m_x, m_y, 19)) {
+		m_waterEffect->playAnimation(m_x, m_y + 8, 0);
 	}
 }
 

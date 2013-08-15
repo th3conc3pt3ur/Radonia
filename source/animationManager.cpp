@@ -62,3 +62,6 @@ u16 Monster_animations[12][4] = {
 	{7,3}
 };
 
+// Water effect animation
+u16 WaterEffect_animations[3] = {0, 1, 2};
+
