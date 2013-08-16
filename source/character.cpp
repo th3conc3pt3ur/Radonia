@@ -73,7 +73,6 @@ Character::Character(char *filename, CharacterType type, s16 x, s16 y, Character
 	m_vy = 0;
 	
 	m_collidedCharacter = NULL;
-	//m_collidedWeapon = NULL;
 	m_collidedTile = 0;
 	
 	m_direction = direction;
@@ -160,10 +159,6 @@ void Character::move() {
 	CollisionManager::doorCollisions(this);
 	CollisionManager::testCollisions(this);
 	
-	/*if(m_collidedCharacter && m_collidedCharacter->isPlayer() && isMonster()) {
-		hurt();
-	}*/
-	
 	// Move character
 	m_x += m_vx * CHARACTER_SPEED;
 	m_y += m_vy * CHARACTER_SPEED;
@@ -191,7 +186,7 @@ void Character::render() {
 	}
 }
 
-void Character::hurt() {
+void Character::hurt(u8 distSupp) {
 	if(m_hurtTimer.time() - m_timerLastValue > 5) {
 		if(isPlayer()) {
 			// Block comamnds
@@ -214,11 +209,9 @@ void Character::hurt() {
 		
 		// Temporary collision states
 		Character *tmpCollidedCharacter = m_collidedCharacter;
-		//Weapon *tmpCollidedWeapon = m_collidedWeapon;
 		
 		// Reset collision states
 		m_collidedCharacter = NULL;
-		//m_collidedWeapon = NULL;
 		
 		// Setup temporary movement vectors
 		s8 t_vx = m_vx;
@@ -233,15 +226,14 @@ void Character::hurt() {
 		
 		// Reset collision states with temp values
 		m_collidedCharacter = tmpCollidedCharacter;
-		//m_collidedWeapon = tmpCollidedWeapon;
 		
 		// Reset timer last value
 		m_timerLastValue = m_hurtTimer.time();
 		
 		// Reset collided sprite and blocked commands states
-		if(abs(e_x) > 32 || abs(e_y) > 32 || m_collidedTile) {
+		if(abs(e_x) > 32 + distSupp || abs(e_y) > 32 + distSupp || m_collidedTile) {
 			m_collidedCharacter = NULL;
-			//m_collidedWeapon = NULL;
+			m_collidedTile = 0;
 			if(isPlayer()) m_canMove = true;
 			else		   m_movementTimer.start();
 			SDL_SetTextureColorMod(m_texture, 255, 255, 255);
@@ -278,7 +270,6 @@ void Character::reset() {
 	m_vy = 0;
 	
 	m_collidedCharacter = NULL;
-	//m_collidedWeapon = NULL;
 	m_collidedTile = 0;
 	
 	m_moving = false;

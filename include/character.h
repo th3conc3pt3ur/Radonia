@@ -50,7 +50,7 @@ class Character : public Sprite {
 		virtual void action() = 0;
 		
 		// Hurt comportement
-		void hurt();
+		void hurt(u8 distSupp = 0);
 		
 		// Reset character attributes
 		void reset();

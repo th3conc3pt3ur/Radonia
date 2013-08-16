@@ -58,6 +58,9 @@ class Weapon : public Sprite {
 		
 		// Weapon loading timer
 		Timer m_timer;
+		
+		// Collided character
+		Character *m_collidedCharacter;
 };
 
 class Sword : public Weapon {

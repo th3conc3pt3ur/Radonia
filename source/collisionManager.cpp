@@ -106,38 +106,40 @@ bool CollisionManager::passable(Character *c, s16 x, s16 y) {
 	}
 	
 	// Collisions with map
-	if(!c || c->isMonster() || c->isNPC() || c->isPlayer()) {
-		if(inTable(MapManager::nonPassableTiles, Game::currentMap->tilesetInfo()[Game::currentMap->getTile(tileX, tileY)])) {
-			if(c) c->collidedTile(Game::currentMap->tilesetInfo()[Game::currentMap->getTile(tileX, tileY)]);
-			return false;
-		} else return true;
-	} else {
-		return true;
-	}
+	if(inTable(MapManager::nonPassableTiles, Game::currentMap->tilesetInfo()[Game::currentMap->getTile(tileX, tileY)])) {
+		if(c) c->collidedTile(Game::currentMap->tilesetInfo()[Game::currentMap->getTile(tileX, tileY)]);
+		return false;
+	} else return true;
 }
 
-Character *CollisionManager::getCollidedCharacter(s16 x, s16 y) {
+Character *CollisionManager::getCollidedCharacter(s16 x, s16 y, Character *c) {
 	// Collisions with NPCs
-	for(u16 i = 0 ; i < Game::currentMap->NPCs().size() ; i++) {
-		if((Game::currentMap->NPCs()[i]->x() < x && Game::currentMap->NPCs()[i]->x() + 16 > x)
-		&& (Game::currentMap->NPCs()[i]->y() < y && Game::currentMap->NPCs()[i]->y() + 16 > y)) {
-			return Game::currentMap->NPCs()[i];
+	if(!c || !c->isNPC()) {
+		for(u16 i = 0 ; i < Game::currentMap->NPCs().size() ; i++) {
+			if((Game::currentMap->NPCs()[i]->x() < x && Game::currentMap->NPCs()[i]->x() + 16 > x)
+			&& (Game::currentMap->NPCs()[i]->y() < y && Game::currentMap->NPCs()[i]->y() + 16 > y)) {
+				return Game::currentMap->NPCs()[i];
+			}
 		}
 	}
 	
 	// Collisions with monsters
-	for(u16 i = 0 ; i < Game::currentMap->monsters().size() ; i++) {
-		if((Game::currentMap->monsters()[i]->x() < x && Game::currentMap->monsters()[i]->x() + 16 > x)
-		&& (Game::currentMap->monsters()[i]->y() < y && Game::currentMap->monsters()[i]->y() + 16 > y)
-		&& Game::currentMap->monsters()[i]->lifes() > 0) {
-			return Game::currentMap->monsters()[i];
+	if(!c || !c->isMonster()) {
+		for(u16 i = 0 ; i < Game::currentMap->monsters().size() ; i++) {
+			if((Game::currentMap->monsters()[i]->x() < x && Game::currentMap->monsters()[i]->x() + 16 > x)
+			&& (Game::currentMap->monsters()[i]->y() < y && Game::currentMap->monsters()[i]->y() + 16 > y)
+			&& Game::currentMap->monsters()[i]->lifes() > 0) {
+				return Game::currentMap->monsters()[i];
+			}
 		}
 	}
 	
 	// Collisions with player
-	if(Game::player->x() < x && Game::player->x() + 16 > x
-	&& Game::player->y() < y && Game::player->y() + 16 > y) {
-		return Game::player;
+	if(!c || !c->isPlayer()) {
+		if(Game::player->x() < x && Game::player->x() + 16 > x
+		&& Game::player->y() < y && Game::player->y() + 16 > y) {
+			return Game::player;
+		}
 	}
 	
 	// No character is collided

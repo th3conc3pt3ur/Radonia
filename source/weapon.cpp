@@ -52,6 +52,8 @@ Weapon::Weapon(char *filename, WeaponType type, Character *owner) : Sprite(filen
 	m_type = type;
 	
 	m_owner = owner;
+	
+	m_collidedCharacter = NULL;
 }
 
 Weapon::~Weapon() {
@@ -155,18 +157,29 @@ void Sword::action() {
 			// Draw sword
 			drawFrame(m_owner->m_x + mx, m_owner->m_y + my, m_owner->m_direction + 8);
 		}
-		// Test if sword collided a monster
+		
+		// Test if sword collided a character
 		Character *collidedCharacter = NULL;
-		if(((collidedCharacter = CollisionManager::getCollidedCharacter(m_x +  2, m_y +  2))
-		||  (collidedCharacter = CollisionManager::getCollidedCharacter(m_x + 14, m_y +  2))
-		||  (collidedCharacter = CollisionManager::getCollidedCharacter(m_x +  2, m_y + 14))
-		||  (collidedCharacter = CollisionManager::getCollidedCharacter(m_x + 14, m_y + 14)))
-		&& collidedCharacter && collidedCharacter->isMonster()) {
-			// Hurt monster
-			collidedCharacter->hurt();
+		if((m_collidedCharacter
+		|| (((collidedCharacter = CollisionManager::getCollidedCharacter(m_owner->m_x + mx +  2, m_owner->m_y + my +  2, m_owner))
+		||   (collidedCharacter = CollisionManager::getCollidedCharacter(m_owner->m_x + mx + 14, m_owner->m_y + my +  2, m_owner))
+		||   (collidedCharacter = CollisionManager::getCollidedCharacter(m_owner->m_x + mx +  2, m_owner->m_y + my + 14, m_owner))
+		||   (collidedCharacter = CollisionManager::getCollidedCharacter(m_owner->m_x + mx + 14, m_owner->m_y + my + 14, m_owner)))
+		&& collidedCharacter))) {
+			// Set collided character
+			if(collidedCharacter) m_collidedCharacter = collidedCharacter;
+			m_collidedCharacter->m_collidedCharacter = m_owner;
 			
-			// Move it
-			collidedCharacter->move();
+			// Hurt character
+			m_collidedCharacter->hurt();
+		}
+		
+		if(m_collidedCharacter && m_collidedCharacter->m_collidedCharacter == m_owner) {
+			// Hurt character
+			m_collidedCharacter->hurt();
+		} else {
+			// Reset collided character state
+			m_collidedCharacter = NULL;
 		}
 	}
 	
