@@ -28,6 +28,9 @@ extern u16 collisionMatrix[4][4];
 // Test if the tile is passable
 bool passable(Character *c, s16 x, s16 y);
 
+// Get the character at (x;y)
+Character *getCollidedCharacter(s16 x, s16 y);
+
 // Test collisions of a character
 void doorCollisions(Character *c);
 void testCollisions(Character *c);

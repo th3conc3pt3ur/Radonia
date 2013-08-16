@@ -155,6 +155,19 @@ void Sword::action() {
 			// Draw sword
 			drawFrame(m_owner->m_x + mx, m_owner->m_y + my, m_owner->m_direction + 8);
 		}
+		// Test if sword collided a monster
+		Character *collidedCharacter = NULL;
+		if(((collidedCharacter = CollisionManager::getCollidedCharacter(m_x +  2, m_y +  2))
+		||  (collidedCharacter = CollisionManager::getCollidedCharacter(m_x + 14, m_y +  2))
+		||  (collidedCharacter = CollisionManager::getCollidedCharacter(m_x +  2, m_y + 14))
+		||  (collidedCharacter = CollisionManager::getCollidedCharacter(m_x + 14, m_y + 14)))
+		&& collidedCharacter && collidedCharacter->isMonster()) {
+			// Hurt monster
+			collidedCharacter->hurt();
+			
+			// Move it
+			collidedCharacter->move();
+		}
 	}
 	
 	if(!Keyboard::isKeyPressed(Keyboard::GameAttack) && m_owner->m_isAttacking && m_owner->animationAtEnd(m_owner->m_direction + 4)) {
