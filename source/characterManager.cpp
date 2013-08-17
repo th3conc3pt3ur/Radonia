@@ -62,7 +62,7 @@ Monster **CharacterManager::initAllMonsters() {
 	Monster **monsters = new Monster*[NB_MONSTERS];
 	
 	// Init monsters
-	monsters[0] = initRedMonster(22 << 4, 14 << 4, DIR_RIGHT, 0);
+	monsters[0] = initRedMonster(22 << 4, 10 << 4, DIR_RIGHT, 0);
 	
 	return monsters;
 }
@@ -72,7 +72,7 @@ NPC **CharacterManager::initAllNPCs() {
 	NPC **NPCs = new NPC*[NB_NPCs];
 	
 	// Init NPCs
-	NPCs[0] = initBlueBoy(10 << 4, 2 << 4, DIR_DOWN, 0);
+	NPCs[0] = initBlueBoy(17 << 4, 2 << 4, DIR_DOWN, 0);
 	
 	return NPCs;
 }
