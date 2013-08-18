@@ -24,28 +24,26 @@
 #define MAP_POS(x, y, area) (u16)((x) + (y) * sqrt((double)MapManager::areaSizes[(area)]))
 
 namespace MapManager {
-
-// Tiles tables
-extern u16 nonPassableTiles[13];
-extern u16 changeMapTiles[3];
-
-// Tilesets infos
-extern u16 plainInfo[256];
-extern u16 indoorInfo[256];
-extern u16 undergroundInfo[256];
-
-// Tileset init function
-Image **initTilesets();
-
-// Sizes of map areas
-extern u16 areaSizes[MAP_AREAS];
-
-// Map init function
-Map*** initMaps();
-
-// Map update function
-void refreshMaps(Map **maps, s16 moveX, s16 moveY);
-
+	// Tiles tables
+	extern u16 nonPassableTiles[13];
+	extern u16 changeMapTiles[3];
+	
+	// Tilesets infos
+	extern u16 plainInfo[256];
+	extern u16 indoorInfo[256];
+	extern u16 undergroundInfo[256];
+	
+	// Tileset init function
+	Image **initTilesets();
+	
+	// Sizes of map areas
+	extern u16 areaSizes[MAP_AREAS];
+	
+	// Map init function
+	Map*** initMaps();
+	
+	// Map update function
+	void refreshMaps(Map **maps, s16 moveX, s16 moveY);
 }
 
 // Get map id from area

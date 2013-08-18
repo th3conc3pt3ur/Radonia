@@ -183,14 +183,8 @@ void Game::mainLoop() {
 			continue;
 		}
 		
-		// Move NPCs
-		currentMap->moveNPCs();
-		
-		// Move monsters
-		currentMap->moveMonsters();
-		
-		// Move player
-		player->move();
+		// Move all characters
+		CharacterManager::moveCharacters();
 		
 		// Clear screen
 		MainWindow->clear();
@@ -198,15 +192,11 @@ void Game::mainLoop() {
 		// Render current map
 		currentMap->render();
 		
-		// Render NPCs
-		currentMap->renderNPCs();
-		
-		// Render monsters
-		currentMap->renderMonsters();
+		// Render all characters
+		CharacterManager::renderCharacters();
 		
 		// Render player
 		player->action();
-		player->render();
 		
 		// Render HUD
 		Interface::renderHUD();
@@ -264,9 +254,7 @@ void Game::scroll() {
 		if(i & 1) {
 			MainWindow->clear();
 			MapManager::refreshMaps(mapAreas[currentMap->area()], moveX, moveY);
-			currentMap->renderNPCs();
-			currentMap->renderMonsters();
-			player->render();
+			CharacterManager::renderCharacters();
 			Interface::renderHUD();
 			MainWindow->update(false);
 		}

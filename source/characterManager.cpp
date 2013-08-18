@@ -89,3 +89,23 @@ NPC *CharacterManager::initBlueBoy(u16 x, u16 y, CharacterDirection direction, u
 	return new NPC(x, y, direction, mapID, NPC_BLUEBOY, (char*)"graphics/characters/blue_boy.png");
 }
 
+void CharacterManager::moveCharacters() {
+	for(u16 i = 0 ; i < Game::currentMap->NPCs().size() ; i++) {
+		Game::currentMap->NPCs()[i]->move();
+	}
+	for(u16 i = 0 ; i < Game::currentMap->monsters().size() ; i++) {
+		Game::currentMap->monsters()[i]->move();
+	}
+	Game::player->move();
+}
+
+void CharacterManager::renderCharacters() {
+	for(u16 i = 0 ; i < Game::currentMap->NPCs().size() ; i++) {
+		Game::currentMap->NPCs()[i]->render();
+	}
+	for(u16 i = 0 ; i < Game::currentMap->monsters().size() ; i++) {
+		Game::currentMap->monsters()[i]->render();
+	}
+	Game::player->render();
+}
+

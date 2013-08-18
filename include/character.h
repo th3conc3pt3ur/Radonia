@@ -38,7 +38,7 @@ class Character : public Sprite {
 	public:
 		// Constructor and destructor
 		Character(char *filename, CharacterType type, s16 x, s16 y, CharacterDirection direction, s16 mapID = -1, u8 frameSize = 16);
-		~Character();
+		virtual ~Character();
 		
 		// Move function
 		void move();

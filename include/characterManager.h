@@ -38,6 +38,12 @@ namespace CharacterManager {
 	
 	/* NPCs */
 	NPC *initBlueBoy(u16 x, u16 y, CharacterDirection direction, u16 mapID);
+	
+	// Move all characters
+	void moveCharacters();
+	
+	// Render all characters
+	void renderCharacters();
 }
 
 #endif // CHARACTER_MANAGER_H

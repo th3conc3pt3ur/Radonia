@@ -9,7 +9,7 @@ CXX		:=	g++
 #---------------------------------------------------------------------------------
 CFLAGS	:=	-g -Wall
 CXXFLAGS:=	$(CFLAGS) -std=c++0x
-LDFLAGS	:=	-g -Wl
+LDFLAGS	:=	-g
 
 #---------------------------------------------------------------------------------
 # Any extra libraries you wish to link with your project

@@ -223,9 +223,7 @@ void CollisionManager::doorCollisions(Character *c) {
 		// Transition
 		for(u16 x = 0 ; x <= MAP_HEIGHT / 1.5 ; x++) {
 			Game::MainWindow->clear();
-			Game::currentMap->render();
-			Game::currentMap->renderNPCs();
-			Game::currentMap->renderMonsters();
+			CharacterManager::renderCharacters();
 			c->render();
 			Interface::renderHUD();
 			Game::MainWindow->drawFillRect(Game::MainWindow->viewportX() - 32 * x, Game::MainWindow->viewportY(), Game::MainWindow->viewportW() / 2, Game::MainWindow->viewportH(), Color::white);
