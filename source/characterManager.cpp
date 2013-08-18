@@ -50,6 +50,8 @@
 // {nbMovements, vx1, vy1, vx2, vy2, vx3, vy3, etc...}
 
 s16 CharacterManager::moves[][21] = {
+	{0},
+	{6, 1, 0, 0, 1, 0, 1, -1, 0, 0, -1, 0, -1},
 	{6, 1, 0, 0, 1, 0, 1, -1, 0, 0, -1, 0, -1},
 	{6, 1, 0, 0, 1, 0, 1, -1, 0, 0, -1, 0, -1}
 };
@@ -106,14 +108,15 @@ Player *CharacterManager::player() {
 }
 
 void CharacterManager::moveCharacters() {
-	for(std::vector<Character*>::iterator it = Game::currentMap->characters()->begin() ; it != Game::currentMap->characters()->end() ; it++) {
+	for(std::vector<Character*>::iterator it = MapManager::currentMap->characters()->begin() ; it != MapManager::currentMap->characters()->end() ; it++) {
 		(*it)->move();
 	}
 }
 
 void CharacterManager::renderCharacters() {
-	std::sort(Game::currentMap->characters()->begin(), Game::currentMap->characters()->end(), sortCharacters);
-	for(std::vector<Character*>::iterator it = Game::currentMap->characters()->begin() ; it != Game::currentMap->characters()->end() ; it++) {
+	std::sort(MapManager::currentMap->characters()->begin(), MapManager::currentMap->characters()->end(), sortCharacters);
+	for(std::vector<Character*>::iterator it = MapManager::currentMap->characters()->begin() ; it != MapManager::currentMap->characters()->end() ; it++) {
+		if((*it)->lifes() > 0 && (*it)->isMonster()) Interface::renderMonsterLife((Monster*)(*it));
 		(*it)->render();
 	}
 }

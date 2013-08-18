@@ -48,12 +48,6 @@
 using namespace std;
 
 Window *Game::MainWindow = NULL;
-//sf::Font *Game::defaultFont = NULL;
-Image **Game::tilesets = NULL;
-Map ***Game::mapAreas = NULL;
-Map **Game::maps = NULL;
-Map *Game::currentMap = NULL;
-Door **Game::doors = NULL;
 
 Game::Game() {
 	// Initialize random seed
@@ -76,14 +70,6 @@ Game::Game() {
 	MainWindow = new Window((char*)"Radonia", 640, 480);
 #endif
 	
-	// Setup default font
-/*	defaultFont = new sf::Font();
-	if(!defaultFont->loadFromFile((char*)"fonts/Vani.ttf")) {
-		std::cout << "FATAL ERROR: Unable to load default font." << std::endl;
-		exit(EXIT_FAILURE);
-	}
-*/
-	
 	// Set default values
 	m_continue = true;
 	m_paused = false;
@@ -91,17 +77,13 @@ Game::Game() {
 	// Initialize characters
 	CharacterManager::initAllCharacters();
 	
-	// Initialize tilesets
-	tilesets = MapManager::initTilesets();
-	
 	// Initialize maps
-	mapAreas = MapManager::initMaps();
-	maps = mapAreas[0];
+	MapManager::initMaps();
 	
 	// Initialize doors
-	doors = DoorManager::initDoors();
+	DoorManager::initDoors();
 	
-	currentMap = maps[0];
+	MapManager::currentMap = MapManager::mapAreas[CharacterManager::player()->mapID()][CharacterManager::player()->area()];
 	
 #ifdef VIEWPORT
 	// Update viewport with player position
@@ -116,25 +98,23 @@ Game::~Game() {
 	// Unload interface
 	Interface::unload();
 	
-	// Delete main window
-	delete MainWindow;
-	
-	// Delete default font
-	//delete defaultFont;
-	
-	// Delete maps
-	delete[] mapAreas;
+	// Unload map manager
+	MapManager::unload();
 	
 	// Delete doors
-	delete[] doors;
+	delete[] DoorManager::doors;
 	
 	// Delete characters
 	delete[] CharacterManager::characters;
+	
+	// Delete main window
+	delete MainWindow;
 }
 
 void Game::mainLoop() {
 	u32 lastTime = 0;
 	u32 actualTime = 0;
+	
 	while(m_continue) {
 		// Process events
 		SDL_Event event;
@@ -161,7 +141,7 @@ void Game::mainLoop() {
 		// Test for map scrolling
 		scroll();
 		
-		// Make if framerate independant
+		// Make it framerate independant
 		actualTime = SDL_GetTicks();
 		if(actualTime - lastTime < 15) {
 			SDL_Delay(15 - (actualTime - lastTime));
@@ -175,7 +155,7 @@ void Game::mainLoop() {
 		MainWindow->clear();
 		
 		// Render current map
-		currentMap->render();
+		MapManager::currentMap->render();
 		
 		// Render all characters
 		CharacterManager::renderCharacters();
@@ -212,14 +192,10 @@ void Game::scroll() {
 	CharacterManager::player()->vy(0);
 	
 	for(u16 i = 0 ; i < iMax ; i++) {
-		// Move player
-		if((i & 1) || !(i & 11)) CharacterManager::player()->moveX(playerX); else CharacterManager::player()->moveX(playerX - playerX / 16);
-		if((i & 1) || !(i & 15)) CharacterManager::player()->moveY(playerY); else CharacterManager::player()->moveY(playerY - playerY / 16);
-		
-		// Move NPCs and monsters
-		for(u16 j = 0 ; j < currentMap->characters()->size() ; j++) {
-			if((i & 1) || !(i & 11)) currentMap->characters()->at(j)->moveX(playerX); else currentMap->characters()->at(j)->x(playerX - playerX / 16);
-			if((i & 1) || !(i & 15)) currentMap->characters()->at(j)->moveY(playerY); else currentMap->characters()->at(j)->y(playerY - playerY / 16);
+		// Move characters
+		for(std::vector<Character*>::iterator it = MapManager::currentMap->characters()->begin() ; it != MapManager::currentMap->characters()->end() ; it++) {
+			if((i & 1) || !(i & 11)) (*it)->moveX(playerX); else (*it)->moveX(playerX - playerX / 16);
+			if((i & 1) || !(i & 15)) (*it)->moveY(playerY); else (*it)->moveY(playerY - playerY / 16);
 		}
 		
 		// Move view to scroll
@@ -234,7 +210,7 @@ void Game::scroll() {
 		// Refresh display on time in two
 		if(i & 1) {
 			MainWindow->clear();
-			MapManager::refreshMaps(mapAreas[currentMap->area()], moveX, moveY);
+			MapManager::refreshMaps(MapManager::mapAreas[MapManager::currentMap->area()], moveX, moveY);
 			CharacterManager::renderCharacters();
 			Interface::renderHUD();
 			MainWindow->update(false);
@@ -242,15 +218,15 @@ void Game::scroll() {
 	}
 	
 	// Update currentMap variable
-	if(currentMap != NULL
-	   && currentMap->x() + moveX / 16 >= 0
-	   && currentMap->x() + moveX / 16 < WM_SIZE
-	   && currentMap->y() + moveY / 16 >= 0
-	   && currentMap->y() + moveY / 16 < WM_SIZE) currentMap = mapAreas[currentMap->area()][MAP_POS(currentMap->x() + moveX / 16, currentMap->y() + moveY / 16, currentMap->area())];
+	if(MapManager::currentMap != NULL
+	&& MapManager::currentMap->x() + moveX / 16 >= 0
+	&& MapManager::currentMap->x() + moveX / 16 < WM_SIZE
+	&& MapManager::currentMap->y() + moveY / 16 >= 0
+	&& MapManager::currentMap->y() + moveY / 16 < WM_SIZE) MapManager::currentMap = MapManager::mapAreas[MapManager::currentMap->area()][MAP_POS(MapManager::currentMap->x() + moveX / 16, MapManager::currentMap->y() + moveY / 16, MapManager::currentMap->area())];
 	
 	// Regen monsters and reset positions
-	for(u16 i = 0 ; i < currentMap->characters()->size() ; i++) {
-		currentMap->characters()->at(i)->reset();
+	for(std::vector<Character*>::iterator it = MapManager::currentMap->characters()->begin() ; it != MapManager::currentMap->characters()->end() ; it++) {
+		if(!(*it)->isPlayer()) (*it)->reset();
 	}
 }
 

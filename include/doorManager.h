@@ -21,13 +21,14 @@
 #define DOOR_MANAGER_H
 
 namespace DoorManager {
-
-// Initialize doors
-Door **initDoors();
-
-// Find the id of a door with its position
-s16 findDoorID(s16 x, s16 y, u16 mapID, u16 mapArea);
-
+	// Doors array
+	extern Door **doors;
+	
+	// Initialize doors
+	void initDoors();
+	
+	// Find the id of a door with its position
+	s16 findDoorID(s16 x, s16 y, u16 mapID, u16 mapArea);
 }
 
 #endif // DOOR_MANAGER_H

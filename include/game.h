@@ -34,22 +34,6 @@ class Game {
 		
 		// Main window
 		static Window *MainWindow;
-		//static sf::Font *defaultFont;
-		
-		// Tilesets array
-		static Image **tilesets;
-		
-		// Map areas array
-		static Map ***mapAreas;
-		
-		// Overworld maps array
-		static Map **maps;
-		
-		// Current map
-		static Map *currentMap;
-		
-		// Doors array
-		static Door **doors;
 		
 	private:
 		// Main loop states

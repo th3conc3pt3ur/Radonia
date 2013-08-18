@@ -41,8 +41,10 @@
 #include "doorManager.h"
 #include "game.h"
 
-Door** DoorManager::initDoors() {
-	Door** doors = new Door*[DOORS];
+Door **DoorManager::doors;
+
+void DoorManager::initDoors() {
+	doors = new Door*[DOORS];
 	
 	doors[0] = new Door{0, 0, 6 << 4, 3 << 4, DIR_DOWN, 1};
 	doors[1] = new Door{1, 0, (19 << 4) + 8, 20 << 4, DIR_UP, 0};
@@ -61,12 +63,9 @@ Door** DoorManager::initDoors() {
 	
 	doors[10] = new Door{0, MAP_POS(1, 0, 0), 17 << 4, 16 << 4, DIR_DOWN, 11};
 	doors[11] = new Door{1, 2, (19 << 4) + 8, 20 << 4, DIR_UP, 10};
-	
-	return doors;
 }
 
 s16 DoorManager::findDoorID(s16 x, s16 y, u16 mapID, u16 mapArea) {
-	Door** doors = Game::doors;
 	for(u16 i = 0; i < DOORS ; i++) {
 		//std::cout << "(" << (doors[i]->x >> 4) << ";" << (doors[i]->y >> 4) << ") & " << doors[i]->mapArea << " & " << _mid(doors[i]->mapArea, doors[i]->mapID) << " | (" << (x >> 4) << ";" << (y >> 4) << ") & " << mapArea << " & " << mapID << std::endl;
 		if(((doors[i]->x >> 4 == x >> 4) || (doors[i]->x >> 4 == (x >> 4) + 1) || (doors[i]->x >> 4 == (x >> 4) - 1)) && ((doors[i]->y >> 4 == y >> 4) || (doors[i]->y >> 4 == (y >> 4) + 1)) && (doors[i]->mapArea == mapArea) && (_mid(doors[i]->mapArea, doors[i]->mapID) == mapID)) {

@@ -98,12 +98,6 @@ void Interface::unload() {
 }
 
 void Interface::renderHUD() {
-	// Render monsters lifes
-	/*for(u16 i = 0 ; i < Game::currentMap->monsters().size() ; i++) {
-		if(Game::currentMap->monsters()[i]->lifes() > 0)
-			renderMonsterLife(Game::currentMap->characters()[i]);
-	}*/
-	
 	// Get viewport position
 	s16 x = Game::MainWindow->viewportX();
 	s16 y = Game::MainWindow->viewportY();

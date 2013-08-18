@@ -33,17 +33,29 @@ namespace MapManager {
 	extern u16 indoorInfo[256];
 	extern u16 undergroundInfo[256];
 	
+	// Tilesets array
+	extern Image **tilesets;
+	
+	// Maps array
+	extern Map ***mapAreas;
+	
+	// Current map
+	extern Map *currentMap;
+	
 	// Tileset init function
-	Image **initTilesets();
+	void initTilesets();
 	
 	// Sizes of map areas
 	extern u16 areaSizes[MAP_AREAS];
 	
 	// Map init function
-	Map*** initMaps();
+	void initMaps();
 	
 	// Map update function
 	void refreshMaps(Map **maps, s16 moveX, s16 moveY);
+	
+	// Unload map manager
+	void unload();
 }
 
 // Get map id from area
