@@ -54,9 +54,6 @@ Map ***Game::mapAreas = NULL;
 Map **Game::maps = NULL;
 Map *Game::currentMap = NULL;
 Door **Game::doors = NULL;
-NPC **Game::NPCs = NULL;
-Monster **Game::monsters = NULL;
-Player *Game::player = NULL;
 
 Game::Game() {
 	// Initialize random seed
@@ -91,14 +88,11 @@ Game::Game() {
 	m_continue = true;
 	m_paused = false;
 	
+	// Initialize characters
+	CharacterManager::initAllCharacters();
+	
 	// Initialize tilesets
 	tilesets = MapManager::initTilesets();
-	
-	// Initialize NPCs
-	NPCs = CharacterManager::initAllNPCs();
-	
-	// Initialize monsters
-	monsters = CharacterManager::initAllMonsters();
 	
 	// Initialize maps
 	mapAreas = MapManager::initMaps();
@@ -109,12 +103,9 @@ Game::Game() {
 	
 	currentMap = maps[0];
 	
-	// Initialize player
-	player = CharacterManager::initPlayer();
-	
 #ifdef VIEWPORT
 	// Update viewport with player position
-	MainWindow->centerViewportWithObject(player->x(), player->y(), player->frameSize(), player->frameSize());
+	MainWindow->centerViewportWithObject(CharacterManager::player()->x(), CharacterManager::player()->y(), CharacterManager::player()->frameSize(), CharacterManager::player()->frameSize());
 #endif
 	
 	// Initialize interface
@@ -137,14 +128,8 @@ Game::~Game() {
 	// Delete doors
 	delete[] doors;
 	
-	// Delete NPCs
-	delete[] NPCs;
-	
-	// Delete monsters
-	delete[] monsters;
-	
-	// Delete player
-	delete player;
+	// Delete characters
+	delete[] CharacterManager::characters;
 }
 
 void Game::mainLoop() {
@@ -196,7 +181,7 @@ void Game::mainLoop() {
 		CharacterManager::renderCharacters();
 		
 		// Render player
-		player->action();
+		CharacterManager::player()->action();
 		
 		// Render HUD
 		Interface::renderHUD();
@@ -216,29 +201,25 @@ void Game::scroll() {
 	s16 playerX = 0;
 	s16 playerY = 0;
 	
-	if(player->x() > (MAP_WIDTH - 1) * 16 + 2)		 { moveX =  16; iMax = 40; playerX = -16; }
-	else if(player->x() < -2)						 { moveX = -16; iMax = 40; playerX =  16; }
-	else if(player->y() > (MAP_HEIGHT - 1) * 16 + 1) { moveY =  16; iMax = 30; playerY = -16; }
-	else if(player->y() < -2)						 { moveY = -16; iMax = 30; playerY =  16; }
-	else											 { return; }
+	if(CharacterManager::player()->x() > (MAP_WIDTH - 1) * 16 + 2)		 { moveX =  16; iMax = 40; playerX = -16; }
+	else if(CharacterManager::player()->x() < -2)						 { moveX = -16; iMax = 40; playerX =  16; }
+	else if(CharacterManager::player()->y() > (MAP_HEIGHT - 1) * 16 + 1) { moveY =  16; iMax = 30; playerY = -16; }
+	else if(CharacterManager::player()->y() < -2)						 { moveY = -16; iMax = 30; playerY =  16; }
+	else																 { return; }
 	
 	// Reset player movement vectors
-	player->vx(0);
-	player->vy(0);
+	CharacterManager::player()->vx(0);
+	CharacterManager::player()->vy(0);
 	
 	for(u16 i = 0 ; i < iMax ; i++) {
 		// Move player
-		if((i & 1) || !(i & 11)) player->x(player->x() + playerX); else player->x(player->x() + playerX - playerX / 16);
-		if((i & 1) || !(i & 15)) player->y(player->y() + playerY); else player->y(player->y() + playerY - playerY / 16);
+		if((i & 1) || !(i & 11)) CharacterManager::player()->moveX(playerX); else CharacterManager::player()->moveX(playerX - playerX / 16);
+		if((i & 1) || !(i & 15)) CharacterManager::player()->moveY(playerY); else CharacterManager::player()->moveY(playerY - playerY / 16);
 		
 		// Move NPCs and monsters
-		for(u16 j = 0 ; j < currentMap->NPCs().size() ; j++) {
-			if((i & 1) || !(i & 11)) currentMap->NPCs()[j]->x(currentMap->NPCs()[j]->x() + playerX); else currentMap->NPCs()[j]->x(currentMap->NPCs()[j]->x() + playerX - playerX / 16);
-			if((i & 1) || !(i & 15)) currentMap->NPCs()[j]->y(currentMap->NPCs()[j]->y() + playerY); else currentMap->NPCs()[j]->y(currentMap->NPCs()[j]->y() + playerY - playerY / 16);
-		}
-		for(u16 j = 0 ; j < currentMap->monsters().size() ; j++) {
-			if((i & 1) || !(i & 11)) currentMap->monsters()[j]->x(currentMap->monsters()[j]->x() + playerX); else currentMap->monsters()[j]->x(currentMap->monsters()[j]->x() + playerX - playerX / 16);
-			if((i & 1) || !(i & 15)) currentMap->monsters()[j]->y(currentMap->monsters()[j]->y() + playerY); else currentMap->monsters()[j]->y(currentMap->monsters()[j]->y() + playerY - playerY / 16);
+		for(u16 j = 0 ; j < currentMap->characters()->size() ; j++) {
+			if((i & 1) || !(i & 11)) currentMap->characters()->at(j)->moveX(playerX); else currentMap->characters()->at(j)->x(playerX - playerX / 16);
+			if((i & 1) || !(i & 15)) currentMap->characters()->at(j)->moveY(playerY); else currentMap->characters()->at(j)->y(playerY - playerY / 16);
 		}
 		
 		// Move view to scroll
@@ -268,11 +249,8 @@ void Game::scroll() {
 	   && currentMap->y() + moveY / 16 < WM_SIZE) currentMap = mapAreas[currentMap->area()][MAP_POS(currentMap->x() + moveX / 16, currentMap->y() + moveY / 16, currentMap->area())];
 	
 	// Regen monsters and reset positions
-	for(u16 i = 0 ; i < currentMap->monsters().size() ; i++) {
-		currentMap->monsters()[i]->reset();
-	}
-	for(u16 i = 0 ; i < currentMap->NPCs().size() ; i++) {
-		currentMap->NPCs()[i]->reset();
+	for(u16 i = 0 ; i < currentMap->characters()->size() ; i++) {
+		currentMap->characters()->at(i)->reset();
 	}
 }
 

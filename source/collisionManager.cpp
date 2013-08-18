@@ -54,7 +54,7 @@ u16 CollisionManager::collisionMatrix[4][4] = {
 };
 
 bool CollisionManager::passable(Character *c, s16 x, s16 y) {
-	// Setup tileX and tileY
+	/*// Setup tileX and tileY
 	s16 tileX = x >> 4;
 	s16 tileY = y >> 4;
 	
@@ -109,11 +109,12 @@ bool CollisionManager::passable(Character *c, s16 x, s16 y) {
 	if(inTable(MapManager::nonPassableTiles, Game::currentMap->tilesetInfo()[Game::currentMap->getTile(tileX, tileY)])) {
 		if(c) c->collidedTile(Game::currentMap->tilesetInfo()[Game::currentMap->getTile(tileX, tileY)]);
 		return false;
-	} else return true;
+	} else return true;*/
+	return true;
 }
 
 Character *CollisionManager::getCollidedCharacter(s16 x, s16 y, Character *c) {
-	// Collisions with NPCs
+	/*// Collisions with NPCs
 	if(!c || !c->isNPC()) {
 		for(u16 i = 0 ; i < Game::currentMap->NPCs().size() ; i++) {
 			if((Game::currentMap->NPCs()[i]->x() < x && Game::currentMap->NPCs()[i]->x() + 16 > x)
@@ -143,10 +144,12 @@ Character *CollisionManager::getCollidedCharacter(s16 x, s16 y, Character *c) {
 	}
 	
 	// No character is collided
+	return NULL;*/
 	return NULL;
 }
 
 void CollisionManager::testCollisions(Character *c){
+	/*
 	// Be sure movement timer is started
 	if(!c->movementTimer().isStarted()) c->movementTimer().start();
 	
@@ -165,24 +168,24 @@ void CollisionManager::testCollisions(Character *c){
 			// Obstacles
 			if( passable(c, c->x() + collisionMatrix[i][2], c->y() + collisionMatrix[i][3])
 			&& !passable(c, c->x() + collisionMatrix[i][0], c->y() + collisionMatrix[i][1])) {
-				if(((i<2)?(c->vy() == 0):(c->vx() == 0)) && !c->collidedCharacter()/* && !collidedWeapon*/) {
+				if(((i<2)?(c->vy() == 0):(c->vx() == 0)) && !c->collidedCharacter()) {
 					if(i<2)	c->vy(1);
 					else	c->vx(1);
 				}
 			}
 			if( passable(c, c->x() + collisionMatrix[i][0], c->y() + collisionMatrix[i][1])
 			&& !passable(c, c->x() + collisionMatrix[i][2], c->y() + collisionMatrix[i][3])) {
-				if(((i<2)?(c->vy() == 0):(c->vx() == 0)) && !c->collidedCharacter()/* && !collidedWeapon*/) {
+				if(((i<2)?(c->vy() == 0):(c->vx() == 0)) && !c->collidedCharacter()) {
 					if(i<2) c->vy(-1);
 					else	c->vx(-1);
 				}
 			}
 		}
-	}
+	}*/
 }
 
 void CollisionManager::doorCollisions(Character *c) {
-	if(inTiles((c->x() + 8) >> 4, (c->y() + 8) >> 4, MapManager::changeMapTiles) && !c->inDoor()) {
+	/*if(inTiles((c->x() + 8) >> 4, (c->y() + 8) >> 4, MapManager::changeMapTiles) && !c->inDoor()) {
 		// Search for the door
 		s16 doorID = DoorManager::findDoorID(c->x(), c->y(), Game::currentMap->id(), Game::currentMap->area());
 		
@@ -239,6 +242,6 @@ void CollisionManager::doorCollisions(Character *c) {
 	&& (!inTiles((c->x() + 14) >> 4, (c->y() + 14) >> 4, MapManager::changeMapTiles)) && c->inDoor()) {
 		// The player isn't in the door anymore
 		c->inDoor(false);
-	}
+	}*/
 }
 

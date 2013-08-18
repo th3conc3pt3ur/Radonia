@@ -48,7 +48,7 @@
 
 u16 Character::nbCharacters = 0;
 
-Character::Character(char *filename, CharacterType type, s16 x, s16 y, CharacterDirection direction, s16 mapID, u8 frameSize) : Sprite(filename, frameSize) {
+Character::Character(char *filename, CharacterType type, s16 x, s16 y, CharacterDirection direction, u16 mapID, u16 area, u8 frameSize) : Sprite(filename, frameSize) {
 	// Set character id
 	m_id = nbCharacters;
 	
@@ -78,6 +78,7 @@ Character::Character(char *filename, CharacterType type, s16 x, s16 y, Character
 	m_direction = direction;
 	
 	m_mapID = mapID;
+	m_area = area;
 	
 	m_moving = false;
 	

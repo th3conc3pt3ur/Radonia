@@ -37,11 +37,13 @@ typedef enum {
 class Character : public Sprite {
 	public:
 		// Constructor and destructor
-		Character(char *filename, CharacterType type, s16 x, s16 y, CharacterDirection direction, s16 mapID = -1, u8 frameSize = 16);
+		Character(char *filename, CharacterType type, s16 x, s16 y, CharacterDirection direction, u16 mapID, u16 area, u8 frameSize = 16);
 		virtual ~Character();
 		
-		// Move function
-		void move();
+		// Movement functions
+		virtual void move();
+		void moveX(u16 x) { m_x += x; }
+		void moveY(u16 y) { m_y += y; }
 		
 		// Render character
 		void render();
@@ -54,6 +56,9 @@ class Character : public Sprite {
 		
 		// Reset character attributes
 		void reset();
+		
+		// Get character id
+		u16 id() const { return m_id; }
 		
 		// Get character position
 		s16 x() const { return m_x; }
@@ -68,10 +73,10 @@ class Character : public Sprite {
 		u16 maxLifes() const { return m_maxLifes; }
 		
 		// Get map id
-		s16 mapID() const { return m_mapID; }
+		u16 mapID() const { return m_mapID; }
 		
-		// Get character id
-		u16 id() const { return m_id; }
+		// Get map area
+		u16 area() const { return m_area; }
 		
 		// Get in door state
 		bool inDoor() const { return m_inDoor; }
@@ -134,7 +139,10 @@ class Character : public Sprite {
 		CharacterDirection m_direction;
 		
 		// Map id
-		s16 m_mapID;
+		u16 m_mapID;
+		
+		// Map area
+		u16 m_area;
 		
 		// Moving state
 		bool m_moving;

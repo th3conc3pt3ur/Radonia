@@ -28,7 +28,9 @@
 #define INDOOR_MAPS 3
 
 #define NB_NPCs 1
-#define NB_MONSTERS 1
+#define NB_MONSTERS 2
+
+#define NB_CHARACTERS (1 + NB_NPCs + NB_MONSTERS)
 
 #define DOORS 12
 
@@ -37,9 +39,9 @@
 
 #define CHARACTER_SPEED 1
 
-//#ifdef __ANDROID__
+#ifdef __ANDROID__
 	#define VIEWPORT
 	#define PAD
-//#endif
+#endif
 
 #endif // CONFIG_H

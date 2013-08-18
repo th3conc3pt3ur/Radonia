@@ -45,23 +45,8 @@ class Map {
 		// Get map area
 		u16 area() const { return m_area; }
 		
-		// Get NPCs
-		std::vector<NPC*> NPCs() const { return m_NPCs; }
-		
-		// Get monsters
-		std::vector<Monster*> monsters() const { return m_monsters; }
-		
-		// Move NPCs
-		void moveNPCs();
-		
-		// Render NPCs
-		void renderNPCs();
-		
-		// Move monsters
-		void moveMonsters();
-		
-		// Render monsters
-		void renderMonsters();
+		// Get map characters
+		std::vector<Character*> *characters() { return m_characters; }
 		
 		// Maps counter
 		static u16 nbMaps;
@@ -95,11 +80,8 @@ class Map {
 		// Map area
 		u16 m_area;
 		
-		// NPCs
-		std::vector<NPC*> m_NPCs;
-		
-		// Monsters
-		std::vector<Monster*> m_monsters;
+		// Characters
+		std::vector<Character*> *m_characters;
 };
 
 #endif // MAP_H

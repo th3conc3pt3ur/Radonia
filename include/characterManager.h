@@ -24,20 +24,26 @@ namespace CharacterManager {
 	// Movements
 	extern s16 moves[][21];
 	
-	// Initialize player
-	Player *initPlayer();
+	// Characters array
+	extern Character **characters;
 	
-	// Initialize all monsters
-	Monster **initAllMonsters();
+	// Initialize all characters
+	void initAllCharacters();
 	
-	// Initialize all NPCs
-	NPC **initAllNPCs();
+	// Get current map characters
+	std::vector<Character*> *getCharactersInMap(u16 id, u16 area);
 	
 	/* Monsters */
-	Monster *initRedMonster(u16 x, u16 y, CharacterDirection direction, u16 mapID);
+	Monster *initRedMonster(u16 x, u16 y, CharacterDirection direction, u16 mapID, u16 area);
 	
 	/* NPCs */
-	NPC *initBlueBoy(u16 x, u16 y, CharacterDirection direction, u16 mapID);
+	NPC *initBlueBoy(u16 x, u16 y, CharacterDirection direction, u16 mapID, u16 area);
+	
+	// Sort characters by y coordinate for rendering
+	bool sortCharacters(Character *c1, Character *c2);
+	
+	// Get player
+	Player *player();
 	
 	// Move all characters
 	void moveCharacters();

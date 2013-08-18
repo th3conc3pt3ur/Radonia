@@ -18,6 +18,7 @@
 	
 ---------------------------------------------------------------------------------*/
 #include <iostream>
+#include <algorithm>
 
 #include "includeSDL.h"
 
@@ -53,59 +54,67 @@ s16 CharacterManager::moves[][21] = {
 	{6, 1, 0, 0, 1, 0, 1, -1, 0, 0, -1, 0, -1}
 };
 
-Player *CharacterManager::initPlayer() {
-	return new Player;
-}
+Character **CharacterManager::characters;
 
-Monster **CharacterManager::initAllMonsters() {
-	// Initialize monsters array
-	Monster **monsters = new Monster*[NB_MONSTERS];
+void CharacterManager::initAllCharacters() {
+	// Initialize characters array
+	characters = new Character*[NB_CHARACTERS];
+	
+	// Init player
+	characters[0] = new Player(17 << 4, 21 << 4, DIR_RIGHT, 0, 0);
 	
 	// Init monsters
-	monsters[0] = initRedMonster(22 << 4, 10 << 4, DIR_RIGHT, 0);
-	
-	return monsters;
-}
-
-NPC **CharacterManager::initAllNPCs() {
-	// Initialize NPCs array
-	NPC **NPCs = new NPC*[NB_NPCs];
+	characters[1] = initRedMonster(22 << 4, 10 << 4, DIR_RIGHT, 0, 0);
+	characters[3] = initRedMonster(25 << 4, 10 << 4, DIR_RIGHT, 0, 0); 
 	
 	// Init NPCs
-	NPCs[0] = initBlueBoy(17 << 4, 2 << 4, DIR_DOWN, 0);
+	characters[2] = initBlueBoy(17 << 4, 2 << 4, DIR_DOWN, 0, 0);
+}
+
+std::vector<Character*> *CharacterManager::getCharactersInMap(u16 id, u16 area) {
+	std::vector<Character*> *c = new std::vector<Character*>;
 	
-	return NPCs;
+	for(u16 i = 0 ; i < NB_CHARACTERS ; i++) {
+		if((characters[i]->mapID() == id
+		&&	characters[i]->area()  == area)
+		|| characters[i]->isPlayer()) {
+			c->push_back(characters[i]);
+		}
+	}
+	
+	return c;
 }
 
 /* Monsters */
 
-Monster *CharacterManager::initRedMonster(u16 x, u16 y, CharacterDirection direction, u16 mapID) {
-	return new Monster(x, y, direction, mapID, MONSTER_REDMONSTER, (char*)"graphics/monsters/red_monster.png");
+Monster *CharacterManager::initRedMonster(u16 x, u16 y, CharacterDirection direction, u16 mapID, u16 area) {
+	return new Monster(x, y, direction, mapID, area, MONSTER_REDMONSTER, (char*)"graphics/monsters/red_monster.png");
 }
 
 /* NPCs */
 
-NPC *CharacterManager::initBlueBoy(u16 x, u16 y, CharacterDirection direction, u16 mapID) {
-	return new NPC(x, y, direction, mapID, NPC_BLUEBOY, (char*)"graphics/characters/blue_boy.png");
+NPC *CharacterManager::initBlueBoy(u16 x, u16 y, CharacterDirection direction, u16 mapID, u16 area) {
+	return new NPC(x, y, direction, mapID, area, NPC_BLUEBOY, (char*)"graphics/characters/blue_boy.png");
+}
+
+bool CharacterManager::sortCharacters(Character *c1, Character *c2) {
+	return (c1->y() < c2->y());
+}
+
+Player *CharacterManager::player() {
+	return (Player*)characters[0];
 }
 
 void CharacterManager::moveCharacters() {
-	for(u16 i = 0 ; i < Game::currentMap->NPCs().size() ; i++) {
-		Game::currentMap->NPCs()[i]->move();
+	for(std::vector<Character*>::iterator it = Game::currentMap->characters()->begin() ; it != Game::currentMap->characters()->end() ; it++) {
+		(*it)->move();
 	}
-	for(u16 i = 0 ; i < Game::currentMap->monsters().size() ; i++) {
-		Game::currentMap->monsters()[i]->move();
-	}
-	Game::player->move();
 }
 
 void CharacterManager::renderCharacters() {
-	for(u16 i = 0 ; i < Game::currentMap->NPCs().size() ; i++) {
-		Game::currentMap->NPCs()[i]->render();
+	std::sort(Game::currentMap->characters()->begin(), Game::currentMap->characters()->end(), sortCharacters);
+	for(std::vector<Character*>::iterator it = Game::currentMap->characters()->begin() ; it != Game::currentMap->characters()->end() ; it++) {
+		(*it)->render();
 	}
-	for(u16 i = 0 ; i < Game::currentMap->monsters().size() ; i++) {
-		Game::currentMap->monsters()[i]->render();
-	}
-	Game::player->render();
 }
 

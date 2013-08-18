@@ -99,10 +99,10 @@ void Interface::unload() {
 
 void Interface::renderHUD() {
 	// Render monsters lifes
-	for(u16 i = 0 ; i < Game::currentMap->monsters().size() ; i++) {
+	/*for(u16 i = 0 ; i < Game::currentMap->monsters().size() ; i++) {
 		if(Game::currentMap->monsters()[i]->lifes() > 0)
-			renderMonsterLife(Game::currentMap->monsters()[i]);
-	}
+			renderMonsterLife(Game::currentMap->characters()[i]);
+	}*/
 	
 	// Get viewport position
 	s16 x = Game::MainWindow->viewportX();
@@ -112,18 +112,18 @@ void Interface::renderHUD() {
 	// Render pad
 	pad->setPosRect(Game::MainWindow->viewportX() + 16, Game::MainWindow->viewportY() + Game::MainWindow->viewportH() - pad->height() - 16, pad->width(), pad->height());
 	pad->render();
-#endif
 	
 	// Render buttons
 	buttonA->setPosRect(Game::MainWindow->viewportX() + Game::MainWindow->viewportW() - buttonA->width() - 16, Game::MainWindow->viewportY() + Game::MainWindow->viewportH() - buttonA->height() - 16, buttonA->width(), buttonA->height());
 	buttonA->render();
+#endif
 	
 	// Get heart data
 	double entireHearts = 0;
-	double piecesOfHearts = modf((double)Game::player->lifes() / 4, &entireHearts);
+	double piecesOfHearts = modf((double)CharacterManager::player()->lifes() / 4, &entireHearts);
 	
 	// Render hearts
-	for(u8 i = 0 ; i < Game::player->maxLifes() / 4 ; i++) {
+	for(u8 i = 0 ; i < CharacterManager::player()->maxLifes() / 4 ; i++) {
 		if(i < entireHearts) hearts->drawFrame(x + 16 * i, y, 4);
 		else if(i == entireHearts + ceil(piecesOfHearts) - 1) hearts->drawFrame(x + 16 * i, y, ((i < entireHearts + ceil(piecesOfHearts) - 1) ? 4 : piecesOfHearts * 4));
 		else if(i > entireHearts + ceil(piecesOfHearts) - 1) hearts->drawFrame(x + 16 * i, y, 0);

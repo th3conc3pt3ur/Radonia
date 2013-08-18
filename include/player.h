@@ -23,7 +23,7 @@
 class Player : public Character {
 	public:
 		// Constructor and destructor
-		Player();
+		Player(u16 x, u16 y, CharacterDirection direction, u16 mapID, u16 area);
 		~Player();
 		
 		// Movement function

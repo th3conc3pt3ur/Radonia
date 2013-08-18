@@ -93,19 +93,16 @@ Map::Map(Image *tileset, u16 *tilesetInfo, char *filename, u16 width, u16 height
 	// Save data in current map
 	m_data = table;
 	
-	// Get NPCs
-	for(u16 i = 0 ; i < NB_NPCs ; i++) {
-		if(Game::NPCs[i]->mapID() == m_id) m_NPCs.push_back(Game::NPCs[i]);
-	}
-	
-	// Get monsters
-	for(u16 i = 0 ; i < NB_MONSTERS ; i++) {
-		if(Game::monsters[i]->mapID() == m_id) m_monsters.push_back(Game::monsters[i]);
-	}
+	// Get characters
+	m_characters = CharacterManager::getCharactersInMap(m_id, m_area);
 }
 
 Map::~Map() {
+	// Free map data
 	free(m_data);
+	
+	// Delete characters vector
+	delete m_characters;
 }
 
 void Map::render() {
@@ -141,34 +138,6 @@ u16 Map::getTile(u16 tileX, u16 tileY) {
 		return m_data[tileX + tileY * m_width];
 	} else {
 		return 0; // Tile isn't in the map
-	}
-}
-
-void Map::moveNPCs() {
-	for(std::vector<NPC*>::iterator it = m_NPCs.begin() ; it != m_NPCs.end() ; it++) {
-		(*it)->move();
-	}
-}
-
-void Map::renderNPCs() {
-	for(std::vector<NPC*>::iterator it = m_NPCs.begin() ; it != m_NPCs.end() ; it++) {
-		(*it)->render();
-	}
-}
-
-void Map::moveMonsters() {
-	for(std::vector<Monster*>::iterator it = m_monsters.begin() ; it != m_monsters.end() ; it++) {
-		if((*it)->lifes() > 0) {
-			(*it)->move();
-		}
-	}
-}
-
-void Map::renderMonsters() {
-	for(std::vector<Monster*>::iterator it = m_monsters.begin() ; it != m_monsters.end() ; it++) {
-		if((*it)->lifes() > 0) {
-			(*it)->render();
-		}
 	}
 }
 
