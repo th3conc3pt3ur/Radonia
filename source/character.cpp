@@ -193,13 +193,20 @@ void Character::render() {
 }
 
 void Character::testCollisions() {
+	// Ensure that movement timer is started
+	if(!m_movementTimer.isStarted()) m_movementTimer.start();
+	
 	// 0: Right | 1: Left | 2: Up | 3:Down
 	for(u8 i = 0 ; i < 4 ; i++) {
 		if(((i==0)?(m_vx > 0):((i==1)?(m_vx < 0):((i==2)?(m_vy < 0):(m_vy > 0))))
 		&& (!CollisionManager::passable(m_x + CollisionManager::collisionMatrix[i][0], m_y + CollisionManager::collisionMatrix[i][1])
 		 || !CollisionManager::passable(m_x + CollisionManager::collisionMatrix[i][2], m_y + CollisionManager::collisionMatrix[i][3])
-		 || CollisionManager::collidesWithCharacter(this))) {
-			// Reset movement vector
+		// FIXME: collisionManager.cpp:62
+		 || CollisionManager::collidesWithCharacter(this, m_x + CollisionManager::collisionMatrix[i][0], m_y + CollisionManager::collisionMatrix[i][1])
+		 || CollisionManager::collidesWithCharacter(this, m_x + CollisionManager::collisionMatrix[i][2], m_y + CollisionManager::collisionMatrix[i][3])
+		// || CollisionManager::collidesWithCharacter(this)
+		 )) {
+			// Reset movement vectors
 			if(i<2) m_vx = 0;
 			else	m_vy = 0;
 			

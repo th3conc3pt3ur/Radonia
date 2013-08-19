@@ -68,6 +68,13 @@ class Character : public Sprite {
 		s16 x() const { return m_x; }
 		s16 y() const { return m_y; }
 		
+		// Get character movement vectors
+		s8 vx() const { return m_vx; }
+		s8 vy() const { return m_vy; }
+		
+		// Get character direction
+		CharacterDirection direction() const { return m_direction; }
+		
 		// Get character lifes
 		s16 lifes() const { return m_lifes; }
 		u16 maxLifes() const { return m_maxLifes; }

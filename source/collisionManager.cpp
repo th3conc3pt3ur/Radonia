@@ -55,20 +55,26 @@ u16 CollisionManager::collisionMatrix[4][4] = {
 
 bool CollisionManager::passable(s16 x, s16 y) {
 	// Collisions with map
-	if(inTable(MapManager::nonPassableTiles, MapManager::currentMap->tilesetInfo()[MapManager::currentMap->getTile(x >> 4, y >> 4)])) {
-		return false;
-	} else {
-		return true;
-	}
+	return !inTable(MapManager::nonPassableTiles, MapManager::currentMap->tilesetInfo()[MapManager::currentMap->getTile(x >> 4, y >> 4)]);
 }
 
-bool CollisionManager::collidesWithCharacter(Character *c) {
+bool CollisionManager::collidesWithCharacter(Character *c, s16 x, s16 y) {
+	// FIXME: Understand why it doesn't work that way
+	/*u16 x1 = c->x() + collisionMatrix[(c->direction() - 1) & 3][0];
+	u16 y1 = c->y() + collisionMatrix[(c->direction() - 1) & 3][1];
+	u16 x2 = c->x() + collisionMatrix[(c->direction() - 1) & 3][2];
+	u16 y2 = c->y() + collisionMatrix[(c->direction() - 1) & 3][3];*/
+	
 	for(std::vector<Character*>::iterator it = MapManager::currentMap->characters()->begin() ; it != MapManager::currentMap->characters()->end() ; it++) {
-		if((*it)->x() > c->x() && (*it)->x() < c->x() + c->frameSize() && (*it)->y() > c->y() && (*it)->y() < c->y() + c->frameSize()
-		&& (*it)->id() != c->id()) {
+		if((((*it)->x() < x && (*it)->x() + (*it)->frameSize() > x
+		&&   (*it)->y() < y && (*it)->y() + (*it)->frameSize() > y)
+		/*||	((*it)->x() < x2 && (*it)->x() + (*it)->frameSize() > x2
+		&&   (*it)->y() < y2 && (*it)->y() + (*it)->frameSize() > y2)*/)
+		&& c->id() != (*it)->id()) {
 			return true;
 		}
 	}
+	
 	return false;
 }
 
