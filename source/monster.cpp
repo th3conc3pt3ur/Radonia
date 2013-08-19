@@ -83,16 +83,22 @@ void Monster::move() {
 			else if(x < m_x) m_vx = -1;
 			if(y > m_y)		 m_vy =	 1;
 			else if(y < m_y) m_vy = -1;
+			
+			// Update moving state
+			m_moving = true;
+			
+			// Reset movement timer
+			m_movementTimer.reset();
+			
+			// Test collisions
+			testCollisions();
+	
+			// Set character direction
+			if(e_x > 0) m_direction = DIR_RIGHT;
+			if(e_x < 0) m_direction = DIR_LEFT;
+			if(e_y > 0) m_direction = DIR_DOWN;
+			if(e_y < 0) m_direction = DIR_UP;
 		}
-		
-		// Update moving state
-		m_moving = true;
-		
-		// Reset movement timer
-		m_movementTimer.reset();
-		
-		// Test collisions
-		testCollisions();
 	} else {
 		// FIXME: To improve
 		// Area to walk in
@@ -174,13 +180,13 @@ void Monster::move() {
 			m_vx = 0;
 			m_vy = 0;
 		}
+		
+		// Set character direction
+		if(m_vx > 0) m_direction = DIR_RIGHT;
+		if(m_vx < 0) m_direction = DIR_LEFT;
+		if(m_vy > 0) m_direction = DIR_DOWN;
+		if(m_vy < 0) m_direction = DIR_UP;
 	}
-	
-	// Set character direction
-	if(m_vx > 0) m_direction = DIR_RIGHT;
-	if(m_vx < 0) m_direction = DIR_LEFT;
-	if(m_vy > 0) m_direction = DIR_DOWN;
-	if(m_vy < 0) m_direction = DIR_UP;
 	
 	// Move character
 	m_x += m_vx * CHARACTER_SPEED;
