@@ -46,11 +46,13 @@
 #include "game.h"
 
 // Initialize collision matrix
-u16 CollisionManager::collisionMatrix[4][4] = {
+u16 CollisionManager::collisionMatrix[6][4] = {
 	{12,8,12,14},	// Right
 	{3,8,3,14},		// Left
 	{5,5,10,5},		// Up
-	{5,15,10,15}	// Down
+	{5,15,10,15},	// Down
+	{12,8,12,10},	// Special right (mobs)
+	{3,8,3,10}		// Special left (mobs)
 };
 
 bool CollisionManager::passable(s16 x, s16 y) {
@@ -59,10 +61,10 @@ bool CollisionManager::passable(s16 x, s16 y) {
 }
 
 bool CollisionManager::collidesWithCharacter(Character *c, u8 i) {
-	u16 x1 = c->x() + collisionMatrix[i][0];
-	u16 y1 = c->y() + collisionMatrix[i][1];
-	u16 x2 = c->x() + collisionMatrix[i][2];
-	u16 y2 = c->y() + collisionMatrix[i][3];
+	u16 x1 = c->x() + collisionMatrix[(i + 2) ^ 6][0];
+	u16 y1 = c->y() + collisionMatrix[(i + 2) ^ 6][1];
+	u16 x2 = c->x() + collisionMatrix[(i + 2) ^ 6][2];
+	u16 y2 = c->y() + collisionMatrix[(i + 2) ^ 6][3];
 	
 	for(std::vector<Character*>::iterator it = MapManager::currentMap->characters()->begin() ; it != MapManager::currentMap->characters()->end() ; it++) {
 		if((((*it)->x() < x1 && (*it)->x() + (*it)->frameSize() > x1
@@ -74,7 +76,6 @@ bool CollisionManager::collidesWithCharacter(Character *c, u8 i) {
 		}
 	}
 	
-	//if(c->isPlayer()) std::cout << ((c->direction() - 1) & 3) << " - " << (int)i << std::endl;
 	return false;
 }
 

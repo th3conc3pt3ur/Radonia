@@ -22,7 +22,7 @@
 
 namespace CollisionManager {
 	// Collision matrix
-	extern u16 collisionMatrix[4][4];
+	extern u16 collisionMatrix[6][4];
 	
 	// Test if the tile is passable
 	bool passable(s16 x, s16 y);
