@@ -113,6 +113,9 @@ Character::~Character() {
 }
 
 void Character::move() {
+	// If the character is dead, don't move it
+	if(m_lifes <= 0) return;
+	
 	// Move or not
 	if(m_movementTimer.time() > 4000) {
 		// Update movement vectors
@@ -157,8 +160,7 @@ void Character::move() {
 	if(m_vy < 0) m_direction = DIR_UP;
 	
 	// Test collisions
-	CollisionManager::doorCollisions(this);
-	CollisionManager::testCollisions(this);
+	testCollisions();
 	
 	// Move character
 	m_x += m_vx * CHARACTER_SPEED;
@@ -170,9 +172,12 @@ void Character::move() {
 }
 
 void Character::render() {
+	// If the character is dead, don't display it
+	if(m_lifes <= 0) return;
+	
 	if(!m_isAttacking) {
 		if(m_moving) playAnimation(m_x, m_y, m_direction);
-		else drawFrame(m_x, m_y, m_direction);
+		else		 drawFrame(m_x, m_y, m_direction);
 	}
 	
 	// Test if character is in grass
@@ -187,74 +192,40 @@ void Character::render() {
 	}
 }
 
-void Character::hurt(u8 distSupp) {
-	if(m_hurtTimer.time() - m_timerLastValue > 5) {
-		if(isPlayer()) {
-			// Block comamnds
-			m_canMove = false;
-		} else {
-			// Stop NPC or monster movement
+void Character::testCollisions() {
+	// 0: Right | 1: Left | 2: Up | 3:Down
+	for(u8 i = 0 ; i < 4 ; i++) {
+		if(((i==0)?(m_vx > 0):((i==1)?(m_vx < 0):((i==2)?(m_vy < 0):(m_vy > 0))))
+		&& (!CollisionManager::passable(m_x + CollisionManager::collisionMatrix[i][0], m_y + CollisionManager::collisionMatrix[i][1])
+		 || !CollisionManager::passable(m_x + CollisionManager::collisionMatrix[i][2], m_y + CollisionManager::collisionMatrix[i][3])
+		 || CollisionManager::collidesWithCharacter(this))) {
+			// Reset movement vector
+			if(i<2) m_vx = 0;
+			else	m_vy = 0;
+			
+			// Stop movement timer
 			m_movementTimer.stop();
-		}
-		
-		// Change sprite texture
-		SDL_SetTextureColorMod(m_texture, rand()%255, rand()%255, rand()%255);
-		
-		// Get character direction vectors
-		s8 e_x = m_x - m_collidedCharacter->x();
-		s8 e_y = m_y - m_collidedCharacter->y();
-		
-		// Set movement vectors
-		if(!m_collidedTile && abs(e_x) > 8) m_vx = (e_x==0)?0:((e_x<0)?-2:2);
-		if(!m_collidedTile && abs(e_y) > 8) m_vy = (e_y==0)?0:((e_y<0)?-2:2);
-		
-		// Temporary collision states
-		Character *tmpCollidedCharacter = m_collidedCharacter;
-		
-		// Reset collision states
-		m_collidedCharacter = NULL;
-		
-		// Setup temporary movement vectors
-		s8 t_vx = m_vx;
-		s8 t_vy = m_vy;
-		
-		// Test collisions
-		CollisionManager::testCollisions(this);
-		
-		// Reset movement vectors
-		m_vx = t_vx;
-		m_vy = t_vy;
-		
-		// Reset collision states with temp values
-		m_collidedCharacter = tmpCollidedCharacter;
-		
-		// Reset timer last value
-		m_timerLastValue = m_hurtTimer.time();
-		
-		// Reset collided sprite and blocked commands states
-		if(abs(e_x) > 32 + distSupp || abs(e_y) > 32 + distSupp || m_collidedTile) {
-			m_collidedCharacter = NULL;
-			m_collidedTile = 0;
-			if(isPlayer()) m_canMove = true;
-			else		   m_movementTimer.start();
-			SDL_SetTextureColorMod(m_texture, 255, 255, 255);
+			
+			// Obstacles
+			if( CollisionManager::passable(m_x + CollisionManager::collisionMatrix[i][2], m_y + CollisionManager::collisionMatrix[i][3])
+			&& !CollisionManager::passable(m_x + CollisionManager::collisionMatrix[i][0], m_y + CollisionManager::collisionMatrix[i][1])) {
+				if(((i<2)?(m_vy == 0):(m_vx == 0))) {
+					if(i<2)	m_vy = 1;
+					else	m_vx = 1;
+				}
+			}
+			if( CollisionManager::passable(m_x + CollisionManager::collisionMatrix[i][0], m_y + CollisionManager::collisionMatrix[i][1])
+			&& !CollisionManager::passable(m_x + CollisionManager::collisionMatrix[i][2], m_y + CollisionManager::collisionMatrix[i][3])) {
+				if(((i<2)?(m_vy == 0):(m_vx == 0))) {
+					if(i<2) m_vy = -1;
+					else	m_vx = -1;
+				}
+			}
 		}
 	}
-	
-	if(m_hurtTimer.time() > 500) {
-		// Hurt sprite
-		m_lifes--;
-		
-		// Reset timer
-		m_hurtTimer.reset();
-		m_hurtTimer.start();
-		
-		// Reset timer last value
-		m_timerLastValue = m_hurtTimer.time();
-		
-		// Reset color
-		SDL_SetTextureColorMod(m_texture, 255, 255, 255);
-	}
+}
+
+void Character::hurt() {
 }
 
 void Character::reset() {

@@ -73,14 +73,14 @@ void CharacterManager::initAllCharacters() {
 	characters[2] = initBlueBoy(17 << 4, 2 << 4, DIR_DOWN, 0, 0);
 }
 
-std::vector<Character*> *CharacterManager::getCharactersInMap(u16 id, u16 area) {
-	std::vector<Character*> *c = new std::vector<Character*>;
+std::vector<Character*> CharacterManager::getCharactersInMap(u16 id, u16 area) {
+	std::vector<Character*> c;
 	
 	for(u16 i = 0 ; i < NB_CHARACTERS ; i++) {
 		if((characters[i]->mapID() == id
 		&&	characters[i]->area()  == area)
 		|| characters[i]->isPlayer()) {
-			c->push_back(characters[i]);
+			c.push_back(characters[i]);
 		}
 	}
 	

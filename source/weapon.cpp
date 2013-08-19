@@ -52,8 +52,6 @@ Weapon::Weapon(char *filename, WeaponType type, Character *owner) : Sprite(filen
 	m_type = type;
 	
 	m_owner = owner;
-	
-	m_collidedCharacter = NULL;
 }
 
 Weapon::~Weapon() {
@@ -70,6 +68,7 @@ Sword::~Sword() {
 }
 
 void Sword::action() {
+	/*
 	// Sword position
 	s16 mx = 0; s16 my = 0;
 	
@@ -191,6 +190,6 @@ void Sword::action() {
 		m_owner->m_isAttacking = false;
 		if(!(m_owner->collidedCharacter() && m_owner->collidedCharacter()->isMonster())) m_owner->m_canMove = true;
 		m_owner->m_canTurn = true;
-	}
+	}*/
 }
 

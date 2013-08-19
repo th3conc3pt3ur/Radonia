@@ -21,20 +21,17 @@
 #define COLLISION_MANAGER_H
 
 namespace CollisionManager {
-
-// Collision matrix
-extern u16 collisionMatrix[4][4];
-
-// Test if the tile is passable
-bool passable(Character *c, s16 x, s16 y);
-
-// Get the character at (x;y)
-Character *getCollidedCharacter(s16 x, s16 y, Character *c = NULL);
-
-// Test collisions of a character
-void doorCollisions(Character *c);
-void testCollisions(Character *c);
-
+	// Collision matrix
+	extern u16 collisionMatrix[4][4];
+	
+	// Test if the tile is passable
+	bool passable(s16 x, s16 y);
+	
+	// Test if there is a character at that position
+	bool collidesWithCharacter(Character *c);
+	
+	// Test collisions of a character
+	void doorCollisions(Character *c);
 }
 
 #endif // COLLISION_MANAGER_H

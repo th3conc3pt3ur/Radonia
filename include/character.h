@@ -44,15 +44,19 @@ class Character : public Sprite {
 		virtual void move();
 		void moveX(u16 x) { m_x += x; }
 		void moveY(u16 y) { m_y += y; }
+		void stop() { m_vx = 0; m_vy = 0; }
 		
 		// Render character
 		void render();
+		
+		// Test collisions
+		void testCollisions();
 		
 		// Action function
 		virtual void action() = 0;
 		
 		// Hurt comportement
-		void hurt(u8 distSupp = 0);
+		void hurt();
 		
 		// Reset character attributes
 		void reset();
@@ -64,10 +68,6 @@ class Character : public Sprite {
 		s16 x() const { return m_x; }
 		s16 y() const { return m_y; }
 		
-		// Get movement vectors
-		s8 vx() const { return m_vx; }
-		s8 vy() const { return m_vy; }
-		
 		// Get character lifes
 		s16 lifes() const { return m_lifes; }
 		u16 maxLifes() const { return m_maxLifes; }
@@ -78,43 +78,10 @@ class Character : public Sprite {
 		// Get map area
 		u16 area() const { return m_area; }
 		
-		// Get in door state
-		bool inDoor() const { return m_inDoor; }
-		
-		// Get movement timer
-		Timer movementTimer() { return m_movementTimer; }
-		
-		// Get attack state
-		bool isAttacking() const { return m_isAttacking; }
-		
 		// Types
 		bool isPlayer()  { return m_type == CHARA_PLAYER;	}
 		bool isNPC()	 { return m_type == CHARA_NPC;		}
 		bool isMonster() { return m_type == CHARA_MONSTER;	}
-		
-		// Get collision states
-		Character *collidedCharacter() { return m_collidedCharacter; }
-		//Weapon *collidedWeapon() { return m_collidedWeapon; }
-		u16 collidedTile() { return m_collidedTile; }
-		
-		// Set position
-		void x(s16 x) { m_x = x; }
-		void y(s16 y) { m_y = y; }
-		
-		// Set movement vectors
-		void vx(s8 vx) { m_vx = vx; }
-		void vy(s8 vy) { m_vy = vy; }
-		
-		// Set direction
-		void direction(CharacterDirection direction) { m_direction = direction; }
-		
-		// Set in door state
-		void inDoor(bool inDoor) { m_inDoor = inDoor; }
-		
-		// Set collision states
-		void collidedCharacter(Character *character) { m_collidedCharacter = character; }
-		//void collidedWeapon(Weapon *weapon) { m_collidedWeapon = weapon; }
-		void collidedTile(u16 tile) { m_collidedTile = tile; }
 		
 		// Characters counter
 		static u16 nbCharacters;

@@ -53,148 +53,35 @@ u16 CollisionManager::collisionMatrix[4][4] = {
 	{5,15,10,15}	// Down
 };
 
-bool CollisionManager::passable(Character *c, s16 x, s16 y) {
-	/*// Setup tileX and tileY
-	s16 tileX = x >> 4;
-	s16 tileY = y >> 4;
-	
-	// Reset collision states
-	if(c) {
-		c->collidedCharacter(NULL);
-		c->collidedTile(0);
-	}
-	
-	// Collisions with NPCs
-	if(!c || !c->isNPC()) {
-		for(u16 i = 0 ; i < Game::currentMap->NPCs().size() ; i++) {
-			if((Game::currentMap->NPCs()[i]->x() < x && Game::currentMap->NPCs()[i]->x() + 16 > x)
-			&& (Game::currentMap->NPCs()[i]->y() < y && Game::currentMap->NPCs()[i]->y() + 16 > y)) {
-				if(c) {
-					c->collidedCharacter(Game::currentMap->NPCs()[i]);
-					Game::currentMap->NPCs()[i]->collidedCharacter(c);
-				}
-				return false;
-			}
-		}
-	}
-	
-	// Collisions with monsters
-	if(!c || !c->isMonster()) {
-		for(u16 i = 0 ; i < Game::currentMap->monsters().size() ; i++) {
-			if((Game::currentMap->monsters()[i]->x() < x && Game::currentMap->monsters()[i]->x() + 16 > x)
-			&& (Game::currentMap->monsters()[i]->y() < y && Game::currentMap->monsters()[i]->y() + 16 > y)
-			&& Game::currentMap->monsters()[i]->lifes() > 0) {
-				if(c) {
-					c->collidedCharacter(Game::currentMap->monsters()[i]);
-					Game::currentMap->monsters()[i]->collidedCharacter(c);
-				}
-				return false;
-			}
-		}
-	}
-	
-	// Collisions with player
-	if(!c || !c->isPlayer()) {
-		if(Game::player->x() < x && Game::player->x() + 16 > x
-		&& Game::player->y() < y && Game::player->y() + 16 > y) {
-			if(c) {
-				c->collidedCharacter(Game::player);
-				Game::player->collidedCharacter(c);
-			}
-			return false;
-		}
-	}
-	
+bool CollisionManager::passable(s16 x, s16 y) {
 	// Collisions with map
-	if(inTable(MapManager::nonPassableTiles, Game::currentMap->tilesetInfo()[Game::currentMap->getTile(tileX, tileY)])) {
-		if(c) c->collidedTile(Game::currentMap->tilesetInfo()[Game::currentMap->getTile(tileX, tileY)]);
+	if(inTable(MapManager::nonPassableTiles, MapManager::currentMap->tilesetInfo()[MapManager::currentMap->getTile(x >> 4, y >> 4)])) {
 		return false;
-	} else return true;*/
-	return true;
+	} else {
+		return true;
+	}
 }
 
-Character *CollisionManager::getCollidedCharacter(s16 x, s16 y, Character *c) {
-	/*// Collisions with NPCs
-	if(!c || !c->isNPC()) {
-		for(u16 i = 0 ; i < Game::currentMap->NPCs().size() ; i++) {
-			if((Game::currentMap->NPCs()[i]->x() < x && Game::currentMap->NPCs()[i]->x() + 16 > x)
-			&& (Game::currentMap->NPCs()[i]->y() < y && Game::currentMap->NPCs()[i]->y() + 16 > y)) {
-				return Game::currentMap->NPCs()[i];
-			}
+bool CollisionManager::collidesWithCharacter(Character *c) {
+	for(std::vector<Character*>::iterator it = MapManager::currentMap->characters()->begin() ; it != MapManager::currentMap->characters()->end() ; it++) {
+		if((*it)->x() > c->x() && (*it)->x() < c->x() + c->frameSize() && (*it)->y() > c->y() && (*it)->y() < c->y() + c->frameSize()
+		&& (*it)->id() != c->id()) {
+			return true;
 		}
 	}
-	
-	// Collisions with monsters
-	if(!c || !c->isMonster()) {
-		for(u16 i = 0 ; i < Game::currentMap->monsters().size() ; i++) {
-			if((Game::currentMap->monsters()[i]->x() < x && Game::currentMap->monsters()[i]->x() + 16 > x)
-			&& (Game::currentMap->monsters()[i]->y() < y && Game::currentMap->monsters()[i]->y() + 16 > y)
-			&& Game::currentMap->monsters()[i]->lifes() > 0) {
-				return Game::currentMap->monsters()[i];
-			}
-		}
-	}
-	
-	// Collisions with player
-	if(!c || !c->isPlayer()) {
-		if(Game::player->x() < x && Game::player->x() + 16 > x
-		&& Game::player->y() < y && Game::player->y() + 16 > y) {
-			return Game::player;
-		}
-	}
-	
-	// No character is collided
-	return NULL;*/
-	return NULL;
-}
-
-void CollisionManager::testCollisions(Character *c){
-	/*
-	// Be sure movement timer is started
-	if(!c->movementTimer().isStarted()) c->movementTimer().start();
-	
-	// 0: Right | 1: Left | 2: Up | 3:Down
-	for(u8 i = 0 ; i < 4 ; i++) {
-		if(((i==0)?(c->vx() > 0):((i==1)?(c->vx() < 0):((i==2)?(c->vy() < 0):(c->vy() > 0))))
-		&& (!passable(c, c->x() + collisionMatrix[i][0], c->y() + collisionMatrix[i][1])
-		 || !passable(c, c->x() + collisionMatrix[i][2], c->y() + collisionMatrix[i][3]))) {
-			// Reset movement vector
-			if(i<2) c->vx(0);
-			else	c->vy(0);
-			
-			// Stop movement timer
-			c->movementTimer().stop();
-			
-			// Obstacles
-			if( passable(c, c->x() + collisionMatrix[i][2], c->y() + collisionMatrix[i][3])
-			&& !passable(c, c->x() + collisionMatrix[i][0], c->y() + collisionMatrix[i][1])) {
-				if(((i<2)?(c->vy() == 0):(c->vx() == 0)) && !c->collidedCharacter()) {
-					if(i<2)	c->vy(1);
-					else	c->vx(1);
-				}
-			}
-			if( passable(c, c->x() + collisionMatrix[i][0], c->y() + collisionMatrix[i][1])
-			&& !passable(c, c->x() + collisionMatrix[i][2], c->y() + collisionMatrix[i][3])) {
-				if(((i<2)?(c->vy() == 0):(c->vx() == 0)) && !c->collidedCharacter()) {
-					if(i<2) c->vy(-1);
-					else	c->vx(-1);
-				}
-			}
-		}
-	}*/
+	return false;
 }
 
 void CollisionManager::doorCollisions(Character *c) {
 	/*if(inTiles((c->x() + 8) >> 4, (c->y() + 8) >> 4, MapManager::changeMapTiles) && !c->inDoor()) {
 		// Search for the door
-		s16 doorID = DoorManager::findDoorID(c->x(), c->y(), Game::currentMap->id(), Game::currentMap->area());
+		s16 doorID = DoorManager::findDoorID(c->x(), c->y(), MapManager::currentMap->id(), MapManager::currentMap->area());
 		
 		// If door isn't found
 		if(doorID == -1) return;
 		
 		// Reset movement vectors
-		c->vx(0);
-		c->vy(0);
+		c->stop();
 		c->movementTimer().stop();
 		
 		// Initialize transition
@@ -204,24 +91,24 @@ void CollisionManager::doorCollisions(Character *c) {
 		Game::MainWindow->update();
 		
 		// Update all values
-		Game::currentMap = Game::mapAreas[Game::doors[Game::doors[doorID]->nextDoorID]->mapArea][Game::doors[Game::doors[doorID]->nextDoorID]->mapID];
-		if(!Game::currentMap) exit(EXIT_FAILURE);
+		MapManager::currentMap = Game::mapAreas[DoorManager::doors[DoorManager::doors[doorID]->nextDoorID]->mapArea][DoorManager::doors[DoorManager::doors[doorID]->nextDoorID]->mapID];
+		if(!MapManager::currentMap) exit(EXIT_FAILURE);
 		
 		// Regen monsters and reset positions
-		for(u16 i = 0 ; i < Game::currentMap->monsters().size() ; i++) {
-			Game::currentMap->monsters()[i]->reset();
+		for(u16 i = 0 ; i < MapManager::currentMap->monsters().size() ; i++) {
+			MapManager::currentMap->monsters()[i]->reset();
 		}
-		for(u16 i = 0 ; i < Game::currentMap->NPCs().size() ; i++) {
-			Game::currentMap->NPCs()[i]->reset();
+		for(u16 i = 0 ; i < MapManager::currentMap->NPCs().size() ; i++) {
+			MapManager::currentMap->NPCs()[i]->reset();
 		}
 		
-		c->x(Game::doors[Game::doors[doorID]->nextDoorID]->x);
-		c->y(Game::doors[Game::doors[doorID]->nextDoorID]->y);
-		c->direction(Game::doors[Game::doors[doorID]->nextDoorID]->direction);
+		c->x(DoorManager::doors[DoorManager::doors[doorID]->nextDoorID]->x);
+		c->y(DoorManager::doors[DoorManager::doors[doorID]->nextDoorID]->y);
+		c->direction(DoorManager::doors[DoorManager::doors[doorID]->nextDoorID]->direction);
 		
 		// Move view to display map correctly
-		Map::viewRect.x = Game::currentMap->x() * MAP_WIDTH * 16;
-		Map::viewRect.y = Game::currentMap->y() * MAP_HEIGHT * 16;
+		Map::viewRect.x = MapManager::currentMap->x() * MAP_WIDTH * 16;
+		Map::viewRect.y = MapManager::currentMap->y() * MAP_HEIGHT * 16;
 		
 		// Transition
 		for(u16 x = 0 ; x <= MAP_HEIGHT / 1.5 ; x++) {

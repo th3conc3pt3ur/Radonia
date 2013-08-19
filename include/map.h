@@ -46,7 +46,7 @@ class Map {
 		u16 area() const { return m_area; }
 		
 		// Get map characters
-		std::vector<Character*> *characters() { return m_characters; }
+		std::vector<Character*> *characters() { return &m_characters; }
 		
 		// Maps counter
 		static u16 nbMaps;
@@ -81,7 +81,7 @@ class Map {
 		u16 m_area;
 		
 		// Characters
-		std::vector<Character*> *m_characters;
+		std::vector<Character*> m_characters;
 };
 
 #endif // MAP_H

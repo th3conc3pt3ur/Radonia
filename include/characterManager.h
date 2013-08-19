@@ -31,7 +31,7 @@ namespace CharacterManager {
 	void initAllCharacters();
 	
 	// Get current map characters
-	std::vector<Character*> *getCharactersInMap(u16 id, u16 area);
+	std::vector<Character*> getCharactersInMap(u16 id, u16 area);
 	
 	/* Monsters */
 	Monster *initRedMonster(u16 x, u16 y, CharacterDirection direction, u16 mapID, u16 area);

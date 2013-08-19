@@ -100,9 +100,6 @@ Map::Map(Image *tileset, u16 *tilesetInfo, char *filename, u16 width, u16 height
 Map::~Map() {
 	// Free map data
 	free(m_data);
-	
-	// Delete characters vector
-	delete m_characters;
 }
 
 void Map::render() {

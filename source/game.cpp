@@ -188,8 +188,7 @@ void Game::scroll() {
 	else																 { return; }
 	
 	// Reset player movement vectors
-	CharacterManager::player()->vx(0);
-	CharacterManager::player()->vy(0);
+	CharacterManager::player()->stop();
 	
 	for(u16 i = 0 ; i < iMax ; i++) {
 		// Move characters

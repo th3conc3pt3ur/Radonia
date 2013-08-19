@@ -120,8 +120,7 @@ void Player::move() {
 	}
 	
 	// Test collisions
-	CollisionManager::doorCollisions(this);
-	CollisionManager::testCollisions(this);
+	testCollisions();
 	
 	if(m_collidedCharacter && m_collidedCharacter->isMonster()) {
 		hurt();
