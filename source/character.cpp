@@ -112,65 +112,6 @@ Character::~Character() {
 	delete m_waterEffect;
 }
 
-void Character::move() {
-	// If the character is dead, don't move it
-	if(m_lifes <= 0) return;
-	
-	// Move or not
-	if(m_movementTimer.time() > 4000) {
-		// Update movement vectors
-		m_vx = CharacterManager::moves[m_id][m_countMoves * 2 + 1];
-		m_vy = CharacterManager::moves[m_id][m_countMoves * 2 + 2];
-		
-		// Update counters
-		m_vxCount += m_vx * m_vx;
-		m_vyCount += m_vy * m_vy;
-		
-		// Update moving state
-		m_moving = true;
-	}
-	
-	if(m_vxCount >= 16 || m_vyCount >= 16) {
-		// Update counter
-		m_countMoves++;
-		
-		// Reset counters
-		m_vxCount = 0;
-		m_vyCount = 0;
-		
-		// Reset timer
-		m_movementTimer.reset();
-		m_movementTimer.start();
-		
-		// Update moving state
-		m_moving = false;
-	}
-	
-	if(m_countMoves >= CharacterManager::moves[m_id][0]) {
-		// Reset timer and counter
-		m_countMoves = 0;
-		m_movementTimer.reset();
-		m_movementTimer.start();
-	}
-	
-	// Set character direction
-	if(m_vx > 0) m_direction = DIR_RIGHT;
-	if(m_vx < 0) m_direction = DIR_LEFT;
-	if(m_vy > 0) m_direction = DIR_DOWN;
-	if(m_vy < 0) m_direction = DIR_UP;
-	
-	// Test collisions
-	testCollisions();
-	
-	// Move character
-	m_x += m_vx * CHARACTER_SPEED;
-	m_y += m_vy * CHARACTER_SPEED;
-	
-	// Reset movement vectors
-	m_vx = 0;
-	m_vy = 0;
-}
-
 void Character::render() {
 	// If the character is dead, don't display it
 	if(m_lifes <= 0) return;

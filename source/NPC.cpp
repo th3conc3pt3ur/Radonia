@@ -38,6 +38,8 @@
 #include "map.h"
 #include "door.h"
 #include "animationManager.h"
+#include "characterManager.h"
+#include "collisionManager.h"
 #include "mapManager.h"
 #include "interface.h"
 #include "game.h"
@@ -53,6 +55,45 @@ NPC::NPC(u16 x, u16 y, CharacterDirection direction, u16 mapID, u16 area, NPCTyp
 }
 
 NPC::~NPC() {
+}
+
+void NPC::move() {
+	// FIXME: To improve
+	// Area to walk in
+	u16 rectW = 4;
+	u16 rectH = 4;
+	u16 minX = m_dx - rectW * TILE_SIZE / 2;
+	u16 minY = m_dy - rectH * TILE_SIZE / 2;
+	u16 maxX = m_dx + rectW * TILE_SIZE / 2;
+	u16 maxY = m_dy + rectH * TILE_SIZE / 2;
+	
+	// If it's time to move
+	if(m_movementTimer.time() > 4000) {
+		// Initialize random number
+		int randn;
+		
+		// Initialize in movement boolean
+		bool mvt = false;
+		while(!mvt) {
+			// Get a random number between 0 and 4
+			randn = rand()%4;
+			
+			switch(randn) {
+				case DIR_UP:
+					if(m_y - TILE_SIZE > minY) {
+						m_vy = -1;
+						mvt = true;
+					} break;
+				case DIR_DOWN:
+					if(m_y + TILE_SIZE < maxY) {
+						m_vy = 1;
+						mvt = true;
+					} break;
+				case DIR_LEFT:
+					if
+			}
+		}
+	}
 }
 
 void NPC::action() {

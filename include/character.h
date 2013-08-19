@@ -40,11 +40,8 @@ class Character : public Sprite {
 		Character(char *filename, CharacterType type, s16 x, s16 y, CharacterDirection direction, u16 mapID, u16 area, u8 frameSize = 16);
 		virtual ~Character();
 		
-		// Movement functions
-		virtual void move();
-		void moveX(u16 x) { m_x += x; }
-		void moveY(u16 y) { m_y += y; }
-		void stop() { m_vx = 0; m_vy = 0; }
+		// Movement function
+		virtual void move() = 0;
 		
 		// Render character
 		void render();
@@ -60,6 +57,11 @@ class Character : public Sprite {
 		
 		// Reset character attributes
 		void reset();
+		
+		// Other movement functions
+		void moveX(u16 x) { m_x += x; }
+		void moveY(u16 y) { m_y += y; }
+		void stop() { m_vx = 0; m_vy = 0; }
 		
 		// Get character id
 		u16 id() const { return m_id; }

@@ -30,6 +30,9 @@ class NPC : public Character {
 		NPC(u16 x, u16 y, CharacterDirection direction, u16 mapID, u16 area, NPCType type, char *filename);
 		~NPC();
 		
+		// Movement function
+		void move();
+		
 		// Speak function
 		void action();
 		
