@@ -58,3 +58,6 @@ Monster::Monster(u16 x, u16 y, CharacterDirection direction, u16 mapID, u16 area
 Monster::~Monster() {
 }
 
+void Monster::move() {
+}
+

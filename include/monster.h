@@ -30,6 +30,9 @@ class Monster : public Character {
 		Monster(u16 x, u16 y, CharacterDirection direction, u16 mapID, u16 area, MonsterType type, char *filename);
 		~Monster();
 		
+		// Movement function
+		void move();
+		
 		// Action function
 		void action() {};
 		

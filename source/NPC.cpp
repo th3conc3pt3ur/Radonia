@@ -62,13 +62,17 @@ void NPC::move() {
 	// Area to walk in
 	u16 rectW = 4;
 	u16 rectH = 4;
-	u16 minX = m_dx - rectW * TILE_SIZE / 2;
-	u16 minY = m_dy - rectH * TILE_SIZE / 2;
-	u16 maxX = m_dx + rectW * TILE_SIZE / 2;
-	u16 maxY = m_dy + rectH * TILE_SIZE / 2;
+	u16 minX = m_dx;
+	u16 minY = m_dy;
+	u16 maxX = m_dx + rectW * TILE_SIZE;
+	u16 maxY = m_dy + rectH * TILE_SIZE;
 	
 	// If it's time to move
 	if(m_movementTimer.time() > 4000) {
+		// Make sure movement vectors are reset
+		m_vx = 0;
+		m_vy = 0;
+		
 		// Initialize random number
 		int randn;
 		
@@ -90,10 +94,60 @@ void NPC::move() {
 						mvt = true;
 					} break;
 				case DIR_LEFT:
-					if
+					if(m_x - TILE_SIZE > minX) {
+						m_vx = -1;
+						mvt = true;
+					} break;
+				case DIR_RIGHT:
+					if(m_x + TILE_SIZE < maxX) {
+						m_vx = 1;
+						mvt = true;
+					} break;
+				default: break;
 			}
 		}
+		
+		// Update moving state
+		m_moving = true;
+		
+		// Reset movement timer
+		m_movementTimer.reset();
 	}
+	
+	// Update counters
+	m_vxCount += m_vx * m_vx;
+	m_vyCount += m_vy * m_vy;
+	
+	// Test collisions
+	testCollisions();
+	
+	// If the movement is finished or a collision is detected
+	if(m_vxCount >= 16 || m_vyCount >= 16 || (m_moving && m_vx == 0 && m_vy == 0)) {
+		// Reset counters
+		m_vxCount = 0;
+		m_vyCount = 0;
+		
+		// Reset movement timer
+		m_movementTimer.reset();
+		m_movementTimer.start();
+		
+		// Update moving state
+		m_moving = false;
+		
+		// Reset movement vectors once the movement is finished
+		m_vx = 0;
+		m_vy = 0;
+	}
+	
+	// Set character direction
+	if(m_vx > 0) m_direction = DIR_RIGHT;
+	if(m_vx < 0) m_direction = DIR_LEFT;
+	if(m_vy > 0) m_direction = DIR_DOWN;
+	if(m_vy < 0) m_direction = DIR_UP;
+	
+	// Move character
+	m_x += m_vx * CHARACTER_SPEED;
+	m_y += m_vy * CHARACTER_SPEED;
 }
 
 void NPC::action() {

@@ -123,7 +123,14 @@ void Game::mainLoop() {
 				case SDL_QUIT:
 					m_continue = false;
 					break;
-#ifdef __ANDROID__
+#ifndef __ANDROID__
+				case SDL_KEYDOWN:
+					switch(event.key.keysym.sym) {
+						case SDLK_ESCAPE: m_continue = false; break;
+						case SDLK_p: m_paused = !m_paused; break;
+						default: break;
+					}
+#else
 				case SDL_FINGERDOWN:
 				case SDL_FINGERMOTION:
 					Keyboard::updatePad(&event);
@@ -134,6 +141,8 @@ void Game::mainLoop() {
 #endif
 			}
 		}
+		
+		if(m_paused) continue;
 		
 		// Update keyboard state
 		Keyboard::update();
