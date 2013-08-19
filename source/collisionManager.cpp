@@ -47,8 +47,8 @@
 
 // Initialize collision matrix
 u16 CollisionManager::collisionMatrix[4][4] = {
-	{12,8,12,13},	// Right
-	{3,8,3,13},		// Left
+	{12,8,12,14},	// Right
+	{3,8,3,14},		// Left
 	{5,5,10,5},		// Up
 	{5,15,10,15}	// Down
 };
@@ -58,23 +58,23 @@ bool CollisionManager::passable(s16 x, s16 y) {
 	return !inTable(MapManager::nonPassableTiles, MapManager::currentMap->tilesetInfo()[MapManager::currentMap->getTile(x >> 4, y >> 4)]);
 }
 
-bool CollisionManager::collidesWithCharacter(Character *c, s16 x, s16 y) {
-	// FIXME: Understand why it doesn't work that way
-	/*u16 x1 = c->x() + collisionMatrix[(c->direction() - 1) & 3][0];
-	u16 y1 = c->y() + collisionMatrix[(c->direction() - 1) & 3][1];
-	u16 x2 = c->x() + collisionMatrix[(c->direction() - 1) & 3][2];
-	u16 y2 = c->y() + collisionMatrix[(c->direction() - 1) & 3][3];*/
+bool CollisionManager::collidesWithCharacter(Character *c, u8 i) {
+	u16 x1 = c->x() + collisionMatrix[i][0];
+	u16 y1 = c->y() + collisionMatrix[i][1];
+	u16 x2 = c->x() + collisionMatrix[i][2];
+	u16 y2 = c->y() + collisionMatrix[i][3];
 	
 	for(std::vector<Character*>::iterator it = MapManager::currentMap->characters()->begin() ; it != MapManager::currentMap->characters()->end() ; it++) {
-		if((((*it)->x() < x && (*it)->x() + (*it)->frameSize() > x
-		&&   (*it)->y() < y && (*it)->y() + (*it)->frameSize() > y)
-		/*||	((*it)->x() < x2 && (*it)->x() + (*it)->frameSize() > x2
-		&&   (*it)->y() < y2 && (*it)->y() + (*it)->frameSize() > y2)*/)
+		if((((*it)->x() < x1 && (*it)->x() + (*it)->frameSize() > x1
+		&&   (*it)->y() < y1 && (*it)->y() + (*it)->frameSize() > y1)
+		||	((*it)->x() < x2 && (*it)->x() + (*it)->frameSize() > x2
+		&&   (*it)->y() < y2 && (*it)->y() + (*it)->frameSize() > y2))
 		&& c->id() != (*it)->id()) {
 			return true;
 		}
 	}
 	
+	//if(c->isPlayer()) std::cout << ((c->direction() - 1) & 3) << " - " << (int)i << std::endl;
 	return false;
 }
 

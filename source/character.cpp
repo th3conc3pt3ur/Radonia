@@ -142,14 +142,10 @@ void Character::testCollisions() {
 		if(((i==0)?(m_vx > 0):((i==1)?(m_vx < 0):((i==2)?(m_vy < 0):(m_vy > 0))))
 		&& (!CollisionManager::passable(m_x + CollisionManager::collisionMatrix[i][0], m_y + CollisionManager::collisionMatrix[i][1])
 		 || !CollisionManager::passable(m_x + CollisionManager::collisionMatrix[i][2], m_y + CollisionManager::collisionMatrix[i][3])
-		// FIXME: collisionManager.cpp:62
-		 || CollisionManager::collidesWithCharacter(this, m_x + CollisionManager::collisionMatrix[i][0], m_y + CollisionManager::collisionMatrix[i][1])
-		 || CollisionManager::collidesWithCharacter(this, m_x + CollisionManager::collisionMatrix[i][2], m_y + CollisionManager::collisionMatrix[i][3])
-		// || CollisionManager::collidesWithCharacter(this)
+		 || CollisionManager::collidesWithCharacter(this, i)
 		 )) {
 			// Reset movement vectors
-			if(i<2) m_vx = 0;
-			else	m_vy = 0;
+			if(i<2) m_vx = 0; else m_vy = 0;
 			
 			// Stop movement timer
 			m_movementTimer.stop();
@@ -158,15 +154,13 @@ void Character::testCollisions() {
 			if( CollisionManager::passable(m_x + CollisionManager::collisionMatrix[i][2], m_y + CollisionManager::collisionMatrix[i][3])
 			&& !CollisionManager::passable(m_x + CollisionManager::collisionMatrix[i][0], m_y + CollisionManager::collisionMatrix[i][1])) {
 				if(((i<2)?(m_vy == 0):(m_vx == 0))) {
-					if(i<2)	m_vy = 1;
-					else	m_vx = 1;
+					if(i<2)	m_vy = 1; else m_vx = 1;
 				}
 			}
 			if( CollisionManager::passable(m_x + CollisionManager::collisionMatrix[i][0], m_y + CollisionManager::collisionMatrix[i][1])
 			&& !CollisionManager::passable(m_x + CollisionManager::collisionMatrix[i][2], m_y + CollisionManager::collisionMatrix[i][3])) {
 				if(((i<2)?(m_vy == 0):(m_vx == 0))) {
-					if(i<2) m_vy = -1;
-					else	m_vx = -1;
+					if(i<2) m_vy = -1; else	m_vx = -1;
 				}
 			}
 		}

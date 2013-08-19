@@ -61,8 +61,7 @@ Monster::~Monster() {
 }
 
 void Monster::move() {
-	bool isAttacked = true;
-	isAttacked = m_lifes < m_maxLifes;
+	bool isAttacked = m_lifes < m_maxLifes;
 	
 	if(isAttacked) {
 		// Make sure movement vectors are reset

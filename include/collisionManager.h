@@ -28,7 +28,7 @@ namespace CollisionManager {
 	bool passable(s16 x, s16 y);
 	
 	// Test if there is a character at that position
-	bool collidesWithCharacter(Character *c, s16 x, s16 y);
+	bool collidesWithCharacter(Character *c, u8 i);
 	
 	// Test collisions of a character
 	void doorCollisions(Character *c);
