@@ -67,7 +67,7 @@ void CharacterManager::initAllCharacters() {
 	
 	// Init monsters
 	characters[1] = initRedMonster(22 << 4, 10 << 4, DIR_RIGHT, 0, 0);
-	characters[3] = initRedMonster(25 << 4, 10 << 4, DIR_RIGHT, 0, 0); 
+	characters[3] = initRedMonster(25 << 4, 10 << 4, DIR_RIGHT, 1, 0); 
 	
 	// Init NPCs
 	characters[2] = initBlueBoy(17 << 4, 2 << 4, DIR_DOWN, 0, 0);
