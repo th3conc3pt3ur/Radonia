@@ -121,10 +121,7 @@ void Player::move() {
 	
 	// Test collisions
 	testCollisions();
-	
-	if(m_collidedCharacter && m_collidedCharacter->isMonster()) {
-		hurt();
-	}
+	doorCollisions();
 	
 	// Move character
 	m_x += m_vx * CHARACTER_SPEED;

@@ -91,6 +91,7 @@ void Monster::move() {
 			
 			// Test collisions
 			testCollisions();
+			doorCollisions();
 	
 			// Set character direction
 			if(e_x > 0) m_direction = DIR_RIGHT;
@@ -161,6 +162,7 @@ void Monster::move() {
 		
 		// Test collisions
 		testCollisions();
+		doorCollisions();
 		
 		// If the movement is finished or a collision is detected
 		if(m_vxCount >= 16 || m_vyCount >= 16 || (m_moving && m_vx == 0 && m_vy == 0)) {

@@ -56,11 +56,6 @@ Character::Character(char *filename, CharacterType type, s16 x, s16 y, Character
 	nbCharacters++;
 	
 	// Set class members
-	m_hurtTimer.reset();
-	m_hurtTimer.start();
-	
-	m_timerLastValue = 0;
-	
 	m_type = type;
 	
 	m_x = x;
@@ -71,9 +66,6 @@ Character::Character(char *filename, CharacterType type, s16 x, s16 y, Character
 	
 	m_vx = 0;
 	m_vy = 0;
-	
-	m_collidedCharacter = NULL;
-	m_collidedTile = 0;
 	
 	m_direction = direction;
 	
@@ -89,13 +81,15 @@ Character::Character(char *filename, CharacterType type, s16 x, s16 y, Character
 	m_vxCount = 0;
 	m_vyCount = 0;
 	
+	m_inDoor = true;
+	
 	m_isAttacking = false;
 	
 	m_canMove = true;
 	m_canTurn = true;
 	
-	// FIXME: TEMP
-	m_lifes = 27;
+	// FIXME: Temporary values
+	m_lifes = 32;
 	m_maxLifes = 32;
 	
 	// Load grass image
@@ -107,7 +101,7 @@ Character::Character(char *filename, CharacterType type, s16 x, s16 y, Character
 }
 
 Character::~Character() {
-	// Unload all images
+	// Unload effects images
 	delete m_grassEffect;
 	delete m_waterEffect;
 }
@@ -167,24 +161,73 @@ void Character::testCollisions() {
 	}
 }
 
+void Character::doorCollisions() {
+	if(inTiles((m_x + 8) >> 4, (m_y + 8) >> 4, MapManager::changeMapTiles) && !m_inDoor) {
+		// Search for the door
+		s16 doorID = DoorManager::findDoorID(m_x, m_y, MapManager::currentMap->id(), MapManager::currentMap->area());
+		
+		// If door isn't found
+		if(doorID == -1) return;
+		
+		// Reset movement vectors
+		m_vx = 0;
+		m_vy = 0;
+		m_movementTimer.stop();
+		
+		// Initialize transition
+		Game::MainWindow->clear();
+		Game::MainWindow->drawFillRect(Game::MainWindow->viewportX(), Game::MainWindow->viewportY(), Game::MainWindow->viewportW() / 2, Game::MainWindow->viewportH(), Color::white);
+		Game::MainWindow->drawFillRect(Game::MainWindow->viewportX() + Game::MainWindow->viewportW() / 2, Game::MainWindow->viewportY(), Game::MainWindow->viewportW() / 2, Game::MainWindow->viewportH(), Color::white);
+		Game::MainWindow->update();
+		
+		// Update all values
+		MapManager::currentMap = MapManager::mapAreas[DoorManager::doors[DoorManager::doors[doorID]->nextDoorID]->mapArea][DoorManager::doors[DoorManager::doors[doorID]->nextDoorID]->mapID];
+		if(!MapManager::currentMap) exit(EXIT_FAILURE);
+		
+		// Regen monsters and reset positions
+		for(std::vector<Character*>::iterator it = MapManager::currentMap->characters()->begin() ; it != MapManager::currentMap->characters()->end() ; it++) {
+			if(!(*it)->isPlayer()) (*it)->reset();
+		}
+		
+		m_x = DoorManager::doors[DoorManager::doors[doorID]->nextDoorID]->x;
+		m_y = DoorManager::doors[DoorManager::doors[doorID]->nextDoorID]->y;
+		m_direction = DoorManager::doors[DoorManager::doors[doorID]->nextDoorID]->direction;
+		
+		// Move view to display map correctly
+		Map::viewRect.x = MapManager::currentMap->x() * MAP_WIDTH * 16;
+		Map::viewRect.y = MapManager::currentMap->y() * MAP_HEIGHT * 16;
+		
+		// Transition
+		for(u16 x = 0 ; x <= MAP_HEIGHT / 1.5 ; x++) {
+			Game::MainWindow->clear();
+			CharacterManager::renderCharacters();
+			Interface::renderHUD();
+			Game::MainWindow->drawFillRect(Game::MainWindow->viewportX() - 32 * x, Game::MainWindow->viewportY(), Game::MainWindow->viewportW() / 2, Game::MainWindow->viewportH(), Color::white);
+			Game::MainWindow->drawFillRect(Game::MainWindow->viewportX() + Game::MainWindow->viewportW() / 2 + 32 * x, Game::MainWindow->viewportY(), Game::MainWindow->viewportW() / 2, Game::MainWindow->viewportH(), Color::white);
+			Game::MainWindow->update();
+		}
+		
+		// The player is in the door
+		m_inDoor = true;
+	}
+	
+	if((!inTiles((m_x +  2) >> 4, (m_y +  2) >> 4, MapManager::changeMapTiles))
+	&& (!inTiles((m_x + 14) >> 4, (m_y + 14) >> 4, MapManager::changeMapTiles)) && m_inDoor) {
+		// The player isn't in the door anymore
+		m_inDoor = false;
+	}
+}
+
 void Character::hurt() {
 }
 
 void Character::reset() {
 	// Reset class members
-	m_hurtTimer.reset();
-	m_hurtTimer.start();
-	
-	m_timerLastValue = 0;
-	
 	m_x = m_dx;
 	m_y = m_dy;
 	
 	m_vx = 0;
 	m_vy = 0;
-	
-	m_collidedCharacter = NULL;
-	m_collidedTile = 0;
 	
 	m_moving = false;
 	
@@ -194,6 +237,8 @@ void Character::reset() {
 	m_countMoves = 0;
 	m_vxCount = 0;
 	m_vyCount = 0;
+	
+	m_inDoor = true;
 	
 	m_isAttacking = false;
 	

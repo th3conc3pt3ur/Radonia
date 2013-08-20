@@ -48,6 +48,7 @@ class Character : public Sprite {
 		
 		// Test collisions
 		void testCollisions();
+		void doorCollisions();
 		
 		// Action function
 		virtual void action() = 0;
@@ -128,10 +129,6 @@ class Character : public Sprite {
 		u8 m_vxCount;
 		u8 m_vyCount;
 		
-		// Character hurt timer
-		Timer m_hurtTimer;
-		u16 m_timerLastValue;
-		
 		// Character lifes
 		s16 m_lifes;
 		u16 m_maxLifes;
@@ -146,11 +143,6 @@ class Character : public Sprite {
 		bool m_canMove;
 		bool m_canTurn;
 		
-		// Collision states
-		Character *m_collidedCharacter;
-		//Weapon *m_collidedWeapon;
-		u16 m_collidedTile;
-		
 		// Attacking state
 		bool m_isAttacking;
 		
@@ -160,7 +152,7 @@ class Character : public Sprite {
 		// Friend class Weapon
 		friend class Sword;
 		
-		// Character's weapon
+		// Weapon
 		Weapon *m_weapon;
 		
 		// Grass image
