@@ -46,7 +46,7 @@
 
 char *NPC::texts[NB_NPCs] = {(char*)"Hello boy!"};
 
-NPC::NPC(u16 x, u16 y, CharacterDirection direction, u16 mapID, u16 area, NPCType type, char *filename) : Character(filename, CHARA_NPC, x, y, direction, mapID, area) {
+NPC::NPC(u16 x, u16 y, CharacterDirection direction, u16 mapID, u16 area, NPCType type, char *filename, u8 frameWidth, u8 frameHeight) : Character(filename, CHARA_NPC, x, y, direction, mapID, area, frameWidth, frameHeight) {
 	// Add animations to sprite
 	addAnimation(2, NPC_animations[0], 250); // Down
 	addAnimation(2, NPC_animations[1], 250); // Right
@@ -60,8 +60,8 @@ NPC::~NPC() {
 void NPC::move() {
 	// FIXME: To improve
 	// Area to walk in
-	u16 rectW = 4;
-	u16 rectH = 4;
+	u16 rectW = 6;
+	u16 rectH = 6;
 	u16 minX = m_dx;
 	u16 minY = m_dy;
 	u16 maxX = m_dx + rectW * TILE_SIZE;
@@ -84,22 +84,22 @@ void NPC::move() {
 			
 			switch(randn) {
 				case DIR_UP:
-					if(m_y - TILE_SIZE > minY) {
+					if(m_y - m_frameHeight > minY) {
 						m_vy = -1;
 						mvt = true;
 					} break;
 				case DIR_DOWN:
-					if(m_y + TILE_SIZE < maxY) {
+					if(m_y + m_frameHeight < maxY) {
 						m_vy = 1;
 						mvt = true;
 					} break;
 				case DIR_LEFT:
-					if(m_x - TILE_SIZE > minX) {
+					if(m_x - m_frameWidth > minX) {
 						m_vx = -1;
 						mvt = true;
 					} break;
 				case DIR_RIGHT:
-					if(m_x + TILE_SIZE < maxX) {
+					if(m_x + m_frameWidth < maxX) {
 						m_vx = 1;
 						mvt = true;
 					} break;
@@ -120,7 +120,6 @@ void NPC::move() {
 	
 	// Test collisions
 	testCollisions();
-	doorCollisions();
 	
 	// If the movement is finished or a collision is detected
 	if(m_vxCount >= 16 || m_vyCount >= 16 || (m_moving && m_vx == 0 && m_vy == 0)) {

@@ -47,6 +47,13 @@
 
 // Initialize collision matrix
 u16 CollisionManager::collisionMatrix[6][4] = {
+	//{12,8,12,14},		// Right
+	//{3,8,3,14},		// Left
+	//{5,5,10,5},		// Up
+	//{5,15,10,15},		// Down
+	//{12,8,12,10},		// Special right (mobs)
+	//{3,8,3,10}		// Special left (mobs)
+	// FIXME: Adapt for taller monsters
 	{12,8,12,14},	// Right
 	{3,8,3,14},		// Left
 	{5,5,10,5},		// Up
@@ -67,10 +74,10 @@ bool CollisionManager::collidesWithCharacter(Character *c, u8 i) {
 	u16 y2 = c->y() + collisionMatrix[(i + 2) ^ 6][3];
 	
 	for(std::vector<Character*>::iterator it = MapManager::currentMap->characters()->begin() ; it != MapManager::currentMap->characters()->end() ; it++) {
-		if((((*it)->x() < x1 && (*it)->x() + (*it)->frameSize() > x1
-		&&   (*it)->y() < y1 && (*it)->y() + (*it)->frameSize() > y1)
-		||	((*it)->x() < x2 && (*it)->x() + (*it)->frameSize() > x2
-		&&   (*it)->y() < y2 && (*it)->y() + (*it)->frameSize() > y2))
+		if((((*it)->x() < x1 && (*it)->x() + (*it)->frameWidth() > x1
+		&&   (*it)->y() < y1 && (*it)->y() + (*it)->frameHeight() > y1)
+		||	((*it)->x() < x2 && (*it)->x() + (*it)->frameWidth() > x2
+		&&   (*it)->y() < y2 && (*it)->y() + (*it)->frameHeight() > y2))
 		&& c->id() != (*it)->id()) {
 			return true;
 		}

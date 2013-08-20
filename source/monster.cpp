@@ -46,7 +46,7 @@
 
 // Monsters are called Qaewans
 
-Monster::Monster(u16 x, u16 y, CharacterDirection direction, u16 mapID, u16 area, MonsterType type, char *filename) : Character(filename, CHARA_MONSTER, x, y, direction, mapID, area) {
+Monster::Monster(u16 x, u16 y, CharacterDirection direction, u16 mapID, u16 area, MonsterType type, char *filename, u8 frameWidth, u8 frameHeight) : Character(filename, CHARA_MONSTER, x, y, direction, mapID, area, frameWidth, frameHeight) {
 	// Sub type
 	m_subType = type;
 	
@@ -61,13 +61,11 @@ Monster::~Monster() {
 }
 
 void Monster::move() {
-	bool isAttacked = m_lifes < m_maxLifes;
+	// FIXME: To improve
+	//bool isAttacked = m_lifes < m_maxLifes;
+	bool isAttacked = true;
 	
 	if(isAttacked) {
-		// Make sure movement vectors are reset
-		m_vx = 0;
-		m_vy = 0;
-		
 		// Get player position
 		u16 x = CharacterManager::player()->x();
 		u16 y = CharacterManager::player()->y();
@@ -78,10 +76,17 @@ void Monster::move() {
 		
 		// The monster follows the character
 		if(abs(e_x) < (10 * TILE_SIZE) && abs(e_y < (10 * TILE_SIZE))) {
-			if(x > m_x)		 m_vx =  1;
-			else if(x < m_x) m_vx = -1;
-			if(y > m_y)		 m_vy =	 1;
-			else if(y < m_y) m_vy = -1;
+			// Make sure movement vectors are reset
+			m_vx = 0;
+			m_vy = 0;
+			
+			// Update movement vectors
+			if(SDL_GetTicks()&1) {
+				if(x > m_x)		 m_vx =  1;
+				else if(x < m_x) m_vx = -1;
+				if(y > m_y)		 m_vy =	 1;
+				else if(y < m_y) m_vy = -1;
+			}
 			
 			// Update moving state
 			m_moving = true;
@@ -91,15 +96,19 @@ void Monster::move() {
 			
 			// Test collisions
 			testCollisions();
-			doorCollisions();
-	
+			
 			// Set character direction
 			if(e_x > 0) m_direction = DIR_RIGHT;
 			if(e_x < 0) m_direction = DIR_LEFT;
 			if(e_y > 0) m_direction = DIR_DOWN;
 			if(e_y < 0) m_direction = DIR_UP;
+		} else {
+			// Reset is attacked state
+			isAttacked = false;
 		}
-	} else {
+	}
+	
+	if(!isAttacked) {
 		// FIXME: To improve
 		// Area to walk in
 		u16 rectW = 4;
@@ -126,22 +135,22 @@ void Monster::move() {
 				
 				switch(randn) {
 					case DIR_UP:
-						if(m_y - TILE_SIZE > minY) {
+						if(m_y - m_frameHeight > minY) {
 							m_vy = -1;
 							mvt = true;
 						} break;
 					case DIR_DOWN:
-						if(m_y + TILE_SIZE < maxY) {
+						if(m_y + m_frameHeight < maxY) {
 							m_vy = 1;
 							mvt = true;
 						} break;
 					case DIR_LEFT:
-						if(m_x - TILE_SIZE > minX) {
+						if(m_x - m_frameWidth > minX) {
 							m_vx = -1;
 							mvt = true;
 						} break;
 					case DIR_RIGHT:
-						if(m_x + TILE_SIZE < maxX) {
+						if(m_x + m_frameWidth < maxX) {
 							m_vx = 1;
 							mvt = true;
 						} break;

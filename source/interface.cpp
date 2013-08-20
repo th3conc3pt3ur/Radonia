@@ -126,9 +126,9 @@ void Interface::renderHUD() {
 
 void Interface::renderMonsterLife(Monster *monster) {
 	// Render life bar
-	Game::MainWindow->drawFillRect(monster->x() - 1, monster->y() - 6, 18, 4, Color::black);
-	Game::MainWindow->drawFillRect(monster->x(), monster->y() - 5, 16, 2, Color::white);
-	Game::MainWindow->drawFillRect(monster->x(), monster->y() - 5, monster->lifes() * 16 / monster->maxLifes(), 2, Color::life);
+	Game::MainWindow->drawFillRect(monster->x() - 1, monster->y() - 6, monster->frameWidth() + 2, 4, Color::black);
+	Game::MainWindow->drawFillRect(monster->x(), monster->y() - 5, monster->frameWidth(), 2, Color::white);
+	Game::MainWindow->drawFillRect(monster->x(), monster->y() - 5, monster->lifes() * (monster->frameWidth() + 2) / monster->maxLifes(), 2, Color::life);
 }
 
 void Interface::newDialogBox(char *text) {

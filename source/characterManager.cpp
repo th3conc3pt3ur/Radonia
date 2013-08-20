@@ -67,7 +67,7 @@ void CharacterManager::initAllCharacters() {
 	
 	// Init monsters
 	characters[1] = initRedMonster(22 << 4, 10 << 4, DIR_RIGHT, 0, 0);
-	characters[3] = initRedMonster(25 << 4, 10 << 4, DIR_RIGHT, 1, 0); 
+	characters[3] = initGohma(16 << 4, 3 << 4, DIR_DOWN, 1, 0); 
 	
 	// Init NPCs
 	characters[2] = initBlueBoy(17 << 4, 2 << 4, DIR_DOWN, 0, 0);
@@ -90,6 +90,10 @@ std::vector<Character*> CharacterManager::getCharactersInMap(u16 id) {
 
 Monster *CharacterManager::initRedMonster(u16 x, u16 y, CharacterDirection direction, u16 mapID, u16 area) {
 	return new Monster(x, y, direction, mapID, area, MONSTER_REDMONSTER, (char*)"graphics/monsters/red_monster.png");
+}
+
+Monster *CharacterManager::initGohma(u16 x, u16 y, CharacterDirection direction, u16 mapID, u16 area) {
+	return new Monster(x, y, direction, mapID, area, MONSTER_GOHMA, (char*)"graphics/monsters/gohma.png", 48, 24);
 }
 
 /* NPCs */

@@ -46,12 +46,13 @@
 #include "interface.h"
 #include "game.h"
 
-Sprite::Sprite(char *filename, u8 frameSize) : Image(filename) {
+Sprite::Sprite(char *filename, u8 frameWidth, u8 frameHeight) : Image(filename) {
 	// Set frame size
-	m_frameSize = frameSize;
+	m_frameWidth = frameWidth;
+	m_frameHeight = frameHeight;
 	
-	m_posRect.w = m_frameSize;
-	m_posRect.h = m_frameSize;
+	m_posRect.w = m_frameWidth;
+	m_posRect.h = m_frameHeight;
 }
 
 Sprite::~Sprite() {
@@ -59,8 +60,8 @@ Sprite::~Sprite() {
 
 void Sprite::drawFrame(s16 x, s16 y, u16 frame) {
 	// Get frame position
-	u16 frameY = (frame / (m_width / m_frameSize)) * m_frameSize;
-	u16 frameX = (frame - (frameY / m_frameSize) * (m_width / m_frameSize)) * m_frameSize;
+	u16 frameY = (frame / (m_width / m_frameWidth)) * m_frameHeight;
+	u16 frameX = (frame - (frameY / m_frameHeight) * (m_width / m_frameWidth)) * m_frameWidth;
 	
 	// Set position
 	m_posRect.x = x;
@@ -69,8 +70,8 @@ void Sprite::drawFrame(s16 x, s16 y, u16 frame) {
 	// Set clip rect
 	m_clipRect.x = frameX;
 	m_clipRect.y = frameY;
-	m_clipRect.w = m_frameSize;
-	m_clipRect.h = m_frameSize;
+	m_clipRect.w = m_frameWidth;
+	m_clipRect.h = m_frameHeight;
 	
 	// Render clipped image
 	render();

@@ -21,13 +21,14 @@
 #define MONSTER_H
 
 typedef enum {
-	MONSTER_REDMONSTER
+	MONSTER_REDMONSTER,
+	MONSTER_GOHMA
 } MonsterType;
 
 class Monster : public Character {
 	public:
 		// Constructor and destructor
-		Monster(u16 x, u16 y, CharacterDirection direction, u16 mapID, u16 area, MonsterType type, char *filename);
+		Monster(u16 x, u16 y, CharacterDirection direction, u16 mapID, u16 area, MonsterType type, char *filename, u8 frameWidth = 16, u8 frameHeight = 16);
 		~Monster();
 		
 		// Movement function

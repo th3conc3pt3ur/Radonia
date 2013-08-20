@@ -25,7 +25,7 @@
 class Sprite : public Image {
 	public:
 		// Constructor and destructor
-		Sprite(char *filename, u8 frameSize = 16);
+		Sprite(char *filename, u8 frameWidth = 16, u8 frameHeight = 16);
 		~Sprite();
 		
 		// Draw sprite
@@ -41,11 +41,13 @@ class Sprite : public Image {
 		void playAnimation(s16 x, s16 y, u16 anim);
 		
 		// Get sprite frame size
-		u8 frameSize() const { return m_frameSize; }
+		u8 frameWidth() const { return m_frameWidth; }
+		u8 frameHeight() const { return m_frameHeight; }
 		
 	protected:
 		// Sprite frame size
-		u8 m_frameSize;
+		u8 m_frameWidth;
+		u8 m_frameHeight;
 		
 		// Animations table
 		std::vector<Animation*> m_animations;

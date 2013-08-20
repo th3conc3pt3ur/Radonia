@@ -35,6 +35,7 @@ namespace CharacterManager {
 	
 	/* Monsters */
 	Monster *initRedMonster(u16 x, u16 y, CharacterDirection direction, u16 mapID, u16 area);
+	Monster *initGohma(u16 x, u16 y, CharacterDirection direction, u16 mapID, u16 area);
 	
 	/* NPCs */
 	NPC *initBlueBoy(u16 x, u16 y, CharacterDirection direction, u16 mapID, u16 area);

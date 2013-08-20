@@ -102,8 +102,8 @@ void Window::update(bool viewport) {
 	// Update viewport with player position
 	if(viewport) centerViewportWithObject(CharacterManager::player()->x(),
 										  CharacterManager::player()->y(),
-										  CharacterManager::player()->frameSize(),
-										  CharacterManager::player()->frameSize());
+										  CharacterManager::player()->frameWidth(),
+										  CharacterManager::player()->frameHeight());
 #endif
 	
 	// Refresh window

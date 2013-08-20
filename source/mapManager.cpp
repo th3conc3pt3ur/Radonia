@@ -168,22 +168,22 @@ void MapManager::initMaps() {
 	/* Initialize area maps */
 	
 	// Overworld
-	mapAreas[0][MAP_POS(0, 0, 0)] = new Map(tilesets[0], plainInfo, (char*)"maps/a1.map", MAP_WIDTH, MAP_HEIGHT, 16, 16, 0, 0);
-	mapAreas[0][MAP_POS(1, 0, 0)] = new Map(tilesets[0], plainInfo, (char*)"maps/a2.map", MAP_WIDTH, MAP_HEIGHT, 16, 16, 1, 0);
-	mapAreas[0][MAP_POS(0, 1, 0)] = new Map(tilesets[0], plainInfo, (char*)"maps/b1.map", MAP_WIDTH, MAP_HEIGHT, 16, 16, 0, 1);
-	mapAreas[0][MAP_POS(1, 1, 0)] = new Map(tilesets[0], plainInfo, (char*)"maps/b2.map", MAP_WIDTH, MAP_HEIGHT, 16, 16, 1, 1);
+	mapAreas[0][MAP_POS(0, 0, 0)] = new Map(tilesets[0], plainInfo, (char*)"maps/a1.map", MAP_WIDTH, MAP_HEIGHT, TILE_SIZE, TILE_SIZE, 0, 0);
+	mapAreas[0][MAP_POS(1, 0, 0)] = new Map(tilesets[0], plainInfo, (char*)"maps/a2.map", MAP_WIDTH, MAP_HEIGHT, TILE_SIZE, TILE_SIZE, 1, 0);
+	mapAreas[0][MAP_POS(0, 1, 0)] = new Map(tilesets[0], plainInfo, (char*)"maps/b1.map", MAP_WIDTH, MAP_HEIGHT, TILE_SIZE, TILE_SIZE, 0, 1);
+	mapAreas[0][MAP_POS(1, 1, 0)] = new Map(tilesets[0], plainInfo, (char*)"maps/b2.map", MAP_WIDTH, MAP_HEIGHT, TILE_SIZE, TILE_SIZE, 1, 1);
 	
 	// Indoor maps
-	mapAreas[1][0] = new Map(tilesets[1], indoorInfo, (char*)"maps/in1.map", MAP_WIDTH, MAP_HEIGHT, 16, 16, 0, 0, 1);
-	mapAreas[1][1] = new Map(tilesets[1], indoorInfo, (char*)"maps/in2.map", MAP_WIDTH, MAP_HEIGHT, 16, 16, 0, 0, 1);
-	mapAreas[1][2] = new Map(tilesets[1], indoorInfo, (char*)"maps/in3.map", MAP_WIDTH, MAP_HEIGHT, 16, 16, 0, 0, 1);
+	mapAreas[1][0] = new Map(tilesets[1], indoorInfo, (char*)"maps/in1.map", MAP_WIDTH, MAP_HEIGHT, TILE_SIZE, TILE_SIZE, 0, 0, 1);
+	mapAreas[1][1] = new Map(tilesets[1], indoorInfo, (char*)"maps/in2.map", MAP_WIDTH, MAP_HEIGHT, TILE_SIZE, TILE_SIZE, 0, 0, 1);
+	mapAreas[1][2] = new Map(tilesets[1], indoorInfo, (char*)"maps/in3.map", MAP_WIDTH, MAP_HEIGHT, TILE_SIZE, TILE_SIZE, 0, 0, 1);
 	
 	/* Caves */
 	
-	mapAreas[2][MAP_POS(0, 0, 2)] = new Map(tilesets[2], undergroundInfo, (char*)"maps/ca1a1.map", MAP_WIDTH, MAP_HEIGHT, 16, 16, 0, 0, 2);
-	mapAreas[2][MAP_POS(1, 0, 2)] = new Map(tilesets[2], undergroundInfo, (char*)"maps/ca1a2.map", MAP_WIDTH, MAP_HEIGHT, 16, 16, 1, 0, 2);
+	mapAreas[2][MAP_POS(0, 0, 2)] = new Map(tilesets[2], undergroundInfo, (char*)"maps/ca1a1.map", MAP_WIDTH, MAP_HEIGHT, TILE_SIZE, TILE_SIZE, 0, 0, 2);
+	mapAreas[2][MAP_POS(1, 0, 2)] = new Map(tilesets[2], undergroundInfo, (char*)"maps/ca1a2.map", MAP_WIDTH, MAP_HEIGHT, TILE_SIZE, TILE_SIZE, 1, 0, 2);
 	mapAreas[2][MAP_POS(0, 1, 2)] = NULL;
-	mapAreas[2][MAP_POS(1, 1, 2)] = new Map(tilesets[2], undergroundInfo, (char*)"maps/ca1b2.map", MAP_WIDTH, MAP_HEIGHT, 16, 16, 1, 1, 2);
+	mapAreas[2][MAP_POS(1, 1, 2)] = new Map(tilesets[2], undergroundInfo, (char*)"maps/ca1b2.map", MAP_WIDTH, MAP_HEIGHT, TILE_SIZE, TILE_SIZE, 1, 1, 2);
 }
 
 void MapManager::refreshMaps(Map **maps, s16 moveX, s16 moveY) {
@@ -230,10 +230,10 @@ bool inTiles(s16 tileX, s16 tileY, u16 tiles[]) {
 }
 
 bool inZone(s16 x, s16 y, u16 tile) {
-	return (MapManager::currentMap->tilesetInfo()[MapManager::currentMap->getTile(floor(((double)x + 4) / 16), floor(((double)y + 12) / 16))] == tile
-	|| MapManager::currentMap->tilesetInfo()[MapManager::currentMap->getTile( ceil(((double)x - 4) / 16), floor(((double)y + 12) / 16))] == tile
-	|| MapManager::currentMap->tilesetInfo()[MapManager::currentMap->getTile(floor(((double)x + 4) / 16),  ceil(((double)y - 4) / 16))] == tile
-	|| MapManager::currentMap->tilesetInfo()[MapManager::currentMap->getTile( ceil(((double)x - 4) / 16),  ceil(((double)y - 4) / 16))] == tile);
+	return (MapManager::currentMap->tilesetInfo()[MapManager::currentMap->getTile(floor(((double)x + 4) / TILE_SIZE), floor(((double)y + 12) / TILE_SIZE))] == tile
+	|| MapManager::currentMap->tilesetInfo()[MapManager::currentMap->getTile( ceil(((double)x - 4) / TILE_SIZE), floor(((double)y + 12) / TILE_SIZE))] == tile
+	|| MapManager::currentMap->tilesetInfo()[MapManager::currentMap->getTile(floor(((double)x + 4) / TILE_SIZE),  ceil(((double)y - 4) / TILE_SIZE))] == tile
+	|| MapManager::currentMap->tilesetInfo()[MapManager::currentMap->getTile( ceil(((double)x - 4) / TILE_SIZE),  ceil(((double)y - 4) / TILE_SIZE))] == tile);
 }
 
 bool inZones(s16 x, s16 y, u16 tiles[]) {
