@@ -136,7 +136,7 @@ void Game::mainLoop() {
 					Keyboard::updatePad(&event);
 					break;
 				case SDL_FINGERUP:
-					Keyboard::resetPad();
+					Keyboard::resetPad(&event, true);
 					break;
 #endif
 			}

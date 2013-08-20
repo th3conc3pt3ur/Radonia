@@ -49,6 +49,7 @@
 
 const u8 *Keyboard::state = NULL;
 u8 Keyboard::padState[5] = {0, 0, 0, 0, 0};
+s32 Keyboard::padFinger[5] = {-1, -1, -1, -1, -1};
 
 #ifndef __ANDROID__
 	const u32 Keyboard::GameUp = SDL_SCANCODE_UP;
@@ -82,13 +83,19 @@ void Keyboard::update() {
 	state = getState();
 }
 
-void Keyboard::resetPad() {
+void Keyboard::resetPad(SDL_Event *e, bool released) {
 	// Reset pad state
-	padState[PAD_UP] = 0;
-	padState[PAD_DOWN] = 0;
-	padState[PAD_LEFT] = 0;
-	padState[PAD_RIGHT] = 0;
-	padState[PAD_A] = 0;
+	if(padFinger[PAD_UP] == e->tfinger.fingerId || padFinger[PAD_UP] < 0) {
+		padState[PAD_UP] = 0;
+		padState[PAD_DOWN] = 0;
+		padState[PAD_LEFT] = 0;
+		padState[PAD_RIGHT] = 0;
+	}
+	if(padFinger[PAD_A] == e->tfinger.fingerId || padFinger[PAD_A] < 0) padState[PAD_A] = 0;
+	
+	// Reset finger state
+	if(padFinger[PAD_UP] == e->tfinger.fingerId && released) padFinger[PAD_UP] = -1;
+	if(padFinger[PAD_A]	== e->tfinger.fingerId && released) padFinger[PAD_A] = -1;
 }
 
 void Keyboard::updatePad(SDL_Event *e) {
@@ -105,32 +112,37 @@ void Keyboard::updatePad(SDL_Event *e) {
 	u16 ay = Interface::buttonA->posRect()->y - Game::MainWindow->viewportY();
 	
 	// Reset pad
-	resetPad();
+	resetPad(e);
 	
 	// Test pad
 	// Up:    (0;0;71;28)
 	if(fx > px - 16 && fx < px + 71 + 16 && fy > py - 16 && fy < py + 28 - 8) {
 		padState[PAD_UP] = 1;
+		padFinger[PAD_UP] = e->tfinger.fingerId;
 	}
 	
 	// Down:  (0;44;71;71)
 	if(fx > px - 16 && fx < px + 71 + 16 && fy > py + 44 + 8 && fy < py + 71 + 16) {
 		padState[PAD_DOWN] = 1;
+		padFinger[PAD_UP] = e->tfinger.fingerId;
 	}
 	
 	// Left:  (0;0;28;71)
 	if(fx > px - 16 && fx < px + 28 - 8 && fy > py - 16 && fy < py + 71 + 16) {
 		padState[PAD_LEFT] = 1;
+		padFinger[PAD_UP] = e->tfinger.fingerId;
 	}
 	
 	// Right: (44;0;71;71)
 	if(fx > px + 44 + 8 && fx < px + 71 + 16 && fy > py - 16 && fy < py + 71 + 16) {
 		padState[PAD_RIGHT] = 1;
+		padFinger[PAD_UP] = e->tfinger.fingerId;
 	}
 	
 	// Button A
 	if(fx > ax && fx < ax + 32 && fy > ay && fy < ay + 32) {
 		padState[PAD_A] = 1;
+		padFinger[PAD_A] = e->tfinger.fingerId;
 	}
 }
 

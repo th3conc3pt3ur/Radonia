@@ -40,12 +40,13 @@ namespace Keyboard {
 	
 	// Pad state
 	extern u8 padState[5];
+	extern s32 padFinger[5];
 	
 	// Update keyboard state
 	void update();
 	
 	// Reset pad state
-	void resetPad();
+	void resetPad(SDL_Event *e, bool released = false);
 	
 	// Update pad state
 	void updatePad(SDL_Event *e);

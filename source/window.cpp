@@ -100,7 +100,10 @@ Window::~Window() {
 void Window::update(bool viewport) {
 #ifdef VIEWPORT
 	// Update viewport with player position
-	if(viewport) centerViewportWithObject(Game::player->x(), Game::player->y(), Game::player->frameSize(), Game::player->frameSize());
+	if(viewport) centerViewportWithObject(CharacterManager::player()->x(),
+										  CharacterManager::player()->y(),
+										  CharacterManager::player()->frameSize(),
+										  CharacterManager::player()->frameSize());
 #endif
 	
 	// Refresh window
