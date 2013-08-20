@@ -162,7 +162,7 @@ void Character::testCollisions() {
 }
 
 void Character::doorCollisions() {
-	if(inTiles((m_x + 8) >> 4, (m_y + 8) >> 4, MapManager::changeMapTiles) && !m_inDoor) {
+	if(inZones(m_x, m_y, MapManager::changeMapTiles) && !m_inDoor) {
 		// Search for the door
 		s16 doorID = DoorManager::findDoorID(m_x, m_y, MapManager::currentMap->id(), MapManager::currentMap->area());
 		
@@ -185,7 +185,8 @@ void Character::doorCollisions() {
 		if(!MapManager::currentMap) exit(EXIT_FAILURE);
 		
 		// Regen monsters and reset positions
-		for(std::vector<Character*>::iterator it = MapManager::currentMap->characters()->begin() ; it != MapManager::currentMap->characters()->end() ; it++) {
+		std::vector<Character*> *v = MapManager::currentMap->characters();
+		for(std::vector<Character*>::iterator it = v->begin() ; it != v->end() ; it++) {
 			if(!(*it)->isPlayer()) (*it)->reset();
 		}
 		
@@ -200,6 +201,7 @@ void Character::doorCollisions() {
 		// Transition
 		for(u16 x = 0 ; x <= MAP_HEIGHT / 1.5 ; x++) {
 			Game::MainWindow->clear();
+			MapManager::currentMap->render();
 			CharacterManager::renderCharacters();
 			Interface::renderHUD();
 			Game::MainWindow->drawFillRect(Game::MainWindow->viewportX() - 32 * x, Game::MainWindow->viewportY(), Game::MainWindow->viewportW() / 2, Game::MainWindow->viewportH(), Color::white);
@@ -211,8 +213,7 @@ void Character::doorCollisions() {
 		m_inDoor = true;
 	}
 	
-	if((!inTiles((m_x +  2) >> 4, (m_y +  2) >> 4, MapManager::changeMapTiles))
-	&& (!inTiles((m_x + 14) >> 4, (m_y + 14) >> 4, MapManager::changeMapTiles)) && m_inDoor) {
+	if(!inZones(m_x, m_y, MapManager::changeMapTiles) && m_inDoor) {
 		// The player isn't in the door anymore
 		m_inDoor = false;
 	}

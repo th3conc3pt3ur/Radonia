@@ -73,12 +73,11 @@ void CharacterManager::initAllCharacters() {
 	characters[2] = initBlueBoy(17 << 4, 2 << 4, DIR_DOWN, 0, 0);
 }
 
-std::vector<Character*> CharacterManager::getCharactersInMap(u16 id, u16 area) {
+std::vector<Character*> CharacterManager::getCharactersInMap(u16 id) {
 	std::vector<Character*> c;
 	
 	for(u16 i = 0 ; i < NB_CHARACTERS ; i++) {
-		if((characters[i]->mapID() == id
-		&&	characters[i]->area()  == area)
+		if(characters[i]->mapID() == id
 		|| characters[i]->isPlayer()) {
 			c.push_back(characters[i]);
 		}
@@ -108,14 +107,16 @@ Player *CharacterManager::player() {
 }
 
 void CharacterManager::moveCharacters() {
-	for(std::vector<Character*>::iterator it = MapManager::currentMap->characters()->begin() ; it != MapManager::currentMap->characters()->end() ; it++) {
+	std::vector<Character*> *v = MapManager::currentMap->characters();
+	for(std::vector<Character*>::iterator it = v->begin() ; it != v->end() ; it++) {
 		(*it)->move();
 	}
 }
 
 void CharacterManager::renderCharacters() {
-	std::sort(MapManager::currentMap->characters()->begin(), MapManager::currentMap->characters()->end(), sortCharacters);
-	for(std::vector<Character*>::iterator it = MapManager::currentMap->characters()->begin() ; it != MapManager::currentMap->characters()->end() ; it++) {
+	std::vector<Character*> *v = MapManager::currentMap->characters();
+	std::sort(v->begin(), v->end(), sortCharacters);
+	for(std::vector<Character*>::iterator it = v->begin() ; it != v->end() ; it++) {
 		if((*it)->lifes() > 0 && (*it)->isMonster()) Interface::renderMonsterLife((Monster*)(*it));
 		(*it)->render();
 	}

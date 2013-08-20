@@ -94,7 +94,7 @@ Map::Map(Image *tileset, u16 *tilesetInfo, char *filename, u16 width, u16 height
 	m_data = table;
 	
 	// Get characters
-	m_characters = CharacterManager::getCharactersInMap(m_id, m_area);
+	m_characters = CharacterManager::getCharactersInMap(m_id);
 }
 
 Map::~Map() {

@@ -201,7 +201,8 @@ void Game::scroll() {
 	
 	for(u16 i = 0 ; i < iMax ; i++) {
 		// Move characters
-		for(std::vector<Character*>::iterator it = MapManager::currentMap->characters()->begin() ; it != MapManager::currentMap->characters()->end() ; it++) {
+		std::vector<Character*> *v = MapManager::currentMap->characters();
+		for(std::vector<Character*>::iterator it = v->begin() ; it != v->end() ; it++) {
 			if((i & 1) || !(i & 11)) (*it)->moveX(playerX); else (*it)->moveX(playerX - playerX / 16);
 			if((i & 1) || !(i & 15)) (*it)->moveY(playerY); else (*it)->moveY(playerY - playerY / 16);
 		}
@@ -233,7 +234,8 @@ void Game::scroll() {
 	&& MapManager::currentMap->y() + moveY / 16 < WM_SIZE) MapManager::currentMap = MapManager::mapAreas[MapManager::currentMap->area()][MAP_POS(MapManager::currentMap->x() + moveX / 16, MapManager::currentMap->y() + moveY / 16, MapManager::currentMap->area())];
 	
 	// Regen monsters and reset positions
-	for(std::vector<Character*>::iterator it = MapManager::currentMap->characters()->begin() ; it != MapManager::currentMap->characters()->end() ; it++) {
+	std::vector<Character*> *v = MapManager::currentMap->characters();
+	for(std::vector<Character*>::iterator it = v->begin() ; it != v->end() ; it++) {
 		if(!(*it)->isPlayer()) (*it)->reset();
 	}
 }

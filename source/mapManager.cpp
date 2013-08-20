@@ -161,8 +161,8 @@ void MapManager::initMaps() {
 	mapAreas = new Map**[MAP_AREAS];
 	
 	// Initialize each area array
-	mapAreas[0] = new Map*[WM_SIZE * WM_SIZE];
-	mapAreas[1] = new Map*[INDOOR_MAPS];
+	mapAreas[0] = new Map*[areaSizes[0]];
+	mapAreas[1] = new Map*[areaSizes[1]];
 	mapAreas[2] = new Map*[areaSizes[2]];
 	
 	/* Initialize area maps */
@@ -226,21 +226,21 @@ bool inTable(u16 tiles[], u16 id) {
 }
 
 bool inTiles(s16 tileX, s16 tileY, u16 tiles[]) {
-	if(inTable(tiles, MapManager::currentMap->tilesetInfo()[MapManager::currentMap->getTile(tileX, tileY)])) {
-		return true;
-	} else {
-		return false;
-	}
+	return inTable(tiles, MapManager::currentMap->tilesetInfo()[MapManager::currentMap->getTile(tileX, tileY)]);
 }
 
 bool inZone(s16 x, s16 y, u16 tile) {
-	if(MapManager::currentMap->tilesetInfo()[MapManager::currentMap->getTile(floor(((double)x + 4) / 16), floor(((double)y + 12) / 16))] == tile
+	return (MapManager::currentMap->tilesetInfo()[MapManager::currentMap->getTile(floor(((double)x + 4) / 16), floor(((double)y + 12) / 16))] == tile
 	|| MapManager::currentMap->tilesetInfo()[MapManager::currentMap->getTile( ceil(((double)x - 4) / 16), floor(((double)y + 12) / 16))] == tile
 	|| MapManager::currentMap->tilesetInfo()[MapManager::currentMap->getTile(floor(((double)x + 4) / 16),  ceil(((double)y - 4) / 16))] == tile
-	|| MapManager::currentMap->tilesetInfo()[MapManager::currentMap->getTile( ceil(((double)x - 4) / 16),  ceil(((double)y - 4) / 16))] == tile) {
-		return true;
-	} else {
-		return false;
+	|| MapManager::currentMap->tilesetInfo()[MapManager::currentMap->getTile( ceil(((double)x - 4) / 16),  ceil(((double)y - 4) / 16))] == tile);
+}
+
+bool inZones(s16 x, s16 y, u16 tiles[]) {
+	for(u16 i = 0 ; tiles[i] != 0 ; i++) {
+		if(inZone(x, y, tiles[i])) return true;
 	}
+	
+	return false;
 }
 
