@@ -87,7 +87,7 @@ Game::Game() {
 	
 #ifdef VIEWPORT
 	// Update viewport with player position
-	MainWindow->centerViewportWithObject(CharacterManager::player()->x(), CharacterManager::player()->y(), CharacterManager::player()->frameSize(), CharacterManager::player()->frameSize());
+	MainWindow->centerViewportWithObject(CharacterManager::player()->x(), CharacterManager::player()->y(), CharacterManager::player()->frameWidth(), CharacterManager::player()->frameHeight());
 #endif
 	
 	// Initialize interface

@@ -54,11 +54,8 @@ Window::Window(char *caption, u16 width, u16 height) {
 	m_width = width;
 	m_height = height;
 	
-	if(m_width < 640) m_width = 640;
-	if(m_height < 480) m_height = 480;
-	
 	// Initialize window
-	m_window = SDL_CreateWindow(m_caption, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, m_width, m_height, SDL_WINDOW_SHOWN);
+	m_window = SDL_CreateWindow(m_caption, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, SDL_WINDOW_SHOWN);
 	if(!m_window) {
 		fprintf(stderr, "Error while initializing window: %s", SDL_GetError());
 		exit(EXIT_FAILURE);

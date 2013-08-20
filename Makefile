@@ -14,7 +14,7 @@ LDFLAGS	:=	-g
 #---------------------------------------------------------------------------------
 # Any extra libraries you wish to link with your project
 #---------------------------------------------------------------------------------
-LIBS	:=	-lSDL2_image -lSDL2
+LIBS	:=	-lSDL2_ttf -lSDL2_image -lSDL2
 
 #---------------------------------------------------------------------------------
 # list of directories containing libraries, this must be the top level containing

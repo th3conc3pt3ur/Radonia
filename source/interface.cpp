@@ -24,6 +24,7 @@
 #include "types.h"
 #include "color.h"
 #include "config.h"
+#include "init.h"
 #include "window.h"
 #include "keyboard.h"
 #include "timer.h"
@@ -44,6 +45,7 @@
 #include "interface.h"
 #include "game.h"
 
+TTF_Font *Interface::defaultFont = NULL;
 Sprite *Interface::hearts = NULL;
 Image *Interface::pad = NULL;
 Image *Interface::buttonA = NULL;
@@ -54,12 +56,13 @@ void Interface::titleScreen() {
 	
 	// Wait for player
 	SDL_Event event;
-	bool cont;
+	bool cont = true;
 	while(cont) {
 		// Close window: exit game
 		while(SDL_PollEvent(&event) != 0) {
 			switch(event.type) {
-				case SDL_QUIT: cont = false;
+				case SDL_QUIT: cont = false; break;
+				case SDL_KEYDOWN: if(event.key.keysym.sym == SDLK_n) cont = false; break;
 			}
 		};
 		
@@ -78,6 +81,9 @@ void Interface::titleScreen() {
 }
 
 void Interface::initialize() {
+	// Load default font
+	defaultFont = TTF_OpenFont((char*)"fonts/vani.ttf", 42);
+	
 	// Load hearts sprite
 	hearts = new Sprite((char*)"graphics/interface/hearts.png");
 	
@@ -91,6 +97,9 @@ void Interface::initialize() {
 }
 
 void Interface::unload() {
+	// Unload default font
+	TTF_CloseFont(defaultFont);
+	
 	// Delete images
 	delete hearts;
 	delete pad;
@@ -128,7 +137,7 @@ void Interface::renderMonsterLife(Monster *monster) {
 	// Render life bar
 	Game::MainWindow->drawFillRect(monster->x() - 1, monster->y() - 6, monster->frameWidth() + 2, 4, Color::black);
 	Game::MainWindow->drawFillRect(monster->x(), monster->y() - 5, monster->frameWidth(), 2, Color::white);
-	Game::MainWindow->drawFillRect(monster->x(), monster->y() - 5, monster->lifes() * (monster->frameWidth() + 2) / monster->maxLifes(), 2, Color::life);
+	Game::MainWindow->drawFillRect(monster->x(), monster->y() - 5, monster->lifes() * monster->frameWidth() / monster->maxLifes(), 2, Color::life);
 }
 
 void Interface::newDialogBox(char *text) {

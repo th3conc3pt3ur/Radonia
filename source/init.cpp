@@ -37,6 +37,12 @@ void initSDL() {
 		exit(EXIT_FAILURE);
 	}
 	
+	// Initialize SDL_ttf
+	if(TTF_Init() < 0) {
+		fprintf(stderr, "SDL_ttf init error: %s\n", TTF_GetError());
+		exit(EXIT_FAILURE);
+	}
+	
 	// Enable VSync if possible
 	if(!SDL_SetHint(SDL_HINT_RENDER_VSYNC, "1")) {
 		fprintf(stderr, "Warning: VSync not enabled!");
@@ -44,6 +50,7 @@ void initSDL() {
 }
 
 void exitSDL() {
+	TTF_Quit();
 	IMG_Quit();
 	SDL_Quit();
 }

@@ -39,6 +39,9 @@ namespace Interface {
 	// Display a dialog box
 	void newDialogBox(char *text);
 	
+	// Default font
+	extern TTF_Font *defaultFont;
+	
 	// Hearts sprite
 	extern Sprite *hearts;
 	
