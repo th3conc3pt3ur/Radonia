@@ -14,6 +14,7 @@ LDFLAGS	:=	-g
 #---------------------------------------------------------------------------------
 # Any extra libraries you wish to link with your project
 #---------------------------------------------------------------------------------
+#LIBS	:=	-lSDL2_ttf -lSDL2_image -lSDL2 -Wl,-Bdynamic -lfreetype -lpthread -ldl
 LIBS	:=	-lSDL2_ttf -lSDL2_image -lSDL2
 
 #---------------------------------------------------------------------------------

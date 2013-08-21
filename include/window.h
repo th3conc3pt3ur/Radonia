@@ -26,6 +26,9 @@ class Window {
 		Window(char *caption, u16 width, u16 height);
 		~Window();
 		
+		// Setup window icon
+		void setupIcon();
+		
 		// Update window
 		void update(bool viewport = true);
 		
@@ -67,6 +70,9 @@ class Window {
 		
 		// SDL_Renderer object
 		SDL_Renderer *m_renderer;
+		
+		// Window icon
+		SDL_Surface *m_icon;
 		
 		// Window caption
 		char *m_caption;

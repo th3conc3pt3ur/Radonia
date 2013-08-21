@@ -70,6 +70,9 @@ Game::Game() {
 	MainWindow = new Window((char*)"Radonia", 640, 480);
 #endif
 	
+	// Setup main window icon
+	MainWindow->setupIcon();
+	
 	// Set default values
 	m_continue = true;
 	m_paused = false;

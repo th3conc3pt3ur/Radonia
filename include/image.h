@@ -36,6 +36,9 @@ class Image {
 		// Get position
 		SDL_Rect *posRect() { return &m_posRect; }
 		
+		// Get surface
+		SDL_Surface *surface() { return m_surface; }
+		
 		// Set color
 		void setColor(Color color) { SDL_SetTextureColorMod(m_texture, color.r, color.g, color.b); }
 		
@@ -55,6 +58,9 @@ class Image {
 		// Size
 		u16 m_width;
 		u16 m_height;
+		
+		// Surface object
+		SDL_Surface *m_surface;
 		
 		// Texture object
 		SDL_Texture *m_texture;

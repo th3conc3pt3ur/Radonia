@@ -51,19 +51,17 @@ Image::Image(char *filename) {
 	m_filename = filename;
 	
 	// Initialize image
-	SDL_Surface *surface;
-	
 	SDL_RWops *file = SDL_RWFromFile(filename, "rb");
-	surface = IMG_Load_RW(file, 1);
+	m_surface = IMG_Load_RW(file, 1);
 	
-	if(!surface) {
+	if(!m_surface) {
 		fprintf(stderr, "Failed to load image \"%s\": %s\n", filename, IMG_GetError());
 		exit(EXIT_FAILURE);
 	}
 	
 	// Get dimensions
-	m_width = surface->w;
-	m_height = surface->h;
+	m_width = m_surface->w;
+	m_height = m_surface->h;
 	
 	// Prepare magenta alpha
 	// FIXME: DOESN'T WORK ON ANDROID
@@ -72,14 +70,11 @@ Image::Image(char *filename) {
 	}*/
 	
 	// Initialize texture
-	m_texture = SDL_CreateTextureFromSurface(Game::MainWindow->renderer(), surface);
+	m_texture = SDL_CreateTextureFromSurface(Game::MainWindow->renderer(), m_surface);
 	if(!m_texture) {
 		fprintf(stderr, "Failed to create texture from image: %s", SDL_GetError());
 		exit(EXIT_FAILURE);
 	}
-	
-	// Get rid of old loaded surface
-	SDL_FreeSurface(surface);
 	
 	// Initialize rects
 	m_clipRect.x = 0;
@@ -94,6 +89,7 @@ Image::Image(char *filename) {
 }
 
 Image::~Image() {
+	SDL_FreeSurface(m_surface);
 	SDL_DestroyTexture(m_texture);
 }
 
