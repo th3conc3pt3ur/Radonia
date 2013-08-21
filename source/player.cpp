@@ -123,6 +123,9 @@ void Player::move() {
 	testCollisions();
 	doorCollisions();
 	
+	// Test if the character is hurt or not
+	hurt();
+	
 	// Move character
 	m_x += m_vx * CHARACTER_SPEED;
 	m_y += m_vy * CHARACTER_SPEED;

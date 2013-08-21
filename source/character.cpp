@@ -74,7 +74,6 @@ Character::Character(char *filename, CharacterType type, s16 x, s16 y, Character
 	
 	m_moving = false;
 	
-	m_movementTimer.reset();
 	m_movementTimer.start();
 	
 	m_countMoves = 0;
@@ -87,6 +86,12 @@ Character::Character(char *filename, CharacterType type, s16 x, s16 y, Character
 	
 	m_canMove = true;
 	m_canTurn = true;
+	
+	m_hx = 0;
+	m_hy = 0;
+	
+	m_hurtTimer.start();
+	m_hurtTimerLastValue = m_hurtTimer.time();
 	
 	// FIXME: Temporary values
 	m_lifes = 32;
@@ -129,7 +134,10 @@ void Character::render() {
 
 void Character::testCollisions() {
 	// Ensure that movement timer is started
-	if(!m_movementTimer.isStarted()) m_movementTimer.start();
+	m_movementTimer.start();
+	
+	// Ensure that collision state is reset
+	m_inCollision = false;
 	
 	// 0: Right | 1: Left | 2: Up | 3:Down
 	for(u8 i = 0 ; i < 4 ; i++) {
@@ -143,6 +151,9 @@ void Character::testCollisions() {
 			
 			// Stop movement timer
 			m_movementTimer.stop();
+			
+			// Update collision state
+			m_inCollision = true;
 			
 			// Obstacles
 			if( CollisionManager::passable(m_x + CollisionManager::collisionMatrix[i][2], m_y + CollisionManager::collisionMatrix[i][3])
@@ -220,6 +231,52 @@ void Character::doorCollisions() {
 }
 
 void Character::hurt() {
+	if(m_hx != 0 || m_hy != 0) {
+		if(m_hurtTimer.time() - m_hurtTimerLastValue > 5) {
+			// Ensure that movement vectors are null
+			//m_vx = 0;
+			//m_vy = 0;
+			
+			// Stop movement timer
+			//m_movementTimer.stop();
+			
+			// Change color
+			SDL_SetTextureColorMod(m_texture, rand()%255, rand()%255, rand()%255);
+			
+			// Normalize hurt movement vectors
+			s8 nhx = m_hx / ((m_hx != 0)?abs(m_hx):1);
+			s8 nhy = m_hy / ((m_hy != 0)?abs(m_hy):1);
+			
+			// If there isn't a collision and the movement hasn't reached it's end
+			if((abs(m_hx) <= 32 && abs(m_hy) <= 32 && !m_inCollision) || m_hurt) {
+				// Update movement vectors
+				m_vx = nhx;
+				m_vy = nhy;
+				
+				// Reset hurt state
+				m_hurt = false;
+			}
+		}
+		
+		if(m_hurtTimer.time() > 500) {
+			// Hurt character
+			m_lifes--;
+			
+			// Reset timer
+			m_hurtTimer.reset();
+			m_hurtTimer.start();
+			
+			// Reset timer last value
+			m_hurtTimerLastValue = m_hurtTimer.time();
+			
+			// Reset color
+			SDL_SetTextureColorMod(m_texture, 255, 255, 255);
+			
+			// Reset hurt movement vectors
+			m_hx = 0;
+			m_hy = 0;
+		}
+	}
 }
 
 void Character::reset() {
@@ -245,6 +302,16 @@ void Character::reset() {
 	
 	m_canMove = true;
 	m_canTurn = true;
+	
+	m_hx = 0;
+	m_hy = 0;
+	
+	m_hurt = false;
+	
+	m_hurtTimer.reset();
+	m_hurtTimer.start();
+	
+	m_inCollision = false;
 	
 	m_lifes = m_maxLifes;
 }

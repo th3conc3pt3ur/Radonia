@@ -97,6 +97,9 @@ void Monster::move() {
 			// Test collisions
 			testCollisions();
 			
+			// Test if the character is hurt or not
+			hurt();
+			
 			// Set character direction
 			if(e_x > 0) m_direction = DIR_RIGHT;
 			if(e_x < 0) m_direction = DIR_LEFT;
@@ -171,7 +174,9 @@ void Monster::move() {
 		
 		// Test collisions
 		testCollisions();
-		doorCollisions();
+		
+		// Test if the character is hurt or not
+		hurt();
 		
 		// If the movement is finished or a collision is detected
 		if(m_vxCount >= 16 || m_vyCount >= 16 || (m_moving && m_vx == 0 && m_vy == 0)) {

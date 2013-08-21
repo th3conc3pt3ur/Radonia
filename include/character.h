@@ -93,6 +93,10 @@ class Character : public Sprite {
 		bool isNPC()	 { return m_type == CHARA_NPC;		}
 		bool isMonster() { return m_type == CHARA_MONSTER;	}
 		
+		// Increase or decrease hurt movement vectors
+		void hxm(s16 value) { m_hx += value; m_hurt = true; }
+		void hym(s16 value) { m_hy += value; m_hurt = true; }
+		
 		// Characters counter
 		static u16 nbCharacters;
 		
@@ -142,6 +146,20 @@ class Character : public Sprite {
 		// Blocked movement and direction states
 		bool m_canMove;
 		bool m_canTurn;
+		
+		// Hurt movement vectors
+		s16 m_hx;
+		s16 m_hy;
+		
+		// Hurt state
+		bool m_hurt;
+		
+		// Collision state
+		bool m_inCollision;
+		
+		// Hurt timer
+		Timer m_hurtTimer;
+		u16 m_hurtTimerLastValue;
 		
 		// Attacking state
 		bool m_isAttacking;
