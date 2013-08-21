@@ -68,16 +68,18 @@ Sword::~Sword() {
 }
 
 void Sword::action() {
-	/*
 	// Sword position
-	s16 mx = 0; s16 my = 0;
+	s8 mx = 0; s8 my = 0;
+	
+	// Player movement
+	s8 px = 0; s8 py = 0;
 	
 	// Get sword position
 	switch(m_owner->m_direction) {
-		case DIR_DOWN:	mx = 0;		my = 16;	break;
-		case DIR_RIGHT:	mx = 12;	my = 0;		break;
-		case DIR_LEFT:	mx = -12;	my = 0;		break;
-		case DIR_UP:	mx = 0;		my = -12;	break;
+		case DIR_DOWN:	mx = 0;		my = 16;	py =  3; break;
+		case DIR_RIGHT:	mx = 12;	my = 0;		px =  4; break;
+		case DIR_LEFT:	mx = -12;	my = 0;		px = -4; break;
+		case DIR_UP:	mx = 0;		my = -12;	py = -3; break;
 		default: break;
 	}
 	
@@ -96,10 +98,10 @@ void Sword::action() {
 			startAnimation(m_owner->m_direction);
 			
 			// Play attack animation
-			m_owner->playAnimation(m_owner->m_x, m_owner->m_y, m_owner->m_direction + 4);
+			m_owner->playAnimation(m_owner->m_x + px, m_owner->m_y + py, m_owner->m_direction + 4);
 		} else if(!m_owner->animationAtEnd(m_owner->m_direction + 4)) {
 			// Play attack animation
-			m_owner->playAnimation(m_owner->m_x, m_owner->m_y, m_owner->m_direction + 4);
+			m_owner->playAnimation(m_owner->m_x + px, m_owner->m_y + py, m_owner->m_direction + 4);
 	
 			// Get sword position
 			switch(m_owner->m_direction) {
@@ -131,13 +133,13 @@ void Sword::action() {
 			}
 			
 			// Play sword animation
-			if(!animationAtEnd(m_owner->m_direction)) playAnimation(m_owner->m_x + mx, m_owner->m_y + my, m_owner->m_direction);
+			if(!animationAtEnd(m_owner->m_direction)) playAnimation(m_owner->m_x + mx + px, m_owner->m_y + my + py, m_owner->m_direction);
 		} else if(m_timer.time() == 0) {
 			// Start loading timer
 			m_timer.start();
 			
 			// Update owner states
-			if(!(m_owner->collidedCharacter() && m_owner->collidedCharacter()->isMonster())) m_owner->m_canMove = true;
+			m_owner->m_canMove = true;
 			m_owner->m_canTurn = false;
 			
 			// Play attack animation
@@ -157,7 +159,7 @@ void Sword::action() {
 			drawFrame(m_owner->m_x + mx, m_owner->m_y + my, m_owner->m_direction + 8);
 		}
 		
-		// Test if sword collided a character
+		/*// Test if sword collided a character
 		Character *collidedCharacter = NULL;
 		if((m_collidedCharacter
 		|| (((collidedCharacter = CollisionManager::getCollidedCharacter(m_owner->m_x + mx +  2, m_owner->m_y + my +  2, m_owner))
@@ -179,7 +181,7 @@ void Sword::action() {
 		} else {
 			// Reset collided character state
 			m_collidedCharacter = NULL;
-		}
+		}*/
 	}
 	
 	if(!Keyboard::isKeyPressed(Keyboard::GameAttack) && m_owner->m_isAttacking && m_owner->animationAtEnd(m_owner->m_direction + 4)) {
@@ -188,8 +190,8 @@ void Sword::action() {
 		
 		// Reset owner states
 		m_owner->m_isAttacking = false;
-		if(!(m_owner->collidedCharacter() && m_owner->collidedCharacter()->isMonster())) m_owner->m_canMove = true;
+		m_owner->m_canMove = true;
 		m_owner->m_canTurn = true;
-	}*/
+	}
 }
 
