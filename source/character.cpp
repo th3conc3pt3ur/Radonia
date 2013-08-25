@@ -259,8 +259,8 @@ void Character::hurtMovement() {
 		
 		// If there isn't a collision and the movement hasn't reached it's end
 		if(abs(m_hx) > 32 || abs(m_hy) > 32 || m_inCollision) {
-			// Reset color
-			SDL_SetTextureColorMod(m_texture, 255, 255, 255);
+			// Reset hurt state
+			m_hurt = false;
 		}
 	}
 	
