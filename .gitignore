@@ -1,6 +1,7 @@
 build
 *~
 Radonia
+RadoniaDroid
 *.swp
 *.swo
 lib
