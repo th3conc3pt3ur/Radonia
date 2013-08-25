@@ -80,14 +80,12 @@ bool CollisionManager::collidesWithCharacter(Character *c, u8 i) {
 		&&   (*it)->y() < y2 && (*it)->y() + (*it)->frameHeight() > y2))
 		&& c->id() != (*it)->id()) {
 			if(c->isPlayer() && (*it)->isMonster()) {
-				// Set hurt movement vectors
-				c->hxm(c->x() - (*it)->x());
-				c->hym(c->y() - (*it)->y());
+				// Hurt the character
+				c->hurt(c->x() - (*it)->x(), c->y() - (*it)->y());
 			}
 			if(c->isMonster() && (*it)->isPlayer()) {
-				// Set hurt movement vectors
-				(*it)->hxm((*it)->x() - c->x());
-				(*it)->hym((*it)->y() - c->y());
+				// Hurt the character
+				(*it)->hurt((*it)->x() - c->x(), (*it)->y() - c->y());
 			}
 			return true;
 		}

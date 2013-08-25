@@ -121,9 +121,6 @@ void NPC::move() {
 	// Test collisions
 	testCollisions();
 	
-	// Test if the character is hurt or not
-	hurt();
-	
 	// If the movement is finished or a collision is detected
 	if(m_vxCount >= 16 || m_vyCount >= 16 || (m_moving && m_vx == 0 && m_vy == 0)) {
 		// Reset counters

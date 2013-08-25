@@ -54,7 +54,8 @@ class Character : public Sprite {
 		virtual void action() = 0;
 		
 		// Hurt comportement
-		void hurt();
+		void hurt(s16 hx, s16 hy);
+		void hurtMovement();
 		
 		// Reset character attributes
 		void reset();
@@ -92,10 +93,6 @@ class Character : public Sprite {
 		bool isPlayer()  { return m_type == CHARA_PLAYER;	}
 		bool isNPC()	 { return m_type == CHARA_NPC;		}
 		bool isMonster() { return m_type == CHARA_MONSTER;	}
-		
-		// Increase or decrease hurt movement vectors
-		void hxm(s16 value) { m_hx += value; m_hurt = true; }
-		void hym(s16 value) { m_hy += value; m_hurt = true; }
 		
 		// Characters counter
 		static u16 nbCharacters;
@@ -143,13 +140,13 @@ class Character : public Sprite {
 		// Movement timer (NPC|Monsters)
 		Timer m_movementTimer;
 		
-		// Blocked movement and direction states
-		bool m_canMove;
-		bool m_canTurn;
-		
 		// Hurt movement vectors
 		s16 m_hx;
 		s16 m_hy;
+		
+		// Blocked movement and direction states
+		bool m_canMove;
+		bool m_canTurn;
 		
 		// Hurt state
 		bool m_hurt;

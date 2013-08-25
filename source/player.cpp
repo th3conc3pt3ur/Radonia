@@ -66,7 +66,11 @@ Player::~Player() {
 }
 
 void Player::move() {
-	if(m_canMove) {
+	if(m_hurt) {
+		// Hurt player
+		hurtMovement();
+	}
+	else if(m_canMove) {
 		// Reset moving state
 		m_moving = false;
 		
@@ -122,9 +126,6 @@ void Player::move() {
 	// Test collisions
 	testCollisions();
 	doorCollisions();
-	
-	// Test if the character is hurt or not
-	hurt();
 	
 	// Move character
 	m_x += m_vx * CHARACTER_SPEED;
