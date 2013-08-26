@@ -256,12 +256,6 @@ void Character::hurtMovement() {
 		
 		// Test collisions
 		testCollisions();
-		
-		// If there isn't a collision and the movement hasn't reached it's end
-		if(abs(m_hx) > 32 || abs(m_hy) > 32 || m_inCollision) {
-			// Reset hurt state
-			m_hurt = false;
-		}
 	}
 	
 	if(m_hurtTimer.time() > 500) {
