@@ -69,10 +69,8 @@ bool CollisionManager::collidesWithCharacter(Character *c, u8 i) {
 	u16 y2 = c->y() + COLLISION_MATRIX(i + 4, 3, c->frameHeight());
 	
 	for(std::vector<Character*>::iterator it = MapManager::currentMap->characters()->begin() ; it != MapManager::currentMap->characters()->end() ; it++) {
-		if((((*it)->x() < x1 && (*it)->x() + (*it)->frameWidth()  > x1
-		&&   (*it)->y() < y1 && (*it)->y() + (*it)->frameHeight() > y1)
-		||	((*it)->x() < x2 && (*it)->x() + (*it)->frameWidth()  > x2
-		&&   (*it)->y() < y2 && (*it)->y() + (*it)->frameHeight() > y2))
+		if((*it)->x() < x2 && (*it)->x() + (*it)->frameWidth()  > x1
+		&& (*it)->y() < y2 && (*it)->y() + (*it)->frameHeight() > y1
 		&& c->id() != (*it)->id()) {
 			if(c->isPlayer() && (*it)->isMonster()) {
 				// Hurt the character
