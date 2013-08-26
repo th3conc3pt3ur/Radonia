@@ -149,8 +149,7 @@ void Character::testCollisions() {
 		if(((i==0)?(m_vx > 0):((i==1)?(m_vx < 0):((i==2)?(m_vy < 0):(m_vy > 0))))
 		&& (!CollisionManager::passable(m_x + COLLISION_MATRIX(i, 0, m_frameWidth), m_y + COLLISION_MATRIX(i, 1, m_frameHeight))
 		 || !CollisionManager::passable(m_x + COLLISION_MATRIX(i, 2, m_frameWidth), m_y + COLLISION_MATRIX(i, 3, m_frameHeight))
-		 || CollisionManager::collidesWithCharacter(this, i)
-		 )) {
+		 || CollisionManager::collidesWithCharacter(this, i))) {
 			// Reset movement vectors
 			if(i<2) m_vx = 0; else m_vy = 0;
 			

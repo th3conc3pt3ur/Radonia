@@ -66,13 +66,17 @@ void Monster::move() {
 	bool isAttacked = true;
 	
 	if(isAttacked) {
-		// Get player position
-		u16 x = CharacterManager::player()->x();
-		u16 y = CharacterManager::player()->y();
+		// Get player center
+		u16 x = CharacterManager::player()->x() + CharacterManager::player()->frameWidth()  / 2;
+		u16 y = CharacterManager::player()->y() + CharacterManager::player()->frameHeight() / 2;
+		
+		// Get monster center
+		u16 cx = m_x + m_frameWidth / 2;
+		u16 cy = m_y + m_frameHeight / 2;
 		
 		// Get distance between the two characters
-		s16 e_x = x - m_x;
-		s16 e_y = y - m_y;
+		s16 e_x = x - cx;
+		s16 e_y = y - cy;
 		
 		// The monster follows the character
 		if(abs(e_x) < (10 * TILE_SIZE) && abs(e_y < (10 * TILE_SIZE))) {
@@ -82,10 +86,10 @@ void Monster::move() {
 			
 			// Update movement vectors
 			if(SDL_GetTicks()&1) {
-				if(x > m_x)		 m_vx =  1;
-				else if(x < m_x) m_vx = -1;
-				if(y > m_y)		 m_vy =	 1;
-				else if(y < m_y) m_vy = -1;
+				if(x > cx)		m_vx =  1;
+				else if(x < cx) m_vx = -1;
+				if(y > cy)		m_vy =	1;
+				else if(y < cy) m_vy = -1;
 			}
 			
 			// Update moving state

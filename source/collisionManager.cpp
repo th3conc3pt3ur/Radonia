@@ -46,20 +46,15 @@
 #include "game.h"
 
 // Initialize collision matrix
-u16 CollisionManager::collisionMatrix[6][4] = {
-	//{12,8,12,14},		// Right
-	//{3,8,3,14},		// Left
-	//{5,5,10,5},		// Up
-	//{5,15,10,15},		// Down
-	//{12,8,12,10},		// Special right (mobs)
-	//{3,8,3,10}		// Special left (mobs)
-	// FIXME: Adapt for taller monsters
+u16 CollisionManager::collisionMatrix[8][4] = {
 	{12,8,12,14},	// Right
 	{3,8,3,14},		// Left
 	{5,5,10,5},		// Up
 	{5,15,10,15},	// Down
-	{12,8,12,10},	// Special right (mobs)
-	{3,8,3,10}		// Special left (mobs)
+	{12,5,12,12},	// Special right (mobs)
+	{5,5,5,12},		// Special left (mobs)
+	{5,5,12,5},		// Special up (mobs)
+	{5,12,12,12}	// Special down (mobs)
 };
 
 bool CollisionManager::passable(s16 x, s16 y) {
@@ -68,15 +63,15 @@ bool CollisionManager::passable(s16 x, s16 y) {
 }
 
 bool CollisionManager::collidesWithCharacter(Character *c, u8 i) {
-	u16 x1 = c->x() + COLLISION_MATRIX((i + 2) ^ 6, 0, c->frameWidth());
-	u16 y1 = c->y() + COLLISION_MATRIX((i + 2) ^ 6, 1, c->frameHeight());
-	u16 x2 = c->x() + COLLISION_MATRIX((i + 2) ^ 6, 2, c->frameWidth());
-	u16 y2 = c->y() + COLLISION_MATRIX((i + 2) ^ 6, 3, c->frameHeight());
+	u16 x1 = c->x() + COLLISION_MATRIX(i + 4, 0, c->frameWidth());
+	u16 y1 = c->y() + COLLISION_MATRIX(i + 4, 1, c->frameHeight());
+	u16 x2 = c->x() + COLLISION_MATRIX(i + 4, 2, c->frameWidth());
+	u16 y2 = c->y() + COLLISION_MATRIX(i + 4, 3, c->frameHeight());
 	
 	for(std::vector<Character*>::iterator it = MapManager::currentMap->characters()->begin() ; it != MapManager::currentMap->characters()->end() ; it++) {
-		if((((*it)->x() < x1 && (*it)->x() + (*it)->frameWidth() > x1
+		if((((*it)->x() < x1 && (*it)->x() + (*it)->frameWidth()  > x1
 		&&   (*it)->y() < y1 && (*it)->y() + (*it)->frameHeight() > y1)
-		||	((*it)->x() < x2 && (*it)->x() + (*it)->frameWidth() > x2
+		||	((*it)->x() < x2 && (*it)->x() + (*it)->frameWidth()  > x2
 		&&   (*it)->y() < y2 && (*it)->y() + (*it)->frameHeight() > y2))
 		&& c->id() != (*it)->id()) {
 			if(c->isPlayer() && (*it)->isMonster()) {

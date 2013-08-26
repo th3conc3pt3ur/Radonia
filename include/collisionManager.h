@@ -20,11 +20,11 @@
 #ifndef COLLISION_MANAGER_H
 #define COLLISION_MANAGER_H
 
-#define COLLISION_MATRIX(i, j, s) ((CollisionManager::collisionMatrix[i][j] >= 8)?(s - (16 - CollisionManager::collisionMatrix[i][j])):(CollisionManager::collisionMatrix[i][j]))
+#define COLLISION_MATRIX(i, j, s) ((CollisionManager::collisionMatrix[(i)][(j)] >= 8)?((s) - (16 - CollisionManager::collisionMatrix[(i)][(j)])):(CollisionManager::collisionMatrix[(i)][(j)]))
 
 namespace CollisionManager {
 	// Collision matrix
-	extern u16 collisionMatrix[6][4];
+	extern u16 collisionMatrix[8][4];
 	
 	// Test if the tile is passable
 	bool passable(s16 x, s16 y);
