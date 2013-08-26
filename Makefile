@@ -112,6 +112,7 @@ droid:
 	ant debug && \
 	dropbox start > /dev/null && \
 	cp -f bin/$(TARGET)-debug.apk ~/Dropbox/Public/$(TARGET)-debug.apk && \
+	cp -f bin/$(TARGET)-debug.apk ~/Dropbox/Radonia/Android/$(TARGET)-debug.apk && \
 	cd ..
 	@echo done.
 

@@ -72,14 +72,17 @@ bool CollisionManager::collidesWithCharacter(Character *c, u8 i) {
 		if((*it)->x() < x2 && (*it)->x() + (*it)->frameWidth()  > x1
 		&& (*it)->y() < y2 && (*it)->y() + (*it)->frameHeight() > y1
 		&& c->id() != (*it)->id()) {
-			if(c->isPlayer() && (*it)->isMonster()) {
-				// Hurt the character
-				c->hurt(c->x() - (*it)->x(), c->y() - (*it)->y());
-			}
-			if(c->isMonster() && (*it)->isPlayer()) {
-				// Hurt the character
-				(*it)->hurt((*it)->x() - c->x(), (*it)->y() - c->y());
-			}
+			// Get characters centers
+			u16 cx1 = c->x() + c->frameWidth() / 2;
+			u16 cy1 = c->y() + c->frameHeight() / 2;
+			
+			u16 cx2 = (*it)->x() + (*it)->frameWidth() / 2;
+			u16 cy2 = (*it)->y() + (*it)->frameHeight() / 2;
+			
+			// Test hurt
+			if(c->isPlayer() && (*it)->isMonster()) c->hurt(cx1 - cx2, cy1 - cy2);
+			if(c->isMonster() && (*it)->isPlayer()) (*it)->hurt(cx2 - cx1, cy2 - cy1);
+			
 			return true;
 		}
 	}
