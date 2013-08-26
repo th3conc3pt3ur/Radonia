@@ -26,6 +26,9 @@
 #include "config.h"
 #include "window.h"
 #include "keyboard.h"
+#include "font.h"
+#include "sound.h"
+#include "net.h"
 #include "timer.h"
 #include "image.h"
 #include "animation.h"
@@ -144,8 +147,8 @@ void Character::testCollisions() {
 	// 0: Right | 1: Left | 2: Up | 3:Down
 	for(u8 i = 0 ; i < 4 ; i++) {
 		if(((i==0)?(m_vx > 0):((i==1)?(m_vx < 0):((i==2)?(m_vy < 0):(m_vy > 0))))
-		&& (!CollisionManager::passable(m_x + CollisionManager::collisionMatrix[i][0], m_y + CollisionManager::collisionMatrix[i][1])
-		 || !CollisionManager::passable(m_x + CollisionManager::collisionMatrix[i][2], m_y + CollisionManager::collisionMatrix[i][3])
+		&& (!CollisionManager::passable(m_x + COLLISION_MATRIX(i, 0, m_frameWidth), m_y + COLLISION_MATRIX(i, 1, m_frameHeight))
+		 || !CollisionManager::passable(m_x + COLLISION_MATRIX(i, 2, m_frameWidth), m_y + COLLISION_MATRIX(i, 3, m_frameHeight))
 		 || CollisionManager::collidesWithCharacter(this, i)
 		 )) {
 			// Reset movement vectors
@@ -158,14 +161,14 @@ void Character::testCollisions() {
 			m_inCollision = true;
 			
 			// Obstacles
-			if( CollisionManager::passable(m_x + CollisionManager::collisionMatrix[i][2], m_y + CollisionManager::collisionMatrix[i][3])
-			&& !CollisionManager::passable(m_x + CollisionManager::collisionMatrix[i][0], m_y + CollisionManager::collisionMatrix[i][1])) {
+			if( CollisionManager::passable(m_x + COLLISION_MATRIX(i, 2, m_frameWidth), m_y + COLLISION_MATRIX(i, 3, m_frameHeight))
+			&& !CollisionManager::passable(m_x + COLLISION_MATRIX(i, 0, m_frameWidth), m_y + COLLISION_MATRIX(i, 1, m_frameHeight))) {
 				if(((i<2)?(m_vy == 0):(m_vx == 0))) {
 					if(i<2)	m_vy = 1; else m_vx = 1;
 				}
 			}
-			if( CollisionManager::passable(m_x + CollisionManager::collisionMatrix[i][0], m_y + CollisionManager::collisionMatrix[i][1])
-			&& !CollisionManager::passable(m_x + CollisionManager::collisionMatrix[i][2], m_y + CollisionManager::collisionMatrix[i][3])) {
+			if( CollisionManager::passable(m_x + COLLISION_MATRIX(i, 0, m_frameWidth), m_y + COLLISION_MATRIX(i, 1, m_frameHeight))
+			&& !CollisionManager::passable(m_x + COLLISION_MATRIX(i, 2, m_frameWidth), m_y + COLLISION_MATRIX(i, 3, m_frameHeight))) {
 				if(((i<2)?(m_vy == 0):(m_vx == 0))) {
 					if(i<2) m_vy = -1; else	m_vx = -1;
 				}

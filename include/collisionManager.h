@@ -20,6 +20,8 @@
 #ifndef COLLISION_MANAGER_H
 #define COLLISION_MANAGER_H
 
+#define COLLISION_MATRIX(i, j, s) ((CollisionManager::collisionMatrix[i][j] >= 8)?(s - (16 - CollisionManager::collisionMatrix[i][j])):(CollisionManager::collisionMatrix[i][j]))
+
 namespace CollisionManager {
 	// Collision matrix
 	extern u16 collisionMatrix[6][4];
