@@ -90,16 +90,15 @@ Window::Window(char *caption, u16 width, u16 height) {
 }
 
 Window::~Window() {
-	SDL_FreeSurface(m_icon);
+	delete m_icon;
 	SDL_DestroyRenderer(m_renderer);
 	SDL_DestroyWindow(m_window);
 }
 
 void Window::setupIcon() {
 	// Set window icon
-	Image icon((char*)"graphics/interface/icon.png");
-	m_icon = icon.surface();
-	SDL_SetWindowIcon(m_window, m_icon);
+	m_icon = new Image((char*)"graphics/interface/icon.png");
+	SDL_SetWindowIcon(m_window, m_icon->surface());
 }
 
 void Window::update(bool viewport) {

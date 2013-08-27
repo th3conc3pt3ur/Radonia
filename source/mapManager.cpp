@@ -205,7 +205,10 @@ void MapManager::refreshMaps(Map **maps, s16 moveX, s16 moveY) {
 
 void MapManager::unload() {
 	// Delete maps array
-	delete[] mapAreas;
+	for(u16 i = 0 ; i < MAP_AREAS ; i++) {
+		delete[] mapAreas[i];
+	}
+	delete mapAreas;
 	
 	// Delete tilesets
 	delete[] tilesets;

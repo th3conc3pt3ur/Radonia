@@ -76,11 +76,11 @@ void Player::move() {
 		
 		if(Keyboard::isKeyPressed(Keyboard::GameUp)) {
 			// Set vertical movement vector negative
-			m_vy = -1;
+			if(!Keyboard::isKeyPressed(Keyboard::GameDown)) m_vy = -1;
 			m_moving = true;
 			
 			// If all other directional keys are released
-			if(!Keyboard::isKeyPressed(SDL_SCANCODE_LEFT) && !Keyboard::isKeyPressed(SDL_SCANCODE_RIGHT) && !Keyboard::isKeyPressed(SDL_SCANCODE_DOWN)) {
+			if(!Keyboard::isKeyPressed(Keyboard::GameLeft) && !Keyboard::isKeyPressed(Keyboard::GameRight) && !Keyboard::isKeyPressed(Keyboard::GameDown)) {
 				// Set direction to up
 				if(m_canTurn) m_direction = DIR_UP;
 			}
@@ -88,11 +88,11 @@ void Player::move() {
 		
 		if(Keyboard::isKeyPressed(Keyboard::GameDown)) {
 			// Set vertical movement vector positive
-			m_vy = 1;
+			if(!Keyboard::isKeyPressed(Keyboard::GameUp)) m_vy = 1;
 			m_moving = true;
 			
 			// If all other directional keys are released
-			if(!Keyboard::isKeyPressed(SDL_SCANCODE_LEFT) && !Keyboard::isKeyPressed(SDL_SCANCODE_RIGHT) && !Keyboard::isKeyPressed(SDL_SCANCODE_UP)) {
+			if(!Keyboard::isKeyPressed(Keyboard::GameLeft) && !Keyboard::isKeyPressed(Keyboard::GameRight) && !Keyboard::isKeyPressed(Keyboard::GameUp)) {
 				// Set direction to down
 				if(m_canTurn) m_direction = DIR_DOWN;
 			}
@@ -100,11 +100,11 @@ void Player::move() {
 		
 		if(Keyboard::isKeyPressed(Keyboard::GameLeft)) {
 			// Set horizontal movement vector negative
-			m_vx = -1;
+			if(!Keyboard::isKeyPressed(Keyboard::GameRight)) m_vx = -1;
 			m_moving = true;
 			
 			// If all other directional keys are released
-			if(!Keyboard::isKeyPressed(SDL_SCANCODE_UP) && !Keyboard::isKeyPressed(SDL_SCANCODE_RIGHT) && !Keyboard::isKeyPressed(SDL_SCANCODE_DOWN)) {
+			if(!Keyboard::isKeyPressed(Keyboard::GameUp) && !Keyboard::isKeyPressed(Keyboard::GameRight) && !Keyboard::isKeyPressed(Keyboard::GameDown)) {
 				// Set direction to left
 				if(m_canTurn) m_direction = DIR_LEFT;
 			}
@@ -112,11 +112,11 @@ void Player::move() {
 		
 		if(Keyboard::isKeyPressed(Keyboard::GameRight)) {
 			// Set horizontal movement vector positive
-			m_vx = 1;
+			if(!Keyboard::isKeyPressed(Keyboard::GameLeft)) m_vx = 1;
 			m_moving = true;
 			
 			// If all other directional keys are released
-			if(!Keyboard::isKeyPressed(SDL_SCANCODE_LEFT) && !Keyboard::isKeyPressed(SDL_SCANCODE_UP) && !Keyboard::isKeyPressed(SDL_SCANCODE_DOWN)) {
+			if(!Keyboard::isKeyPressed(Keyboard::GameLeft) && !Keyboard::isKeyPressed(Keyboard::GameUp) && !Keyboard::isKeyPressed(Keyboard::GameDown)) {
 				// Set direction to right
 				if(m_canTurn) m_direction = DIR_RIGHT;
 			}

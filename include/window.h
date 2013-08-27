@@ -20,6 +20,8 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
+class Image;
+
 class Window {
 	public:
 		// Constructor and destructor
@@ -72,7 +74,7 @@ class Window {
 		SDL_Renderer *m_renderer;
 		
 		// Window icon
-		SDL_Surface *m_icon;
+		Image *m_icon;
 		
 		// Window caption
 		char *m_caption;
