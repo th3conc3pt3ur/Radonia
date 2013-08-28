@@ -114,6 +114,7 @@ void CharacterManager::renderCharacters() {
 	std::vector<Character*> *v = MapManager::currentMap->characters();
 	std::sort(v->begin(), v->end(), sortCharacters);
 	for(std::vector<Character*>::iterator it = v->begin() ; it != v->end() ; it++) {
+		if((*it)->isPlayer()) ((Player*)(*it))->action();
 		if((*it)->lifes() > 0 && (*it)->isMonster()) Interface::renderMonsterLife((Monster*)(*it));
 		(*it)->render();
 	}

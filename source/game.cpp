@@ -172,9 +172,6 @@ void Game::mainLoop() {
 		// Render current map
 		MapManager::currentMap->render();
 		
-		// Execute player action
-		CharacterManager::player()->action();
-		
 		// Render all characters
 		CharacterManager::renderCharacters();
 		
