@@ -46,7 +46,7 @@
 #include "interface.h"
 #include "game.h"
 
-Image::Image(char *filename) {
+Image::Image(const char *filename) {
 	// Set class members
 	m_filename = filename;
 	
@@ -62,12 +62,6 @@ Image::Image(char *filename) {
 	// Get dimensions
 	m_width = m_surface->w;
 	m_height = m_surface->h;
-	
-	// Prepare magenta alpha
-	// FIXME: DOESN'T WORK ON ANDROID
-	/*if(SDL_SetColorKey(surface, SDL_TRUE, SDL_MapRGB(surface->format, 255, 0, 255)) != 0) {
-		fprintf(stderr, "Failed to set color key: %s\n", SDL_GetError());
-	}*/
 	
 	// Initialize texture
 	m_texture = SDL_CreateTextureFromSurface(Game::MainWindow->renderer(), m_surface);

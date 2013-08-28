@@ -115,19 +115,19 @@ void Keyboard::updatePad(SDL_Event *e) {
 	resetPad(e);
 	
 	// Test pad
-	// Up:    (0;0;71;28)
+	// Up: (0;0;71;28)
 	if(fx > px - 16 && fx < px + 71 + 16 && fy > py - 16 && fy < py + 28 - 8) {
 		padState[PAD_UP] = 1;
 		padFinger[PAD_UP] = e->tfinger.fingerId;
 	}
 	
-	// Down:  (0;44;71;71)
+	// Down: (0;44;71;71)
 	if(fx > px - 16 && fx < px + 71 + 16 && fy > py + 44 + 8 && fy < py + 71 + 16) {
 		padState[PAD_DOWN] = 1;
 		padFinger[PAD_UP] = e->tfinger.fingerId;
 	}
 	
-	// Left:  (0;0;28;71)
+	// Left: (0;0;28;71)
 	if(fx > px - 16 && fx < px + 28 - 8 && fy > py - 16 && fy < py + 71 + 16) {
 		padState[PAD_LEFT] = 1;
 		padFinger[PAD_UP] = e->tfinger.fingerId;

@@ -57,14 +57,14 @@ Window::Window(char *caption, u16 width, u16 height) {
 	// Initialize window
 	m_window = SDL_CreateWindow(m_caption, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, SDL_WINDOW_SHOWN);
 	if(!m_window) {
-		fprintf(stderr, "Error while initializing window: %s", SDL_GetError());
+		fprintf(stderr, "Error while initializing window: %s\n", SDL_GetError());
 		exit(EXIT_FAILURE);
 	}
 	
 	// Initialize renderer
 	m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED);
 	if(!m_renderer) {
-		fprintf(stderr, "Renderer couldn't be created: %s", SDL_GetError());
+		fprintf(stderr, "Renderer couldn't be created: %s\n", SDL_GetError());
 		exit(EXIT_FAILURE);
 	}
 	
@@ -97,7 +97,7 @@ Window::~Window() {
 
 void Window::setupIcon() {
 	// Set window icon
-	m_icon = new Image((char*)"graphics/interface/icon.png");
+	m_icon = new Image("graphics/interface/icon.png");
 	SDL_SetWindowIcon(m_window, m_icon->surface());
 }
 

@@ -23,7 +23,7 @@
 class Image {
 	public:
 		// Constructor and destructor
-		Image(char *filename);
+		Image(const char *filename);
 		~Image();
 		
 		// Render
@@ -53,7 +53,7 @@ class Image {
 		
 	protected:
 		// Image filename
-		char *m_filename;
+		const char *m_filename;
 		
 		// Size
 		u16 m_width;
