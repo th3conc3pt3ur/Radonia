@@ -26,6 +26,9 @@
 #include "config.h"
 #include "window.h"
 #include "keyboard.h"
+#include "font.h"
+#include "sound.h"
+#include "net.h"
 #include "timer.h"
 #include "image.h"
 #include "animation.h"
@@ -62,8 +65,8 @@ Monster::~Monster() {
 
 void Monster::move() {
 	// FIXME: To improve
-	//bool isAttacked = m_lifes < m_maxLifes;
-	bool isAttacked = true;
+	bool isAttacked = m_lifes < m_maxLifes;
+	//bool isAttacked = true;
 	
 	if(isAttacked) {
 		// Get player center

@@ -36,9 +36,6 @@ class NPC : public Character {
 		// Speak function
 		void action();
 		
-		// NPCs texts
-		static char *texts[NB_NPCs];
-		
 	private:
 		// NPC type
 		NPCType m_subType;

@@ -27,6 +27,9 @@
 #include "config.h"
 #include "window.h"
 #include "keyboard.h"
+#include "font.h"
+#include "sound.h"
+#include "net.h"
 #include "timer.h"
 #include "animation.h"
 #include "image.h"
@@ -45,16 +48,6 @@
 #include "tools.h"
 #include "interface.h"
 #include "game.h"
-
-// Movements are defined like that:
-// {nbMovements, vx1, vy1, vx2, vy2, vx3, vy3, etc...}
-
-s16 CharacterManager::moves[][21] = {
-	{0},
-	{6, 1, 0, 0, 1, 0, 1, -1, 0, 0, -1, 0, -1},
-	{6, 1, 0, 0, 1, 0, 1, -1, 0, 0, -1, 0, -1},
-	{6, 1, 0, 0, 1, 0, 1, -1, 0, 0, -1, 0, -1}
-};
 
 Character **CharacterManager::characters;
 

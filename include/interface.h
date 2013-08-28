@@ -37,10 +37,10 @@ namespace Interface {
 	void renderMonsterLife(Monster *monster);
 	
 	// Display a dialog box
-	void newDialogBox(char *text);
+	void newDialogBox(const char *text);
 	
 	// Default font
-	extern TTF_Font *defaultFont;
+	extern Font *defaultFont;
 	
 	// Hearts sprite
 	extern Sprite *hearts;

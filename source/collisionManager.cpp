@@ -26,6 +26,9 @@
 #include "config.h"
 #include "window.h"
 #include "keyboard.h"
+#include "font.h"
+#include "sound.h"
+#include "net.h"
 #include "timer.h"
 #include "image.h"
 #include "animation.h"
@@ -61,10 +64,10 @@ bool CollisionManager::passable(s16 x, s16 y) {
 }
 
 bool CollisionManager::collidesWithCharacter(Character *c, u8 i) {
-	u16 x1 = c->x() + COLLISION_MATRIX((i + 4) ^ 6, 0, c->frameWidth());
-	u16 y1 = c->y() + COLLISION_MATRIX((i + 4) ^ 6, 1, c->frameHeight());
-	u16 x2 = c->x() + COLLISION_MATRIX((i + 4) ^ 6, 2, c->frameWidth());
-	u16 y2 = c->y() + COLLISION_MATRIX((i + 4) ^ 6, 3, c->frameHeight());
+	u16 x1 = c->x() + COLLISION_MATRIX((i + 2) ^ 6, 0, c->frameWidth());
+	u16 y1 = c->y() + COLLISION_MATRIX((i + 2) ^ 6, 1, c->frameHeight());
+	u16 x2 = c->x() + COLLISION_MATRIX((i + 2) ^ 6, 2, c->frameWidth());
+	u16 y2 = c->y() + COLLISION_MATRIX((i + 2) ^ 6, 3, c->frameHeight());
 	
 	for(std::vector<Character*>::iterator it = MapManager::currentMap->characters()->begin() ; it != MapManager::currentMap->characters()->end() ; it++) {
 		if((*it)->x() < x2 && (*it)->x() + (*it)->frameWidth()  > x1
@@ -80,6 +83,10 @@ bool CollisionManager::collidesWithCharacter(Character *c, u8 i) {
 			// Test hurt
 			if(c->isPlayer() && (*it)->isMonster()) c->hurt(cx1 - cx2, cy1 - cy2);
 			if(c->isMonster() && (*it)->isPlayer()) (*it)->hurt(cx2 - cx1, cy2 - cy1);
+			
+			// Test dialog box
+			if(c->isPlayer() && (*it)->isNPC() && Keyboard::isKeyPressed(Keyboard::GameAttack)) ((NPC*)(*it))->action();
+			if((*it)->isPlayer() && c->isNPC() && Keyboard::isKeyPressed(Keyboard::GameAttack)) ((NPC*)c)->action();
 			
 			return true;
 		}

@@ -26,6 +26,9 @@
 #include "config.h"
 #include "window.h"
 #include "keyboard.h"
+#include "font.h"
+#include "sound.h"
+#include "net.h"
 #include "timer.h"
 #include "image.h"
 #include "animation.h"
@@ -43,8 +46,6 @@
 #include "mapManager.h"
 #include "interface.h"
 #include "game.h"
-
-char *NPC::texts[NB_NPCs] = {(char*)"Hello boy!"};
 
 NPC::NPC(u16 x, u16 y, CharacterDirection direction, u16 mapID, u16 area, NPCType type, const char *filename, u8 frameWidth, u8 frameHeight) : Character(filename, CHARA_NPC, x, y, direction, mapID, area, frameWidth, frameHeight) {
 	// Add animations to sprite
@@ -151,6 +152,6 @@ void NPC::move() {
 }
 
 void NPC::action() {
-	Interface::newDialogBox(texts[m_id]);
+	Interface::newDialogBox("Once upon a time...");
 }
 

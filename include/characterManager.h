@@ -21,9 +21,6 @@
 #define CHARACTER_MANAGER_H
 
 namespace CharacterManager {
-	// Movements
-	extern s16 moves[][21];
-	
 	// Characters array
 	extern Character **characters;
 	

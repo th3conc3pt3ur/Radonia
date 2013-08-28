@@ -59,6 +59,8 @@ Font::Font(const char *filename) {
 Font::~Font() {
 	// Destroy fonts
 	TTF_CloseFont(m_fontSmall);
+	TTF_CloseFont(m_fontMedium);
+	TTF_CloseFont(m_fontLarge);
 }
 
 void Font::print(const char *str, u16 x, u16 y, FontSize size, Color color) {
@@ -73,7 +75,7 @@ void Font::print(const char *str, u16 x, u16 y, FontSize size, Color color) {
 	}
 	
 	// Initialize texture
-	SDL_Surface *textSurface = TTF_RenderText_Solid(font, str, SDL_Color{color.r, color.g, color.b});
+	SDL_Surface *textSurface = TTF_RenderUTF8_Blended(font, str, SDL_Color{color.r, color.g, color.b});
 	Image textToDisplay(textSurface);
 	
 	// Render text

@@ -27,6 +27,9 @@
 #include "init.h"
 #include "window.h"
 #include "keyboard.h"
+#include "font.h"
+#include "sound.h"
+#include "net.h"
 #include "timer.h"
 #include "image.h"
 #include "animation.h"
@@ -45,7 +48,7 @@
 #include "interface.h"
 #include "game.h"
 
-TTF_Font *Interface::defaultFont = NULL;
+Font *Interface::defaultFont = NULL;
 Sprite *Interface::hearts = NULL;
 Image *Interface::pad = NULL;
 Image *Interface::buttonA = NULL;
@@ -82,23 +85,23 @@ void Interface::titleScreen() {
 
 void Interface::initialize() {
 	// Load default font
-	defaultFont = TTF_OpenFont((char*)"fonts/vani.ttf", 42);
+	defaultFont = new Font("fonts/vani.ttf");
 	
 	// Load hearts sprite
-	hearts = new Sprite((char*)"graphics/interface/hearts.png");
+	hearts = new Sprite("graphics/interface/hearts.png");
 	
 	// Load pad image
-	pad = new Image((char*)"graphics/interface/pad.png");
+	pad = new Image("graphics/interface/pad.png");
 	pad->setAlpha(175);
 	
 	// Load button images
-	buttonA = new Image((char*)"graphics/interface/a.png");
+	buttonA = new Image("graphics/interface/a.png");
 	buttonA->setAlpha(175);
 }
 
 void Interface::unload() {
 	// Unload default font
-	TTF_CloseFont(defaultFont);
+	delete defaultFont;
 	
 	// Delete images
 	delete hearts;
@@ -140,39 +143,37 @@ void Interface::renderMonsterLife(Monster *monster) {
 	Game::MainWindow->drawFillRect(monster->x(), monster->y() - 5, monster->lifes() * monster->frameWidth() / monster->maxLifes(), 2, Color::life);
 }
 
-void Interface::newDialogBox(char *text) {
-/*	
-	// Initialize box
-	sf::RectangleShape box;
-	box.setPosition((MAP_WIDTH * 16) / 8, 3 * (MAP_HEIGHT * 16) / 4);
-	box.setSize(sf::Vector2f(6 * (MAP_WIDTH * 16) / 8, (MAP_HEIGHT * 16) / 4));
-	box.setFillColor(sf::Color::Black);
-	sf::Text pressKeyText((char*)"Press Z key to continue.", *Game::defaultFont, 12);
-	pressKeyText.setPosition(10 * MAP_WIDTH + 28, (MAP_HEIGHT - 1) * 16);
+void Interface::newDialogBox(const char *text) {
+	// Draw box
+	Game::MainWindow->drawFillRect((MAP_WIDTH * 16) / 8, 3 * (MAP_HEIGHT * 16) / 4, 6 * (MAP_WIDTH * 16) / 8, (MAP_HEIGHT * 16) / 4, Color::black);
 	
-	// Initialize string
-	sf::Text string(text, *Game::defaultFont);
-	string.setPosition((MAP_WIDTH * 16) / 8 + 8, 3 * (MAP_HEIGHT * 16) / 4 + 8);
+	// Print text
+	defaultFont->print(text, (MAP_WIDTH * 16) / 8 + 8, 3 * (MAP_HEIGHT * 16) / 4 + 8, FONT_LARGE, Color::white);
+	defaultFont->print("Press 'A' key to continue.", 10 * MAP_WIDTH + 28, (MAP_HEIGHT - 1) * 16, FONT_SMALL, Color::white);
 	
-	// Render string
-	Game::MainWindow->setView(*Sprite::View);
-	Game::MainWindow->draw(box);
-	Game::MainWindow->draw(pressKeyText);
-	Game::MainWindow->draw(string);
-	Game::MainWindow->setView(Game::MainWindow->getDefaultView());
-	Game::MainWindow->display();
+	// Update window
+	Game::MainWindow->update();
 	
-	// Wait for Z pressed
-	sf::Event event;
-	while(Game::MainWindow->isOpen() && !(Game::MainWindow->pollEvent(event) && event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Z)) {
-		// Close window: exit game
-		if((event.type == sf::Event::Closed) || (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)) {
-			Game::MainWindow->close();
+	// Wait for attack key released
+	while(Keyboard::isKeyPressed(Keyboard::GameAttack)) Keyboard::forceUpdate();
+	
+	// Wait for attack key pressed
+	while(!Keyboard::isKeyPressed(Keyboard::GameAttack)) {
+		// Process events
+		SDL_Event event;
+		while(SDL_PollEvent(&event) != 0) {
+			switch(event.type) {
+				case SDL_QUIT:
+					// FIXME: Improve that: nothing is deleted
+					exit(EXIT_SUCCESS);
+					break;
+			}
 		}
+		
+		Game::MainWindow->update();
 	}
 	
-	// Reset view
-	Game::MainWindow->setView(Game::MainWindow->getDefaultView());	
-*/
+	// Wait for attack key released
+	while(Keyboard::isKeyPressed(Keyboard::GameAttack)) Keyboard::forceUpdate();
 }
 
