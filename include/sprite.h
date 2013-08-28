@@ -25,7 +25,7 @@
 class Sprite : public Image {
 	public:
 		// Constructor and destructor
-		Sprite(char *filename, u8 frameWidth = 16, u8 frameHeight = 16);
+		Sprite(const char *filename, u8 frameWidth = 16, u8 frameHeight = 16);
 		~Sprite();
 		
 		// Draw sprite

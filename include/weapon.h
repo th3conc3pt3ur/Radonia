@@ -31,7 +31,7 @@ class Character;
 class Weapon : public Sprite {
 	public:
 		// Constructor and destructor
-		Weapon(char *filename, WeaponType type, Character *owner = NULL);
+		Weapon(const char *filename, WeaponType type, Character *owner = NULL);
 		~Weapon();
 		
 		// Action function

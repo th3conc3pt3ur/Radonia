@@ -56,7 +56,7 @@ u16 Map::nbMaps = 0;
 // Initialize view rect
 SDL_Rect Map::viewRect = {0, 0, MAP_WIDTH << 4, MAP_HEIGHT << 4};
 
-Map::Map(Image *tileset, u16 *tilesetInfo, char *filename, u16 width, u16 height, u16 tileWidth, u16 tileHeight, u16 x, u16 y, u16 area) {
+Map::Map(Image *tileset, u16 *tilesetInfo, const char *filename, u16 width, u16 height, u16 tileWidth, u16 tileHeight, u16 x, u16 y, u16 area) {
 	// Set map id
 	m_id = nbMaps;
 	
@@ -81,13 +81,21 @@ Map::Map(Image *tileset, u16 *tilesetInfo, char *filename, u16 width, u16 height
 	// Make temporary table to get map file data
 	u16* table = (u16*)malloc(m_width * m_height * sizeof(u16));
 	
+	// Get filesize for SDL_RWread
+	struct stat file_status;
+	if(stat(filename, &file_status) != 0) {
+		fprintf(stderr, "Unable to open file: %s\n", filename);
+		exit(EXIT_FAILURE);
+	}
+	int filesize = file_status.st_size;
+	
 	// Load map from file
 	SDL_RWops *f = SDL_RWFromFile(filename, "r");
 	if(!f) {
-		fprintf(stderr, "Unable to open file %s: %s", filename, SDL_GetError());
+		fprintf(stderr, "Unable to open file %s: %s\n", filename, SDL_GetError());
 		exit(EXIT_FAILURE);
 	}
-	SDL_RWread(f, table, 2, sizeof(table) * m_width * m_height);
+	SDL_RWread(f, table, 2, filesize);
 	SDL_RWclose(f);
 	
 	// Save data in current map

@@ -142,13 +142,13 @@ void MapManager::initTilesets() {
 	/* Initialize tilesets */
 	
 	// Plain
-	tilesets[0] = new Image((char*)"graphics/tilesets/plain.png");
+	tilesets[0] = new Image("graphics/tilesets/plain.png");
 	
 	// Indoor
-	tilesets[1] = new Image((char*)"graphics/tilesets/indoor.png");
+	tilesets[1] = new Image("graphics/tilesets/indoor.png");
 	
 	// Underground
-	tilesets[2] = new Image((char*)"graphics/tilesets/underground.png");
+	tilesets[2] = new Image("graphics/tilesets/underground.png");
 }
 
 u16 MapManager::areaSizes[MAP_AREAS] = {WM_SIZE * WM_SIZE, INDOOR_MAPS, 4};
@@ -168,22 +168,22 @@ void MapManager::initMaps() {
 	/* Initialize area maps */
 	
 	// Overworld
-	mapAreas[0][MAP_POS(0, 0, 0)] = new Map(tilesets[0], plainInfo, (char*)"maps/a1.map", MAP_WIDTH, MAP_HEIGHT, TILE_SIZE, TILE_SIZE, 0, 0);
-	mapAreas[0][MAP_POS(1, 0, 0)] = new Map(tilesets[0], plainInfo, (char*)"maps/a2.map", MAP_WIDTH, MAP_HEIGHT, TILE_SIZE, TILE_SIZE, 1, 0);
-	mapAreas[0][MAP_POS(0, 1, 0)] = new Map(tilesets[0], plainInfo, (char*)"maps/b1.map", MAP_WIDTH, MAP_HEIGHT, TILE_SIZE, TILE_SIZE, 0, 1);
-	mapAreas[0][MAP_POS(1, 1, 0)] = new Map(tilesets[0], plainInfo, (char*)"maps/b2.map", MAP_WIDTH, MAP_HEIGHT, TILE_SIZE, TILE_SIZE, 1, 1);
+	mapAreas[0][MAP_POS(0, 0, 0)] = new Map(tilesets[0], plainInfo, "maps/a1.map", MAP_WIDTH, MAP_HEIGHT, TILE_SIZE, TILE_SIZE, 0, 0);
+	mapAreas[0][MAP_POS(1, 0, 0)] = new Map(tilesets[0], plainInfo, "maps/a2.map", MAP_WIDTH, MAP_HEIGHT, TILE_SIZE, TILE_SIZE, 1, 0);
+	mapAreas[0][MAP_POS(0, 1, 0)] = new Map(tilesets[0], plainInfo, "maps/b1.map", MAP_WIDTH, MAP_HEIGHT, TILE_SIZE, TILE_SIZE, 0, 1);
+	mapAreas[0][MAP_POS(1, 1, 0)] = new Map(tilesets[0], plainInfo, "maps/b2.map", MAP_WIDTH, MAP_HEIGHT, TILE_SIZE, TILE_SIZE, 1, 1);
 	
 	// Indoor maps
-	mapAreas[1][0] = new Map(tilesets[1], indoorInfo, (char*)"maps/in1.map", MAP_WIDTH, MAP_HEIGHT, TILE_SIZE, TILE_SIZE, 0, 0, 1);
-	mapAreas[1][1] = new Map(tilesets[1], indoorInfo, (char*)"maps/in2.map", MAP_WIDTH, MAP_HEIGHT, TILE_SIZE, TILE_SIZE, 0, 0, 1);
-	mapAreas[1][2] = new Map(tilesets[1], indoorInfo, (char*)"maps/in3.map", MAP_WIDTH, MAP_HEIGHT, TILE_SIZE, TILE_SIZE, 0, 0, 1);
+	mapAreas[1][0] = new Map(tilesets[1], indoorInfo, "maps/in1.map", MAP_WIDTH, MAP_HEIGHT, TILE_SIZE, TILE_SIZE, 0, 0, 1);
+	mapAreas[1][1] = new Map(tilesets[1], indoorInfo, "maps/in2.map", MAP_WIDTH, MAP_HEIGHT, TILE_SIZE, TILE_SIZE, 0, 0, 1);
+	mapAreas[1][2] = new Map(tilesets[1], indoorInfo, "maps/in3.map", MAP_WIDTH, MAP_HEIGHT, TILE_SIZE, TILE_SIZE, 0, 0, 1);
 	
 	/* Caves */
 	
-	mapAreas[2][MAP_POS(0, 0, 2)] = new Map(tilesets[2], undergroundInfo, (char*)"maps/ca1a1.map", MAP_WIDTH, MAP_HEIGHT, TILE_SIZE, TILE_SIZE, 0, 0, 2);
-	mapAreas[2][MAP_POS(1, 0, 2)] = new Map(tilesets[2], undergroundInfo, (char*)"maps/ca1a2.map", MAP_WIDTH, MAP_HEIGHT, TILE_SIZE, TILE_SIZE, 1, 0, 2);
+	mapAreas[2][MAP_POS(0, 0, 2)] = new Map(tilesets[2], undergroundInfo, "maps/ca1a1.map", MAP_WIDTH, MAP_HEIGHT, TILE_SIZE, TILE_SIZE, 0, 0, 2);
+	mapAreas[2][MAP_POS(1, 0, 2)] = new Map(tilesets[2], undergroundInfo, "maps/ca1a2.map", MAP_WIDTH, MAP_HEIGHT, TILE_SIZE, TILE_SIZE, 1, 0, 2);
 	mapAreas[2][MAP_POS(0, 1, 2)] = NULL;
-	mapAreas[2][MAP_POS(1, 1, 2)] = new Map(tilesets[2], undergroundInfo, (char*)"maps/ca1b2.map", MAP_WIDTH, MAP_HEIGHT, TILE_SIZE, TILE_SIZE, 1, 1, 2);
+	mapAreas[2][MAP_POS(1, 1, 2)] = new Map(tilesets[2], undergroundInfo, "maps/ca1b2.map", MAP_WIDTH, MAP_HEIGHT, TILE_SIZE, TILE_SIZE, 1, 1, 2);
 }
 
 void MapManager::refreshMaps(Map **maps, s16 moveX, s16 moveY) {

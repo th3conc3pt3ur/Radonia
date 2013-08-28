@@ -23,7 +23,7 @@
 class Map {
 	public:
 		// Constructor and destructor
-		Map(Image *tileset, u16 *tilesetInfo, char *filename, u16 width, u16 height, u16 tileWidth, u16 tileHeight, u16 mapX, u16 mapY, u16 area = 0); // area 0 is overworld
+		Map(Image *tileset, u16 *tilesetInfo, const char *filename, u16 width, u16 height, u16 tileWidth, u16 tileHeight, u16 mapX, u16 mapY, u16 area = 0); // area 0 is overworld
 		~Map();
 		
 		// Map render function

@@ -89,17 +89,17 @@ std::vector<Character*> CharacterManager::getCharactersInMap(u16 id) {
 /* Monsters */
 
 Monster *CharacterManager::initRedMonster(u16 x, u16 y, CharacterDirection direction, u16 mapID, u16 area) {
-	return new Monster(x, y, direction, mapID, area, MONSTER_REDMONSTER, (char*)"graphics/monsters/red_monster.png");
+	return new Monster(x, y, direction, mapID, area, MONSTER_REDMONSTER, "graphics/monsters/red_monster.png");
 }
 
 Monster *CharacterManager::initGohma(u16 x, u16 y, CharacterDirection direction, u16 mapID, u16 area) {
-	return new Monster(x, y, direction, mapID, area, MONSTER_GOHMA, (char*)"graphics/monsters/gohma.png", 48, 24);
+	return new Monster(x, y, direction, mapID, area, MONSTER_GOHMA, "graphics/monsters/gohma.png", 48, 24);
 }
 
 /* NPCs */
 
 NPC *CharacterManager::initBlueBoy(u16 x, u16 y, CharacterDirection direction, u16 mapID, u16 area) {
-	return new NPC(x, y, direction, mapID, area, NPC_BLUEBOY, (char*)"graphics/characters/blue_boy.png");
+	return new NPC(x, y, direction, mapID, area, NPC_BLUEBOY, "graphics/characters/blue_boy.png");
 }
 
 bool CharacterManager::sortCharacters(Character *c1, Character *c2) {

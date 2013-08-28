@@ -46,7 +46,7 @@
 #include "interface.h"
 #include "game.h"
 
-Sprite::Sprite(char *filename, u8 frameWidth, u8 frameHeight) : Image(filename) {
+Sprite::Sprite(const char *filename, u8 frameWidth, u8 frameHeight) : Image(filename) {
 	// Set frame size
 	m_frameWidth = frameWidth;
 	m_frameHeight = frameHeight;

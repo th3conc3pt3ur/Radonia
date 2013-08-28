@@ -27,7 +27,7 @@ typedef enum {
 class NPC : public Character {
 	public:
 		// Constructor and destructor
-		NPC(u16 x, u16 y, CharacterDirection direction, u16 mapID, u16 area, NPCType type, char *filename, u8 frameWidth = 16, u8 frameHeight = 16);
+		NPC(u16 x, u16 y, CharacterDirection direction, u16 mapID, u16 area, NPCType type, const char *filename, u8 frameWidth = 16, u8 frameHeight = 16);
 		~NPC();
 		
 		// Movement function

@@ -51,7 +51,7 @@
 
 u16 Character::nbCharacters = 0;
 
-Character::Character(char *filename, CharacterType type, s16 x, s16 y, CharacterDirection direction, u16 mapID, u16 area, u8 frameWidth, u8 frameHeight) : Sprite(filename, frameWidth, frameHeight) {
+Character::Character(const char *filename, CharacterType type, s16 x, s16 y, CharacterDirection direction, u16 mapID, u16 area, u8 frameWidth, u8 frameHeight) : Sprite(filename, frameWidth, frameHeight) {
 	// Set character id
 	m_id = nbCharacters;
 	

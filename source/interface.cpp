@@ -52,7 +52,7 @@ Image *Interface::buttonA = NULL;
 
 void Interface::titleScreen() {
 	// Load title screen background
-	Image *titleScreen = new Image((char*)"graphics/interface/titleScreen.png");
+	Image *titleScreen = new Image("graphics/interface/titleScreen.png");
 	
 	// Wait for player
 	SDL_Event event;

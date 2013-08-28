@@ -47,7 +47,7 @@
 #include "interface.h"
 #include "game.h"
 
-Weapon::Weapon(char *filename, WeaponType type, Character *owner) : Sprite(filename) {
+Weapon::Weapon(const char *filename, WeaponType type, Character *owner) : Sprite(filename) {
 	// Set class members
 	m_type = type;
 	

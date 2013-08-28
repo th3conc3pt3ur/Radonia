@@ -28,7 +28,7 @@ typedef enum {
 class Monster : public Character {
 	public:
 		// Constructor and destructor
-		Monster(u16 x, u16 y, CharacterDirection direction, u16 mapID, u16 area, MonsterType type, char *filename, u8 frameWidth = 16, u8 frameHeight = 16);
+		Monster(u16 x, u16 y, CharacterDirection direction, u16 mapID, u16 area, MonsterType type, const char *filename, u8 frameWidth = 16, u8 frameHeight = 16);
 		~Monster();
 		
 		// Movement function

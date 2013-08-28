@@ -46,7 +46,7 @@
 
 char *NPC::texts[NB_NPCs] = {(char*)"Hello boy!"};
 
-NPC::NPC(u16 x, u16 y, CharacterDirection direction, u16 mapID, u16 area, NPCType type, char *filename, u8 frameWidth, u8 frameHeight) : Character(filename, CHARA_NPC, x, y, direction, mapID, area, frameWidth, frameHeight) {
+NPC::NPC(u16 x, u16 y, CharacterDirection direction, u16 mapID, u16 area, NPCType type, const char *filename, u8 frameWidth, u8 frameHeight) : Character(filename, CHARA_NPC, x, y, direction, mapID, area, frameWidth, frameHeight) {
 	// Add animations to sprite
 	addAnimation(2, NPC_animations[0], 250); // Down
 	addAnimation(2, NPC_animations[1], 250); // Right

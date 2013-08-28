@@ -37,7 +37,7 @@ typedef enum {
 class Character : public Sprite {
 	public:
 		// Constructor and destructor
-		Character(char *filename, CharacterType type, s16 x, s16 y, CharacterDirection direction, u16 mapID, u16 area, u8 frameWidth = 16, u8 frameHeight = 16);
+		Character(const char *filename, CharacterType type, s16 x, s16 y, CharacterDirection direction, u16 mapID, u16 area, u8 frameWidth = 16, u8 frameHeight = 16);
 		virtual ~Character();
 		
 		// Movement function
