@@ -49,9 +49,38 @@
 #include "interface.h"
 #include "game.h"
 
-Font::Font() {
+Font::Font(const char *filename) {
+	// Initialize fonts
+	m_fontSmall  = TTF_OpenFont(filename, FONT_SMALL);
+	m_fontMedium = TTF_OpenFont(filename, FONT_MEDIUM);
+	m_fontLarge  = TTF_OpenFont(filename, FONT_LARGE);
 }
 
 Font::~Font() {
+	// Destroy fonts
+	TTF_CloseFont(m_fontSmall);
+}
+
+void Font::print(const char *str, u16 x, u16 y, FontSize size, Color color) {
+	// Initialize temporary font variable
+	TTF_Font *font = NULL;
+	
+	// Get font size
+	switch(size) {
+		case FONT_SMALL:  font = m_fontSmall;  break;
+		case FONT_MEDIUM: font = m_fontMedium; break;
+		case FONT_LARGE:  font = m_fontLarge;  break;
+	}
+	
+	// Initialize texture
+	SDL_Surface *textSurface = TTF_RenderText_Solid(font, str);
+	Image textToDisplay(textSurface);
+	
+	// Render text
+	textToDisplay.setPosRect(x, y, textToDisplay.width, textToDisplay.height);
+	textToDisplay.render();
+}
+
+void Font::printTextBox(const char *str, u16 x, u16 y, u16 width, u16 height, FontSize size, Color color) {
 }
 

@@ -46,7 +46,7 @@
 #include "game.h"
 
 // Initialize collision matrix
-u16 CollisionManager::collisionMatrix[8][4] = {
+u16 CollisionManager::collisionMatrix[6][4] = {
 	{12,8,12,14},	// Right
 	{3,8,3,14},		// Left
 	{5,5,10,5},		// Up

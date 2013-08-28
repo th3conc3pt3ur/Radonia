@@ -21,9 +21,9 @@
 #define FONT_H
 
 typedef enum {
-	FONT_SMALL,
-	FONT_MEDIUM,
-	FONT_LARGE
+	FONT_SMALL	= 12,
+	FONT_MEDIUM = 20,
+	FONT_LARGE	= 30
 } FontSize;
 
 class Font {
@@ -33,15 +33,12 @@ class Font {
 		~Font();
 		
 		// Print text function
-		void print(const char *str);
+		void print(const char *str, FontSize size);
 		
 		// Print text in box
-		void printTextBox(const char *str, u16 width, u16 height);
+		void printTextBox(const char *str, FontSize size, u16 width, u16 height);
 		
 	private:
-		// Font filename
-		const char *m_filename;
-		
 		// Font sizes
 		TTF_Font *m_fontSmall;
 		TTF_Font *m_fontMedium;

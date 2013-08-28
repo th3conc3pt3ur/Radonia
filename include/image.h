@@ -24,6 +24,7 @@ class Image {
 	public:
 		// Constructor and destructor
 		Image(const char *filename);
+		Image(SDL_Surface *surface);
 		~Image();
 		
 		// Render

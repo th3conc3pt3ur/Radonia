@@ -255,9 +255,6 @@ void Character::hurtMovement() {
 		// Update movement vectors
 		m_vx = nhx;
 		m_vy = nhy;
-		
-		// Test collisions
-		testCollisions();
 	}
 	
 	if(m_hurtTimer.time() > 500) {

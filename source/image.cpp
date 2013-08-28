@@ -82,6 +82,29 @@ Image::Image(const char *filename) {
 	m_posRect.h = m_height;
 }
 
+Image::Image(SDL_Surface *surface) {
+	// Get surface
+	m_surface = surface;
+	
+	// Get dimensions
+	m_width = m_surface->w;
+	m_height = m_surface->h;
+	
+	// Get texture
+	m_texture = SDL_CreateTextureFromSurface(Game::MainWindow->renderer(), m_surface);
+	
+	// Initialize rects
+	m_clipRect.x = 0;
+	m_clipRect.y = 0;
+	m_clipRect.w = m_width;
+	m_clipRect.h = m_height;
+	
+	m_posRect.x = 0;
+	m_posRect.y = 0;
+	m_posRect.w = m_width;
+	m_posRect.h = m_height;
+}
+
 Image::~Image() {
 	SDL_FreeSurface(m_surface);
 	SDL_DestroyTexture(m_texture);
