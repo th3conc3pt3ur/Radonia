@@ -33,10 +33,10 @@ class Font {
 		~Font();
 		
 		// Print text function
-		void print(const char *str, FontSize size);
+		void print(const char *str, u16 x, u16 y, FontSize size, Color color = Color::black);
 		
 		// Print text in box
-		void printTextBox(const char *str, FontSize size, u16 width, u16 height);
+		void printTextBox(const char *str, u16 x, u16 y, u16 width, u16 height, FontSize size, Color color = Color::black);
 		
 	private:
 		// Font sizes

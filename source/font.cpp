@@ -73,11 +73,11 @@ void Font::print(const char *str, u16 x, u16 y, FontSize size, Color color) {
 	}
 	
 	// Initialize texture
-	SDL_Surface *textSurface = TTF_RenderText_Solid(font, str);
+	SDL_Surface *textSurface = TTF_RenderText_Solid(font, str, SDL_Color{color.r, color.g, color.b});
 	Image textToDisplay(textSurface);
 	
 	// Render text
-	textToDisplay.setPosRect(x, y, textToDisplay.width, textToDisplay.height);
+	textToDisplay.setPosRect(x, y, textToDisplay.width(), textToDisplay.height());
 	textToDisplay.render();
 }
 
