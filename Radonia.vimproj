@@ -13,7 +13,6 @@ Radonia=/home/linux/Projects/Radonia CD=. filter=".gitignore *.c *.h *.diff *.vi
   animationManager.h
   character.h
   characterManager.h
-  collisionManager.h
   color.h
   config.h
   door.h
@@ -46,7 +45,6 @@ Radonia=/home/linux/Projects/Radonia CD=. filter=".gitignore *.c *.h *.diff *.vi
   animationManager.cpp
   character.cpp
   characterManager.cpp
-  collisionManager.cpp
   color.cpp
   doorManager.cpp
   eventManager.cpp

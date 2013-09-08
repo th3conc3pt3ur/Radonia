@@ -42,7 +42,6 @@
 #include "door.h"
 #include "animationManager.h"
 #include "characterManager.h"
-#include "collisionManager.h"
 #include "mapManager.h"
 #include "tools.h"
 #include "game.h"

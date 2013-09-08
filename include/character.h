@@ -43,6 +43,9 @@ class Character : public Sprite {
 		// Movement function
 		virtual void move() = 0;
 		
+		// Action function
+		virtual void action() = 0;
+		
 		// Render character
 		void render();
 		
@@ -50,8 +53,9 @@ class Character : public Sprite {
 		void testCollisions();
 		void doorCollisions();
 		
-		// Action function
-		virtual void action() = 0;
+		// Collisions functions
+		void collisionsWithCharacters();
+		void collisionAction(Character *c);
 		
 		// Hurt comportement
 		void hurt(s16 hx, s16 hy);
@@ -76,6 +80,12 @@ class Character : public Sprite {
 		s8 vx() const { return m_vx; }
 		s8 vy() const { return m_vy; }
 		
+		// Get character hitbox
+		s16 hitboxX() const { return m_hitboxX; }
+		s16 hitboxY() const { return m_hitboxY; }
+		u16 hitboxW() const { return m_hitboxW; }
+		u16 hitboxH() const { return m_hitboxH; }
+		
 		// Get character direction
 		CharacterDirection direction() const { return m_direction; }
 		
@@ -98,81 +108,97 @@ class Character : public Sprite {
 		static u16 nbCharacters;
 		
 	protected:
-		// Character id
-		u16 m_id;
-		
-		// Character position
-		s16 m_x;
-		s16 m_y;
-		
-		// Default position
-		s16 m_dx;
-		s16 m_dy;
-		
-		// Movement vectors
-		s8 m_vx;
-		s8 m_vy;
-		
-		// Direction
-		CharacterDirection m_direction;
-		
-		// Map id
-		u16 m_mapID;
-		
-		// Map area
-		u16 m_area;
-		
-		// Moving state
-		bool m_moving;
-		
-		// Movement counters
-		u8 m_countMoves;
-		u8 m_vxCount;
-		u8 m_vyCount;
-		
-		// Character lifes
-		s16 m_lifes;
-		u16 m_maxLifes;
-		
-		// Character type
-		CharacterType m_type;
-		
-		// Movement timer (NPC|Monsters)
-		Timer m_movementTimer;
-		
-		// Hurt movement vectors
-		s16 m_hx;
-		s16 m_hy;
-		
-		// Blocked movement and direction states
-		bool m_canMove;
-		bool m_canTurn;
-		
-		// Hurt state
-		bool m_hurt;
-		
-		// Collision state
-		bool m_inCollision;
-		
-		// Hurt timer
-		Timer m_hurtTimer;
-		u16 m_hurtTimerLastValue;
-		
-		// Attacking state
-		bool m_isAttacking;
-		
-		// In door state
-		bool m_inDoor;
-		
-		// Friend class Weapon
-		friend class Sword;
-		
-		// Weapon
-		Weapon *m_weapon;
-		
-		// Grass image
-		Image *m_grassEffect;
-		Sprite *m_waterEffect;
+		/* CHARACTER INFORMATION */
+			// Character id
+			u16 m_id;
+			
+			// Character lifes
+			s16 m_lifes;
+			u16 m_maxLifes;
+			
+			// Character type
+			CharacterType m_type;
+			
+		/* POSITION */
+			// Character position
+			s16 m_x;
+			s16 m_y;
+			
+			// Default position
+			s16 m_dx;
+			s16 m_dy;
+			
+			// Last position
+			s16 m_lx;
+			s16 m_ly;
+			
+			// Map id
+			u16 m_mapID;
+			
+			// Map area
+			u16 m_area;
+			
+			// In door state
+			bool m_inDoor;
+			
+		/* MOVEMENT */
+			// Movement vectors
+			s8 m_vx;
+			s8 m_vy;
+			
+			// Direction
+			CharacterDirection m_direction;
+			
+			// Moving state
+			bool m_moving;
+			
+			// Movement counters
+			u8 m_countMoves;
+			u8 m_vxCount;
+			u8 m_vyCount;
+			
+			// Movement timer (NPC|Monsters)
+			Timer m_movementTimer;
+			
+			// Blocked movement and direction states
+			bool m_canMove;
+			bool m_canTurn;
+			
+		/* COLLISIONS */
+			// Collision state
+			bool m_inCollision;
+			
+			// Hitbox
+			s16 m_hitboxX;
+			s16 m_hitboxY;
+			u16 m_hitboxW;
+			u16 m_hitboxH;
+			
+			// Hurt movement vectors
+			s16 m_hx;
+			s16 m_hy;
+			
+			// Hurt state
+			bool m_hurt;
+			
+			// Hurt timer
+			Timer m_hurtTimer;
+			u16 m_hurtTimerLastValue;
+			
+		/* ATTACK */
+			// Attacking state
+			bool m_isAttacking;
+			
+			// Friend class Weapon
+			friend class Sword;
+			
+			// Weapon
+			Weapon *m_weapon;
+			
+		/* EFFECTS */
+			// Grass image
+			Image *m_grassEffect;
+			Sprite *m_waterEffect;
 };
 
 #endif // CHARACTER_H

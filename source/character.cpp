@@ -44,7 +44,6 @@
 #include "doorManager.h"
 #include "animationManager.h"
 #include "characterManager.h"
-#include "collisionManager.h"
 #include "tools.h"
 #include "interface.h"
 #include "game.h"
@@ -98,6 +97,11 @@ Character::Character(const char *filename, CharacterType type, s16 x, s16 y, Cha
 	
 	m_hurt = false;
 	
+	m_hitboxX = 3;
+	m_hitboxY = 10;
+	m_hitboxW = m_frameWidth - m_hitboxX * 2;
+	m_hitboxH = m_frameHeight - m_hitboxY;
+	
 	// FIXME: Temporary values
 	m_lifes = 32;
 	m_maxLifes = 32;
@@ -137,6 +141,11 @@ void Character::render() {
 	}
 }
 
+bool passable(s16 x, s16 y) {
+	// Collisions with map
+	return !inTable(MapManager::nonPassableTiles, MapManager::currentMap->tilesetInfo()[MapManager::currentMap->getTile(x >> 4, y >> 4)]);
+}
+
 void Character::testCollisions() {
 	// Ensure that movement timer is started
 	m_movementTimer.start();
@@ -147,9 +156,10 @@ void Character::testCollisions() {
 	// 0: Right | 1: Left | 2: Up | 3:Down
 	for(u8 i = 0 ; i < 4 ; i++) {
 		if(((i==0)?(m_vx > 0):((i==1)?(m_vx < 0):((i==2)?(m_vy < 0):(m_vy > 0))))
-		&& (!CollisionManager::passable(m_x + COLLISION_MATRIX(i, 0, m_frameWidth), m_y + COLLISION_MATRIX(i, 1, m_frameHeight))
-		 || !CollisionManager::passable(m_x + COLLISION_MATRIX(i, 2, m_frameWidth), m_y + COLLISION_MATRIX(i, 3, m_frameHeight))
-		 || CollisionManager::collidesWithCharacter(this, i))) {
+		&& (!passable(m_x + m_hitboxX + m_vx			, m_y + m_hitboxY + m_vy			)
+		 || !passable(m_x + m_hitboxX + m_vx + m_hitboxW, m_y + m_hitboxY + m_vy			)
+		 || !passable(m_x + m_hitboxX + m_vx			, m_y + m_hitboxY + m_vy + m_hitboxH)
+		 || !passable(m_x + m_hitboxX + m_vx + m_hitboxW, m_y + m_hitboxY + m_vy + m_hitboxH))) {
 			// Reset movement vectors
 			if(i<2) m_vx = 0; else m_vy = 0;
 			
@@ -159,20 +169,45 @@ void Character::testCollisions() {
 			// Update collision state
 			m_inCollision = true;
 			
-			// Obstacles
-			if( CollisionManager::passable(m_x + COLLISION_MATRIX(i, 2, m_frameWidth), m_y + COLLISION_MATRIX(i, 3, m_frameHeight))
-			&& !CollisionManager::passable(m_x + COLLISION_MATRIX(i, 0, m_frameWidth), m_y + COLLISION_MATRIX(i, 1, m_frameHeight))) {
+			/*// Obstacles
+			if( passable(m_x + m_hitboxW, m_y + m_hitboxH)
+			&& !passable(m_x + m_hitboxW, m_y + m_hitboxH)) {
 				if(((i<2)?(m_vy == 0):(m_vx == 0))) {
 					if(i<2)	m_vy = 1; else m_vx = 1;
 				}
 			}
-			if( CollisionManager::passable(m_x + COLLISION_MATRIX(i, 0, m_frameWidth), m_y + COLLISION_MATRIX(i, 1, m_frameHeight))
-			&& !CollisionManager::passable(m_x + COLLISION_MATRIX(i, 2, m_frameWidth), m_y + COLLISION_MATRIX(i, 3, m_frameHeight))) {
+			if( passable(m_x + m_hitboxW, m_y + m_hitboxH)
+			&& !passable(m_x + m_hitboxW, m_y + m_hitboxH)) {
 				if(((i<2)?(m_vy == 0):(m_vx == 0))) {
 					if(i<2) m_vy = -1; else	m_vx = -1;
 				}
-			}
+			}*/
 		}
+	}
+	
+	// Test characters
+	collisionsWithCharacters();
+}
+
+void Character::collisionsWithCharacters() {
+	for(std::vector<Character*>::iterator it = MapManager::currentMap->characters()->begin() ; it != MapManager::currentMap->characters()->end() ; it++) {
+		if((((*it)->x() + (*it)->hitboxX() < m_x + m_hitboxX			 && (*it)->x() + (*it)->hitboxX() + (*it)->hitboxW() > m_x + m_hitboxX)
+		||  ((*it)->x() + (*it)->hitboxX() < m_x + m_hitboxX + m_hitboxW && (*it)->x() + (*it)->hitboxX() + (*it)->hitboxW() > m_x + m_hitboxX + m_hitboxW))
+		&& (((*it)->y() + (*it)->hitboxY() < m_y + m_hitboxY			 && (*it)->y() + (*it)->hitboxY() + (*it)->hitboxH() > m_y + m_hitboxY)
+		||  ((*it)->y() + (*it)->hitboxY() < m_y + m_hitboxY + m_hitboxH && (*it)->y() + (*it)->hitboxY() + (*it)->hitboxH() > m_y + m_hitboxY + m_hitboxH))) {
+			collisionAction(*it);
+		}
+	}
+}
+
+void Character::collisionAction(Character *c) {
+	if(c->isNPC()) {
+		// Stop player like against a wall
+	}
+	
+	if(c->isMonster() && isPlayer()) {
+		// Hurt player
+		hurt(m_x + m_hitboxW / 2 - c->x() + c->hitboxW() / 2, m_y + m_hitboxH / 2 - c->y() + c->hitboxH() / 2);
 	}
 }
 
@@ -244,7 +279,7 @@ void Character::hurt(s16 hx, s16 hy) {
 }
 
 void Character::hurtMovement() {
-	if(m_hurtTimer.time() - m_hurtTimerLastValue > 5) {
+	if(m_hurtTimer.time() - m_hurtTimerLastValue > 5 && m_hurt) {
 		// Change color
 		SDL_SetTextureColorMod(m_texture, rand()%255, rand()%255, rand()%255);
 		
