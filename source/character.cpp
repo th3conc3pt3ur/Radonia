@@ -100,7 +100,7 @@ Character::Character(const char *filename, CharacterType type, s16 x, s16 y, Cha
 	m_hitboxX = 3;
 	m_hitboxY = 10;
 	m_hitboxW = m_frameWidth - m_hitboxX * 2;
-	m_hitboxH = m_frameHeight - m_hitboxY;
+	m_hitboxH = m_frameHeight - m_hitboxY - 2;
 	
 	// FIXME: Temporary values
 	m_lifes = 32;

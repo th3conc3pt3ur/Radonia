@@ -1,9 +1,8 @@
-Radonia=/home/linux/Projects/Radonia CD=. filter=".gitignore *.c *.h *.diff *.vim AUTHORS ChangeLog COPYING Issues Makefile Notes TODO *.textile *.cpp" {
+Radonia=~/Projects/Radonia CD=. filter=".gitignore *.c *.h *.diff *.vim AUTHORS ChangeLog COPYING Issues Makefile Notes TODO *.textile *.cpp" {
  .gitignore
  AUTHORS
  ChangeLog
  COPYING
- Issues
  Makefile
  Notes
  TODO
