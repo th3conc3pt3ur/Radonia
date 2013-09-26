@@ -143,6 +143,8 @@ void Game::mainLoop() {
 				case SDL_FINGERUP:
 					Keyboard::resetPad(&event, true);
 					break;
+				case SDL_APP_WILLENTERBACKGROUND:
+					continue;
 #endif
 			}
 		}

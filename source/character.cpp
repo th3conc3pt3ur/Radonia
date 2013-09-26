@@ -99,8 +99,8 @@ Character::Character(const char *filename, CharacterType type, s16 x, s16 y, Cha
 	
 	m_hitboxX = 3;
 	m_hitboxY = 10;
-	m_hitboxW = m_frameWidth - m_hitboxX * 2;
-	m_hitboxH = m_frameHeight - m_hitboxY - 2;
+	m_hitboxW = m_frameWidth - 6;
+	m_hitboxH = m_frameHeight - 12;
 	
 	// FIXME: Temporary values
 	m_lifes = 32;
@@ -146,6 +146,13 @@ bool passable(s16 x, s16 y) {
 	return !inTable(MapManager::nonPassableTiles, MapManager::currentMap->tilesetInfo()[MapManager::currentMap->getTile(x >> 4, y >> 4)]);
 }
 
+bool Character::inNonPassableTile() {
+	return(!passable(m_x + m_hitboxX + m_vx			   , m_y + m_hitboxY + m_vy			   )
+		|| !passable(m_x + m_hitboxX + m_vx + m_hitboxW, m_y + m_hitboxY + m_vy			   )
+		|| !passable(m_x + m_hitboxX + m_vx			   , m_y + m_hitboxY + m_vy + m_hitboxH)
+		|| !passable(m_x + m_hitboxX + m_vx + m_hitboxW, m_y + m_hitboxY + m_vy + m_hitboxH));
+}
+
 void Character::testCollisions() {
 	// Ensure that movement timer is started
 	m_movementTimer.start();
@@ -153,43 +160,58 @@ void Character::testCollisions() {
 	// Ensure that collision state is reset
 	m_inCollision = false;
 	
-	// 0: Right | 1: Left | 2: Up | 3:Down
-	for(u8 i = 0 ; i < 4 ; i++) {
-		if(((i==0)?(m_vx > 0):((i==1)?(m_vx < 0):((i==2)?(m_vy < 0):(m_vy > 0))))
-		&& (!passable(m_x + m_hitboxX + m_vx			, m_y + m_hitboxY + m_vy			)
-		 || !passable(m_x + m_hitboxX + m_vx + m_hitboxW, m_y + m_hitboxY + m_vy			)
-		 || !passable(m_x + m_hitboxX + m_vx			, m_y + m_hitboxY + m_vy + m_hitboxH)
-		 || !passable(m_x + m_hitboxX + m_vx + m_hitboxW, m_y + m_hitboxY + m_vy + m_hitboxH))) {
-			// Reset movement vectors
-			if(i<2) m_vx = 0; else m_vy = 0;
+	// Test map
+	mapCollisions();
+	
+	// Test characters
+	charactersCollisions();
+}
+
+void Character::mapCollisions() {
+	/*// Obstacles
+	if( passable(m_x + m_hitboxW, m_y + m_hitboxH)
+	&& !passable(m_x + m_hitboxW, m_y + m_hitboxH)) {
+		if(((i<2)?(m_vy == 0):(m_vx == 0))) {
+			if(i<2)	m_vy = 1; else m_vx = 1;
+		}
+	}
+	if( passable(m_x + m_hitboxW, m_y + m_hitboxH)
+	&& !passable(m_x + m_hitboxW, m_y + m_hitboxH)) {
+		if(((i<2)?(m_vy == 0):(m_vx == 0))) {
+			if(i<2) m_vy = -1; else	m_vx = -1;
+		}
+	}*/
+	
+	// Up and down
+	if(m_vy != 0) {
+		if (!passable(m_x + m_hitboxX			 , m_y + m_hitboxY + m_vy			 )
+		||  !passable(m_x + m_hitboxX + m_hitboxW, m_y + m_hitboxY + m_vy			 )
+		||  !passable(m_x + m_hitboxX			 , m_y + m_hitboxY + m_vy + m_hitboxH)
+		||  !passable(m_x + m_hitboxX + m_hitboxW, m_y + m_hitboxY + m_vy + m_hitboxH)) {
+			// Reset vertical movement vector
+			m_vy = 0;
 			
-			// Stop movement timer
-			m_movementTimer.stop();
-			
-			// Update collision state
-			m_inCollision = true;
-			
-			/*// Obstacles
-			if( passable(m_x + m_hitboxW, m_y + m_hitboxH)
-			&& !passable(m_x + m_hitboxW, m_y + m_hitboxH)) {
-				if(((i<2)?(m_vy == 0):(m_vx == 0))) {
-					if(i<2)	m_vy = 1; else m_vx = 1;
-				}
-			}
-			if( passable(m_x + m_hitboxW, m_y + m_hitboxH)
-			&& !passable(m_x + m_hitboxW, m_y + m_hitboxH)) {
-				if(((i<2)?(m_vy == 0):(m_vx == 0))) {
-					if(i<2) m_vy = -1; else	m_vx = -1;
-				}
-			}*/
+			// Execute collision action
+			collisionAction(NULL);
 		}
 	}
 	
-	// Test characters
-	collisionsWithCharacters();
+	// Left and right
+	if(m_vx != 0) {
+		if (!passable(m_x + m_hitboxX + m_vx			, m_y + m_hitboxY			 )
+		||  !passable(m_x + m_hitboxX + m_vx + m_hitboxW, m_y + m_hitboxY			 )
+		||  !passable(m_x + m_hitboxX + m_vx			, m_y + m_hitboxY + m_hitboxH)
+		||  !passable(m_x + m_hitboxX + m_vx + m_hitboxW, m_y + m_hitboxY + m_hitboxH)) {
+			// Reset horizontal movement vector
+			m_vx = 0;
+			
+			// Execute collision action
+			collisionAction(NULL);
+		}
+	}
 }
 
-void Character::collisionsWithCharacters() {
+void Character::charactersCollisions() {
 	for(std::vector<Character*>::iterator it = MapManager::currentMap->characters()->begin() ; it != MapManager::currentMap->characters()->end() ; it++) {
 		if((((*it)->x() + (*it)->hitboxX() < m_x + m_hitboxX			 && (*it)->x() + (*it)->hitboxX() + (*it)->hitboxW() > m_x + m_hitboxX)
 		||  ((*it)->x() + (*it)->hitboxX() < m_x + m_hitboxX + m_hitboxW && (*it)->x() + (*it)->hitboxX() + (*it)->hitboxW() > m_x + m_hitboxX + m_hitboxW))
@@ -201,8 +223,15 @@ void Character::collisionsWithCharacters() {
 }
 
 void Character::collisionAction(Character *c) {
-	if(c->isNPC()) {
-		// Stop player like against a wall
+	if(!c || c->isNPC()) {
+		// Stop movement timer
+		m_movementTimer.stop();
+		
+		// Update collision state
+		m_inCollision = true;
+		
+		// Exit function to avoid problems if c == NULL
+		return;
 	}
 	
 	if(c->isMonster() && isPlayer()) {

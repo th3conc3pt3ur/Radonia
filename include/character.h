@@ -54,7 +54,9 @@ class Character : public Sprite {
 		void doorCollisions();
 		
 		// Collisions functions
-		void collisionsWithCharacters();
+		bool inNonPassableTile();
+		void mapCollisions();
+		void charactersCollisions();
 		void collisionAction(Character *c);
 		
 		// Hurt comportement
