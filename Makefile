@@ -108,7 +108,7 @@ droid:
 	@echo making for android ...
 	@cd $(TARGET)Droid && \
 	pwd && \
-	$(ANDROID_NDK)/ndk-build && \
+	$(ANDROID_NDK)/ndk-build NDK_DEBUG=1 && \
 	ant debug && \
 	dropbox start > /dev/null && \
 	cp -f bin/$(TARGET)-debug.apk ~/Dropbox/Public/$(TARGET)-debug.apk && \
