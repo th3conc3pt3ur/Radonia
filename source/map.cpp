@@ -84,12 +84,13 @@ Map::Map(Image *tileset, u16 *tilesetInfo, const char *filename, u16 width, u16 
 	u16* table = (u16*)malloc(m_width * m_height * sizeof(u16));
 	
 	// Get filesize for SDL_RWread
+	int filesize;
 	struct stat file_status;
 	if(stat(filename, &file_status) != 0) {
-		fprintf(stderr, "Unable to open file: %s\n", filename);
-		exit(EXIT_FAILURE);
+		filesize = sizeof(table) * m_width * m_height;
+	} else {
+		filesize = file_status.st_size;
 	}
-	int filesize = file_status.st_size;
 	
 	// Load map from file
 	SDL_RWops *f = SDL_RWFromFile(filename, "r");
