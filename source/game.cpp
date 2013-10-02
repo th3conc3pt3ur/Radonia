@@ -198,7 +198,7 @@ void Game::scroll() {
 	s16 playerX = 0;
 	s16 playerY = 0;
 	
-	if(CharacterManager::player()->x() > (MAP_WIDTH - 1) * 16 + 2)		 { moveX =  16; iMax = 40; playerX = -16; }
+	if(CharacterManager::player()->x() > (MAP_WIDTH - 1) * 16 + 1)		 { moveX =  16; iMax = 40; playerX = -16; }
 	else if(CharacterManager::player()->x() < -2)						 { moveX = -16; iMax = 40; playerX =  16; }
 	else if(CharacterManager::player()->y() > (MAP_HEIGHT - 1) * 16 + 1) { moveY =  16; iMax = 30; playerY = -16; }
 	else if(CharacterManager::player()->y() < -2)						 { moveY = -16; iMax = 30; playerY =  16; }
