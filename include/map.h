@@ -26,8 +26,12 @@ class Map {
 		Map(Image *tileset, u16 *tilesetInfo, const char *filename, u16 width, u16 height, u16 tileWidth, u16 tileHeight, u16 mapX, u16 mapY, u16 area = 0); // area 0 is overworld
 		~Map();
 		
-		// Map render function
+		// Map render functions
+		void renderTile(u16 x, u16 y);
 		void render();
+		
+		// Map update function
+		void update();
 		
 		// Get tile id
 		u16 getTile(u16 tileX, u16 tileY);

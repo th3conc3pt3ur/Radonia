@@ -117,8 +117,12 @@ Game::~Game() {
 }
 
 void Game::mainLoop() {
+	// Initialize time counters
 	u32 lastTime = 0;
 	u32 actualTime = 0;
+	
+	// Render current map
+	MapManager::currentMap->render();
 	
 	while(m_continue) {
 		// Process events
@@ -168,10 +172,10 @@ void Game::mainLoop() {
 		CharacterManager::moveCharacters();
 		
 		// Clear screen
-		MainWindow->clear();
+		//MainWindow->clear();
 		
-		// Render current map
-		MapManager::currentMap->render();
+		// Update current map
+		MapManager::currentMap->update();
 		
 		// Render all characters
 		CharacterManager::renderCharacters();

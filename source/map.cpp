@@ -113,21 +113,19 @@ Map::~Map() {
 	free(m_data);
 }
 
-void Map::render() {
-	for(u16 y = 0 ; y < m_height ; y++) {
-		for(u16 x = 0 ; x < m_width ; x++) {
+void Map::renderTile(u16 x, u16 y) {
 			// Get position
 			u16 posX = (x + m_x * MAP_WIDTH) * m_tileWidth - viewRect.x;
 			u16 posY = (y + m_y * MAP_HEIGHT) * m_tileHeight - viewRect.y;
 			
 			// If the tile isn't in the viewport: don't display it
-			if(posX < Game::MainWindow->viewportX() - m_tileWidth * (int)ceil((double)Game::MainWindow->viewportW() / (double)Game::MainWindow->viewportH()) || posX > Game::MainWindow->viewportX() + Game::MainWindow->viewportW()) continue;
-			if(posY < Game::MainWindow->viewportY() - m_tileHeight * (int)ceil((double)Game::MainWindow->viewportW() / (double)Game::MainWindow->viewportH()) || posY > Game::MainWindow->viewportY() + Game::MainWindow->viewportH()) continue;
+			if(posX < Game::MainWindow->viewportX() - m_tileWidth * (int)ceil((double)Game::MainWindow->viewportW() / (double)Game::MainWindow->viewportH()) || posX > Game::MainWindow->viewportX() + Game::MainWindow->viewportW()) return;
+			if(posY < Game::MainWindow->viewportY() - m_tileHeight * (int)ceil((double)Game::MainWindow->viewportW() / (double)Game::MainWindow->viewportH()) || posY > Game::MainWindow->viewportY() + Game::MainWindow->viewportH()) return;
 			
 			// Get tile id
 			u16 tile = getTile(x, y);
 			
-			// Get tile position
+			// Get tile position in the tileset
 			u16 tileY = (tile / (m_tileset->width() / m_tileHeight)) * m_tileHeight;
 			u16 tileX = (tile - (tileY / m_tileHeight) * (m_tileset->width() / m_tileHeight)) * m_tileWidth;
 			
@@ -137,6 +135,28 @@ void Map::render() {
 			
 			// Display the tile
 			m_tileset->render();
+}
+
+void Map::render() {
+	for(u16 y = 0 ; y < m_height ; y++) {
+		for(u16 x = 0 ; x < m_width ; x++) {
+			// Render the tile
+			renderTile(x, y);
+		}
+	}
+}
+
+void Map::update() {
+	for(std::vector<Character*>::iterator it = m_characters.begin() ; it != m_characters.end() ; it++) {
+		// Get character position
+		u16 x = (*it)->x() / m_tileWidth;
+		u16 y = (*it)->y() / m_tileHeight;
+		
+		// Draw a 5x5 tiles square around the character
+		for(s8 i = -2 ; i <= 2 ; i++) {
+			for(s8 j = -2 ; j <= 2 ; j++) {
+				renderTile(x + i, y + j);
+			}
 		}
 	}
 }
