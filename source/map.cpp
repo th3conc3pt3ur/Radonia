@@ -152,9 +152,9 @@ void Map::update() {
 		u16 x = (*it)->x() / m_tileWidth;
 		u16 y = (*it)->y() / m_tileHeight;
 		
-		// Draw a 5x5 tiles square around the character
-		for(s8 i = -2 ; i <= 2 ; i++) {
-			for(s8 j = -2 ; j <= 2 ; j++) {
+		// Draw tiles around the character
+		for(s8 i = -((*it)->frameWidth() / m_tileWidth) - 1 ; i <= (*it)->frameWidth() / m_tileWidth + 1 ; i++) {
+			for(s8 j = -((*it)->frameHeight() / m_tileHeight) - 1 ; j <= (*it)->frameHeight() / m_tileHeight + 1 ; j++) {
 				renderTile(x + i, y + j);
 			}
 		}

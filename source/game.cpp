@@ -209,8 +209,7 @@ void Game::scroll() {
 	
 	for(u16 i = 0 ; i < iMax ; i++) {
 		// Move characters
-		std::vector<Character*> *v = MapManager::currentMap->characters();
-		for(std::vector<Character*>::iterator it = v->begin() ; it != v->end() ; it++) {
+		for(std::vector<Character*>::iterator it = MapManager::currentMap->characters()->begin() ; it != MapManager::currentMap->characters()->end() ; it++) {
 			if((i & 1) || !(i & 11)) (*it)->moveX(playerX); else (*it)->moveX(playerX - playerX / 16);
 			if((i & 1) || !(i & 15)) (*it)->moveY(playerY); else (*it)->moveY(playerY - playerY / 16);
 		}
