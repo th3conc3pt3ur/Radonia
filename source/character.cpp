@@ -168,20 +168,6 @@ void Character::testCollisions() {
 }
 
 void Character::mapCollisions() {
-	/*// Obstacles
-	if( passable(m_x + m_hitboxW, m_y + m_hitboxH)
-	&& !passable(m_x + m_hitboxW, m_y + m_hitboxH)) {
-		if(((i<2)?(m_vy == 0):(m_vx == 0))) {
-			if(i<2)	m_vy = 1; else m_vx = 1;
-		}
-	}
-	if( passable(m_x + m_hitboxW, m_y + m_hitboxH)
-	&& !passable(m_x + m_hitboxW, m_y + m_hitboxH)) {
-		if(((i<2)?(m_vy == 0):(m_vx == 0))) {
-			if(i<2) m_vy = -1; else	m_vx = -1;
-		}
-	}*/
-	
 	// Up and down
 	if(m_vy != 0) {
 		if (!passable(m_x + m_hitboxX			 , m_y + m_hitboxY + m_vy			 )
