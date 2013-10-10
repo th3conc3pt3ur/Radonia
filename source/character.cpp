@@ -257,10 +257,29 @@ void Character::mapCollisions() {
 
 void Character::charactersCollisions() {
 	for(std::vector<Character*>::iterator it = MapManager::currentMap->characters()->begin() ; it != MapManager::currentMap->characters()->end() ; it++) {
-		if((((*it)->x() + (*it)->hitboxX() < m_x + m_hitboxX			 && (*it)->x() + (*it)->hitboxX() + (*it)->hitboxW() > m_x + m_hitboxX)
-		||  ((*it)->x() + (*it)->hitboxX() < m_x + m_hitboxX + m_hitboxW && (*it)->x() + (*it)->hitboxX() + (*it)->hitboxW() > m_x + m_hitboxX + m_hitboxW))
-		&& (((*it)->y() + (*it)->hitboxY() < m_y + m_hitboxY			 && (*it)->y() + (*it)->hitboxY() + (*it)->hitboxH() > m_y + m_hitboxY)
-		||  ((*it)->y() + (*it)->hitboxY() < m_y + m_hitboxY + m_hitboxH && (*it)->y() + (*it)->hitboxY() + (*it)->hitboxH() > m_y + m_hitboxY + m_hitboxH))) {
+		// Left and right
+		if((m_vx != 0)
+		&& (((*it)->x() + (*it)->hitboxX() < m_x + m_hitboxX + m_vx				&& (*it)->x() + (*it)->hitboxX() + (*it)->hitboxW() > m_x + m_hitboxX + m_vx			)
+		||  ((*it)->x() + (*it)->hitboxX() < m_x + m_hitboxX + m_hitboxW + m_vx && (*it)->x() + (*it)->hitboxX() + (*it)->hitboxW() > m_x + m_hitboxX + m_hitboxW + m_vx))
+		&& (((*it)->y() + (*it)->hitboxY() < m_y + m_hitboxY					&& (*it)->y() + (*it)->hitboxY() + (*it)->hitboxH() > m_y + m_hitboxY					)
+		||  ((*it)->y() + (*it)->hitboxY() < m_y + m_hitboxY + m_hitboxH		&& (*it)->y() + (*it)->hitboxY() + (*it)->hitboxH() > m_y + m_hitboxY + m_hitboxH		))) {
+			// Reset horizontal movement vector
+			m_vx = 0;
+			
+			// Execute collision action
+			collisionAction(*it);
+		}
+		
+		// Up and down
+		if((m_vy != 0)
+		&& (((*it)->x() + (*it)->hitboxX() < m_x + m_hitboxX					&& (*it)->x() + (*it)->hitboxX() + (*it)->hitboxW() > m_x + m_hitboxX					)
+		||  ((*it)->x() + (*it)->hitboxX() < m_x + m_hitboxX + m_hitboxW		&& (*it)->x() + (*it)->hitboxX() + (*it)->hitboxW() > m_x + m_hitboxX + m_hitboxW		))
+		&& (((*it)->y() + (*it)->hitboxY() < m_y + m_hitboxY + m_vy				&& (*it)->y() + (*it)->hitboxY() + (*it)->hitboxH() > m_y + m_hitboxY + m_vy			)
+		||  ((*it)->y() + (*it)->hitboxY() < m_y + m_hitboxY + m_hitboxH + m_vy && (*it)->y() + (*it)->hitboxY() + (*it)->hitboxH() > m_y + m_hitboxY + m_hitboxH + m_vy))) {
+			// Reset vertical movement vector
+			m_vy = 0;
+			
+			// Execute collision action
 			collisionAction(*it);
 		}
 	}
