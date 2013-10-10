@@ -188,6 +188,28 @@ void Character::mapCollisions() {
 		||  !passable(m_x + m_hitboxX + m_hitboxW, m_y + m_hitboxY + m_vy			 )
 		||  !passable(m_x + m_hitboxX			 , m_y + m_hitboxY + m_vy + m_hitboxH)
 		||  !passable(m_x + m_hitboxX + m_hitboxW, m_y + m_hitboxY + m_vy + m_hitboxH)) {
+			/* Let player slide on tiles corners */
+			// Top left
+			if (!passable(m_x + m_hitboxX + m_hitboxW + 8, m_y + m_hitboxY + m_vy)
+			&&	 passable(m_x + m_hitboxX				 , m_y + m_hitboxY + m_vy)) {
+				m_vx = -1;
+			}
+			// Top right
+			if (!passable(m_x + m_hitboxX - 8		 , m_y + m_hitboxY + m_vy)
+			&&   passable(m_x + m_hitboxX + m_hitboxW, m_y + m_hitboxY + m_vy)) {
+				m_vx = 1;
+			}
+			// Bottom left
+			if (!passable(m_x + m_hitboxX + m_hitboxW + 8, m_y + m_hitboxY + m_hitboxH + m_vy)
+			&&	 passable(m_x + m_hitboxX				 , m_y + m_hitboxY + m_hitboxH + m_vy)) {
+				m_vx = -1;
+			}
+			// Bottom right
+			if (!passable(m_x + m_hitboxX - 8		 , m_y + m_hitboxY + m_hitboxH + m_vy)
+			&&   passable(m_x + m_hitboxX + m_hitboxW, m_y + m_hitboxY + m_hitboxH + m_vy)) {
+				m_vx = 1;
+			}
+			
 			// Reset vertical movement vector
 			m_vy = 0;
 			
@@ -202,6 +224,28 @@ void Character::mapCollisions() {
 		||  !passable(m_x + m_hitboxX + m_vx + m_hitboxW, m_y + m_hitboxY			 )
 		||  !passable(m_x + m_hitboxX + m_vx			, m_y + m_hitboxY + m_hitboxH)
 		||  !passable(m_x + m_hitboxX + m_vx + m_hitboxW, m_y + m_hitboxY + m_hitboxH)) {
+			/* Let player slide on tiles corners */
+			// Top left
+			if (!passable(m_x + m_hitboxX + m_vx, m_y + m_hitboxY + m_hitboxH + 0)
+			&&	 passable(m_x + m_hitboxX + m_vx, m_y + m_hitboxY				 )) {
+				m_vy = -1;
+			}
+			// Bottom left
+			if (!passable(m_x + m_hitboxX + m_vx, m_y + m_hitboxY - 0		 )
+			&&   passable(m_x + m_hitboxX + m_vx, m_y + m_hitboxY + m_hitboxH)) {
+				m_vy = 1;
+			}
+			// Top right
+			if (!passable(m_x + m_hitboxX + m_hitboxW + m_vx, m_y + m_hitboxY + m_hitboxH + 0)
+			&&	 passable(m_x + m_hitboxX + m_hitboxW + m_vx, m_y + m_hitboxY				 )) {
+				m_vy = -1;
+			}
+			// Bottom right
+			if (!passable(m_x + m_hitboxX + m_hitboxW + m_vx, m_y + m_hitboxY - 0		 )
+			&&   passable(m_x + m_hitboxX + m_hitboxW + m_vx, m_y + m_hitboxY + m_hitboxH)) {
+				m_vy = 1;
+			}
+			
 			// Reset horizontal movement vector
 			m_vx = 0;
 			
