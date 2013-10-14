@@ -171,11 +171,16 @@ void Game::mainLoop() {
 		// Move all characters
 		CharacterManager::moveCharacters();
 		
+#ifdef VIEWPORT
 		// Clear screen
-		//MainWindow->clear();
+		MainWindow->clear();
 		
+		// Render current map
+		MapManager::currentMap->render();
+#else
 		// Update current map
 		MapManager::currentMap->update();
+#endif
 		
 		// Render all characters
 		CharacterManager::renderCharacters();
