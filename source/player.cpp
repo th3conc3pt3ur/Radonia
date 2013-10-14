@@ -50,6 +50,12 @@
 #include "game.h"
 
 Player::Player(u16 x, u16 y, CharacterDirection direction, u16 mapID, u16 area) : Character("graphics/characters/link.png", CHARA_PLAYER, x, y, direction, mapID, area) {
+	// Setup hitbox
+	m_hitboxX = 3;
+	m_hitboxY = 10;
+	m_hitboxW = m_frameWidth - 6;
+	m_hitboxH = m_frameHeight - 12;
+	
 	// Initialize weapon
 	m_weapon = new Sword(this);
 	

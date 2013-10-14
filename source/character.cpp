@@ -97,10 +97,10 @@ Character::Character(const char *filename, CharacterType type, s16 x, s16 y, Cha
 	
 	m_hurt = false;
 	
-	m_hitboxX = 3;
-	m_hitboxY = 10;
-	m_hitboxW = m_frameWidth - 6;
-	m_hitboxH = m_frameHeight - 12;
+	m_hitboxX = 0;
+	m_hitboxY = 0;
+	m_hitboxW = m_frameWidth;
+	m_hitboxH = m_frameHeight;
 	
 	// FIXME: Temporary values
 	m_lifes = 32;
@@ -272,7 +272,7 @@ void Character::charactersCollisions() {
 }
 
 void Character::collisionAction(Character *c) {
-	if(!c || c->isNPC()) {
+	if(!c || (c->isNPC() || !isNPC()) || (c->isPlayer() || !isPlayer())) {
 		// Stop movement timer
 		m_movementTimer.stop();
 		
