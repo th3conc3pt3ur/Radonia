@@ -64,8 +64,8 @@ Monster::~Monster() {
 
 void Monster::move() {
 	// FIXME: To improve
-	bool isAttacked = m_lifes < m_maxLifes;
-	//bool isAttacked = true;
+	//bool isAttacked = m_lifes < m_maxLifes;
+	bool isAttacked = true;
 	
 	if(isAttacked) {
 		// Get player center
